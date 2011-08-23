@@ -1,0 +1,6 @@
+- add possibility to create enumerators
+- multiple constructors
+- parameters for methods
+- static flag
+- validation: circular inheritance
+- validation: empty names

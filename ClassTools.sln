@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassTools.IPlugin", "ClassTools.IPlugin\ClassTools.IPlugin.csproj", "{F41C29FB-69CD-42DB-9CE5-499DFD92FCD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassTools.Model", "ClassTools.Model\ClassTools.Model.csproj", "{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassTools.DataMaker", "ClassTools.DataMaker\ClassTools.DataMaker.csproj", "{B3E92DCE-E071-4304-A9B4-3B0709DCB841}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1B01D601-63DC-4650-A07B-CFCD78FA9B7F} = {1B01D601-63DC-4650-A07B-CFCD78FA9B7F}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassTools.ClassMaker", "ClassTools.ClassMaker\ClassTools.ClassMaker.csproj", "{15F8EC07-3EDC-43CF-99E0-C6CBD8CC637C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1B01D601-63DC-4650-A07B-CFCD78FA9B7F} = {1B01D601-63DC-4650-A07B-CFCD78FA9B7F}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassTools.Common", "ClassTools.Common\ClassTools.Common.csproj", "{1B01D601-63DC-4650-A07B-CFCD78FA9B7F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF} = {E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}
+		{F41C29FB-69CD-42DB-9CE5-499DFD92FCD5} = {F41C29FB-69CD-42DB-9CE5-499DFD92FCD5}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F41C29FB-69CD-42DB-9CE5-499DFD92FCD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F41C29FB-69CD-42DB-9CE5-499DFD92FCD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F41C29FB-69CD-42DB-9CE5-499DFD92FCD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F41C29FB-69CD-42DB-9CE5-499DFD92FCD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3E92DCE-E071-4304-A9B4-3B0709DCB841}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3E92DCE-E071-4304-A9B4-3B0709DCB841}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3E92DCE-E071-4304-A9B4-3B0709DCB841}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3E92DCE-E071-4304-A9B4-3B0709DCB841}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15F8EC07-3EDC-43CF-99E0-C6CBD8CC637C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15F8EC07-3EDC-43CF-99E0-C6CBD8CC637C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15F8EC07-3EDC-43CF-99E0-C6CBD8CC637C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15F8EC07-3EDC-43CF-99E0-C6CBD8CC637C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B01D601-63DC-4650-A07B-CFCD78FA9B7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B01D601-63DC-4650-A07B-CFCD78FA9B7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B01D601-63DC-4650-A07B-CFCD78FA9B7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B01D601-63DC-4650-A07B-CFCD78FA9B7F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
