@@ -1,6 +1,6 @@
-﻿namespace ClassTools.DataMaker.Forms
+﻿namespace ClassTools.DataMaker.Forms.Controls
 {
-    partial class InstanceVariablesBox
+    partial class InstanceVariables
     {
         /// <summary> 
         /// Required designer variable.

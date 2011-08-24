@@ -9,30 +9,32 @@ using ClassTools.Model;
 
 namespace ClassTools.DataMaker.Forms
 {
-    public partial class FormInstances : Form
+    public partial class InstanceCollection : Form, IRefreshable
     {
-        #region Constants
-        #endregion
-
         #region Fields
         private ModelDatabase database;
         private MetaClass metaClass;
-        private MetaType metaType;
-        private List<MetaInstance> instances;
+        private List<MetaInstance> metaInstances;
         private bool updating;
         #endregion
 
+        #region Properties
+        public List<MetaInstance> MetaInstances
+        {
+            get { return this.metaInstances; }
+        }
+        #endregion
+
         #region Constructors
-        public FormInstances(ModelDatabase database, MetaClass metaClass, MetaType metaType, List<MetaInstance> instances)
+        public InstanceCollection(ModelDatabase database, MetaClass metaClass, List<MetaInstance> metaInstances)
         {
             InitializeComponent();
             this.database = database;
-            this.instances = instances;
+            this.metaInstances = metaInstances;
             this.metaClass = metaClass;
-            this.metaType = metaType;
-            this.ivbInstanceVariables.MetaClass = metaClass;
-            this.ivbInstanceVariables.DataContainer = this.lbInstances;
-            this.refresh();
+            this.ivcInstanceVariables.SetData(this, this.database, this.metaClass);
+            this.ivcInstanceVariables.MetaInstance = (this.metaInstances.Count > 0 ? this.metaInstances[0] : null);
+            this.RefreshData();
         }
         #endregion
 
@@ -55,16 +57,16 @@ namespace ClassTools.DataMaker.Forms
         #endregion
 
         #region Refresh
-        private void refresh()
+        public void RefreshData()
         {
             if (this.updating)
             {
                 return;
             }
             this.updating = true;
-            Utility.ApplyNewDataSource(this.lbInstances, new List<MetaInstance>(this.instances), this.instances.Count);
+            Utility.ApplyNewDataSource(this.lbInstances, new List<MetaInstance>(this.metaInstances), this.metaInstances.Count);
             this.lbInstances.Enabled = true;
-            this.ivbInstanceVariables.MetaInstance = (MetaInstance)this.lbInstances.SelectedItem;
+            this.ivcInstanceVariables.MetaInstance = (MetaInstance)this.lbInstances.SelectedItem;
             this.updating = false;
         }
         #endregion
@@ -73,8 +75,8 @@ namespace ClassTools.DataMaker.Forms
         private void bInstanceNew_Click(object sender, EventArgs e)
         {
             MetaInstance instance = new MetaInstance(this.database, this.metaClass);
-            this.instances.Insert(this.lbInstances.SelectedIndex + 1, instance);
-            this.refresh();
+            this.metaInstances.Insert(this.lbInstances.SelectedIndex + 1, instance);
+            this.RefreshData();
             this.lbInstances.Focus();
         }
 
@@ -82,15 +84,15 @@ namespace ClassTools.DataMaker.Forms
         {
             if (this.lbInstances.SelectedIndex >= 0)
             {
-                this.instances.RemoveAt(this.lbInstances.SelectedIndex);
-                this.refresh();
+                this.metaInstances.RemoveAt(this.lbInstances.SelectedIndex);
+                this.RefreshData();
                 this.lbInstances.Focus();
             }
         }
 
         private void lbClasses_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.refresh();
+            this.RefreshData();
         }
         #endregion
 
@@ -108,7 +110,7 @@ namespace ClassTools.DataMaker.Forms
             if (this.lbInstances.Focused)
             {
                 this.database.ReplaceInstanceAt(this.metaClass, this.lbInstances.SelectedIndex, InternalClipboard.Instance);
-                this.refresh();
+                this.RefreshData();
             }
         }
 
@@ -153,7 +155,7 @@ namespace ClassTools.DataMaker.Forms
 
         private void lbInstances_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.refresh();
+            this.RefreshData();
         }
 
     }

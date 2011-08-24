@@ -8,9 +8,9 @@ using System.Windows.Forms;
 using ClassTools.Common;
 using ClassTools.Model;
 
-namespace ClassTools.DataMaker.Forms
+namespace ClassTools.DataMaker.Forms.Controls
 {
-    public partial class InstanceVariablesBox : UserControl
+    public partial class InstanceVariables : UserControl, IRefreshable
     {
         #region Constants
         private const int OFFSET = 5;
@@ -22,50 +22,47 @@ namespace ClassTools.DataMaker.Forms
         #endregion
 
         #region Fields
+        private ModelDatabase database;
         private MetaClass metaClass;
         private MetaInstance metaInstance;
         private List<Control> valueControls;
-        private ListBox dataContainer;
-        bool updating;
+        private IRefreshable owner;
+        bool refreshing;
         #endregion
 
         #region Properties
-        public MetaClass MetaClass
-        {
-            set
-            {
-                this.metaClass = value;
-                this.setupLayout();
-            }
-        }
-
         public MetaInstance MetaInstance
         {
             set
             {
                 this.metaInstance = value;
                 this.Enabled = (this.metaInstance != null);
-                this.refresh();
+                this.RefreshData();
             }
-        }
-
-        public ListBox DataContainer
-        {
-            set { this.dataContainer = value; }
         }
         #endregion
 
         #region Construct
-        public InstanceVariablesBox()
+        public InstanceVariables()
         {
             InitializeComponent();
+            this.owner = null;
+            this.database = null;
+            this.metaClass = null;
+            this.metaInstance = null;
             this.valueControls = new List<Control>();
-            this.dataContainer = null;
-            this.updating = false;
+            this.refreshing = false;
+            this.Enabled = false;
         }
-        #endregion
 
-        #region Setup
+        public void SetData(IRefreshable owner, ModelDatabase database, MetaClass metaClass)
+        {
+            this.owner = owner;
+            this.database = database;
+            this.metaClass = metaClass;
+            this.setupLayout();
+        }
+        
         private void setupLayout()
         {
             MetaVariable variable;
@@ -81,7 +78,7 @@ namespace ClassTools.DataMaker.Forms
                 variable = variables[i];
                 label = new Label();
                 this.Controls.Add(label);
-                label.Location = new System.Drawing.Point(5, OFFSET + 3 + i * 26);
+                label.Location = new Point(5, OFFSET + 3 + i * 26);
                 label.Text = variable.ToString();
                 label.Name = "name " + variable.ToString();
                 label.TabIndex = 10 + i * 2;
@@ -101,145 +98,145 @@ namespace ClassTools.DataMaker.Forms
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new System.Drawing.Size(200, 20);
-                                    numericUpDown.Location = new System.Drawing.Point(5, OFFSET + i * 26);
+                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = int.MaxValue;
                                     numericUpDown.Minimum = int.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
                                     numericUpDown.TabIndex = 11 + i * 2;
-                                    numericUpDown.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+                                    numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "unsigned int":
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new System.Drawing.Size(200, 20);
-                                    numericUpDown.Location = new System.Drawing.Point(5, OFFSET + i * 26);
+                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = uint.MaxValue;
                                     numericUpDown.Minimum = uint.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
                                     numericUpDown.TabIndex = 11 + i * 2;
-                                    numericUpDown.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+                                    numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "short":
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new System.Drawing.Size(200, 20);
-                                    numericUpDown.Location = new System.Drawing.Point(5, OFFSET + i * 26);
+                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = short.MaxValue;
                                     numericUpDown.Minimum = short.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
                                     numericUpDown.TabIndex = 11 + i * 2;
-                                    numericUpDown.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+                                    numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "unsigned short":
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new System.Drawing.Size(200, 20);
-                                    numericUpDown.Location = new System.Drawing.Point(5, OFFSET + i * 26);
+                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = ushort.MaxValue;
                                     numericUpDown.Minimum = ushort.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
                                     numericUpDown.TabIndex = 11 + i * 2;
-                                    numericUpDown.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+                                    numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "long":
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new System.Drawing.Size(200, 20);
-                                    numericUpDown.Location = new System.Drawing.Point(5, OFFSET + i * 26);
+                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = long.MaxValue;
                                     numericUpDown.Minimum = long.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
                                     numericUpDown.TabIndex = 11 + i * 2;
-                                    numericUpDown.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+                                    numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "unsigned long":
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new System.Drawing.Size(200, 20);
-                                    numericUpDown.Location = new System.Drawing.Point(5, OFFSET + i * 26);
+                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = ulong.MaxValue;
                                     numericUpDown.Minimum = ulong.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
                                     numericUpDown.TabIndex = 11 + i * 2;
-                                    numericUpDown.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+                                    numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "char":
                                     textBox = new TextBox();
                                     this.Controls.Add(textBox);
                                     this.valueControls.Add(textBox);
-                                    textBox.Size = new System.Drawing.Size(200, 20);
-                                    textBox.Location = new System.Drawing.Point(5, OFFSET + i * 26);
+                                    textBox.Size = new Size(200, 20);
+                                    textBox.Location = new Point(5, OFFSET + i * 26);
                                     textBox.MaxLength = 1;
                                     textBox.Name = variable.ToString();
                                     textBox.TabIndex = 11 + i * 2;
-                                    textBox.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+                                    textBox.TextChanged += new EventHandler(this.textBox_TextChanged);
                                     break;
                                 case "unsigned char":
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new System.Drawing.Size(200, 20);
-                                    numericUpDown.Location = new System.Drawing.Point(5, OFFSET + i * 26);
+                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = 255;
                                     numericUpDown.Minimum = 0;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
                                     numericUpDown.TabIndex = 11 + i * 2;
-                                    numericUpDown.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+                                    numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "float":
                                     textBox = new TextBox();
                                     this.Controls.Add(textBox);
                                     this.valueControls.Add(textBox);
-                                    textBox.Size = new System.Drawing.Size(200, 20);
-                                    textBox.Location = new System.Drawing.Point(5, OFFSET + i * 26);
+                                    textBox.Size = new Size(200, 20);
+                                    textBox.Location = new Point(5, OFFSET + i * 26);
                                     textBox.Text = "0";
                                     textBox.Name = variable.ToString();
                                     textBox.TabIndex = 11 + i * 2;
-                                    textBox.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+                                    textBox.TextChanged += new EventHandler(this.textBox_TextChanged);
                                     break;
                                 case "double":
                                     textBox = new TextBox();
                                     this.Controls.Add(textBox);
                                     this.valueControls.Add(textBox);
-                                    textBox.Size = new System.Drawing.Size(200, 20);
-                                    textBox.Location = new System.Drawing.Point(5, OFFSET + i * 26);
+                                    textBox.Size = new Size(200, 20);
+                                    textBox.Location = new Point(5, OFFSET + i * 26);
                                     textBox.Text = "0";
                                     textBox.Name = variable.ToString();
                                     textBox.TabIndex = 11 + i * 2;
-                                    textBox.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+                                    textBox.TextChanged += new EventHandler(this.textBox_TextChanged);
                                     break;
                                 case "bool":
                                     checkBox = new CheckBox();
                                     this.Controls.Add(checkBox);
                                     this.valueControls.Add(checkBox);
-                                    checkBox.Location = new System.Drawing.Point(5, OFFSET + 2 + i * 26);
+                                    checkBox.Location = new Point(5, OFFSET + 2 + i * 26);
                                     checkBox.Checked = false;
                                     checkBox.AutoSize = true;
                                     checkBox.TabIndex = 11 + i * 2;
-                                    checkBox.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
+                                    checkBox.CheckedChanged += new EventHandler(this.checkBox_CheckedChanged);
                                     break;
                                 default:
                                     textBox = new TextBox();
                                     this.Controls.Add(textBox);
                                     this.valueControls.Add(textBox);
-                                    textBox.Size = new System.Drawing.Size(200, 20);
-                                    textBox.Location = new System.Drawing.Point(5, OFFSET + i * 26);
+                                    textBox.Size = new Size(200, 20);
+                                    textBox.Location = new Point(5, OFFSET + i * 26);
                                     textBox.Name = variable.ToString();
                                     textBox.TabIndex = 11 + i * 2;
-                                    textBox.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+                                    textBox.TextChanged += new EventHandler(this.textBox_TextChanged);
                                     break;
                             }
                             break;
@@ -247,7 +244,7 @@ namespace ClassTools.DataMaker.Forms
                             button = new Button();
                             this.Controls.Add(button);
                             this.valueControls.Add(button);
-                            button.Location = new System.Drawing.Point(5, OFFSET - 2 + i * 26);
+                            button.Location = new Point(5, OFFSET - 2 + i * 26);
                             button.Text = MANAGE_TEXT;
                             button.Name = variable.ToString();
                             button.TabIndex = 11 + i * 2;
@@ -256,7 +253,7 @@ namespace ClassTools.DataMaker.Forms
                             button = new Button();
                             this.Controls.Add(button);
                             this.valueControls.Add(button);
-                            button.Location = new System.Drawing.Point(5, OFFSET - 2 + i * 26);
+                            button.Location = new Point(5, OFFSET - 2 + i * 26);
                             button.Text = MANAGE_TEXT;
                             button.Name = variable.ToString();
                             button.TabIndex = 11 + i * 2;
@@ -268,10 +265,11 @@ namespace ClassTools.DataMaker.Forms
                     button = new Button();
                     this.Controls.Add(button);
                     this.valueControls.Add(button);
-                    button.Location = new System.Drawing.Point(5, OFFSET - 2 + i * 26);
+                    button.Location = new Point(5, OFFSET - 2 + i * 26);
                     button.Text = MANAGE_TEXT;
                     button.Name = variable.ToString();
                     button.TabIndex = 11 + i * 2;
+                    button.Click += new EventHandler(this.buttonObject_Click);
                 }
             }
             foreach (Control control in this.valueControls)
@@ -284,17 +282,14 @@ namespace ClassTools.DataMaker.Forms
         #endregion
 
         #region Refresh
-        public void refresh()
+        public void RefreshData()
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
-            this.updating = true;
-            if (this.dataContainer != null)
-            {
-                Utility.ApplyNewDataSource(this.dataContainer, this.dataContainer.DataSource, this.dataContainer.Items.Count);
-            }
+            this.refreshing = true;
+            this.owner.RefreshData();
             MetaVariable variable;
             MetaInstanceVariable instanceVariable;
             TextBox textBox;
@@ -357,13 +352,13 @@ namespace ClassTools.DataMaker.Forms
                     }
                 }
             }
-            this.updating = false;
+            this.refreshing = false;
         }
         #endregion
 
         private void textBox_TextChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -376,12 +371,12 @@ namespace ClassTools.DataMaker.Forms
                     break;
                 }
             }
-            this.refresh();
+            this.RefreshData();
         }
 
         private void numericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -394,12 +389,12 @@ namespace ClassTools.DataMaker.Forms
                     break;
                 }
             }
-            this.refresh();
+            this.RefreshData();
         }
 
         private void checkBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -412,7 +407,51 @@ namespace ClassTools.DataMaker.Forms
                     break;
                 }
             }
-            this.refresh();
+            this.RefreshData();
+        }
+
+        private void buttonObject_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            MetaInstanceVariable variable;
+            for (int i = 0; i < this.metaInstance.InstanceVariables.Count; i++)
+            {
+                variable = this.metaInstance.InstanceVariables[i];
+                if (button.Name == variable.ToString())
+                {
+                    Instance form = new Instance(this.database, (MetaClass)this.metaClass.AllVariables[i].Type, (MetaInstance)variable.ValueObject);
+                    form.ShowDialog();
+                    variable.ValueObject = form.MetaInstance;
+                    this.RefreshData();
+                    break;
+                }
+            }
+        }
+
+        private void buttonCollection_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            MetaInstanceVariable variable;
+            for (int i = 0; i < this.metaInstance.InstanceVariables.Count; i++)
+            {
+                variable = this.metaInstance.InstanceVariables[i];
+                if (button.Name == variable.ToString())
+                {
+                    if (this.metaClass.AllVariables[i].Type.IsClass)
+                    {
+                        Forms.InstanceCollection form = new Forms.InstanceCollection(this.database, (MetaClass)this.metaClass.AllVariables[i].Type, (List<MetaInstance>)variable.ValueObject);
+                        form.ShowDialog();
+                    }
+                    else
+                    {
+                        //FormInstanceVariableCollection form = new FormInstanceVariableCollection(this.database, (MetaClass)this.metaClass.AllVariables[i].Type, (List<MetaVariableInstance>)variable.ValueObject);
+                        //form.ShowDialog();
+                        // TODO
+                    }
+                    this.RefreshData();
+                    break;
+                }
+            }
         }
 
     }

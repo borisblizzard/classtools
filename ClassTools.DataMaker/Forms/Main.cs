@@ -11,7 +11,7 @@ using ClassTools.Model;
 
 namespace ClassTools.DataMaker.Forms
 {
-    public partial class FormMain : Form
+    public partial class Main : Form, IRefreshable
     {
         #region Constants
         const string savePromptNew = "There are unsaved changes. Do you want to save be save before creating a new model?";
@@ -30,7 +30,7 @@ namespace ClassTools.DataMaker.Forms
         #endregion
 
         #region Constructors
-        public FormMain(string[] args)
+        public Main(string[] args)
         {
             InitializeComponent();
             this.lastFilename = "";
@@ -70,7 +70,7 @@ namespace ClassTools.DataMaker.Forms
                         this.lastDatabase = (ModelDatabase)Serializer.Clone(this.database);
                         this.database.UpdateModel(this.classModel);
                         this.lastDatabase.UpdateModel(this.classModel);
-                        this.refresh();
+                        this.RefreshData();
                     }
                 }
             }
@@ -106,7 +106,7 @@ namespace ClassTools.DataMaker.Forms
                 this.lastDatabase = (ModelDatabase)Serializer.Clone(this.database);
                 this.lastDatabase.UpdateModel(this.classModel);
                 this.lastFilename = string.Empty;
-                this.refresh();
+                this.RefreshData();
             }
         }
 
@@ -153,7 +153,7 @@ namespace ClassTools.DataMaker.Forms
                             this.database.UpdateModel(this.classModel);
                             this.lastDatabase = (ModelDatabase)Serializer.Clone(this.database);
                             this.lastDatabase.UpdateModel(this.classModel);
-                            this.refresh();
+                            this.RefreshData();
                         }
                     }
                     else
@@ -162,7 +162,7 @@ namespace ClassTools.DataMaker.Forms
                         this.lastDatabase = new ModelDatabase(this.classModel);
                         this.lastFilename = string.Empty;
                     }
-                    this.refresh();
+                    this.RefreshData();
                 }
             }
         }
@@ -211,7 +211,7 @@ namespace ClassTools.DataMaker.Forms
         #endregion
 
         #region Refresh
-        private void refresh()
+        public void RefreshData()
         {
             if (this.updating)
             {
@@ -245,7 +245,7 @@ namespace ClassTools.DataMaker.Forms
             MetaClass classe = (MetaClass)this.lbClasses.SelectedItem;
             if (classe != null)
             {
-                Form form = new FormInstances(this.database, classe, classe, this.database.GetInstances(classe));
+                Form form = new InstanceCollection(this.database, classe, this.database.GetInstances(classe));
                 form.ShowDialog();
             }
         }

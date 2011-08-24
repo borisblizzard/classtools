@@ -1,6 +1,6 @@
 ﻿namespace ClassTools.DataMaker.Forms
 {
-    partial class FormInstances
+    partial class InstanceCollection
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormInstances));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InstanceCollection));
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,8 +59,8 @@
             this.lbInstances = new System.Windows.Forms.ListBox();
             this.ofdModel = new System.Windows.Forms.OpenFileDialog();
             this.gbInstanceVariables = new System.Windows.Forms.GroupBox();
-            this.ivbInstanceVariables = new ClassTools.DataMaker.Forms.InstanceVariablesBox();
-            this.instanceVariablesBox1 = new ClassTools.DataMaker.Forms.InstanceVariablesBox();
+            this.ivcInstanceVariables = new ClassTools.DataMaker.Forms.Controls.InstanceVariables();
+            this.instanceVariablesBox1 = new ClassTools.DataMaker.Forms.Controls.InstanceVariables();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.gbInstances.SuspendLayout();
@@ -308,7 +308,7 @@
             this.gbInstanceVariables.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbInstanceVariables.Controls.Add(this.ivbInstanceVariables);
+            this.gbInstanceVariables.Controls.Add(this.ivcInstanceVariables);
             this.gbInstanceVariables.Controls.Add(this.instanceVariablesBox1);
             this.gbInstanceVariables.Location = new System.Drawing.Point(211, 38);
             this.gbInstanceVariables.Name = "gbInstanceVariables";
@@ -317,12 +317,12 @@
             this.gbInstanceVariables.TabStop = false;
             this.gbInstanceVariables.Text = "Instance Variables";
             // 
-            // ivbInstanceVariables
+            // ivcInstanceVariables
             // 
-            this.ivbInstanceVariables.Location = new System.Drawing.Point(6, 20);
-            this.ivbInstanceVariables.Name = "ivbInstanceVariables";
-            this.ivbInstanceVariables.Size = new System.Drawing.Size(500, 400);
-            this.ivbInstanceVariables.TabIndex = 1;
+            this.ivcInstanceVariables.Location = new System.Drawing.Point(6, 20);
+            this.ivcInstanceVariables.Name = "ivcInstanceVariables";
+            this.ivcInstanceVariables.Size = new System.Drawing.Size(500, 400);
+            this.ivcInstanceVariables.TabIndex = 1;
             // 
             // instanceVariablesBox1
             // 
@@ -331,7 +331,7 @@
             this.instanceVariablesBox1.Size = new System.Drawing.Size(500, 400);
             this.instanceVariablesBox1.TabIndex = 0;
             // 
-            // FormInstances
+            // FormInstanceCollection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -344,7 +344,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormInstances";
+            this.Name = "FormInstanceCollection";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -390,8 +390,8 @@
         private System.Windows.Forms.GroupBox gbInstanceVariables;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
-        private InstanceVariablesBox ivbInstanceVariables;
-        private InstanceVariablesBox instanceVariablesBox1;
+        private Controls.InstanceVariables ivcInstanceVariables;
+        private Controls.InstanceVariables instanceVariablesBox1;
     }
 }
 

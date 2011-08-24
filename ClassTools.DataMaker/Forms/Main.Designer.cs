@@ -1,6 +1,6 @@
 ﻿namespace ClassTools.DataMaker.Forms
 {
-    partial class FormMain
+    partial class Main
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.gbClasses = new System.Windows.Forms.GroupBox();
             this.bEdit = new System.Windows.Forms.Button();
             this.lbClasses = new System.Windows.Forms.ListBox();
