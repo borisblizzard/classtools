@@ -1,6 +1,6 @@
 ﻿namespace ClassTools.ClassMaker.Forms
 {
-    partial class FormTypes
+    partial class Types
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTypes));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Types));
             this.lbTypes = new System.Windows.Forms.ListBox();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();

@@ -1,6 +1,6 @@
 ﻿namespace ClassTools.ClassMaker.Forms
 {
-    partial class FormLog
+    partial class Log
     {
         /// <summary>
         /// Required designer variable.

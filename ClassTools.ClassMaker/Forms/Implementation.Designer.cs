@@ -1,6 +1,6 @@
 ﻿namespace ClassTools.ClassMaker.Forms
 {
-    partial class FormImplementation
+    partial class Implementation
     {
         /// <summary>
         /// Required designer variable.

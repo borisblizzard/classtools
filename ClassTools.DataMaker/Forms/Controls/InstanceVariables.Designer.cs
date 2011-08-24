@@ -30,12 +30,12 @@
         {
             this.SuspendLayout();
             // 
-            // InstanceVariablesBox
+            // InstanceVariables
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "InstanceVariablesBox";
-            this.Size = new System.Drawing.Size(500, 400);
+            this.Name = "InstanceVariables";
+            this.Size = new System.Drawing.Size(400, 400);
             this.ResumeLayout(false);
 
         }

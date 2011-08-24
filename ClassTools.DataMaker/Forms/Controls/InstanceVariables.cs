@@ -55,6 +55,17 @@ namespace ClassTools.DataMaker.Forms.Controls
             this.Enabled = false;
         }
 
+        public void ClearData()
+        {
+            if (this.owner != null)
+            {
+                this.Controls.Clear();
+                this.valueControls.Clear();
+                this.metaInstance = null;
+                this.Enabled = false;
+            }
+        }
+
         public void SetData(IRefreshable owner, ModelDatabase database, MetaClass metaClass)
         {
             this.owner = owner;
@@ -62,7 +73,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             this.metaClass = metaClass;
             this.setupLayout();
         }
-        
+
         private void setupLayout()
         {
             MetaVariable variable;
@@ -98,7 +109,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(100, 20);
+                                    numericUpDown.Size = new Size(80, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = int.MaxValue;
                                     numericUpDown.Minimum = int.MinValue;
@@ -111,7 +122,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(100, 20);
+                                    numericUpDown.Size = new Size(80, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = uint.MaxValue;
                                     numericUpDown.Minimum = uint.MinValue;
@@ -124,7 +135,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(100, 20);
+                                    numericUpDown.Size = new Size(80, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = short.MaxValue;
                                     numericUpDown.Minimum = short.MinValue;
@@ -137,7 +148,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(100, 20);
+                                    numericUpDown.Size = new Size(80, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = ushort.MaxValue;
                                     numericUpDown.Minimum = ushort.MinValue;
@@ -150,7 +161,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(100, 20);
+                                    numericUpDown.Size = new Size(80, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = long.MaxValue;
                                     numericUpDown.Minimum = long.MinValue;
@@ -163,7 +174,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(100, 20);
+                                    numericUpDown.Size = new Size(80, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = ulong.MaxValue;
                                     numericUpDown.Minimum = ulong.MinValue;
@@ -176,7 +187,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     textBox = new TextBox();
                                     this.Controls.Add(textBox);
                                     this.valueControls.Add(textBox);
-                                    textBox.Size = new Size(200, 20);
+                                    textBox.Size = new Size(160, 20);
                                     textBox.Location = new Point(5, OFFSET + i * 26);
                                     textBox.MaxLength = 1;
                                     textBox.Name = variable.ToString();
@@ -187,7 +198,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(100, 20);
+                                    numericUpDown.Size = new Size(80, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = 255;
                                     numericUpDown.Minimum = 0;
@@ -200,7 +211,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     textBox = new TextBox();
                                     this.Controls.Add(textBox);
                                     this.valueControls.Add(textBox);
-                                    textBox.Size = new Size(200, 20);
+                                    textBox.Size = new Size(160, 20);
                                     textBox.Location = new Point(5, OFFSET + i * 26);
                                     textBox.Text = "0";
                                     textBox.Name = variable.ToString();
@@ -211,7 +222,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     textBox = new TextBox();
                                     this.Controls.Add(textBox);
                                     this.valueControls.Add(textBox);
-                                    textBox.Size = new Size(200, 20);
+                                    textBox.Size = new Size(160, 20);
                                     textBox.Location = new Point(5, OFFSET + i * 26);
                                     textBox.Text = "0";
                                     textBox.Name = variable.ToString();
@@ -232,7 +243,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     textBox = new TextBox();
                                     this.Controls.Add(textBox);
                                     this.valueControls.Add(textBox);
-                                    textBox.Size = new Size(200, 20);
+                                    textBox.Size = new Size(160, 20);
                                     textBox.Location = new Point(5, OFFSET + i * 26);
                                     textBox.Name = variable.ToString();
                                     textBox.TabIndex = 11 + i * 2;
@@ -244,6 +255,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                             button = new Button();
                             this.Controls.Add(button);
                             this.valueControls.Add(button);
+                            button.Size = new Size(80, 23);
                             button.Location = new Point(5, OFFSET - 2 + i * 26);
                             button.Text = MANAGE_TEXT;
                             button.Name = variable.ToString();
@@ -253,6 +265,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                             button = new Button();
                             this.Controls.Add(button);
                             this.valueControls.Add(button);
+                            button.Size = new Size(80, 23);
                             button.Location = new Point(5, OFFSET - 2 + i * 26);
                             button.Text = MANAGE_TEXT;
                             button.Name = variable.ToString();
@@ -265,6 +278,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                     button = new Button();
                     this.Controls.Add(button);
                     this.valueControls.Add(button);
+                    button.Size = new Size(80, 23);
                     button.Location = new Point(5, OFFSET - 2 + i * 26);
                     button.Text = MANAGE_TEXT;
                     button.Name = variable.ToString();
@@ -276,8 +290,6 @@ namespace ClassTools.DataMaker.Forms.Controls
             {
                 control.Left += maxWidth + 10;
             }
-            this.ResumeLayout(false);
-            this.PerformLayout();
         }
         #endregion
 

@@ -8,7 +8,7 @@ using ClassTools.Model;
 
 namespace ClassTools.ClassMaker.Forms
 {
-    public partial class FormTypes : Form
+    public partial class Types : Form
     {
         #region Constants
         const string errorClassDelete = "You cannot delete the class '{0}' using the Types Manager!";
@@ -16,16 +16,16 @@ namespace ClassTools.ClassMaker.Forms
         #endregion
 
         #region Fields
-        private bool updating;
+        private bool refreshing;
         private ClassModel model;
         #endregion
 
         #region Construtors
-        public FormTypes(ClassModel model)
+        public Types(ClassModel model)
         {
             InitializeComponent();
             this.model = model;
-            this.updating = false;
+            this.refreshing = false;
             // same order as ETypeCategory indexes!
             this.cbTypeCategory.Items.Add("Normal");
             this.cbTypeCategory.Items.Add("Collection");
@@ -37,11 +37,11 @@ namespace ClassTools.ClassMaker.Forms
         #region Methods
         private void refresh()
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
-            this.updating = true;
+            this.refreshing = true;
             List<MetaType> typesOnly = this.model.TypesOnly;
             Utility.ApplyNewDataSource(this.lbTypes, typesOnly, typesOnly.Count);
             MetaType type = this.model.Types[this.lbTypes.SelectedIndex];
@@ -104,7 +104,7 @@ namespace ClassTools.ClassMaker.Forms
                 lSuffix2.Enabled = false;
                 tbSuffix2.Enabled = false;
             }
-            this.updating = false;
+            this.refreshing = false;
         }
 
         private void lbTypes_SelectedIndexChanged(object sender, EventArgs e)
@@ -114,14 +114,14 @@ namespace ClassTools.ClassMaker.Forms
 
         private void tbTypeName_TextChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
-            this.updating = true;
+            this.refreshing = true;
             MetaType type = (MetaType)this.lbTypes.SelectedItem;
             type.Name = this.tbTypeName.Text;
-            this.updating = false;
+            this.refreshing = false;
             this.refresh();
         }
 
@@ -161,11 +161,11 @@ namespace ClassTools.ClassMaker.Forms
 
         private void cbTypeCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
-            this.updating = true;
+            this.refreshing = true;
             int index = this.cbTypeCategory.SelectedIndex;
             MetaType type = (MetaType)this.lbTypes.SelectedItem;
             switch (index)
@@ -192,59 +192,59 @@ namespace ClassTools.ClassMaker.Forms
                     }
                     break;
             }
-            this.updating = false;
+            this.refreshing = false;
             this.refresh();
         }
 
         private void cbSubType1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
-            this.updating = true;
+            this.refreshing = true;
             MetaType type = (MetaType)this.lbTypes.SelectedItem;
             type.SubType1 = (MetaType)this.cbSubType1.SelectedItem;
-            this.updating = false;
+            this.refreshing = false;
             this.refresh();
         }
 
         private void cbSubType2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
-            this.updating = true;
+            this.refreshing = true;
             MetaType type = (MetaType)this.lbTypes.SelectedItem;
             type.SubType2 = (MetaType)this.cbSubType2.SelectedItem;
-            this.updating = false;
+            this.refreshing = false;
             this.refresh();
         }
 
         private void tbSuffix1_TextChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
-            this.updating = true;
+            this.refreshing = true;
             MetaType type = (MetaType)this.lbTypes.SelectedItem;
             type.Suffix1 = this.tbSuffix1.Text;
-            this.updating = false;
+            this.refreshing = false;
             this.refresh();
         }
 
         private void tbSuffix2_TextChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
-            this.updating = true;
+            this.refreshing = true;
             MetaType type = (MetaType)this.lbTypes.SelectedItem;
             type.Suffix2 = this.tbSuffix2.Text;
-            this.updating = false;
+            this.refreshing = false;
             this.refresh();
         }
 

@@ -14,7 +14,7 @@ namespace ClassTools.ClassMaker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Forms.FormMain(args));
+            Application.Run(new Forms.Main(args));
         }
     }
 }

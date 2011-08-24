@@ -1,6 +1,6 @@
 ﻿namespace ClassTools.ClassMaker.Forms
 {
-    partial class FormMain
+    partial class Main
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.gbClasses = new System.Windows.Forms.GroupBox();
             this.bClassDelete = new System.Windows.Forms.Button();
             this.bClassNew = new System.Windows.Forms.Button();

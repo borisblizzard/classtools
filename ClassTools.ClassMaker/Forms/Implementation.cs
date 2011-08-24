@@ -6,11 +6,11 @@ using ClassTools.Model;
 
 namespace ClassTools.ClassMaker.Forms
 {
-    public partial class FormImplementation : Form
+    public partial class Implementation : Form
     {
         private MetaMethod method;
 
-        public FormImplementation(MetaMethod method)
+        public Implementation(MetaMethod method)
         {
             InitializeComponent();
             this.method = method;

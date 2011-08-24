@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace ClassTools.ClassMaker.Forms
 {
-    public partial class FormLog : Form
+    public partial class Log : Form
     {
-        public FormLog()
+        public Log()
         {
             InitializeComponent();
         }

@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
 using System.Reflection;
 
 namespace ClassTools.Common
@@ -25,10 +26,33 @@ namespace ClassTools.Common
             }
             container.SelectedIndex = index;
         }
+
+        public static bool TryMoveUp<T>(ref List<T> objects, int index)
+        {
+            if (index > 0)
+            {
+                T obj = objects[index];
+                objects[index] = objects[index - 1];
+                objects[index - 1] = obj;
+                return true;
+            }
+            return false;
+        }
+
+        public static bool TryMoveDown<T>(ref List<T> objects, int index)
+        {
+            if (index < objects.Count - 1)
+            {
+                T obj = objects[index];
+                objects[index] = objects[index + 1];
+                objects[index + 1] = obj;
+                return true;
+            }
+            return false;
+        }
         #endregion
 
         #region Assembly
-
         public static string AssemblyTitle
         {
             get
@@ -67,7 +91,6 @@ namespace ClassTools.Common
                 return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
             }
         }
-
         #endregion
 
     }

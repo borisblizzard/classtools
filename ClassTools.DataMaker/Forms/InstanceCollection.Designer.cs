@@ -53,18 +53,10 @@
             this.moveDownMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdDatabase = new System.Windows.Forms.OpenFileDialog();
             this.sfdDatabase = new System.Windows.Forms.SaveFileDialog();
-            this.gbInstances = new System.Windows.Forms.GroupBox();
-            this.bInstanceNew = new System.Windows.Forms.Button();
-            this.bInstanceDelete = new System.Windows.Forms.Button();
-            this.lbInstances = new System.Windows.Forms.ListBox();
             this.ofdModel = new System.Windows.Forms.OpenFileDialog();
-            this.gbInstanceVariables = new System.Windows.Forms.GroupBox();
-            this.ivcInstanceVariables = new ClassTools.DataMaker.Forms.Controls.InstanceVariables();
-            this.instanceVariablesBox1 = new ClassTools.DataMaker.Forms.Controls.InstanceVariables();
+            this.icInstances = new ClassTools.DataMaker.Forms.Controls.InstanceCollection();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
-            this.gbInstances.SuspendLayout();
-            this.gbInstanceVariables.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip
@@ -140,7 +132,7 @@
             this.editToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(736, 24);
+            this.menuStrip.Size = new System.Drawing.Size(636, 24);
             this.menuStrip.TabIndex = 1;
             // 
             // fileToolStripMenuItem
@@ -248,99 +240,31 @@
             this.sfdDatabase.Filter = "Model Database files (*.mdb)|*.mdb";
             this.sfdDatabase.Title = "Save Class Model";
             // 
-            // gbInstances
-            // 
-            this.gbInstances.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.gbInstances.Controls.Add(this.bInstanceNew);
-            this.gbInstances.Controls.Add(this.bInstanceDelete);
-            this.gbInstances.Controls.Add(this.lbInstances);
-            this.gbInstances.Location = new System.Drawing.Point(12, 38);
-            this.gbInstances.Name = "gbInstances";
-            this.gbInstances.Size = new System.Drawing.Size(193, 438);
-            this.gbInstances.TabIndex = 3;
-            this.gbInstances.TabStop = false;
-            this.gbInstances.Text = "Instances";
-            // 
-            // bInstanceNew
-            // 
-            this.bInstanceNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bInstanceNew.Location = new System.Drawing.Point(112, 407);
-            this.bInstanceNew.Name = "bInstanceNew";
-            this.bInstanceNew.Size = new System.Drawing.Size(75, 23);
-            this.bInstanceNew.TabIndex = 1;
-            this.bInstanceNew.Text = "Add new";
-            this.bInstanceNew.UseVisualStyleBackColor = true;
-            this.bInstanceNew.Click += new System.EventHandler(this.bInstanceNew_Click);
-            // 
-            // bInstanceDelete
-            // 
-            this.bInstanceDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.bInstanceDelete.Location = new System.Drawing.Point(7, 407);
-            this.bInstanceDelete.Name = "bInstanceDelete";
-            this.bInstanceDelete.Size = new System.Drawing.Size(75, 23);
-            this.bInstanceDelete.TabIndex = 1;
-            this.bInstanceDelete.Text = "Delete";
-            this.bInstanceDelete.UseVisualStyleBackColor = true;
-            this.bInstanceDelete.Click += new System.EventHandler(this.bInstanceDelete_Click);
-            // 
-            // lbInstances
-            // 
-            this.lbInstances.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbInstances.ContextMenuStrip = this.contextMenuStrip;
-            this.lbInstances.FormattingEnabled = true;
-            this.lbInstances.Location = new System.Drawing.Point(7, 20);
-            this.lbInstances.Name = "lbInstances";
-            this.lbInstances.Size = new System.Drawing.Size(180, 381);
-            this.lbInstances.TabIndex = 0;
-            this.lbInstances.SelectedIndexChanged += new System.EventHandler(this.lbInstances_SelectedIndexChanged);
-            // 
             // ofdModel
             // 
             this.ofdModel.DefaultExt = "cmm";
             this.ofdModel.Filter = "Class Maker Model files (*.cmm)|*.cmm";
             this.ofdModel.Title = "Open Class Model";
             // 
-            // gbInstanceVariables
+            // icInstances
             // 
-            this.gbInstanceVariables.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.icInstances.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbInstanceVariables.Controls.Add(this.ivcInstanceVariables);
-            this.gbInstanceVariables.Controls.Add(this.instanceVariablesBox1);
-            this.gbInstanceVariables.Location = new System.Drawing.Point(211, 38);
-            this.gbInstanceVariables.Name = "gbInstanceVariables";
-            this.gbInstanceVariables.Size = new System.Drawing.Size(513, 438);
-            this.gbInstanceVariables.TabIndex = 4;
-            this.gbInstanceVariables.TabStop = false;
-            this.gbInstanceVariables.Text = "Instance Variables";
-            // 
-            // ivcInstanceVariables
-            // 
-            this.ivcInstanceVariables.Enabled = false;
-            this.ivcInstanceVariables.Location = new System.Drawing.Point(6, 20);
-            this.ivcInstanceVariables.Name = "ivcInstanceVariables";
-            this.ivcInstanceVariables.Size = new System.Drawing.Size(500, 400);
-            this.ivcInstanceVariables.TabIndex = 1;
-            // 
-            // instanceVariablesBox1
-            // 
-            this.instanceVariablesBox1.Enabled = false;
-            this.instanceVariablesBox1.Location = new System.Drawing.Point(3, 16);
-            this.instanceVariablesBox1.Name = "instanceVariablesBox1";
-            this.instanceVariablesBox1.Size = new System.Drawing.Size(500, 400);
-            this.instanceVariablesBox1.TabIndex = 0;
+            this.icInstances.Enabled = false;
+            this.icInstances.Location = new System.Drawing.Point(12, 27);
+            this.icInstances.MetaInstances = null;
+            this.icInstances.Name = "icInstances";
+            this.icInstances.Size = new System.Drawing.Size(612, 440);
+            this.icInstances.TabIndex = 1;
             // 
             // InstanceCollection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(736, 486);
+            this.ClientSize = new System.Drawing.Size(636, 479);
+            this.Controls.Add(this.icInstances);
             this.Controls.Add(this.menuStrip);
-            this.Controls.Add(this.gbInstanceVariables);
-            this.Controls.Add(this.gbInstances);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
@@ -354,8 +278,6 @@
             this.contextMenuStrip.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            this.gbInstances.ResumeLayout(false);
-            this.gbInstanceVariables.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -366,7 +288,6 @@
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.OpenFileDialog ofdDatabase;
         private System.Windows.Forms.SaveFileDialog sfdDatabase;
-        private System.Windows.Forms.GroupBox gbInstances;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteMenuItem;
@@ -386,14 +307,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.OpenFileDialog ofdModel;
-        private System.Windows.Forms.ListBox lbInstances;
-        private System.Windows.Forms.Button bInstanceNew;
-        private System.Windows.Forms.Button bInstanceDelete;
-        private System.Windows.Forms.GroupBox gbInstanceVariables;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
-        private Controls.InstanceVariables ivcInstanceVariables;
-        private Controls.InstanceVariables instanceVariablesBox1;
+        private Controls.InstanceCollection icInstances;
     }
 }
 

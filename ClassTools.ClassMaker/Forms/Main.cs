@@ -11,7 +11,7 @@ using ClassTools.Model;
 
 namespace ClassTools.ClassMaker.Forms
 {
-    public partial class FormMain : Form
+    public partial class Main : Form
     {
         #region Constants
         const string savePromptNew = "There are unsaved changes. Do you want to save be save before creating a new model?";
@@ -31,23 +31,23 @@ namespace ClassTools.ClassMaker.Forms
         private ClassModel model;
         private ClassModel lastModel;
         private string lastFilename;
-        private bool updating;
+        private bool refreshing;
         private string validationLog;
-        private FormLog windowLog;
+        private Log windowLog;
         #endregion
 
         #region Constructors
-        public FormMain(string[] args)
+        public Main(string[] args)
         {
             InitializeComponent();
-            this.updating = true;
+            this.refreshing = true;
             this.model = new ClassModel();
             this.lastModel = (ClassModel)Serializer.Clone(this.model);
             this.lastFilename = string.Empty;
             this.validationLog = string.Empty;
             this.cbVariableAccess.DataSource = new List<string>(ClassModel.AccessorNames);
             this.cbMethodAccess.DataSource = new List<string>(ClassModel.AccessorNames);
-            this.windowLog = new FormLog();
+            this.windowLog = new Log();
             this.windowLog.Hide();
             if (args.Length > 0)
             {
@@ -57,7 +57,7 @@ namespace ClassTools.ClassMaker.Forms
                 stream.Close();
                 this.lastModel = (ClassModel)Serializer.Clone(this.model);
             }
-            this.updating = false;
+            this.refreshing = false;
             this.refresh();
         }
         #endregion
@@ -171,11 +171,11 @@ namespace ClassTools.ClassMaker.Forms
         #region Refresh
         private void refresh()
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
-            this.updating = true;
+            this.refreshing = true;
             Utility.ApplyNewDataSource(this.lbClasses, new List<MetaClass>(this.model.Classes), this.model.Classes.Count);
             Utility.ApplyNewDataSource(this.cbSuperClass, new List<MetaClass>(this.model.Classes), this.model.Classes.Count);
             Utility.ApplyNewDataSource(this.cbVariableType, new List<MetaType>(this.model.Types), this.model.Classes.Count);
@@ -213,7 +213,7 @@ namespace ClassTools.ClassMaker.Forms
                 this.tbClassName.Text = string.Empty;
                 this.tbClassModule.Text = string.Empty;
             }
-            this.updating = false;
+            this.refreshing = false;
         }
 
         private void refreshVariable()
@@ -420,7 +420,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void manageTypesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormTypes f = new FormTypes(this.model);
+            Types f = new Types(this.model);
             f.ShowDialog();
             this.refresh();
         }
@@ -478,7 +478,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void bMethodImplementation_Click(object sender, EventArgs e)
         {
-            FormImplementation f = new FormImplementation((MetaMethod)this.lbMethods.SelectedItem);
+            Implementation f = new Implementation((MetaMethod)this.lbMethods.SelectedItem);
             DialogResult result = f.ShowDialog();
         }
 
@@ -583,9 +583,9 @@ namespace ClassTools.ClassMaker.Forms
             {
                 if (this.model.Classes[this.lbClasses.SelectedIndex].TryVariableMoveUp(this.lbVariables.SelectedIndex))
                 {
-                    this.updating = true;
+                    this.refreshing = true;
                     this.lbVariables.SelectedIndex--;
-                    this.updating = false;
+                    this.refreshing = false;
                     this.refresh();
                 }
             }
@@ -593,9 +593,9 @@ namespace ClassTools.ClassMaker.Forms
             {
                 if (this.model.Classes[this.lbClasses.SelectedIndex].TryMethodMoveUp(this.lbMethods.SelectedIndex))
                 {
-                    this.updating = true;
+                    this.refreshing = true;
                     this.lbMethods.SelectedIndex--;
-                    this.updating = false;
+                    this.refreshing = false;
                     this.refresh();
                 }
             }
@@ -614,9 +614,9 @@ namespace ClassTools.ClassMaker.Forms
             {
                 if (this.model.Classes[this.lbClasses.SelectedIndex].TryVariableMoveDown(this.lbVariables.SelectedIndex))
                 {
-                    this.updating = true;
+                    this.refreshing = true;
                     this.lbVariables.SelectedIndex++;
-                    this.updating = false;
+                    this.refreshing = false;
                     this.refresh();
                 }
             }
@@ -624,9 +624,9 @@ namespace ClassTools.ClassMaker.Forms
             {
                 if (this.model.Classes[this.lbClasses.SelectedIndex].TryMethodMoveDown(this.lbMethods.SelectedIndex))
                 {
-                    this.updating = true;
+                    this.refreshing = true;
                     this.lbMethods.SelectedIndex++;
-                    this.updating = false;
+                    this.refreshing = false;
                     this.refresh();
                 }
             }
@@ -641,7 +641,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void tbClassName_TextChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -652,7 +652,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void tbClassModule_TextChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -663,7 +663,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void cbInheritance_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -674,7 +674,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void cbxClassSerialize_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -684,7 +684,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void cbSuperClass_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -696,18 +696,18 @@ namespace ClassTools.ClassMaker.Forms
         #region Variable Sync
         private void lbVariables_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
-            this.updating = true;
+            this.refreshing = true;
             this.refreshVariable();
-            this.updating = false;
+            this.refreshing = false;
         }
 
         private void tbVariableName_TextChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -718,7 +718,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void cbVariableType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -729,7 +729,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void cbVariableAccess_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -739,7 +739,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void tbVariableDefault_TextChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -749,7 +749,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void cbxVariableGetter_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -759,7 +759,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void cbxVariableSetter_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -769,7 +769,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void cbxVariableSerialize_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -779,7 +779,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void tbVariablePrefix_TextChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -792,18 +792,18 @@ namespace ClassTools.ClassMaker.Forms
         #region Method Sync
         private void lbMethods_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
-            this.updating = true;
+            this.refreshing = true;
             this.refreshMethod();
-            this.updating = false;
+            this.refreshing = false;
         }
 
         private void tbMethodName_TextChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -814,7 +814,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void cbMethodType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -825,7 +825,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void cbMethodAccess_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
@@ -835,7 +835,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void tbMethodPrefix_TextChanged(object sender, EventArgs e)
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }

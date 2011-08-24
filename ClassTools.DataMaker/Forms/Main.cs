@@ -26,14 +26,14 @@ namespace ClassTools.DataMaker.Forms
         private ModelDatabase database;
         private ModelDatabase lastDatabase;
         string lastFilename;
-        private bool updating;
+        private bool refreshing;
         #endregion
 
         #region Constructors
         public Main(string[] args)
         {
             InitializeComponent();
-            this.lastFilename = "";
+            this.lastFilename = string.Empty;
             this.classModel = null;
             this.newMenuItem.Enabled = false;
             this.saveMenuItem.Enabled = false;
@@ -213,11 +213,11 @@ namespace ClassTools.DataMaker.Forms
         #region Refresh
         public void RefreshData()
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
-            this.updating = true;
+            this.refreshing = true;
             if (this.classModel != null)
             {
                 this.newMenuItem.Enabled = true;
@@ -231,23 +231,36 @@ namespace ClassTools.DataMaker.Forms
                 {
                     this.lbClasses.SelectedIndex = 0;
                 }
-                this.bEdit.Enabled = true;
+                //this.icInstances.Enabled = true;
             }
             else
             {
-                this.bEdit.Enabled = false;
+                //this.icInstances.Enabled = false;
             }
-            this.updating = false;
+            if (this.database != null)
+            {
+                this.icInstances.ClearData();
+                MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
+                if (metaClass != null)
+                {
+                    this.icInstances.SetData(this, this.database, metaClass, this.database.GetInstances(metaClass));
+                    this.icInstances.RefreshData();
+                    //this.icInstances.MetaInstances = ;
+                }
+            }
+            this.refreshing = false;
         }
 
         private void bEdit_Click(object sender, EventArgs e)
         {
+            /*
             MetaClass classe = (MetaClass)this.lbClasses.SelectedItem;
             if (classe != null)
             {
                 Form form = new InstanceCollection(this.database, classe, this.database.GetInstances(classe));
                 form.ShowDialog();
             }
+            */
         }
         #endregion
 
@@ -288,6 +301,11 @@ namespace ClassTools.DataMaker.Forms
             }
         }
         #endregion
+
+        private void lbClasses_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.RefreshData();
+        }
 
     }
 }

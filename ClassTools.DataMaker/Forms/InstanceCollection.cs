@@ -15,7 +15,7 @@ namespace ClassTools.DataMaker.Forms
         private ModelDatabase database;
         private MetaClass metaClass;
         private List<MetaInstance> metaInstances;
-        private bool updating;
+        private bool refreshing;
         #endregion
 
         #region Properties
@@ -32,24 +32,12 @@ namespace ClassTools.DataMaker.Forms
             this.database = database;
             this.metaInstances = metaInstances;
             this.metaClass = metaClass;
-            this.ivcInstanceVariables.SetData(this, this.database, this.metaClass);
-            this.ivcInstanceVariables.MetaInstance = (this.metaInstances.Count > 0 ? this.metaInstances[0] : null);
+            this.icInstances.SetData(this, this.database, this.metaClass, this.metaInstances);
             this.RefreshData();
         }
         #endregion
 
         #region Close
-        private void onFormClosing(object sender, FormClosingEventArgs e)
-        {
-            /*
-            DialogResult result = this.showSaveChangesDialog(savePromptExit);
-            if (result == DialogResult.Cancel)
-            {
-                e.Cancel = true;
-            }
-             * */
-        }
-
         private void closeMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -59,97 +47,44 @@ namespace ClassTools.DataMaker.Forms
         #region Refresh
         public void RefreshData()
         {
-            if (this.updating)
+            if (this.refreshing)
             {
                 return;
             }
-            this.updating = true;
-            Utility.ApplyNewDataSource(this.lbInstances, new List<MetaInstance>(this.metaInstances), this.metaInstances.Count);
-            this.lbInstances.Enabled = true;
-            this.ivcInstanceVariables.MetaInstance = (MetaInstance)this.lbInstances.SelectedItem;
-            this.updating = false;
-        }
-        #endregion
-
-        #region Create / Delete
-        private void bInstanceNew_Click(object sender, EventArgs e)
-        {
-            MetaInstance instance = new MetaInstance(this.database, this.metaClass);
-            this.metaInstances.Insert(this.lbInstances.SelectedIndex + 1, instance);
-            this.RefreshData();
-            this.lbInstances.Focus();
-        }
-
-        private void bInstanceDelete_Click(object sender, EventArgs e)
-        {
-            if (this.lbInstances.SelectedIndex >= 0)
-            {
-                this.metaInstances.RemoveAt(this.lbInstances.SelectedIndex);
-                this.RefreshData();
-                this.lbInstances.Focus();
-            }
-        }
-
-        private void lbClasses_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.RefreshData();
+            this.refreshing = true;
+            this.refreshing = false;
         }
         #endregion
 
         #region Tools
         private void copyMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.lbInstances.Focused)
-            {
-                InternalClipboard.Instance = (MetaInstance)this.lbInstances.SelectedItem;
-            }
+            this.icInstances.CopyInstance();
         }
 
         private void pasteMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.lbInstances.Focused)
-            {
-                this.database.ReplaceInstanceAt(this.metaClass, this.lbInstances.SelectedIndex, InternalClipboard.Instance);
-                this.RefreshData();
-            }
+            this.icInstances.PasteInstance();
         }
 
         private void addNewMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.lbInstances.Focused)
-            {
-                this.bInstanceNew_Click(sender, e);
-            }
+            this.icInstances.AddNewInstance();
         }
 
         private void deleteMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.lbInstances.Focused)
-            {
-                this.bInstanceDelete_Click(sender, e);
-            }
+            this.icInstances.DeleteInstance();
         }
 
         private void moveUpMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.lbInstances.Focused)
-            {
-                if (this.database.TryInstanceMoveUp(this.metaClass, this.lbInstances.SelectedIndex))
-                {
-                    this.lbInstances.SelectedIndex--;
-                }
-            }
+            this.icInstances.MoveUpInstance();
         }
 
         private void moveDownMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.lbInstances.Focused)
-            {
-                if (this.database.TryInstanceMoveDown(this.metaClass, this.lbInstances.SelectedIndex))
-                {
-                    this.lbInstances.SelectedIndex++;
-                }
-            }
+            this.icInstances.MoveDownInstance();
         }
         #endregion
 
