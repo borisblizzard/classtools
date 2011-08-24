@@ -16,8 +16,8 @@ namespace ClassTools.Common
         #region Properties
         public static MetaType Type
         {
-            get { return (MetaType)Serializer.Clone(cachedType); }
-            set { cachedType = (MetaType)Serializer.Clone(value); }
+            get { return Serializer.Clone(cachedType); }
+            set { cachedType = Serializer.Clone(value); }
         }
 
         public static bool ContainsType
@@ -27,8 +27,8 @@ namespace ClassTools.Common
 
         public static MetaClass Class
         {
-            get { return (MetaClass)Serializer.Clone(cachedClass); }
-            set { cachedClass = (MetaClass)Serializer.Clone(value); }
+            get { return Serializer.Clone(cachedClass); }
+            set { cachedClass = Serializer.Clone(value); }
         }
 
         public static bool ContainsClass
@@ -38,8 +38,8 @@ namespace ClassTools.Common
 
         public static MetaVariable Variable
         {
-            get { return (MetaVariable)Serializer.Clone(cachedVariable); }
-            set { cachedVariable = (MetaVariable)Serializer.Clone(value); }
+            get { return Serializer.Clone(cachedVariable); }
+            set { cachedVariable = Serializer.Clone(value); }
         }
 
         public static bool ContainsVariable
@@ -49,8 +49,8 @@ namespace ClassTools.Common
 
         public static MetaMethod Method
         {
-            get { return (MetaMethod)Serializer.Clone(cachedMethod); }
-            set { cachedMethod = (MetaMethod)Serializer.Clone(value); }
+            get { return Serializer.Clone(cachedMethod); }
+            set { cachedMethod = Serializer.Clone(value); }
         }
 
         public static bool ContainsMethod
@@ -60,8 +60,8 @@ namespace ClassTools.Common
 
         public static MetaInstance Instance
         {
-            get { return (MetaInstance)Serializer.Clone(cachedInstance); }
-            set { cachedInstance = (MetaInstance)Serializer.Clone(value); }
+            get { return Serializer.Clone(cachedInstance); }
+            set { cachedInstance = Serializer.Clone(value); }
         }
 
         public static bool ContainsInstance
@@ -71,8 +71,8 @@ namespace ClassTools.Common
 
         public static MetaInstanceVariable InstanceVariable
         {
-            get { return (MetaInstanceVariable)Serializer.Clone(cachedInstanceVariable); }
-            set { cachedInstanceVariable = (MetaInstanceVariable)Serializer.Clone(value); }
+            get { return Serializer.Clone(cachedInstanceVariable); }
+            set { cachedInstanceVariable = Serializer.Clone(value); }
         }
 
         public static bool ContainsInstanceVariable

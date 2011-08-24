@@ -38,11 +38,7 @@ namespace ClassTools.Model
         public bool Equals(MetaMethod other)
         {
             if (!base.Equals(other)) return false;
-            if (this.parameters.Count != other.parameters.Count) return false;
-            for (int i = 0; i < this.parameters.Count; i++)
-            {
-                if (!this.parameters[i].Equals(other.parameters[i])) return false;
-            }
+            if (!Utility.ListEquals(this.parameters, other.parameters)) return false;
             if (this.implementation != other.implementation) return false;
             return true;
         }

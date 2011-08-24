@@ -14,9 +14,9 @@ namespace ClassTools.DataMaker.Forms
     public partial class Main : Form, IRefreshable
     {
         #region Constants
-        const string savePromptNew = "There are unsaved changes. Do you want to save be save before creating a new model?";
-        const string savePromptOpen = "There are unsaved changes. Do you want to save be save before opening another file?";
-        const string savePromptExit = "There are unsaved changes. Do you want to save be save before existing?";
+        const string savePromptNew = "There are unsaved changes. Do you want to save before creating a new file?";
+        const string savePromptOpen = "There are unsaved changes. Do you want to save before opening another file?";
+        const string savePromptExit = "There are unsaved changes. Do you want to save before exiting?";
 
         const string warningModelNotMatching = "The imported Class Model does not match the Database's Class Model. Do you want to continue anyway?";
         #endregion
@@ -67,7 +67,7 @@ namespace ClassTools.DataMaker.Forms
                     if (result == DialogResult.OK)
                     {
                         this.database = newDatabase;
-                        this.lastDatabase = (ModelDatabase)Serializer.Clone(this.database);
+                        this.lastDatabase = Serializer.Clone(this.database);
                         this.database.UpdateModel(this.classModel);
                         this.lastDatabase.UpdateModel(this.classModel);
                         this.RefreshData();
@@ -103,7 +103,7 @@ namespace ClassTools.DataMaker.Forms
             if (result != DialogResult.Cancel)
             {
                 this.database = new ModelDatabase(this.classModel);
-                this.lastDatabase = (ModelDatabase)Serializer.Clone(this.database);
+                this.lastDatabase = Serializer.Clone(this.database);
                 this.lastDatabase.UpdateModel(this.classModel);
                 this.lastFilename = string.Empty;
                 this.RefreshData();
@@ -151,7 +151,7 @@ namespace ClassTools.DataMaker.Forms
                         if (result == DialogResult.OK)
                         {
                             this.database.UpdateModel(this.classModel);
-                            this.lastDatabase = (ModelDatabase)Serializer.Clone(this.database);
+                            this.lastDatabase = Serializer.Clone(this.database);
                             this.lastDatabase.UpdateModel(this.classModel);
                             this.RefreshData();
                         }
@@ -206,7 +206,7 @@ namespace ClassTools.DataMaker.Forms
         private void save(Stream stream)
         {
             Serializer.Serialize(stream, this.database);
-            this.lastDatabase = (ModelDatabase)Serializer.Clone(this.database);
+            this.lastDatabase = Serializer.Clone(this.database);
         }
         #endregion
 
@@ -231,11 +231,6 @@ namespace ClassTools.DataMaker.Forms
                 {
                     this.lbClasses.SelectedIndex = 0;
                 }
-                //this.icInstances.Enabled = true;
-            }
-            else
-            {
-                //this.icInstances.Enabled = false;
             }
             if (this.database != null)
             {
@@ -245,7 +240,6 @@ namespace ClassTools.DataMaker.Forms
                 {
                     this.icInstances.SetData(this, this.database, metaClass, this.database.GetInstances(metaClass));
                     this.icInstances.RefreshData();
-                    //this.icInstances.MetaInstances = ;
                 }
             }
             this.refreshing = false;
@@ -301,7 +295,7 @@ namespace ClassTools.DataMaker.Forms
             DialogResult result = f.ShowDialog();
             if (result == DialogResult.OK)
             {
-                f.Execute(null, this.database);
+                f.Execute(this.classModel, this.database);
             }
         }
         #endregion

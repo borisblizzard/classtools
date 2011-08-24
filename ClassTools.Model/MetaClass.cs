@@ -110,16 +110,8 @@ namespace ClassTools.Model
                 if (!this.HasSuperClass || !other.HasSuperClass) return false;
                 if (!this.superClass.Equals(other.superClass)) return false;
             }
-            if (this.variables.Count != other.variables.Count) return false;
-            for (int i = 0; i < this.variables.Count; i++)
-            {
-                if (!this.variables[i].Equals(other.variables[i])) return false;
-            }
-            if (this.methods.Count != other.methods.Count) return false;
-            for (int i = 0; i < this.methods.Count; i++)
-            {
-                if (!this.methods[i].Equals(other.methods[i])) return false;
-            }
+            if (!Utility.ListEquals(this.variables, other.variables)) return false;
+            if (!Utility.ListEquals(this.methods, other.methods)) return false;
             if (this.canSerialize != other.canSerialize) return false;
             return true;
         }

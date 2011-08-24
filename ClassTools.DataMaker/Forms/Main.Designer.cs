@@ -42,14 +42,6 @@
             this.saveAsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ofdDatabase = new System.Windows.Forms.OpenFileDialog();
-            this.sfdDatabase = new System.Windows.Forms.SaveFileDialog();
-            this.ofdModel = new System.Windows.Forms.OpenFileDialog();
-            this.icInstances = new ClassTools.DataMaker.Forms.Controls.InstanceCollection();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +51,14 @@
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.moveUpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveDownMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ofdDatabase = new System.Windows.Forms.OpenFileDialog();
+            this.sfdDatabase = new System.Windows.Forms.SaveFileDialog();
+            this.ofdModel = new System.Windows.Forms.OpenFileDialog();
+            this.icInstances = new ClassTools.DataMaker.Forms.Controls.InstanceCollection();
             this.gbClasses.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -192,64 +192,6 @@
             this.exitMenuItem.Text = "E&xit";
             this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
             // 
-            // toolsToolStripMenuItem
-            // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.generateToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.toolsToolStripMenuItem.Text = "&Tools";
-            // 
-            // generateToolStripMenuItem
-            // 
-            this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
-            this.generateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.G)));
-            this.generateToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.generateToolStripMenuItem.Text = "Generate";
-            this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateToolStripMenuItem_Click);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "&Help";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.aboutToolStripMenuItem.Text = "&About...";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
-            // 
-            // ofdDatabase
-            // 
-            this.ofdDatabase.DefaultExt = "cmm";
-            this.ofdDatabase.Filter = "Model Database files (*.mdb)|*.mdb";
-            this.ofdDatabase.Title = "Open Class Model";
-            // 
-            // sfdDatabase
-            // 
-            this.sfdDatabase.DefaultExt = "cmm";
-            this.sfdDatabase.Filter = "Model Database files (*.mdb)|*.mdb";
-            this.sfdDatabase.Title = "Save Class Model";
-            // 
-            // ofdModel
-            // 
-            this.ofdModel.DefaultExt = "cmm";
-            this.ofdModel.Filter = "Class Maker Model files (*.cmm)|*.cmm";
-            this.ofdModel.Title = "Open Class Model";
-            // 
-            // icInstances
-            // 
-            this.icInstances.Enabled = false;
-            this.icInstances.Location = new System.Drawing.Point(254, 38);
-            this.icInstances.Name = "icInstances";
-            this.icInstances.Size = new System.Drawing.Size(618, 440);
-            this.icInstances.TabIndex = 2;
-            // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -327,6 +269,64 @@
             this.moveDownMenuItem.Text = "Move down";
             this.moveDownMenuItem.Click += new System.EventHandler(this.moveDownMenuItem_Click);
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generateToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.toolsToolStripMenuItem.Text = "&Tools";
+            // 
+            // generateToolStripMenuItem
+            // 
+            this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
+            this.generateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.G)));
+            this.generateToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.generateToolStripMenuItem.Text = "Generate";
+            this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.aboutToolStripMenuItem.Text = "&About...";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
+            // 
+            // ofdDatabase
+            // 
+            this.ofdDatabase.DefaultExt = "cmm";
+            this.ofdDatabase.Filter = "Model Database files (*.mdb)|*.mdb";
+            this.ofdDatabase.Title = "Open Class Model";
+            // 
+            // sfdDatabase
+            // 
+            this.sfdDatabase.DefaultExt = "cmm";
+            this.sfdDatabase.Filter = "Model Database files (*.mdb)|*.mdb";
+            this.sfdDatabase.Title = "Save Class Model";
+            // 
+            // ofdModel
+            // 
+            this.ofdModel.DefaultExt = "cmm";
+            this.ofdModel.Filter = "Class Maker Model files (*.cmm)|*.cmm";
+            this.ofdModel.Title = "Open Class Model";
+            // 
+            // icInstances
+            // 
+            this.icInstances.Enabled = false;
+            this.icInstances.Location = new System.Drawing.Point(254, 38);
+            this.icInstances.Name = "icInstances";
+            this.icInstances.Size = new System.Drawing.Size(618, 440);
+            this.icInstances.TabIndex = 2;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -342,6 +342,7 @@
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Data Maker";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.onFormClosing);
             this.gbClasses.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();

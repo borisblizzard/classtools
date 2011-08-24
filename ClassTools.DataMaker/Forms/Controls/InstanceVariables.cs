@@ -115,7 +115,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Minimum = int.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
-                                    numericUpDown.TabIndex = 11 + i * 2;
+                                    numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "unsigned int":
@@ -128,7 +128,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Minimum = uint.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
-                                    numericUpDown.TabIndex = 11 + i * 2;
+                                    numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "short":
@@ -141,7 +141,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Minimum = short.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
-                                    numericUpDown.TabIndex = 11 + i * 2;
+                                    numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "unsigned short":
@@ -154,7 +154,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Minimum = ushort.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
-                                    numericUpDown.TabIndex = 11 + i * 2;
+                                    numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "long":
@@ -167,7 +167,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Minimum = long.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
-                                    numericUpDown.TabIndex = 11 + i * 2;
+                                    numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "unsigned long":
@@ -180,7 +180,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Minimum = ulong.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
-                                    numericUpDown.TabIndex = 11 + i * 2;
+                                    numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "char":
@@ -204,7 +204,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Minimum = 0;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
                                     numericUpDown.Name = variable.ToString();
-                                    numericUpDown.TabIndex = 11 + i * 2;
+                                    numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
                                 case "float":
@@ -431,10 +431,10 @@ namespace ClassTools.DataMaker.Forms.Controls
                 variable = this.metaInstance.InstanceVariables[i];
                 if (button.Name == variable.ToString())
                 {
-                    Instance form = new Instance(this.database, (MetaClass)this.metaClass.AllVariables[i].Type, (MetaInstance)variable.ValueObject);
+                    Instance form = new Instance(this.database, (MetaClass)this.metaClass.AllVariables[i].Type, variable.ValueInstance);
                     form.Text = variable.ToString();
                     form.ShowDialog();
-                    variable.ValueObject = form.MetaInstance;
+                    variable.ValueInstance = form.MetaInstance;
                     this.RefreshData();
                     break;
                 }
@@ -452,9 +452,12 @@ namespace ClassTools.DataMaker.Forms.Controls
                 {
                     if (this.metaClass.AllVariables[i].Type.IsClass)
                     {
+                        // TODO
+                        /*
                         Forms.InstanceCollection form = new Forms.InstanceCollection(this.database, (MetaClass)this.metaClass.AllVariables[i].Type, (List<MetaInstance>)variable.ValueObject);
                         form.Text = variable.ToString();
                         form.ShowDialog();
+                        */
                     }
                     else
                     {

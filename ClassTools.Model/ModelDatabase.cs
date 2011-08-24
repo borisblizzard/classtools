@@ -8,7 +8,7 @@ namespace ClassTools.Model
     {
         #region Fields
         protected ClassModel model;
-        protected Dictionary<string, List<MetaInstance>> instances;
+        protected Dictionary<string, List<MetaInstance>> metaInstances;
         #endregion
 
         #region Properties
@@ -22,10 +22,10 @@ namespace ClassTools.Model
         public ModelDatabase(ClassModel model)
         {
             this.model = model;
-            this.instances = new Dictionary<string, List<MetaInstance>>();
+            this.metaInstances = new Dictionary<string, List<MetaInstance>>();
             foreach (MetaClass classe in model.Classes)
             {
-                this.instances[classe.GetNameWithModule()] = new List<MetaInstance>();
+                this.metaInstances[classe.GetNameWithModule()] = new List<MetaInstance>();
             }
         }
         #endregion
@@ -34,6 +34,7 @@ namespace ClassTools.Model
         public virtual bool Equals(ModelDatabase other)
         {
             if (!this.model.Equals(other.model)) return false;
+            if (!Utility.DictionaryEquals(this.metaInstances, other.metaInstances)) return false;
             return true;
         }
         #endregion
@@ -41,7 +42,7 @@ namespace ClassTools.Model
         #region Methods
         public List<MetaInstance> GetInstances(MetaClass classe)
         {
-            return this.instances[classe.GetNameWithModule()];
+            return this.metaInstances[classe.GetNameWithModule()];
         }
 
         public void UpdateModel(ClassModel model)
@@ -55,23 +56,23 @@ namespace ClassTools.Model
         public MetaInstance CreateNewInstance(MetaClass classe, int index)
         {
             MetaInstance instance = new MetaInstance(this, classe);
-            this.instances[classe.GetNameWithModule()].Insert(index, instance);
+            this.metaInstances[classe.GetNameWithModule()].Insert(index, instance);
             return instance;
         }
 
         public void DeleteInstance(MetaClass classe, MetaInstance instance)
         {
-            this.instances[classe.GetNameWithModule()].Remove(instance);
+            this.metaInstances[classe.GetNameWithModule()].Remove(instance);
         }
 
         public void DeleteInstanceAt(MetaClass classe, int index)
         {
-            this.instances[classe.GetNameWithModule()].RemoveAt(index);
+            this.metaInstances[classe.GetNameWithModule()].RemoveAt(index);
         }
 
         public void ReplaceInstanceAt(MetaClass classe, int index, MetaInstance instance)
         {
-            List<MetaInstance> instances = this.instances[classe.GetNameWithModule()];
+            List<MetaInstance> instances = this.metaInstances[classe.GetNameWithModule()];
             MetaInstance oldInstance = instances[index];
             instances[index] = instance;
             instance.Database = this;
@@ -85,7 +86,7 @@ namespace ClassTools.Model
         {
             if (index > 0)
             {
-                List<MetaInstance> instances = this.instances[classe.GetNameWithModule()];
+                List<MetaInstance> instances = this.metaInstances[classe.GetNameWithModule()];
                 MetaInstance instance = instances[index];
                 instances[index] = instances[index - 1];
                 instances[index - 1] = instance;
@@ -96,7 +97,7 @@ namespace ClassTools.Model
 
         public bool TryInstanceMoveDown(MetaClass classe, int index)
         {
-            List<MetaInstance> instances = this.instances[classe.GetNameWithModule()];
+            List<MetaInstance> instances = this.metaInstances[classe.GetNameWithModule()];
             if (index < instances.Count - 1)
             {
                 MetaInstance instance = instances[index];

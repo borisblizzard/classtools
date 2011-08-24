@@ -64,18 +64,8 @@ namespace ClassTools.Model
         #region Behavior
         public virtual bool Equals(ClassModel other)
         {
-            if (this.classes.Count != other.classes.Count) return false;
-            for (int i = 0; i < this.classes.Count; i++)
-            {
-                if (!this.classes[i].Equals(other.classes[i])) return false;
-            }
-            List<MetaType> thisTypes = this.TypesOnly;
-            List<MetaType> otherTypes = other.TypesOnly;
-            if (thisTypes.Count != otherTypes.Count) return false;
-            for (int i = 0; i < thisTypes.Count; i++)
-            {
-                if (!thisTypes[i].Equals(otherTypes[i])) return false;
-            }
+            if (!Utility.ListEquals(this.classes, other.classes)) return false;
+            if (!Utility.ListEquals(this.TypesOnly, other.TypesOnly)) return false;
             return true;
         }
         #endregion

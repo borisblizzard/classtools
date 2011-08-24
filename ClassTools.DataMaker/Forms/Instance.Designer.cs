@@ -39,6 +39,7 @@
             this.ivbInstanceVariables = new ClassTools.DataMaker.Forms.Controls.InstanceVariables();
             this.instanceVariablesBox1 = new ClassTools.DataMaker.Forms.Controls.InstanceVariables();
             this.cbExists = new System.Windows.Forms.CheckBox();
+            this.bOk = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.gbInstanceVariables.SuspendLayout();
             this.SuspendLayout();
@@ -49,7 +50,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(538, 24);
+            this.menuStrip.Size = new System.Drawing.Size(438, 24);
             this.menuStrip.TabIndex = 1;
             // 
             // fileToolStripMenuItem
@@ -95,17 +96,20 @@
             this.gbInstanceVariables.Controls.Add(this.instanceVariablesBox1);
             this.gbInstanceVariables.Location = new System.Drawing.Point(12, 51);
             this.gbInstanceVariables.Name = "gbInstanceVariables";
-            this.gbInstanceVariables.Size = new System.Drawing.Size(514, 430);
+            this.gbInstanceVariables.Size = new System.Drawing.Size(414, 430);
             this.gbInstanceVariables.TabIndex = 4;
             this.gbInstanceVariables.TabStop = false;
             this.gbInstanceVariables.Text = "Instance Variables";
             // 
             // ivbInstanceVariables
             // 
+            this.ivbInstanceVariables.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.ivbInstanceVariables.Enabled = false;
             this.ivbInstanceVariables.Location = new System.Drawing.Point(6, 20);
             this.ivbInstanceVariables.Name = "ivbInstanceVariables";
-            this.ivbInstanceVariables.Size = new System.Drawing.Size(500, 400);
+            this.ivbInstanceVariables.Size = new System.Drawing.Size(400, 400);
             this.ivbInstanceVariables.TabIndex = 1;
             // 
             // instanceVariablesBox1
@@ -127,11 +131,26 @@
             this.cbExists.UseVisualStyleBackColor = true;
             this.cbExists.CheckedChanged += new System.EventHandler(this.cbExists_CheckedChanged);
             // 
+            // bOk
+            // 
+            this.bOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.bOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.bOk.Location = new System.Drawing.Point(351, 487);
+            this.bOk.Name = "bOk";
+            this.bOk.Size = new System.Drawing.Size(75, 23);
+            this.bOk.TabIndex = 6;
+            this.bOk.Text = "OK";
+            this.bOk.UseVisualStyleBackColor = true;
+            this.bOk.Click += new System.EventHandler(this.closeMenuItem_Click);
+            // 
             // Instance
             // 
+            this.AcceptButton = this.bOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(538, 493);
+            this.CancelButton = this.bOk;
+            this.ClientSize = new System.Drawing.Size(438, 521);
+            this.Controls.Add(this.bOk);
             this.Controls.Add(this.cbExists);
             this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.gbInstanceVariables);
@@ -165,6 +184,7 @@
         private Controls.InstanceVariables ivbInstanceVariables;
         private Controls.InstanceVariables instanceVariablesBox1;
         private System.Windows.Forms.CheckBox cbExists;
+        private System.Windows.Forms.Button bOk;
     }
 }
 

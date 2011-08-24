@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ClassTools.Model
 {
@@ -9,7 +10,9 @@ namespace ClassTools.Model
         protected string type;
         protected string name;
         protected string valueString;
-        protected object valueObject;
+        protected MetaInstance valueInstance;
+        protected List<MetaInstanceVariable> valueInstanceCollection;
+        protected Dictionary<MetaInstanceVariable, MetaInstanceVariable> valueInstanceDictionary;
         #endregion
 
         #region Properties
@@ -28,8 +31,10 @@ namespace ClassTools.Model
             get { return this.valueString.Trim('"'); }
             set
             {
-                this.valueObject = null;
                 this.valueString = value;
+                this.valueInstance = null;
+                this.valueInstanceCollection = null;
+                this.valueInstanceDictionary = null;
             }
         }
 
@@ -43,8 +48,10 @@ namespace ClassTools.Model
             }
             set
             {
-                this.valueObject = null;
                 this.valueString = value.ToString().Replace(',', '.');
+                this.valueInstance = null;
+                this.valueInstanceCollection = null;
+                this.valueInstanceDictionary = null;
             }
         }
 
@@ -53,18 +60,46 @@ namespace ClassTools.Model
             get { return (this.valueString != "0" && this.valueString.ToLower() != "false"); }
             set
             {
-                this.valueObject = null;
                 this.valueString = (value ? "true" : "false");
+                this.valueInstance = null;
+                this.valueInstanceCollection = null;
+                this.valueInstanceDictionary = null;
             }
         }
 
-        public object ValueObject
+        public MetaInstance ValueInstance
         {
-            get { return this.valueObject; }
+            get { return this.valueInstance; }
             set
             {
+                this.valueInstance = value;
                 this.valueString = "";
-                this.valueObject = value;
+                this.valueInstanceCollection = null;
+                this.valueInstanceDictionary = null;
+            }
+        }
+
+        public List<MetaInstanceVariable> ValueInstanceCollection
+        {
+            get { return this.valueInstanceCollection; }
+            set
+            {
+                this.valueInstanceCollection = value;
+                this.valueString = "";
+                this.valueInstance = null;
+                this.valueInstanceDictionary = null;
+            }
+        }
+
+        public Dictionary<MetaInstanceVariable, MetaInstanceVariable> ValueInstanceDictionary
+        {
+            get { return this.valueInstanceDictionary; }
+            set
+            {
+                this.valueInstanceDictionary = value;
+                this.valueString = "";
+                this.valueInstance = null;
+                this.valueInstanceCollection = null;
             }
         }
         #endregion
@@ -76,7 +111,7 @@ namespace ClassTools.Model
             this.type = metaVariable.Type.GetNameWithModule();
             this.name = metaVariable.Name;
             this.valueString = metaVariable.DefaultValue;
-            this.valueObject = null;
+            this.valueInstance = null;
         }
         #endregion
 
@@ -87,7 +122,17 @@ namespace ClassTools.Model
             if (this.type != other.type) return false;
             if (this.name != other.name) return false;
             if (this.valueString != other.valueString) return false;
-            if (this.valueObject != other.valueObject) return false;
+            if (this.valueInstance != null && other.valueInstance != null)
+            {
+                if (!this.valueInstance.Equals(other.valueInstance)) return false;
+            }
+            else if (this.valueInstance != null || other.valueInstance != null) return false;
+
+            if (this.valueInstance != null && other.valueInstance != null)
+            {
+                if (!this.valueInstance.Equals(other.valueInstance)) return false;
+            }
+            else if (this.valueInstance != null || other.valueInstance != null) return false;
             return true;
         }
         #endregion

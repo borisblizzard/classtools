@@ -55,6 +55,7 @@
             this.sfdDatabase = new System.Windows.Forms.SaveFileDialog();
             this.ofdModel = new System.Windows.Forms.OpenFileDialog();
             this.icInstances = new ClassTools.DataMaker.Forms.Controls.InstanceCollection();
+            this.bOk = new System.Windows.Forms.Button();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -253,15 +254,30 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.icInstances.Enabled = false;
             this.icInstances.Location = new System.Drawing.Point(12, 27);
+            this.icInstances.MetaInstances = null;
             this.icInstances.Name = "icInstances";
             this.icInstances.Size = new System.Drawing.Size(612, 440);
             this.icInstances.TabIndex = 1;
             // 
+            // bOk
+            // 
+            this.bOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.bOk.Location = new System.Drawing.Point(549, 473);
+            this.bOk.Name = "bOk";
+            this.bOk.Size = new System.Drawing.Size(75, 23);
+            this.bOk.TabIndex = 2;
+            this.bOk.Text = "OK";
+            this.bOk.UseVisualStyleBackColor = true;
+            this.bOk.Click += new System.EventHandler(this.closeMenuItem_Click);
+            // 
             // InstanceCollection
             // 
+            this.AcceptButton = this.bOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(636, 479);
+            this.CancelButton = this.bOk;
+            this.ClientSize = new System.Drawing.Size(636, 506);
+            this.Controls.Add(this.bOk);
             this.Controls.Add(this.icInstances);
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -309,6 +325,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
         private Controls.InstanceCollection icInstances;
+        private System.Windows.Forms.Button bOk;
     }
 }
 

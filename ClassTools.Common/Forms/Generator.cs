@@ -60,8 +60,12 @@ namespace ClassTools.Common.Forms
             {
                 return;
             }
-            //2DO - implement folder selection dialog
-            string path = "gen";
+            result = DialogResult.Cancel; // TODO - implement folder selection dialog
+            string path = "generated";
+            if (result == DialogResult.Cancel)
+            {
+                return;
+            }
             if (result == DialogResult.Yes)
             {
                 try

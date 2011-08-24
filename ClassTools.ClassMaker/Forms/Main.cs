@@ -14,9 +14,9 @@ namespace ClassTools.ClassMaker.Forms
     public partial class Main : Form
     {
         #region Constants
-        const string savePromptNew = "There are unsaved changes. Do you want to save be save before creating a new model?";
-        const string savePromptOpen = "There are unsaved changes. Do you want to save be save before opening another file?";
-        const string savePromptExit = "There are unsaved changes. Do you want to save be save before existing?";
+        const string savePromptNew = "There are unsaved changes. Do you want to save before creating a new file?";
+        const string savePromptOpen = "There are unsaved changes. Do you want to save before opening another file?";
+        const string savePromptExit = "There are unsaved changes. Do you want to save before exiting?";
 
         const string validationSuccess = "Validation successful.\r\n";
         const string errorClassNameSpaces = "Class '{0}' has spaces in its name!\r\n";
@@ -42,7 +42,7 @@ namespace ClassTools.ClassMaker.Forms
             InitializeComponent();
             this.refreshing = true;
             this.model = new ClassModel();
-            this.lastModel = (ClassModel)Serializer.Clone(this.model);
+            this.lastModel = Serializer.Clone(this.model);
             this.lastFilename = string.Empty;
             this.validationLog = string.Empty;
             this.cbVariableAccess.DataSource = new List<string>(ClassModel.AccessorNames);
@@ -55,7 +55,7 @@ namespace ClassTools.ClassMaker.Forms
                 this.model = Serializer.Deserialize(stream, this.model);
                 this.lastFilename = args[0];
                 stream.Close();
-                this.lastModel = (ClassModel)Serializer.Clone(this.model);
+                this.lastModel = Serializer.Clone(this.model);
             }
             this.refreshing = false;
             this.refresh();
@@ -76,7 +76,7 @@ namespace ClassTools.ClassMaker.Forms
                     this.model = Serializer.Deserialize(stream, this.model);
                     this.lastFilename = ofd.FileName;
                     stream.Close();
-                    this.lastModel = (ClassModel)Serializer.Clone(this.model);
+                    this.lastModel = Serializer.Clone(this.model);
                     this.refresh();
                 }
             }
@@ -109,7 +109,7 @@ namespace ClassTools.ClassMaker.Forms
             if (result != DialogResult.Cancel)
             {
                 this.model = new ClassModel();
-                this.lastModel = (ClassModel)Serializer.Clone(this.model);
+                this.lastModel = Serializer.Clone(this.model);
                 this.lastFilename = string.Empty;
                 this.refresh();
             }
@@ -164,7 +164,7 @@ namespace ClassTools.ClassMaker.Forms
         private void save(Stream stream)
         {
             Serializer.Serialize(stream, this.model);
-            this.lastModel = (ClassModel)Serializer.Clone(this.model);
+            this.lastModel = Serializer.Clone(this.model);
         }
         #endregion
 

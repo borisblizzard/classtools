@@ -42,11 +42,7 @@ namespace ClassTools.Model
         {
             if (!base.Equals(other)) return false;
             if (this.className != other.className) return false;
-            if (this.instanceVariables.Count != other.instanceVariables.Count) return false;
-            for (int i = 0; i < this.instanceVariables.Count; i++)
-            {
-                if (!this.instanceVariables[i].Equals(other.instanceVariables[i])) return false;
-            }
+            if (!Utility.ListEquals(this.instanceVariables, other.instanceVariables)) return false;
             return true;
         }
         #endregion
