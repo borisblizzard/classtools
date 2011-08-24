@@ -59,8 +59,8 @@
             this.lbInstances = new System.Windows.Forms.ListBox();
             this.ofdModel = new System.Windows.Forms.OpenFileDialog();
             this.gbInstanceVariables = new System.Windows.Forms.GroupBox();
-            this.instanceVariablesBox1 = new ClassTools.DataMaker.Forms.InstanceVariablesBox();
             this.ivbInstanceVariables = new ClassTools.DataMaker.Forms.InstanceVariablesBox();
+            this.instanceVariablesBox1 = new ClassTools.DataMaker.Forms.InstanceVariablesBox();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.gbInstances.SuspendLayout();
@@ -295,6 +295,7 @@
             this.lbInstances.Name = "lbInstances";
             this.lbInstances.Size = new System.Drawing.Size(180, 381);
             this.lbInstances.TabIndex = 0;
+            this.lbInstances.SelectedIndexChanged += new System.EventHandler(this.lbInstances_SelectedIndexChanged);
             // 
             // ofdModel
             // 
@@ -316,19 +317,19 @@
             this.gbInstanceVariables.TabStop = false;
             this.gbInstanceVariables.Text = "Instance Variables";
             // 
-            // instanceVariablesBox1
-            // 
-            this.instanceVariablesBox1.Location = new System.Drawing.Point(3, 16);
-            this.instanceVariablesBox1.Name = "instanceVariablesBox1";
-            this.instanceVariablesBox1.Size = new System.Drawing.Size(500, 400);
-            this.instanceVariablesBox1.TabIndex = 0;
-            // 
             // ivbInstanceVariables
             // 
             this.ivbInstanceVariables.Location = new System.Drawing.Point(6, 20);
             this.ivbInstanceVariables.Name = "ivbInstanceVariables";
             this.ivbInstanceVariables.Size = new System.Drawing.Size(500, 400);
             this.ivbInstanceVariables.TabIndex = 1;
+            // 
+            // instanceVariablesBox1
+            // 
+            this.instanceVariablesBox1.Location = new System.Drawing.Point(3, 16);
+            this.instanceVariablesBox1.Name = "instanceVariablesBox1";
+            this.instanceVariablesBox1.Size = new System.Drawing.Size(500, 400);
+            this.instanceVariablesBox1.TabIndex = 0;
             // 
             // FormInstances
             // 

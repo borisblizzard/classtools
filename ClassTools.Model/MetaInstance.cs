@@ -63,9 +63,9 @@ namespace ClassTools.Model
             string result = this.className;
             foreach (MetaInstanceVariable variable in this.instanceVariables)
             {
-                if ((variable.Name == "Name" || variable.Name == "name") && variable.Value.Trim('"') != string.Empty)
+                if ((variable.Name == "Name" || variable.Name == "name") && variable.ValueString.Trim('"') != string.Empty)
                 {
-                    return variable.Value.Trim('"');
+                    return variable.ValueString.Trim('"');
                 }
             }
             return this.className;

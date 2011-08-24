@@ -31,7 +31,7 @@ namespace ClassTools.DataMaker.Forms
             this.metaClass = metaClass;
             this.metaType = metaType;
             this.ivbInstanceVariables.MetaClass = metaClass;
-            //this.createInstanceVariablesControls();
+            this.ivbInstanceVariables.DataContainer = this.lbInstances;
             this.refresh();
         }
         #endregion
@@ -150,6 +150,11 @@ namespace ClassTools.DataMaker.Forms
             }
         }
         #endregion
+
+        private void lbInstances_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.refresh();
+        }
 
     }
 }

@@ -8,7 +8,8 @@ namespace ClassTools.Model
         #region Fields
         protected string type;
         protected string name;
-        protected string value;
+        protected string valueString;
+        protected object valueObject;
         #endregion
 
         #region Properties
@@ -22,10 +23,49 @@ namespace ClassTools.Model
             get { return this.name; }
         }
 
-        public string Value
+        public string ValueString
         {
-            get { return this.value; }
-            set { this.value  = value; }
+            get { return this.valueString.Trim('"'); }
+            set
+            {
+                this.valueObject = null;
+                this.valueString = value;
+            }
+        }
+
+        public decimal ValueDecimal
+        {
+            get
+            {
+                decimal result = decimal.Zero;
+                decimal.TryParse(this.valueString, out result);
+                return result;
+            }
+            set
+            {
+                this.valueObject = null;
+                this.valueString = value.ToString().Replace(',', '.');
+            }
+        }
+
+        public bool ValueBool
+        {
+            get { return (this.valueString != "0" && this.valueString.ToLower() != "false"); }
+            set
+            {
+                this.valueObject = null;
+                this.valueString = (value ? "true" : "false");
+            }
+        }
+
+        public object ValueObject
+        {
+            get { return this.valueObject; }
+            set
+            {
+                this.valueString = "";
+                this.valueObject = value;
+            }
         }
         #endregion
 
@@ -35,7 +75,8 @@ namespace ClassTools.Model
         {
             this.type = metaVariable.Type.GetNameWithModule();
             this.name = metaVariable.Name;
-            this.value = metaVariable.DefaultValue;
+            this.valueString = metaVariable.DefaultValue;
+            this.valueObject = null;
         }
         #endregion
 
@@ -45,7 +86,8 @@ namespace ClassTools.Model
             if (!base.Equals(other)) return false;
             if (this.type != other.type) return false;
             if (this.name != other.name) return false;
-            if (this.value != other.value) return false;
+            if (this.valueString != other.valueString) return false;
+            if (this.valueObject != other.valueObject) return false;
             return true;
         }
         #endregion
@@ -56,5 +98,6 @@ namespace ClassTools.Model
             return (this.type + " " + this.name);
         }
         #endregion
+
     }
 }

@@ -36,7 +36,6 @@ namespace ClassTools.DataMaker.Forms
             this.lastFilename = "";
             this.classModel = null;
             this.newMenuItem.Enabled = false;
-            this.openMenuItem.Enabled = false;
             this.saveMenuItem.Enabled = false;
             this.saveAsMenuItem.Enabled = false;
             this.bEdit.Enabled = false;
@@ -57,7 +56,11 @@ namespace ClassTools.DataMaker.Forms
                     ModelDatabase newDatabase = Serializer.Deserialize(stream, this.database);
                     this.lastFilename = this.ofdDatabase.FileName;
                     stream.Close();
-                    if (!this.database.Model.Equals(this.classModel))
+                    if (this.classModel == null)
+                    {
+                        this.classModel = newDatabase.Model;
+                    }
+                    else if (!newDatabase.Model.Equals(this.classModel))
                     {
                         result = MessageBox.Show(warningModelNotMatching, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     }
@@ -218,7 +221,6 @@ namespace ClassTools.DataMaker.Forms
             if (this.classModel != null)
             {
                 this.newMenuItem.Enabled = true;
-                this.openMenuItem.Enabled = true;
                 this.saveMenuItem.Enabled = true;
                 this.saveAsMenuItem.Enabled = true;
             }
@@ -249,6 +251,7 @@ namespace ClassTools.DataMaker.Forms
         }
         #endregion
 
+        #region Tools
         private void generateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormGenerator f = new FormGenerator();
@@ -284,6 +287,7 @@ namespace ClassTools.DataMaker.Forms
                 }
             }
         }
+        #endregion
 
     }
 }

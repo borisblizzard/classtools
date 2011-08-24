@@ -658,6 +658,7 @@ namespace ClassTools.ClassMaker.Forms
             }
             MetaClass classe = (MetaClass)this.lbClasses.SelectedItem;
             classe.Module = this.tbClassModule.Text;
+            this.refresh();
         }
 
         private void cbInheritance_CheckedChanged(object sender, EventArgs e)
