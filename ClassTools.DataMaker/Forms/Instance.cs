@@ -34,6 +34,7 @@ namespace ClassTools.DataMaker.Forms
             this.metaClass = metaClass;
             this.ivbInstanceVariables.SetData(this, this.database, this.metaClass);
             this.ivbInstanceVariables.MetaInstance = this.metaInstance;
+            this.cbExists.Checked = (this.metaInstance != null);
             this.RefreshData();
         }
         #endregion

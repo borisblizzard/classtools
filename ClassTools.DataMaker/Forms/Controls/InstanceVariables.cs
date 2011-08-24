@@ -98,7 +98,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Size = new Size(100, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = int.MaxValue;
                                     numericUpDown.Minimum = int.MinValue;
@@ -111,7 +111,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Size = new Size(100, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = uint.MaxValue;
                                     numericUpDown.Minimum = uint.MinValue;
@@ -124,7 +124,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Size = new Size(100, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = short.MaxValue;
                                     numericUpDown.Minimum = short.MinValue;
@@ -137,7 +137,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Size = new Size(100, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = ushort.MaxValue;
                                     numericUpDown.Minimum = ushort.MinValue;
@@ -150,7 +150,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Size = new Size(100, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = long.MaxValue;
                                     numericUpDown.Minimum = long.MinValue;
@@ -163,7 +163,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Size = new Size(100, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = ulong.MaxValue;
                                     numericUpDown.Minimum = ulong.MinValue;
@@ -187,7 +187,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
-                                    numericUpDown.Size = new Size(200, 20);
+                                    numericUpDown.Size = new Size(100, 20);
                                     numericUpDown.Location = new Point(5, OFFSET + i * 26);
                                     numericUpDown.Maximum = 255;
                                     numericUpDown.Minimum = 0;
@@ -420,6 +420,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                 if (button.Name == variable.ToString())
                 {
                     Instance form = new Instance(this.database, (MetaClass)this.metaClass.AllVariables[i].Type, (MetaInstance)variable.ValueObject);
+                    form.Text = variable.ToString();
                     form.ShowDialog();
                     variable.ValueObject = form.MetaInstance;
                     this.RefreshData();
@@ -440,6 +441,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                     if (this.metaClass.AllVariables[i].Type.IsClass)
                     {
                         Forms.InstanceCollection form = new Forms.InstanceCollection(this.database, (MetaClass)this.metaClass.AllVariables[i].Type, (List<MetaInstance>)variable.ValueObject);
+                        form.Text = variable.ToString();
                         form.ShowDialog();
                     }
                     else

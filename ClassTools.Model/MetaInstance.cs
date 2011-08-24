@@ -54,7 +54,7 @@ namespace ClassTools.Model
         #region Methods
         public void ReplaceInstanceVariableAt(int index, MetaInstanceVariable instanceVariable)
         {
-            this.InstanceVariables[index] = instanceVariable;
+            this.instanceVariables[index] = instanceVariable;
             instanceVariable.Database = this.database;
         }
 
@@ -71,5 +71,6 @@ namespace ClassTools.Model
             return this.className;
         }
         #endregion
+
     }
 }

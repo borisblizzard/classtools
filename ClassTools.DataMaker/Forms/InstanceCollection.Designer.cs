@@ -319,6 +319,7 @@
             // 
             // ivcInstanceVariables
             // 
+            this.ivcInstanceVariables.Enabled = false;
             this.ivcInstanceVariables.Location = new System.Drawing.Point(6, 20);
             this.ivcInstanceVariables.Name = "ivcInstanceVariables";
             this.ivcInstanceVariables.Size = new System.Drawing.Size(500, 400);
@@ -326,12 +327,13 @@
             // 
             // instanceVariablesBox1
             // 
+            this.instanceVariablesBox1.Enabled = false;
             this.instanceVariablesBox1.Location = new System.Drawing.Point(3, 16);
             this.instanceVariablesBox1.Name = "instanceVariablesBox1";
             this.instanceVariablesBox1.Size = new System.Drawing.Size(500, 400);
             this.instanceVariablesBox1.TabIndex = 0;
             // 
-            // FormInstanceCollection
+            // InstanceCollection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -344,7 +346,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormInstanceCollection";
+            this.Name = "InstanceCollection";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

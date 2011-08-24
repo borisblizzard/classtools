@@ -49,12 +49,15 @@
             this.ofdDatabase = new System.Windows.Forms.OpenFileDialog();
             this.sfdDatabase = new System.Windows.Forms.SaveFileDialog();
             this.ofdModel = new System.Windows.Forms.OpenFileDialog();
+            this.instanceCollection1 = new ClassTools.DataMaker.Forms.Controls.InstanceCollection();
             this.gbClasses.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbClasses
             // 
+            this.gbClasses.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.gbClasses.Controls.Add(this.bEdit);
             this.gbClasses.Controls.Add(this.lbClasses);
             this.gbClasses.Location = new System.Drawing.Point(12, 38);
@@ -66,6 +69,7 @@
             // 
             // bEdit
             // 
+            this.bEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.bEdit.Location = new System.Drawing.Point(229, 433);
             this.bEdit.Name = "bEdit";
             this.bEdit.Size = new System.Drawing.Size(75, 23);
@@ -76,6 +80,9 @@
             // 
             // lbClasses
             // 
+            this.lbClasses.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lbClasses.FormattingEnabled = true;
             this.lbClasses.Location = new System.Drawing.Point(7, 20);
             this.lbClasses.Name = "lbClasses";
@@ -90,7 +97,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(334, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1054, 24);
             this.menuStrip.TabIndex = 1;
             // 
             // fileToolStripMenuItem
@@ -224,18 +231,26 @@
             this.ofdModel.Filter = "Class Maker Model files (*.cmm)|*.cmm";
             this.ofdModel.Title = "Open Class Model";
             // 
-            // FormMain
+            // instanceCollection1
+            // 
+            this.instanceCollection1.Location = new System.Drawing.Point(329, 38);
+            this.instanceCollection1.Name = "instanceCollection1";
+            this.instanceCollection1.Size = new System.Drawing.Size(713, 439);
+            this.instanceCollection1.TabIndex = 2;
+            // 
+            // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 513);
+            this.ClientSize = new System.Drawing.Size(1054, 513);
+            this.Controls.Add(this.instanceCollection1);
             this.Controls.Add(this.gbClasses);
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
-            this.Name = "FormMain";
+            this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Data Maker";
             this.gbClasses.ResumeLayout(false);
@@ -268,6 +283,7 @@
         private System.Windows.Forms.ToolStripMenuItem importMenuItem;
         private System.Windows.Forms.ListBox lbClasses;
         private System.Windows.Forms.Button bEdit;
+        private Controls.InstanceCollection instanceCollection1;
     }
 }
 

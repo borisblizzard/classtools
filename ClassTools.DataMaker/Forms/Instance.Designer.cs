@@ -102,6 +102,7 @@
             // 
             // ivbInstanceVariables
             // 
+            this.ivbInstanceVariables.Enabled = false;
             this.ivbInstanceVariables.Location = new System.Drawing.Point(6, 20);
             this.ivbInstanceVariables.Name = "ivbInstanceVariables";
             this.ivbInstanceVariables.Size = new System.Drawing.Size(500, 400);
@@ -109,6 +110,7 @@
             // 
             // instanceVariablesBox1
             // 
+            this.instanceVariablesBox1.Enabled = false;
             this.instanceVariablesBox1.Location = new System.Drawing.Point(3, 16);
             this.instanceVariablesBox1.Name = "instanceVariablesBox1";
             this.instanceVariablesBox1.Size = new System.Drawing.Size(500, 400);
@@ -125,7 +127,7 @@
             this.cbExists.UseVisualStyleBackColor = true;
             this.cbExists.CheckedChanged += new System.EventHandler(this.cbExists_CheckedChanged);
             // 
-            // FormObject
+            // Instance
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -138,11 +140,11 @@
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormObject";
+            this.Name = "Instance";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Instances";
+            this.Text = "Instance";
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.gbInstanceVariables.ResumeLayout(false);
