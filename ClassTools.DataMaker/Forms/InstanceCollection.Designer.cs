@@ -253,7 +253,6 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.icInstances.Enabled = false;
             this.icInstances.Location = new System.Drawing.Point(12, 27);
-            this.icInstances.MetaInstances = null;
             this.icInstances.Name = "icInstances";
             this.icInstances.Size = new System.Drawing.Size(612, 440);
             this.icInstances.TabIndex = 1;

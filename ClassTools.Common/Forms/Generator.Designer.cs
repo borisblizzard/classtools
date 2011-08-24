@@ -1,6 +1,6 @@
 ﻿namespace ClassTools.Common.Forms
 {
-    partial class FormGenerator
+    partial class Generator
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.gbGenerators = new System.Windows.Forms.GroupBox();
-            this.lbGenerators = new System.Windows.Forms.ListBox();
+            this.lbPlugins = new System.Windows.Forms.ListBox();
             this.bCancel = new System.Windows.Forms.Button();
             this.bOk = new System.Windows.Forms.Button();
             this.gbGenerators.SuspendLayout();
@@ -40,7 +40,7 @@
             this.gbGenerators.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbGenerators.Controls.Add(this.lbGenerators);
+            this.gbGenerators.Controls.Add(this.lbPlugins);
             this.gbGenerators.Location = new System.Drawing.Point(12, 12);
             this.gbGenerators.Name = "gbGenerators";
             this.gbGenerators.Size = new System.Drawing.Size(526, 345);
@@ -48,16 +48,16 @@
             this.gbGenerators.TabStop = false;
             this.gbGenerators.Text = "Generators";
             // 
-            // lbGenerators
+            // lbPlugins
             // 
-            this.lbGenerators.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.lbPlugins.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbGenerators.FormattingEnabled = true;
-            this.lbGenerators.Location = new System.Drawing.Point(7, 20);
-            this.lbGenerators.Name = "lbGenerators";
-            this.lbGenerators.Size = new System.Drawing.Size(513, 316);
-            this.lbGenerators.TabIndex = 0;
+            this.lbPlugins.FormattingEnabled = true;
+            this.lbPlugins.Location = new System.Drawing.Point(7, 20);
+            this.lbPlugins.Name = "lbPlugins";
+            this.lbPlugins.Size = new System.Drawing.Size(513, 316);
+            this.lbPlugins.TabIndex = 0;
             // 
             // bCancel
             // 
@@ -81,7 +81,7 @@
             this.bOk.UseVisualStyleBackColor = true;
             this.bOk.Click += new System.EventHandler(this.bOk_Click);
             // 
-            // FormGenerator
+            // Generator
             // 
             this.AcceptButton = this.bOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -94,7 +94,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormGenerator";
+            this.Name = "Generator";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -109,6 +109,6 @@
         private System.Windows.Forms.GroupBox gbGenerators;
         private System.Windows.Forms.Button bCancel;
         private System.Windows.Forms.Button bOk;
-        private System.Windows.Forms.ListBox lbGenerators;
+        private System.Windows.Forms.ListBox lbPlugins;
     }
 }

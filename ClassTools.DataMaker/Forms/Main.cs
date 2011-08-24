@@ -126,7 +126,7 @@ namespace ClassTools.DataMaker.Forms
 
         private void aboutMenuItem_Click(object sender, EventArgs e)
         {
-            FormAbout f = new FormAbout();
+            About f = new About();
             f.ShowDialog();
         }
 
@@ -265,39 +265,43 @@ namespace ClassTools.DataMaker.Forms
         #endregion
 
         #region Tools
+        private void copyMenuItem_Click(object sender, EventArgs e)
+        {
+            this.icInstances.CopyInstance();
+        }
+
+        private void pasteMenuItem_Click(object sender, EventArgs e)
+        {
+            this.icInstances.PasteInstance();
+        }
+
+        private void addNewMenuItem_Click(object sender, EventArgs e)
+        {
+            this.icInstances.AddNewInstance();
+        }
+
+        private void deleteMenuItem_Click(object sender, EventArgs e)
+        {
+            this.icInstances.DeleteInstance();
+        }
+
+        private void moveUpMenuItem_Click(object sender, EventArgs e)
+        {
+            this.icInstances.MoveUpInstance();
+        }
+
+        private void moveDownMenuItem_Click(object sender, EventArgs e)
+        {
+            this.icInstances.MoveDownInstance();
+        }
+
         private void generateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormGenerator f = new FormGenerator();
+            Generator f = new Generator();
             DialogResult result = f.ShowDialog();
             if (result == DialogResult.OK)
             {
-                IPlugin generator = f.Generator;
-                if (generator != null)
-                {
-                    result = MessageBox.Show("Run generator in safe-mode?", generator.ToString() + " ready",
-                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
-                    //2DO - implement folder selection dialog
-                    if (result == DialogResult.Yes)
-                    {
-                        try
-                        {
-                            string message = generator.Execute(null, this.database, "gen");
-                            MessageBox.Show(message, generator.ToString() + " is done",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message, generator.ToString() + " encountered an exception",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                    else if (result == DialogResult.No)
-                    {
-                        string message = generator.Execute(null, this.database, "gen");
-                        MessageBox.Show(message, generator.ToString() + " is done",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
+                f.Execute(null, this.database);
             }
         }
         #endregion

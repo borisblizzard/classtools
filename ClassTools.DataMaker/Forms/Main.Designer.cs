@@ -50,6 +50,15 @@
             this.sfdDatabase = new System.Windows.Forms.SaveFileDialog();
             this.ofdModel = new System.Windows.Forms.OpenFileDialog();
             this.icInstances = new ClassTools.DataMaker.Forms.Controls.InstanceCollection();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.addNewMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.moveUpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveDownMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbClasses.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -94,6 +103,7 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -234,10 +244,88 @@
             // 
             // icInstances
             // 
+            this.icInstances.Enabled = false;
             this.icInstances.Location = new System.Drawing.Point(254, 38);
             this.icInstances.Name = "icInstances";
             this.icInstances.Size = new System.Drawing.Size(618, 440);
             this.icInstances.TabIndex = 2;
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyMenuItem,
+            this.pasteMenuItem,
+            this.toolStripSeparator7,
+            this.addNewMenuItem,
+            this.deleteMenuItem,
+            this.toolStripSeparator6,
+            this.moveUpMenuItem,
+            this.moveDownMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "&Edit";
+            // 
+            // copyMenuItem
+            // 
+            this.copyMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyMenuItem.Image")));
+            this.copyMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.copyMenuItem.Name = "copyMenuItem";
+            this.copyMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.copyMenuItem.Text = "&Copy";
+            this.copyMenuItem.Click += new System.EventHandler(this.copyMenuItem_Click);
+            // 
+            // pasteMenuItem
+            // 
+            this.pasteMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pasteMenuItem.Image")));
+            this.pasteMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pasteMenuItem.Name = "pasteMenuItem";
+            this.pasteMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.pasteMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.pasteMenuItem.Text = "&Paste";
+            this.pasteMenuItem.Click += new System.EventHandler(this.pasteMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(199, 6);
+            // 
+            // addNewMenuItem
+            // 
+            this.addNewMenuItem.Name = "addNewMenuItem";
+            this.addNewMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.addNewMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.addNewMenuItem.Text = "Add new";
+            this.addNewMenuItem.Click += new System.EventHandler(this.addNewMenuItem_Click);
+            // 
+            // deleteMenuItem
+            // 
+            this.deleteMenuItem.Name = "deleteMenuItem";
+            this.deleteMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.deleteMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.deleteMenuItem.Text = "Delete";
+            this.deleteMenuItem.Click += new System.EventHandler(this.deleteMenuItem_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(199, 6);
+            // 
+            // moveUpMenuItem
+            // 
+            this.moveUpMenuItem.Name = "moveUpMenuItem";
+            this.moveUpMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Up)));
+            this.moveUpMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.moveUpMenuItem.Text = "Move up";
+            this.moveUpMenuItem.Click += new System.EventHandler(this.moveUpMenuItem_Click);
+            // 
+            // moveDownMenuItem
+            // 
+            this.moveDownMenuItem.Name = "moveDownMenuItem";
+            this.moveDownMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
+            this.moveDownMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.moveDownMenuItem.Text = "Move down";
+            this.moveDownMenuItem.Click += new System.EventHandler(this.moveDownMenuItem_Click);
             // 
             // Main
             // 
@@ -285,6 +373,15 @@
         private System.Windows.Forms.ListBox lbClasses;
         private System.Windows.Forms.Button bEdit;
         private Controls.InstanceCollection icInstances;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pasteMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem addNewMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem moveUpMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveDownMenuItem;
     }
 }
 

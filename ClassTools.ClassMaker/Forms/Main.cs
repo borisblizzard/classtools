@@ -427,43 +427,17 @@ namespace ClassTools.ClassMaker.Forms
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormAbout f = new FormAbout();
+            About f = new About();
             f.ShowDialog();
         }
 
         private void generateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormGenerator f = new FormGenerator();
+            Generator f = new Generator();
             DialogResult result = f.ShowDialog();
             if (result == DialogResult.OK)
             {
-                IPlugin generator = f.Generator;
-                if (generator != null)
-                {
-                    result = MessageBox.Show("Run generator in safe-mode?", generator.ToString() + " ready",
-                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
-                    //2DO - implement folder selection dialog
-                    if (result == DialogResult.Yes)
-                    {
-                        try
-                        {
-                            string message = generator.Execute(this.model, null, "gen");
-                            MessageBox.Show(message, generator.ToString() + " is done",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message, generator.ToString() + " encountered an exception",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                    else if (result == DialogResult.No)
-                    {
-                        string message = generator.Execute(this.model, null, "gen");
-                        MessageBox.Show(message, generator.ToString() + " is done",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
+                f.Execute(this.model, null);
             }
         }
 
