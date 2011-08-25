@@ -40,7 +40,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassTools.Model\ClassTools.Data.csproj">
+    <ProjectReference Include="..\ClassTools.Data\ClassTools.Data.csproj">
       <Project>{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}</Project>
       <Name>ClassTools.Data</Name>
     </ProjectReference>

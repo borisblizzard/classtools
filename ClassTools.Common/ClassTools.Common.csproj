@@ -61,13 +61,13 @@
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClassTools.Data\ClassTools.Data.csproj">
+      <Project>{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}</Project>
+      <Name>ClassTools.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ClassTools.IPlugin\ClassTools.IPlugin.csproj">
       <Project>{F41C29FB-69CD-42DB-9CE5-499DFD92FCD5}</Project>
       <Name>ClassTools.IPlugin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ClassTools.Model\ClassTools.Data.csproj">
-      <Project>{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}</Project>
-      <Name>ClassTools.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

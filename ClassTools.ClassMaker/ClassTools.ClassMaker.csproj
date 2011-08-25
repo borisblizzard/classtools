@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ClassTools.ClassMaker</RootNamespace>
-    <AssemblyName>Class Tools Class Maker</AssemblyName>
+    <AssemblyName>ClassMaker</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>true</IsWebBootstrapper>
@@ -143,13 +143,13 @@
       <Project>{1B01D601-63DC-4650-A07B-CFCD78FA9B7F}</Project>
       <Name>ClassTools.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ClassTools.Data\ClassTools.Data.csproj">
+      <Project>{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}</Project>
+      <Name>ClassTools.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ClassTools.IPlugin\ClassTools.IPlugin.csproj">
       <Project>{F41C29FB-69CD-42DB-9CE5-499DFD92FCD5}</Project>
       <Name>ClassTools.IPlugin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ClassTools.Model\ClassTools.Data.csproj">
-      <Project>{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}</Project>
-      <Name>ClassTools.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
