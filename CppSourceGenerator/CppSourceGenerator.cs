@@ -96,7 +96,7 @@ namespace ClassTools
             }
             this.writeLine(classDef);
             this.writeLine("{");
-            this.writeLine(Constants.AccessNames[(int)EAccess.Public]);
+            this.writeLine(Constants.NAMES_ACCESS[(int)EAccess.Public]);
             this.increaseIndent();
             if (metaClass.CanSerialize)
             {
@@ -126,7 +126,7 @@ namespace ClassTools
             EAccess accessType;
             List<MetaVariable> metaVariables;
             List<MetaMethod> metaMethods;
-            for (int i = 1; i < Constants.AccessNames.Length; i++)
+            for (int i = 1; i < Constants.NAMES_ACCESS.Count; i++)
             {
                 accessType = (EAccess)i;
                 metaVariables = metaClass.Variables.FindAll(v => v.Access == accessType);
@@ -134,7 +134,7 @@ namespace ClassTools
                 if (metaVariables.Count > 0 || metaMethods.Count > 0)
                 {
                     this.decreaseIndent();
-                    this.writeLine("{0}:", Constants.AccessNames[i]);
+                    this.writeLine("{0}:", Constants.NAMES_ACCESS[i]);
                     this.increaseIndent();
                     this.generateHeaderVariables(metaVariables);
                     this.generateHeaderMethods(metaMethods);
