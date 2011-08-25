@@ -87,12 +87,15 @@
   <ItemGroup>
     <Content Include="ClassTools.IPlugin.dll">
     </Content>
-    <Content Include="ClassTools.Model.dll">
+    <Content Include="ClassTools.Data.dll">
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="ClassTools.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ClassTools.Data.dll</HintPath>
+    </Reference>
     <Reference Include="ClassTools.IPlugin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="ClassTools.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

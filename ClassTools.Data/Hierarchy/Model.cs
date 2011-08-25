@@ -106,7 +106,7 @@ namespace ClassTools.Data.Hierarchy
             this.classes[index] = metaClass;
             this.types[otherIndex] = metaClass;
             metaClass.Model = this;
-            switch (metaClass.TypeCategory)
+            switch (metaClass.Category)
             {
                 case ECategory.Normal:
                     metaClass.SubType1 = null;
@@ -211,7 +211,7 @@ namespace ClassTools.Data.Hierarchy
             this.types[index] = metaType;
             this.types[otherIndex] = metaType;
             metaType.Model = this;
-            switch (metaType.TypeCategory)
+            switch (metaType.Category)
             {
                 case ECategory.Normal:
                     metaType.SubType1 = null;

@@ -239,7 +239,7 @@ namespace ClassTools.ClassMaker.Forms
             {
                 this.tbVariableName.Text = variable.Name;
                 this.cbVariableType.SelectedItem = variable.Type;
-                this.cbVariableAccess.SelectedIndex = (int)variable.AccessType;
+                this.cbVariableAccess.SelectedIndex = (int)variable.Access;
                 this.tbVariableDefault.Text = variable.DefaultValue;
                 this.cbxVariableGetter.Checked = variable.Getter;
                 this.cbxVariableSetter.Checked = variable.Setter;
@@ -278,7 +278,7 @@ namespace ClassTools.ClassMaker.Forms
             {
                 this.tbMethodName.Text = metaMethod.Name;
                 this.cbMethodType.SelectedItem = metaMethod.Type;
-                this.cbMethodAccess.SelectedIndex = (int)metaMethod.AccessType;
+                this.cbMethodAccess.SelectedIndex = (int)metaMethod.Access;
                 this.tbMethodPrefix.Text = metaMethod.Prefix;
             }
             else
@@ -709,7 +709,7 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             MetaVariable variable = (MetaVariable)this.lbVariables.SelectedItem;
-            variable.AccessType = (EAccess)this.cbVariableAccess.SelectedIndex;
+            variable.Access = (EAccess)this.cbVariableAccess.SelectedIndex;
         }
 
         private void tbVariableDefault_TextChanged(object sender, EventArgs e)
@@ -805,7 +805,7 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             MetaMethod metaMethod = (MetaMethod)this.lbMethods.SelectedItem;
-            metaMethod.AccessType = (EAccess)this.cbMethodAccess.SelectedIndex;
+            metaMethod.Access = (EAccess)this.cbMethodAccess.SelectedIndex;
         }
 
         private void tbMethodPrefix_TextChanged(object sender, EventArgs e)

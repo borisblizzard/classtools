@@ -8,7 +8,7 @@ namespace ClassTools.Data.Hierarchy
     {
         #region Fields
         protected MetaType type;
-        protected EAccess accessType;
+        protected EAccess access;
         #endregion
 
         #region Properties
@@ -18,10 +18,10 @@ namespace ClassTools.Data.Hierarchy
             set { this.type = value; }
         }
 
-        public EAccess AccessType
+        public EAccess Access
         {
-            get { return this.accessType; }
-            set { this.accessType = value; }
+            get { return this.access; }
+            set { this.access = value; }
         }
         #endregion
 
@@ -30,7 +30,7 @@ namespace ClassTools.Data.Hierarchy
             : base(model, name)
         {
             this.type = model.Types[0];
-            this.accessType = EAccess.Public;
+            this.access = EAccess.Public;
         }
         #endregion
 
@@ -39,7 +39,7 @@ namespace ClassTools.Data.Hierarchy
         {
             if (!base.Equals(other)) return false;
             if (!this.type.Equals(other.type)) return false;
-            if (this.accessType != other.accessType) return false;
+            if (this.access != other.access) return false;
             return true;
         }
         #endregion

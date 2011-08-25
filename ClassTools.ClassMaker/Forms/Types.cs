@@ -56,7 +56,7 @@ namespace ClassTools.ClassMaker.Forms
             this.tbSuffix2.Text = metaType.Suffix2;
             if (enabled)
             {
-                this.cbTypeCategory.SelectedIndex = (int)metaType.TypeCategory;
+                this.cbTypeCategory.SelectedIndex = (int)metaType.Category;
                 switch (this.cbTypeCategory.SelectedIndex)
                 {
                     case (int)ECategory.Normal:

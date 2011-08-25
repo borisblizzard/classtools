@@ -36,16 +36,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClassTools.IPlugin.dll" />
-    <Content Include="ClassTools.Model.dll" />
+    <Content Include="ClassTools.Data.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="ClassTools.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ClassTools.Data.dll</HintPath>
+    </Reference>
     <Reference Include="ClassTools.IPlugin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\ClassTools.IPlugin.dll</HintPath>
-    </Reference>
-    <Reference Include="ClassTools.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\ClassTools.Model.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

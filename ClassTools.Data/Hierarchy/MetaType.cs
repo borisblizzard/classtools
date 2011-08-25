@@ -37,7 +37,7 @@ namespace ClassTools.Data.Hierarchy
             set { this.suffix2 = value; }
         }
 
-        public ECategory TypeCategory
+        public ECategory Category
         {
             get
             {
@@ -89,13 +89,13 @@ namespace ClassTools.Data.Hierarchy
         public bool Equals(MetaType other)
         {
             if (!base.Equals(other)) return false;
-            if (this.TypeCategory != other.TypeCategory) return false;
-            if (this.TypeCategory == ECategory.Collection)
+            if (this.Category != other.Category) return false;
+            if (this.Category == ECategory.Collection)
             {
                 if (!this.subType1.Equals(other.subType1)) return false;
                 if (this.suffix1 != other.suffix1) return false;
             }
-            if (this.TypeCategory == ECategory.Dictionary)
+            if (this.Category == ECategory.Dictionary)
             {
                 if (!this.subType1.Equals(other.subType1)) return false;
                 if (this.suffix1 != other.suffix1) return false;
@@ -123,7 +123,7 @@ namespace ClassTools.Data.Hierarchy
         public virtual string GetNameWithModule(string separator)
         {
             string result = this.name;
-            switch (this.TypeCategory)
+            switch (this.Category)
             {
                 case ECategory.Collection:
                     result += "<" + this.subType1.GetNameWithModule(separator) + this.suffix1 + ">";
@@ -143,7 +143,7 @@ namespace ClassTools.Data.Hierarchy
         public override string ToString()
         {
             string result = this.name;
-            switch (this.TypeCategory)
+            switch (this.Category)
             {
                 case ECategory.Collection:
                     result += "<" + this.subType1.ToString() + this.suffix1 + ">";

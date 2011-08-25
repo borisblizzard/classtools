@@ -1,7 +1,9 @@
 ﻿using System.IO;
 using System.Collections.Generic;
 
-using ClassTools.Model;
+using ClassTools.Data;
+using ClassTools.Data.Database;
+using ClassTools.Data.Hierarchy;
 
 namespace ClassTools
 {
@@ -32,7 +34,7 @@ namespace ClassTools
         public void Create() { }
         public void Destroy() { }
 
-        public string Execute(ClassModel model, ModelDatabase database, string path)
+        public string Execute(Model model, Repository repository, string path)
         {
             if (!Directory.Exists(path))
             {
@@ -40,11 +42,12 @@ namespace ClassTools
             }
             this.writer = new StreamWriter(new FileStream(string.Format("{0}/CppBinSerializerGenerator.cpp", path), FileMode.Create));
             this.indent = 0;
-            foreach (MetaClass classe in model.Classes)
+            foreach (MetaClass metaClass in model.Classes)
             {
-                if (classe.CanSerialize)
+                if (metaClass.CanSerialize)
                 {
-                    this.generateSerializeClass(classe);
+                    this.generateSerializeClass(metaClass);
+                    this.generateDeserializeClass(metaClass);
                 }
             }
             this.writer.Close();
@@ -54,21 +57,21 @@ namespace ClassTools
         #endregion
 
         #region Generate
-        private void generateSerializeClass(MetaClass classe)
+        private void generateSerializeClass(MetaClass metaClass)
         {
-            this.writeLine("namespace {0}", classe.Module);
+            this.writeLine("namespace {0}", metaClass.Module);
             this.openBrackets();
-            this.writeLine("void {0}::serialize(hfile* file)", classe.Name);
+            this.writeLine("void {0}::serialize(hfile* file)", metaClass.Name);
             this.openBrackets();
-            if (classe.HasSuperClass)
+            if (metaClass.HasSuperClass)
             {
-                this.generateSerialize("{0}::", classe.SuperClass.Name);
+                this.generateSerialize("{0}::", metaClass.SuperClass.Name);
             }
-            foreach (MetaVariable variable in classe.Variables)
+            foreach (MetaVariable metaVariable in metaClass.Variables)
             {
-                if (variable.CanSerialize)
+                if (metaVariable.CanSerialize)
                 {
-                    this.generateSerializeVariable(variable);
+                    this.generateSerializeVariable(metaVariable);
                 }
             }
             this.closeBrackets();
@@ -76,24 +79,24 @@ namespace ClassTools
             this.writeLine();
         }
 
-        private void generateDeserializeClass(MetaClass classe)
+        private void generateDeserializeClass(MetaClass metaClass)
         {
-            this.writeLine("namespace {0}", classe.Module);
+            this.writeLine("namespace {0}", metaClass.Module);
             this.openBrackets();
-            this.writeLine("void {0}::deserialize(hfile* file)", classe.Name);
+            this.writeLine("void {0}::deserialize(hfile* file)", metaClass.Name);
             this.openBrackets();
             this.writeLine("int number = 0;");
             this.writeLine("bool exists = false;");
             this.writeLine("hstr name = \"\";");
-            if (classe.HasSuperClass)
+            if (metaClass.HasSuperClass)
             {
-                this.generateDeserialize("{0}::", classe.SuperClass.Name);
+                this.generateDeserialize("{0}::", metaClass.SuperClass.Name);
             }
-            foreach (MetaVariable variable in classe.Variables)
+            foreach (MetaVariable metaVariable in metaClass.Variables)
             {
-                if (variable.CanSerialize)
+                if (metaVariable.CanSerialize)
                 {
-                    this.generateDeserializeVariable(variable);
+                    this.generateDeserializeVariable(metaVariable);
                 }
             }
             this.closeBrackets();
@@ -101,40 +104,40 @@ namespace ClassTools
             this.writeLine();
         }
 
-        private void generateSerializeVariable(MetaVariable variable)
+        private void generateSerializeVariable(MetaVariable metaVariable)
         {
-            switch (variable.Type.TypeCategory)
+            switch (metaVariable.Type.Category)
             {
-                case ETypeCategory.Normal:
-                    if (!variable.Type.IsClass)
+                case ECategory.Normal:
+                    if (!metaVariable.Type.IsClass)
                     {
-                        this.generateWrite("this->{0}", variable.Name);
+                        this.generateWrite("this->{0}", metaVariable.Name);
                     }
-                    else if (variable.Type.CanSerialize && variable.Prefix == string.Empty)
+                    else if (metaVariable.Type.CanSerialize && metaVariable.Prefix == string.Empty)
                     {
-                        this.generateSerialize("this->{0}.", variable.Name);
+                        this.generateSerialize("this->{0}.", metaVariable.Name);
                     }
                     else
                     {
-                        this.writeIf("this->{0} != NULL", variable.Name);
+                        this.writeIf("this->{0} != NULL", metaVariable.Name);
                         this.generateWrite("true");
-                        this.generateWrite("this->{0}->Name", variable.Name);
+                        this.generateWrite("this->{0}->Name", metaVariable.Name);
                         this.writeElse();
                         this.generateWrite("false");
                         this.closeBrackets();
                     }
                     break;
-                case ETypeCategory.Collection:
-                    this.generateWrite("this->{0}.size()", variable.Name);
-                    this.writeLine("foreach ({0}{1}, it, this->{2})", variable.Type.SubType1.GetNameWithModule(), variable.Type.Prefix, variable.Name);
+                case ECategory.Collection:
+                    this.generateWrite("this->{0}.size()", metaVariable.Name);
+                    this.writeLine("foreach ({0}{1}, it, this->{2})", metaVariable.Type.SubType1.GetNameWithModule(), metaVariable.Type.Prefix, metaVariable.Name);
                     this.openBrackets();
-                    if (!variable.Type.SubType1.IsClass)
+                    if (!metaVariable.Type.SubType1.IsClass)
                     {
                         this.generateWrite("(*it)");
                     }
-                    else if (variable.Type.SubType1.CanSerialize)
+                    else if (metaVariable.Type.SubType1.CanSerialize)
                     {
-                        if (variable.Prefix == string.Empty)
+                        if (metaVariable.Prefix == string.Empty)
                         {
                             this.generateSerialize("it->");
                         }
@@ -152,65 +155,65 @@ namespace ClassTools
             }
         }
 
-        private void generateDeserializeVariable(MetaVariable variable)
+        private void generateDeserializeVariable(MetaVariable metaVariable)
         {
-            switch (variable.Type.TypeCategory)
+            switch (metaVariable.Type.Category)
             {
-                case ETypeCategory.Normal:
-                    if (!variable.Type.IsClass)
+                case ECategory.Normal:
+                    if (!metaVariable.Type.IsClass)
                     {
-                        this.generateRead(variable.Type, "this->{0}", variable.Name);
+                        this.generateRead(metaVariable.Type, "this->{0}", metaVariable.Name);
                     }
-                    else if (variable.Type.CanSerialize && variable.Prefix == string.Empty)
+                    else if (metaVariable.Type.CanSerialize && metaVariable.Prefix == string.Empty)
                     {
-                        this.generateDeserialize("this->{0}.", variable.Name);
+                        this.generateDeserialize("this->{0}.", metaVariable.Name);
                     }
                     else
                     {
                         this.generateReadBool("exists");
                         this.writeIf("exists");
                         this.generateReadString("name");
-                        if (variable.Type.CanSerialize)
+                        if (metaVariable.Type.CanSerialize)
                         {
-                            this.writeLine("this->{0} = System::game->{1}ByName(name);", variable.Name, this.getCamelCaseGetter(variable));
+                            this.writeLine("this->{0} = System::game->{1}ByName(name);", metaVariable.Name, this.getCamelCaseGetter(metaVariable));
                         }
                         else
                         {
-                            this.writeLine("this->{0} = System::dataManager->{1}s[name];", variable.Name, this.getCamelCaseVariable(variable));
+                            this.writeLine("this->{0} = System::dataManager->{1}s[name];", metaVariable.Name, this.getCamelCaseVariable(metaVariable));
                         }
                         this.writeElse();
-                        this.writeLine("this->{0} = NULL;", variable.Name);
+                        this.writeLine("this->{0} = NULL;", metaVariable.Name);
                         this.closeBrackets();
                     }
                     break;
-                case ETypeCategory.Collection:
+                case ECategory.Collection:
                     this.generateReadInt("number");
-                    this.writeLine("{0}{1} _{2};", variable.Type.SubType1.GetNameWithModule(), variable.Type.Prefix, variable.Name);
+                    this.writeLine("{0}{1} _{2};", metaVariable.Type.SubType1.GetNameWithModule(), metaVariable.Type.Prefix, metaVariable.Name);
                     this.writeLine("for (int i = 0; i < number; i++)");
                     this.openBrackets();
-                    if (!variable.Type.SubType1.IsClass)
+                    if (!metaVariable.Type.SubType1.IsClass)
                     {
-                        this.generateRead(variable.Type.SubType1, variable.Name);
-                        this.writeLine("this->{0} += _{0};", variable.Name);
+                        this.generateRead(metaVariable.Type.SubType1, metaVariable.Name);
+                        this.writeLine("this->{0} += _{0};", metaVariable.Name);
                     }
-                    else if (variable.Type.SubType1.CanSerialize)
+                    else if (metaVariable.Type.SubType1.CanSerialize)
                     {
-                        if (variable.Prefix == string.Empty)
+                        if (metaVariable.Prefix == string.Empty)
                         {
-                            this.writeLine("_{0} = {1}();", variable.Name, variable.Type.SubType1.GetNameWithModule());
-                            this.generateDeserialize("_{0}.", variable.Name);
+                            this.writeLine("_{0} = {1}();", metaVariable.Name, metaVariable.Type.SubType1.GetNameWithModule());
+                            this.generateDeserialize("_{0}.", metaVariable.Name);
                         }
                         else
                         {
-                            this.writeLine("_{0} = new {1}();", variable.Name, variable.Type.SubType1.GetNameWithModule());
-                            this.generateDeserialize("_{0}->", variable.Name);
+                            this.writeLine("_{0} = new {1}();", metaVariable.Name, metaVariable.Type.SubType1.GetNameWithModule());
+                            this.generateDeserialize("_{0}->", metaVariable.Name);
                         }
-                        this.writeLine("this->{0} += _{0};", variable.Name);
+                        this.writeLine("this->{0} += _{0};", metaVariable.Name);
                     }
                     else
                     {
                         this.generateReadString("name");
-                        this.writeLine("this->{0} += System::dataManager->{1}s[name];", variable.Name, this.getCamelCaseVariable(variable));
+                        this.writeLine("this->{0} += System::dataManager->{1}s[name];", metaVariable.Name, this.getCamelCaseVariable(metaVariable));
                     }
                     this.closeBrackets();
                     break;
@@ -220,19 +223,19 @@ namespace ClassTools
 
         #region Utility
 
-        private string getCamelCaseVariable(MetaVariable variable)
+        private string getCamelCaseVariable(MetaVariable metaVariable)
         {
             string name = string.Empty;
-            switch (variable.Type.TypeCategory)
+            switch (metaVariable.Type.Category)
             {
-                case ETypeCategory.Normal:
-                    name = variable.Type.Name;
+                case ECategory.Normal:
+                    name = metaVariable.Type.Name;
                     break;
-                case ETypeCategory.Collection:
-                    name = variable.Type.SubType1.Name;
+                case ECategory.Collection:
+                    name = metaVariable.Type.SubType1.Name;
                     break;
-                case ETypeCategory.Dictionary:
-                    name = variable.Type.SubType2.Name;
+                case ECategory.Dictionary:
+                    name = metaVariable.Type.SubType2.Name;
                     break;
             }
             name = name.ToUpper().Substring(0, 1) + name.Substring(1);
@@ -247,9 +250,9 @@ namespace ClassTools
             return name;
         }
 
-        private string getCamelCaseGetter(MetaVariable variable)
+        private string getCamelCaseGetter(MetaVariable metaVariable)
         {
-            return ("get" + this.getCamelCaseVariable(variable));
+            return ("get" + this.getCamelCaseVariable(metaVariable));
         }
 
         private void writeLine()
@@ -292,14 +295,14 @@ namespace ClassTools
             this.writeLine(string.Format("{0} = file->load_hstr();", line));
         }
 
-        private void generateRead(string line, MetaType type)
+        private void generateRead(string line, MetaType metaType)
         {
-            this.writeLine(string.Format("{0} = file->load_{1}();", line, type.Name));
+            this.writeLine(string.Format("{0} = file->load_{1}();", line, metaType.Name));
         }
 
-        private void generateRead(MetaType type, string format, params object[] args)
+        private void generateRead(MetaType metaType, string format, params object[] args)
         {
-            this.writeLine(string.Format("{0} = file->load_{1}();", format, type.Name), args);
+            this.writeLine(string.Format("{0} = file->load_{1}();", format, metaType.Name), args);
         }
 
         private void generateSerialize(string line)
