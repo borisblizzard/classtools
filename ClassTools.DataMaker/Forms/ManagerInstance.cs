@@ -26,7 +26,7 @@ namespace ClassTools.DataMaker.Forms
         }
         #endregion
 
-        #region Constructors
+        #region Construct
         public ManagerInstance(Repository repository, MetaClass metaClass, MetaInstance metaInstance)
         {
             InitializeComponent();

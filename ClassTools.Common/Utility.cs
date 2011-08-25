@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 
-using ClassTools.Data;
+using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.Common
 {
@@ -28,30 +28,6 @@ namespace ClassTools.Common
                 index = count - 1;
             }
             container.SelectedIndex = index;
-        }
-
-        public static bool TryMoveUp<T>(ref List<T> objects, int index)
-        {
-            if (index > 0)
-            {
-                T obj = objects[index];
-                objects[index] = objects[index - 1];
-                objects[index - 1] = obj;
-                return true;
-            }
-            return false;
-        }
-
-        public static bool TryMoveDown<T>(ref List<T> objects, int index)
-        {
-            if (index < objects.Count - 1)
-            {
-                T obj = objects[index];
-                objects[index] = objects[index + 1];
-                objects[index + 1] = obj;
-                return true;
-            }
-            return false;
         }
         #endregion
 

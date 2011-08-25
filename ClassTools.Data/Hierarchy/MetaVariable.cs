@@ -3,7 +3,7 @@
 namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
-    public class MetaVariable : MetaMember
+    public class MetaVariable : MetaMember, IEquatable<MetaVariable>
     {
         #region Fields
         protected string defaultValue;
@@ -38,7 +38,7 @@ namespace ClassTools.Data.Hierarchy
         }
         #endregion
 
-        #region Constructors
+        #region Construct
         public MetaVariable(Model model)
             : base(model, "ANON_VARIABLE")
         {
@@ -48,13 +48,14 @@ namespace ClassTools.Data.Hierarchy
         }
         #endregion
 
-        #region Behavior
+        #region Equals
         public bool Equals(MetaVariable other)
         {
             if (!base.Equals(other)) return false;
-            if (this.defaultValue != other.defaultValue) return false;
-            if (this.getter != other.getter) return false;
-            if (this.setter != other.setter) return false;
+            if (!this.defaultValue.Equals(other.defaultValue)) return false;
+            if (!this.getter.Equals(other.getter)) return false;
+            if (!this.setter.Equals(other.setter)) return false;
+            if (!this.canSerialize.Equals(other.canSerialize)) return false;
             return true;
         }
         #endregion

@@ -5,6 +5,7 @@ using System.Data;
 using System.Windows.Forms;
 
 using ClassTools.Common;
+using ClassTools.Data;
 using ClassTools.Data.Database;
 using ClassTools.Data.Hierarchy;
 
@@ -15,13 +16,13 @@ namespace ClassTools.DataMaker.Forms.Controls
         #region Fields
         private Repository repository;
         private MetaClass metaClass;
-        private List<MetaInstance> metaInstances;
+        private MetaList<MetaInstance> metaInstances;
         private IRefreshable owner;
         private bool refreshing;
         #endregion
 
         #region Properties
-        public List<MetaInstance> MetaInstances
+        public MetaList<MetaInstance> MetaInstances
         {
             get { return this.metaInstances; }
             set
@@ -33,7 +34,7 @@ namespace ClassTools.DataMaker.Forms.Controls
         }
         #endregion
 
-        #region Constructors
+        #region Construct
         public InstanceCollection()
         {
             InitializeComponent();
@@ -53,7 +54,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
         }
 
-        public void SetData(IRefreshable owner, Repository repository, MetaClass metaClass, List<MetaInstance> metaInstances)
+        public void SetData(IRefreshable owner, Repository repository, MetaClass metaClass, MetaList<MetaInstance> metaInstances)
         {
             this.owner = owner;
             this.repository = repository;
@@ -134,7 +135,7 @@ namespace ClassTools.DataMaker.Forms.Controls
 
         public void MoveUpInstance()
         {
-            if (this.lbInstances.Focused && Utility.TryMoveUp(ref this.metaInstances, this.lbInstances.SelectedIndex))
+            if (this.lbInstances.Focused && this.metaInstances.TryMoveUp(this.lbInstances.SelectedIndex))
             {
                 this.lbInstances.SelectedIndex--;
             }
@@ -142,7 +143,7 @@ namespace ClassTools.DataMaker.Forms.Controls
 
         public void MoveDownInstance()
         {
-            if (this.lbInstances.Focused && Utility.TryMoveDown(ref this.metaInstances, this.lbInstances.SelectedIndex))
+            if (this.lbInstances.Focused && this.metaInstances.TryMoveDown(this.lbInstances.SelectedIndex))
             {
                 this.lbInstances.SelectedIndex++;
             }

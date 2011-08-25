@@ -27,7 +27,7 @@ namespace ClassTools.Common
 
         #endregion
 
-        #region Construction
+        #region Construct
 
         public AvailablePlugin()
         {

@@ -3,7 +3,7 @@
 namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
-    public class MetaType : MetaBase
+    public class MetaType : MetaBase, IEquatable<MetaType>
     {
         #region Fields
         protected MetaType subType1;
@@ -65,7 +65,7 @@ namespace ClassTools.Data.Hierarchy
         }
         #endregion
 
-        #region Constructors
+        #region Construct
         public MetaType(Model model, string name)
             : base(model, name)
         {
@@ -85,22 +85,22 @@ namespace ClassTools.Data.Hierarchy
         }
         #endregion
 
-        #region Behavior
+        #region Equals
         public bool Equals(MetaType other)
         {
             if (!base.Equals(other)) return false;
-            if (this.Category != other.Category) return false;
+            if (!this.Category.Equals(other.Category)) return false;
             if (this.Category == ECategory.Collection)
             {
                 if (!this.subType1.Equals(other.subType1)) return false;
-                if (this.suffix1 != other.suffix1) return false;
+                if (!this.suffix1.Equals(other.suffix1)) return false;
             }
             if (this.Category == ECategory.Dictionary)
             {
                 if (!this.subType1.Equals(other.subType1)) return false;
-                if (this.suffix1 != other.suffix1) return false;
+                if (!this.suffix1.Equals(other.suffix1)) return false;
                 if (!this.subType2.Equals(other.subType2)) return false;
-                if (this.suffix2 != other.suffix2) return false;
+                if (!this.suffix2.Equals(other.suffix2)) return false;
             }
             return true;
         }

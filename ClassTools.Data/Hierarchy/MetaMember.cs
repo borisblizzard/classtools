@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
-    public class MetaMember : MetaBase
+    public class MetaMember : MetaBase, IEquatable<MetaMember>
     {
         #region Fields
         protected MetaType type;
@@ -25,7 +25,7 @@ namespace ClassTools.Data.Hierarchy
         }
         #endregion
 
-        #region Constructors
+        #region Construct
         public MetaMember(Model model, string name)
             : base(model, name)
         {
@@ -34,17 +34,17 @@ namespace ClassTools.Data.Hierarchy
         }
         #endregion
 
-        #region Behavior
+        #region Equals
         public bool Equals(MetaMember other)
         {
             if (!base.Equals(other)) return false;
             if (!this.type.Equals(other.type)) return false;
-            if (this.access != other.access) return false;
+            if (!this.access.Equals(other.access)) return false;
             return true;
         }
         #endregion
 
-        #region Behavior
+        #region Methods
         public override void UpdateType(MetaType oldType, MetaType newType)
         {
             base.UpdateType(oldType, newType);

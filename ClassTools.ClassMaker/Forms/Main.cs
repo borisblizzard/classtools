@@ -37,7 +37,7 @@ namespace ClassTools.ClassMaker.Forms
         private Log windowLog;
         #endregion
 
-        #region Constructors
+        #region Construct
         public Main(string[] args)
         {
             InitializeComponent();
@@ -46,8 +46,8 @@ namespace ClassTools.ClassMaker.Forms
             this.lastModel = Serializer.Clone(this.model);
             this.lastFilename = string.Empty;
             this.validationLog = string.Empty;
-            this.cbVariableAccess.DataSource = new List<string>(ClassTools.Data.Constants.AccessNames);
-            this.cbMethodAccess.DataSource = new List<string>(ClassTools.Data.Constants.AccessNames);
+            this.cbVariableAccess.DataSource = new List<string>(ClassTools.Data.Constants.NAMES_ACCESS);
+            this.cbMethodAccess.DataSource = new List<string>(ClassTools.Data.Constants.NAMES_ACCESS);
             this.windowLog = new Log();
             this.windowLog.Hide();
             if (args.Length > 0)

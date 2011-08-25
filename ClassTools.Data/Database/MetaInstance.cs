@@ -6,11 +6,11 @@ using ClassTools.Data.Hierarchy;
 namespace ClassTools.Data.Database
 {
     [Serializable]
-    public class MetaInstance : MetaBase
+    public class MetaInstance : MetaBase, IEquatable<MetaInstance>
     {
         #region Fields
         protected string className;
-        protected List<MetaInstanceVariable> instanceVariables;
+        protected MetaList<MetaInstanceVariable> instanceVariables;
         #endregion
 
         #region Properties
@@ -20,18 +20,18 @@ namespace ClassTools.Data.Database
             set { this.className = value; }
         }
 
-        public List<MetaInstanceVariable> InstanceVariables
+        public MetaList<MetaInstanceVariable> InstanceVariables
         {
             get { return this.instanceVariables; }
         }
         #endregion
 
-        #region Constructors
+        #region Construct
         public MetaInstance(Repository repository, MetaClass metaClass)
             : base(repository)
         {
             this.className = metaClass.GetNameWithModule();
-            this.instanceVariables = new List<MetaInstanceVariable>();
+            this.instanceVariables = new MetaList<MetaInstanceVariable>();
             foreach (MetaVariable metaVariable in metaClass.AllVariables)
             {
                 this.instanceVariables.Add(new MetaInstanceVariable(repository, metaVariable));
@@ -39,12 +39,12 @@ namespace ClassTools.Data.Database
         }
         #endregion
 
-        #region Behavior
+        #region Equals
         public bool Equals(MetaInstance other)
         {
             if (!base.Equals(other)) return false;
             if (this.className != other.className) return false;
-            if (!Utility.ListEquals(this.instanceVariables, other.instanceVariables)) return false;
+            if (!this.instanceVariables.Equals(other.instanceVariables)) return false;
             return true;
         }
         #endregion

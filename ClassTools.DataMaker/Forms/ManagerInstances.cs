@@ -16,19 +16,19 @@ namespace ClassTools.DataMaker.Forms
         #region Fields
         private Repository repository;
         private MetaClass metaClass;
-        private List<MetaInstance> metaInstances;
+        private MetaList<MetaInstance> metaInstances;
         private bool refreshing;
         #endregion
 
         #region Properties
-        public List<MetaInstance> Instances
+        public MetaList<MetaInstance> Instances
         {
             get { return this.metaInstances; }
         }
         #endregion
 
-        #region Constructors
-        public ManagerInstances(Repository repository, MetaClass metaClass, List<MetaInstance> metaInstances)
+        #region Construct
+        public ManagerInstances(Repository repository, MetaClass metaClass, MetaList<MetaInstance> metaInstances)
         {
             InitializeComponent();
             this.repository = repository;

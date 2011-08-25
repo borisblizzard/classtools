@@ -27,7 +27,7 @@ namespace ClassTools.ClassMaker.Forms
             InitializeComponent();
             this.model = model;
             this.refreshing = false;
-            this.cbTypeCategory.Items.AddRange(Constants.CategoryNames);
+            this.cbTypeCategory.Items.AddRange(Constants.NAMES_CATEGORY);
             this.refresh();
         }
         #endregion
@@ -40,7 +40,7 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             this.refreshing = true;
-            List<MetaType> typesOnly = this.model.TypesOnly;
+            MetaList<MetaType> typesOnly = this.model.TypesOnly;
             Utility.ApplyNewDataSource(this.lbTypes, typesOnly, typesOnly.Count);
             MetaType metaType = this.model.Types[this.lbTypes.SelectedIndex];
             List<MetaType> types = new List<MetaType>(this.model.Types);
@@ -133,7 +133,7 @@ namespace ClassTools.ClassMaker.Forms
         {
             if (this.lbTypes.SelectedIndex >= 0)
             {
-                List<MetaType> types = this.model.TypesOnly;
+                MetaList<MetaType> types = this.model.TypesOnly;
                 if (types.Count == 1)
                 {
                     MetaType metaType = (MetaType)this.lbTypes.SelectedItem;

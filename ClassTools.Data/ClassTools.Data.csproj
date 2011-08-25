@@ -56,6 +56,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Base.cs" />
+    <Compile Include="MetaList.cs" />
+    <Compile Include="MetaDictionary.cs" />
     <Compile Include="Hierarchy\Model.cs" />
     <Compile Include="Database\MetaInstanceVariable.cs" />
     <Compile Include="Database\MetaBase.cs" />

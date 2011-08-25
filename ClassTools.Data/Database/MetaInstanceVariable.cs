@@ -6,14 +6,14 @@ using ClassTools.Data.Hierarchy;
 namespace ClassTools.Data.Database
 {
     [Serializable]
-    public class MetaInstanceVariable : MetaBase
+    public class MetaInstanceVariable : MetaBase, IEquatable<MetaInstanceVariable>
     {
         #region Fields
         protected string type;
         protected string name;
         protected string valueString;
         protected MetaInstance valueInstance;
-        protected List<MetaInstanceVariable> valueInstanceCollection;
+        protected MetaList<MetaInstanceVariable> valueInstanceCollection;
         protected Dictionary<MetaInstanceVariable, MetaInstanceVariable> valueInstanceDictionary;
         #endregion
 
@@ -81,7 +81,7 @@ namespace ClassTools.Data.Database
             }
         }
 
-        public List<MetaInstanceVariable> ValueInstanceCollection
+        public MetaList<MetaInstanceVariable> ValueInstanceCollection
         {
             get { return this.valueInstanceCollection; }
             set
@@ -106,7 +106,7 @@ namespace ClassTools.Data.Database
         }
         #endregion
 
-        #region Constructors
+        #region Construct
         public MetaInstanceVariable(Repository repository, MetaVariable variable)
             : base(repository)
         {
@@ -126,9 +126,9 @@ namespace ClassTools.Data.Database
             if (this.type != other.type) return false;
             if (this.name != other.name) return false;
             if (this.valueString != other.valueString) return false;
-            if (!Utility.ObjectEquals(this.valueInstance, other.valueInstance)) return false;
-            if (!Utility.ObjectEquals(this.valueInstanceCollection, other.valueInstanceCollection)) return false;
-            if (!Utility.ObjectEquals(this.valueInstanceDictionary, other.valueInstanceDictionary)) return false;
+            if (this.valueInstance.Equals(other.valueInstance)) return false;
+            if (this.valueInstanceCollection.Equals(other.valueInstanceCollection)) return false;
+            if (this.valueInstanceDictionary.Equals(other.valueInstanceDictionary)) return false;
             return true;
         }
         #endregion

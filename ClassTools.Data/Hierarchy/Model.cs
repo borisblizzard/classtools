@@ -4,29 +4,33 @@ using System.Collections.Generic;
 namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
-    public class Model
+    public class Model : Base, IEquatable<Model>
     {
         #region Fields
-        protected List<MetaClass> classes;
-        protected List<MetaType> types;
+        protected MetaList<MetaClass> classes;
+        protected MetaList<MetaType> types;
         #endregion
 
         #region Properties
-        public List<MetaClass> Classes
+        public MetaList<MetaClass> Classes
         {
             get { return classes; }
         }
 
-        public List<MetaType> Types
+        public MetaList<MetaType> Types
         {
             get { return types; }
         }
 
-        public List<MetaType> TypesOnly
+        public MetaList<MetaType> TypesOnly
         {
             get
             {
-                List<MetaType> types = new List<MetaType>(this.types);
+                MetaList<MetaType> types = new MetaList<MetaType>(this.types);
+                for (int i = 0; i < 0; i++)
+                {
+                    types.Remove(this.classes[i]);
+                }
                 foreach (MetaClass metaClass in this.classes)
                 {
                     types.Remove(metaClass);
@@ -36,32 +40,45 @@ namespace ClassTools.Data.Hierarchy
         }
         #endregion
 
-        #region Constructors
-        public Model() : base()
+        #region Construct
+        public Model()
+            : base()
         {
-            this.classes = new List<MetaClass>();
-            this.types = new List<MetaType>();
-            this.types.Add(new MetaType(this, "void"));
-            this.types.Add(new MetaType(this, "int"));
-            this.types.Add(new MetaType(this, "unsigned int"));
-            this.types.Add(new MetaType(this, "long"));
-            this.types.Add(new MetaType(this, "unsigned long"));
-            this.types.Add(new MetaType(this, "short"));
-            this.types.Add(new MetaType(this, "unsigned short"));
-            this.types.Add(new MetaType(this, "char"));
-            this.types.Add(new MetaType(this, "unsigned char"));
-            this.types.Add(new MetaType(this, "float"));
-            this.types.Add(new MetaType(this, "double"));
-            this.types.Add(new MetaType(this, "bool"));
-            this.types.Add(new MetaType(this, "string"));
+            this.classes = new MetaList<MetaClass>();
+            this.types = new MetaList<MetaType>();
+            for (int i = 0; i < Constants.TYPES_VOID.Length; i++)
+            {
+                this.types.Add(new MetaType(this, Constants.TYPES_VOID[i]));
+            }
+            for (int i = 0; i < Constants.TYPES_INT.Length; i++)
+            {
+                this.types.Add(new MetaType(this, Constants.TYPES_INT[i]));
+            }
+            for (int i = 0; i < Constants.TYPES_FLOAT.Length; i++)
+            {
+                this.types.Add(new MetaType(this, Constants.TYPES_FLOAT[i]));
+            }
+            for (int i = 0; i < Constants.TYPES_BOOL.Length; i++)
+            {
+                this.types.Add(new MetaType(this, Constants.TYPES_BOOL[i]));
+            }
+            for (int i = 0; i < Constants.TYPES_CHAR.Length; i++)
+            {
+                this.types.Add(new MetaType(this, Constants.TYPES_CHAR[i]));
+            }
+            for (int i = 0; i < Constants.TYPES_STRING.Length; i++)
+            {
+                this.types.Add(new MetaType(this, Constants.TYPES_STRING[i]));
+            }
         }
         #endregion
 
-        #region Behavior
-        public virtual bool Equals(Model other)
+        #region Equals
+        public bool Equals(Model other)
         {
-            if (!Utility.ListEquals(this.classes, other.classes)) return false;
-            if (!Utility.ListEquals(this.TypesOnly, other.TypesOnly)) return false;
+            if (!base.Equals(other)) return false;
+            if (!this.classes.Equals(other.classes)) return false;
+            if (!this.TypesOnly.Equals(other.TypesOnly)) return false;
             return true;
         }
         #endregion
@@ -141,26 +158,12 @@ namespace ClassTools.Data.Hierarchy
 
         public bool TryClassMoveUp(int index)
         {
-            if (index > 0)
-            {
-                MetaClass metaClass = this.classes[index];
-                this.classes[index] = this.classes[index - 1];
-                this.classes[index - 1] = metaClass;
-                return true;
-            }
-            return false;
+            return this.classes.TryMoveUp(index);
         }
 
         public bool TryClassMoveDown(int index)
         {
-            if (index < this.classes.Count - 1)
-            {
-                MetaClass metaClass = this.classes[index];
-                this.classes[index] = this.classes[index + 1];
-                this.classes[index + 1] = metaClass;
-                return true;
-            }
-            return false;
+            return this.classes.TryMoveDown(index);
         }
 
         public void SortClasses()
@@ -251,7 +254,7 @@ namespace ClassTools.Data.Hierarchy
 
         public bool TryTypeMoveDown(int index)
         {
-            List<MetaType> metaTypes = this.TypesOnly;
+            MetaList<MetaType> metaTypes = this.TypesOnly;
             if (index < metaTypes.Count - 1)
             {
                 this.types = metaTypes;

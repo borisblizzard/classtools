@@ -4,15 +4,15 @@ using System.Collections.Generic;
 namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
-    public class MetaMethod : MetaMember
+    public class MetaMethod : MetaMember, IEquatable<MetaMethod>
     {
         #region Fields
-        protected List<MetaVariable> parameters;
+        protected MetaList<MetaVariable> parameters;
         protected string implementation;
         #endregion
 
         #region Properties
-        public List<MetaVariable> Parameters
+        public MetaList<MetaVariable> Parameters
         {
             get { return this.parameters; }
             set { this.parameters = value; }
@@ -25,11 +25,11 @@ namespace ClassTools.Data.Hierarchy
         }
         #endregion
 
-        #region Constructors
+        #region Construct
         public MetaMethod(Model model)
             : base(model, "ANON_METHOD")
         {
-            this.parameters = new List<MetaVariable>();
+            this.parameters = new MetaList<MetaVariable>();
             this.implementation = string.Empty;
         }
         #endregion
@@ -38,8 +38,8 @@ namespace ClassTools.Data.Hierarchy
         public bool Equals(MetaMethod other)
         {
             if (!base.Equals(other)) return false;
-            if (!Utility.ListEquals(this.parameters, other.parameters)) return false;
-            if (this.implementation != other.implementation) return false;
+            if (!this.parameters.Equals(other.parameters)) return false;
+            if (!this.implementation.Equals(other.implementation)) return false;
             return true;
         }
         #endregion
@@ -77,26 +77,12 @@ namespace ClassTools.Data.Hierarchy
 
         public bool TryParameterMoveUp(int index)
         {
-            if (index > 0)
-            {
-                MetaVariable parameter = this.parameters[index];
-                this.parameters[index] = this.parameters[index - 1];
-                this.parameters[index - 1] = parameter;
-                return true;
-            }
-            return false;
+            return this.parameters.TryMoveUp(index);
         }
 
         public bool TryParameterMoveDown(int index)
         {
-            if (index < this.parameters.Count - 1)
-            {
-                MetaVariable parameter = this.parameters[index];
-                this.parameters[index] = this.parameters[index + 1];
-                this.parameters[index + 1] = parameter;
-                return true;
-            }
-            return false;
+            return this.parameters.TryMoveDown(index);
         }
         #endregion
 

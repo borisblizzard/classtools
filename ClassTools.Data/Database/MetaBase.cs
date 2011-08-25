@@ -5,7 +5,7 @@ using ClassTools.Data.Hierarchy;
 namespace ClassTools.Data.Database
 {
     [Serializable]
-    public class MetaBase
+    public class MetaBase : Base, IEquatable<MetaBase>
     {
         #region Fields
         protected Repository repository;
@@ -19,16 +19,18 @@ namespace ClassTools.Data.Database
         }
         #endregion
 
-        #region Constructors
+        #region Construct
         public MetaBase(Repository repository)
+            : base()
         {
             this.repository = repository;
         }
         #endregion
 
-        #region Behavior
+        #region Equals
         public bool Equals(MetaBase other)
         {
+            if (!base.Equals(other)) return false;
             return true;
         }
         #endregion

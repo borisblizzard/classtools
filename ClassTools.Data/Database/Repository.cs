@@ -6,11 +6,11 @@ using ClassTools.Data.Hierarchy;
 namespace ClassTools.Data.Database
 {
     [Serializable]
-    public class Repository
+    public class Repository : Base, IEquatable<Repository>
     {
         #region Fields
         protected Model model;
-        protected Dictionary<string, List<MetaInstance>> instances;
+        protected MetaDictionary<string, MetaList<MetaInstance>> instances;
         #endregion
 
         #region Properties
@@ -20,29 +20,31 @@ namespace ClassTools.Data.Database
         }
         #endregion
 
-        #region Constructors
+        #region Construct
         public Repository(Model model)
+            : base()
         {
             this.model = model;
-            this.instances = new Dictionary<string, List<MetaInstance>>();
+            this.instances = new MetaDictionary<string, MetaList<MetaInstance>>();
             foreach (MetaClass metaClass in model.Classes)
             {
-                this.instances[metaClass.GetNameWithModule()] = new List<MetaInstance>();
+                this.instances[metaClass.GetNameWithModule()] = new MetaList<MetaInstance>();
             }
         }
         #endregion
 
-        #region Behavior
-        public virtual bool Equals(Repository other)
+        #region Equals
+        public bool Equals(Repository other)
         {
+            if (!base.Equals(other)) return false;
             if (!this.model.Equals(other.model)) return false;
-            if (!Utility.DictionaryEquals(this.instances, other.instances)) return false;
+            if (!this.instances.Equals(other.instances)) return false;
             return true;
         }
         #endregion
 
         #region Methods
-        public List<MetaInstance> GetInstances(MetaClass metaClass)
+        public MetaList<MetaInstance> GetInstances(MetaClass metaClass)
         {
             return this.instances[metaClass.GetNameWithModule()];
         }
@@ -74,7 +76,7 @@ namespace ClassTools.Data.Database
 
         public void ReplaceInstanceAt(MetaClass metaClass, int index, MetaInstance metaInstance)
         {
-            List<MetaInstance> metaInstances = this.instances[metaClass.GetNameWithModule()];
+            MetaList<MetaInstance> metaInstances = this.instances[metaClass.GetNameWithModule()];
             metaInstances[index] = metaInstance;
             metaInstance.Repository = this;
             for (int i = 0; i < metaInstance.InstanceVariables.Count; i++)
@@ -87,7 +89,7 @@ namespace ClassTools.Data.Database
         {
             if (index > 0)
             {
-                List<MetaInstance> metaInstances = this.instances[metaClass.GetNameWithModule()];
+                MetaList<MetaInstance> metaInstances = this.instances[metaClass.GetNameWithModule()];
                 MetaInstance metaInstance = metaInstances[index];
                 metaInstances[index] = metaInstances[index - 1];
                 metaInstances[index - 1] = metaInstance;
@@ -98,7 +100,7 @@ namespace ClassTools.Data.Database
 
         public bool TryInstanceMoveDown(MetaClass metaClass, int index)
         {
-            List<MetaInstance> metaInstances = this.instances[metaClass.GetNameWithModule()];
+            MetaList<MetaInstance> metaInstances = this.instances[metaClass.GetNameWithModule()];
             if (index < metaInstances.Count - 1)
             {
                 MetaInstance metaInstance = metaInstances[index];

@@ -31,7 +31,7 @@ namespace ClassTools.DataMaker.Forms
         private bool refreshing;
         #endregion
 
-        #region Constructors
+        #region Construct
         public Main(string[] args)
         {
             InitializeComponent();

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
-    public class MetaClass : MetaType
+    public class MetaClass : MetaType, IEquatable<MetaClass>
     {
         #region Fields
         protected string module;
         protected MetaClass superClass;
-        protected List<MetaVariable> variables;
-        protected List<MetaMethod> methods;
+        protected MetaList<MetaVariable> variables;
+        protected MetaList<MetaMethod> methods;
         protected bool canSerialize;
         #endregion
 
@@ -37,21 +37,21 @@ namespace ClassTools.Data.Hierarchy
             get { return (this.superClass != null); }
         }
 
-        public List<MetaVariable> Variables
+        public MetaList<MetaVariable> Variables
         {
             get { return this.variables; }
         }
 
-        public List<MetaMethod> Methods
+        public MetaList<MetaMethod> Methods
         {
             get { return this.methods; }
         }
 
-        public List<MetaVariable> AllVariables
+        public MetaList<MetaVariable> AllVariables
         {
             get
             {
-                List<MetaVariable> variables = new List<MetaVariable>();
+                MetaList<MetaVariable> variables = new MetaList<MetaVariable>();
                 if (this.HasSuperClass)
                 {
                     variables.AddRange(this.superClass.AllVariables);
@@ -88,34 +88,32 @@ namespace ClassTools.Data.Hierarchy
 
         #endregion
 
-        #region Constructors
+        #region Construct
         public MetaClass(Model model)
             : base(model, "ANON_CLASS")
         {
             this.module = "ANON_MODULE";
             this.superClass = null;
-            this.variables = new List<MetaVariable>();
-            this.methods = new List<MetaMethod>();
+            this.variables = new MetaList<MetaVariable>();
+            this.methods = new MetaList<MetaMethod>();
             this.canSerialize = false;
         }
         #endregion
 
-        #region Behavior
+        #region Equals
         public bool Equals(MetaClass other)
         {
             if (!base.Equals(other)) return false;
             if (this.module != other.module) return false;
-            if (this.HasSuperClass || other.HasSuperClass)
-            {
-                if (!this.HasSuperClass || !other.HasSuperClass) return false;
-                if (!this.superClass.Equals(other.superClass)) return false;
-            }
-            if (!Utility.ListEquals(this.variables, other.variables)) return false;
-            if (!Utility.ListEquals(this.methods, other.methods)) return false;
+            if (!this.superClass.Equals(other.superClass)) return false;
+            if (this.variables.Equals(other.variables)) return false;
+            if (this.methods.Equals(other.methods)) return false;
             if (this.canSerialize != other.canSerialize) return false;
             return true;
         }
+        #endregion
 
+        #region Methods
         public override void UpdateType(MetaType oldType, MetaType newType)
         {
             base.UpdateType(oldType, newType);
@@ -171,26 +169,12 @@ namespace ClassTools.Data.Hierarchy
 
         public bool TryVariableMoveUp(int index)
         {
-            if (index > 0)
-            {
-                MetaVariable variable = this.variables[index];
-                this.variables[index] = this.variables[index - 1];
-                this.variables[index - 1] = variable;
-                return true;
-            }
-            return false;
+            return this.variables.TryMoveUp(index);
         }
 
         public bool TryVariableMoveDown(int index)
         {
-            if (index < this.variables.Count - 1)
-            {
-                MetaVariable variable = this.variables[index];
-                this.variables[index] = this.variables[index + 1];
-                this.variables[index + 1] = variable;
-                return true;
-            }
-            return false;
+            return this.variables.TryMoveDown(index);
         }
 
         public void SortVariables()
@@ -225,26 +209,12 @@ namespace ClassTools.Data.Hierarchy
 
         public bool TryMethodMoveUp(int index)
         {
-            if (index > 0)
-            {
-                MetaMethod method = this.methods[index];
-                this.methods[index] = this.methods[index - 1];
-                this.methods[index - 1] = method;
-                return true;
-            }
-            return false;
+            return this.methods.TryMoveUp(index);
         }
 
         public bool TryMethodMoveDown(int index)
         {
-            if (index < this.methods.Count - 1)
-            {
-                MetaMethod method = this.methods[index];
-                this.methods[index] = this.methods[index + 1];
-                this.methods[index + 1] = method;
-                return true;
-            }
-            return false;
+            return this.methods.TryMoveDown(index);
         }
 
         public void SortMethods()

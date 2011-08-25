@@ -3,7 +3,7 @@
 namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
-    public class MetaBase
+    public class MetaBase : Base, IEquatable<MetaBase>
     {
         #region Fields
         protected Model model;
@@ -31,8 +31,9 @@ namespace ClassTools.Data.Hierarchy
         }
         #endregion
 
-        #region Constructors
+        #region Construct
         public MetaBase(Model model, string name)
+            : base()
         {
             this.model = model;
             this.name = name;
@@ -43,6 +44,7 @@ namespace ClassTools.Data.Hierarchy
         #region Behavior
         public bool Equals(MetaBase other)
         {
+            if (!base.Equals(other)) return false;
             if (this.name != other.name) return false;
             if (this.prefix != other.prefix) return false;
             return true;
