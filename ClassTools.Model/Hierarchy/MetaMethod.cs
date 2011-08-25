@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ClassTools.Model
+namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
     public class MetaMethod : MetaMember
@@ -26,7 +26,7 @@ namespace ClassTools.Model
         #endregion
 
         #region Constructors
-        public MetaMethod(ClassModel model)
+        public MetaMethod(Model model)
             : base(model, "ANON_METHOD")
         {
             this.parameters = new List<MetaVariable>();

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ClassTools.Model
+using ClassTools.Data.Hierarchy;
+
+namespace ClassTools.Data.Database
 {
     [Serializable]
-    public class MetaInstance : MetaModelDatabaseBase
+    public class MetaInstance : MetaBase
     {
         #region Fields
         protected string className;
@@ -25,14 +27,14 @@ namespace ClassTools.Model
         #endregion
 
         #region Constructors
-        public MetaInstance(ModelDatabase database, MetaClass metaClass)
-            : base(database)
+        public MetaInstance(Repository repository, MetaClass metaClass)
+            : base(repository)
         {
             this.className = metaClass.GetNameWithModule();
             this.instanceVariables = new List<MetaInstanceVariable>();
-            foreach (MetaVariable variable in metaClass.AllVariables)
+            foreach (MetaVariable metaVariable in metaClass.AllVariables)
             {
-                this.instanceVariables.Add(new MetaInstanceVariable(database, variable));
+                this.instanceVariables.Add(new MetaInstanceVariable(repository, metaVariable));
             }
         }
         #endregion
@@ -51,17 +53,17 @@ namespace ClassTools.Model
         public void ReplaceInstanceVariableAt(int index, MetaInstanceVariable instanceVariable)
         {
             this.instanceVariables[index] = instanceVariable;
-            instanceVariable.Database = this.database;
+            instanceVariable.Repository = this.repository;
         }
 
         public override string ToString()
         {
             string result = this.className;
-            foreach (MetaInstanceVariable variable in this.instanceVariables)
+            foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
             {
-                if ((variable.Name == "Name" || variable.Name == "name") && variable.ValueString.Trim('"') != string.Empty)
+                if ((metaInstanceVariable.Name == "Name" || metaInstanceVariable.Name == "name") && metaInstanceVariable.ValueString.Trim('"') != string.Empty)
                 {
-                    return variable.ValueString.Trim('"');
+                    return metaInstanceVariable.ValueString.Trim('"');
                 }
             }
             return this.className;

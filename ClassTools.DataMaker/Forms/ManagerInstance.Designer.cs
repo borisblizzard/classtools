@@ -1,6 +1,6 @@
 ﻿namespace ClassTools.DataMaker.Forms
 {
-    partial class Instance
+    partial class ManagerInstance
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Instance));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagerInstance));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -37,7 +37,6 @@
             this.ofdModel = new System.Windows.Forms.OpenFileDialog();
             this.gbInstanceVariables = new System.Windows.Forms.GroupBox();
             this.ivbInstanceVariables = new ClassTools.DataMaker.Forms.Controls.InstanceVariables();
-            this.instanceVariablesBox1 = new ClassTools.DataMaker.Forms.Controls.InstanceVariables();
             this.cbExists = new System.Windows.Forms.CheckBox();
             this.bOk = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
@@ -93,7 +92,6 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.gbInstanceVariables.Controls.Add(this.ivbInstanceVariables);
-            this.gbInstanceVariables.Controls.Add(this.instanceVariablesBox1);
             this.gbInstanceVariables.Location = new System.Drawing.Point(12, 51);
             this.gbInstanceVariables.Name = "gbInstanceVariables";
             this.gbInstanceVariables.Size = new System.Drawing.Size(414, 430);
@@ -111,14 +109,6 @@
             this.ivbInstanceVariables.Name = "ivbInstanceVariables";
             this.ivbInstanceVariables.Size = new System.Drawing.Size(400, 400);
             this.ivbInstanceVariables.TabIndex = 1;
-            // 
-            // instanceVariablesBox1
-            // 
-            this.instanceVariablesBox1.Enabled = false;
-            this.instanceVariablesBox1.Location = new System.Drawing.Point(3, 16);
-            this.instanceVariablesBox1.Name = "instanceVariablesBox1";
-            this.instanceVariablesBox1.Size = new System.Drawing.Size(500, 400);
-            this.instanceVariablesBox1.TabIndex = 0;
             // 
             // cbExists
             // 
@@ -143,7 +133,7 @@
             this.bOk.UseVisualStyleBackColor = true;
             this.bOk.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
-            // Instance
+            // ManagerInstance
             // 
             this.AcceptButton = this.bOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -159,7 +149,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Instance";
+            this.Name = "ManagerInstance";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -182,7 +172,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
         private Controls.InstanceVariables ivbInstanceVariables;
-        private Controls.InstanceVariables instanceVariablesBox1;
         private System.Windows.Forms.CheckBox cbExists;
         private System.Windows.Forms.Button bOk;
     }

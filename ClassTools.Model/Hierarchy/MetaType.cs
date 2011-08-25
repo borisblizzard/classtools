@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace ClassTools.Model
+namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
-    public class MetaType : MetaClassModelBase
+    public class MetaType : MetaBase
     {
         #region Fields
         protected MetaType subType1;
@@ -37,19 +37,19 @@ namespace ClassTools.Model
             set { this.suffix2 = value; }
         }
 
-        public ETypeCategory TypeCategory
+        public ECategory TypeCategory
         {
             get
             {
                 if (this.subType1 == null && this.subType2 == null)
                 {
-                    return ETypeCategory.Normal;
+                    return ECategory.Normal;
                 }
                 if (this.subType2 == null)
                 {
-                    return ETypeCategory.Collection;
+                    return ECategory.Collection;
                 }
-                return ETypeCategory.Dictionary;
+                return ECategory.Dictionary;
             }
         }
 
@@ -66,7 +66,7 @@ namespace ClassTools.Model
         #endregion
 
         #region Constructors
-        public MetaType(ClassModel model, string name)
+        public MetaType(Model model, string name)
             : base(model, name)
         {
             this.subType1 = null;
@@ -75,7 +75,7 @@ namespace ClassTools.Model
             this.suffix2 = string.Empty;
         }
 
-        public MetaType(ClassModel model)
+        public MetaType(Model model)
             : base(model, "ANON_TYPE")
         {
             this.subType1 = null;
@@ -90,12 +90,12 @@ namespace ClassTools.Model
         {
             if (!base.Equals(other)) return false;
             if (this.TypeCategory != other.TypeCategory) return false;
-            if (this.TypeCategory == ETypeCategory.Collection)
+            if (this.TypeCategory == ECategory.Collection)
             {
                 if (!this.subType1.Equals(other.subType1)) return false;
                 if (this.suffix1 != other.suffix1) return false;
             }
-            if (this.TypeCategory == ETypeCategory.Dictionary)
+            if (this.TypeCategory == ECategory.Dictionary)
             {
                 if (!this.subType1.Equals(other.subType1)) return false;
                 if (this.suffix1 != other.suffix1) return false;
@@ -125,10 +125,10 @@ namespace ClassTools.Model
             string result = this.name;
             switch (this.TypeCategory)
             {
-                case ETypeCategory.Collection:
+                case ECategory.Collection:
                     result += "<" + this.subType1.GetNameWithModule(separator) + this.suffix1 + ">";
                     break;
-                case ETypeCategory.Dictionary:
+                case ECategory.Dictionary:
                     result += "<" + this.subType1.GetNameWithModule(separator) + this.suffix1 + ", " + this.subType2.GetNameWithModule(separator) + this.suffix2 + ">";
                     break;
             }
@@ -145,15 +145,16 @@ namespace ClassTools.Model
             string result = this.name;
             switch (this.TypeCategory)
             {
-                case ETypeCategory.Collection:
+                case ECategory.Collection:
                     result += "<" + this.subType1.ToString() + this.suffix1 + ">";
                     break;
-                case ETypeCategory.Dictionary:
+                case ECategory.Dictionary:
                     result += "<" + this.subType1.ToString() + this.suffix1 + ", " + this.subType2.ToString() + this.suffix2 + ">";
                     break;
             }
             return result;
         }
         #endregion
+
     }
 }

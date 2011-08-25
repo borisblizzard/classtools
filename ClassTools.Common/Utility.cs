@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 
-using ClassTools.Model;
+using ClassTools.Data;
 
 namespace ClassTools.Common
 {

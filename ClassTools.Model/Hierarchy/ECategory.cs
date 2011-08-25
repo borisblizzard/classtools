@@ -1,11 +1,10 @@
-﻿using System;
-
-namespace ClassTools.Model
+﻿namespace ClassTools.Data.Hierarchy
 {
-    public enum ETypeCategory
+    public enum ECategory
     {
         Normal = 0,
         Collection = 1,
         Dictionary = 2
     }
+
 }

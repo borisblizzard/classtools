@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ClassTools.Model
+using ClassTools.Data.Hierarchy;
+
+namespace ClassTools.Data.Database
 {
     [Serializable]
-    public class MetaInstanceVariable : MetaModelDatabaseBase
+    public class MetaInstanceVariable : MetaBase
     {
         #region Fields
         protected string type;
@@ -105,13 +107,15 @@ namespace ClassTools.Model
         #endregion
 
         #region Constructors
-        public MetaInstanceVariable(ModelDatabase database, MetaVariable metaVariable)
-            : base(database)
+        public MetaInstanceVariable(Repository repository, MetaVariable variable)
+            : base(repository)
         {
-            this.type = metaVariable.Type.GetNameWithModule();
-            this.name = metaVariable.Name;
-            this.valueString = metaVariable.DefaultValue;
+            this.type = variable.Type.GetNameWithModule();
+            this.name = variable.Name;
+            this.valueString = variable.DefaultValue;
             this.valueInstance = null;
+            this.valueInstanceCollection = null;
+            this.valueInstanceDictionary = null;
         }
         #endregion
 
@@ -122,17 +126,9 @@ namespace ClassTools.Model
             if (this.type != other.type) return false;
             if (this.name != other.name) return false;
             if (this.valueString != other.valueString) return false;
-            if (this.valueInstance != null && other.valueInstance != null)
-            {
-                if (!this.valueInstance.Equals(other.valueInstance)) return false;
-            }
-            else if (this.valueInstance != null || other.valueInstance != null) return false;
-
-            if (this.valueInstance != null && other.valueInstance != null)
-            {
-                if (!this.valueInstance.Equals(other.valueInstance)) return false;
-            }
-            else if (this.valueInstance != null || other.valueInstance != null) return false;
+            if (!Utility.ObjectEquals(this.valueInstance, other.valueInstance)) return false;
+            if (!Utility.ObjectEquals(this.valueInstanceCollection, other.valueInstanceCollection)) return false;
+            if (!Utility.ObjectEquals(this.valueInstanceDictionary, other.valueInstanceDictionary)) return false;
             return true;
         }
         #endregion

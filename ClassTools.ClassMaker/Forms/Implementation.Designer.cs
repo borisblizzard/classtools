@@ -28,25 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tbImplemtation = new System.Windows.Forms.TextBox();
+            this.tbImplementation = new System.Windows.Forms.TextBox();
             this.bOk = new System.Windows.Forms.Button();
             this.bCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // tbImplemtation
+            // tbImplementation
             // 
-            this.tbImplemtation.AcceptsReturn = true;
-            this.tbImplemtation.AcceptsTab = true;
-            this.tbImplemtation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.tbImplementation.AcceptsReturn = true;
+            this.tbImplementation.AcceptsTab = true;
+            this.tbImplementation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbImplemtation.BackColor = System.Drawing.SystemColors.Window;
-            this.tbImplemtation.Font = new System.Drawing.Font("Courier New", 10F);
-            this.tbImplemtation.Location = new System.Drawing.Point(12, 12);
-            this.tbImplemtation.Multiline = true;
-            this.tbImplemtation.Name = "tbImplemtation";
-            this.tbImplemtation.Size = new System.Drawing.Size(556, 275);
-            this.tbImplemtation.TabIndex = 0;
+            this.tbImplementation.BackColor = System.Drawing.SystemColors.Window;
+            this.tbImplementation.Font = new System.Drawing.Font("Courier New", 10F);
+            this.tbImplementation.Location = new System.Drawing.Point(12, 12);
+            this.tbImplementation.Multiline = true;
+            this.tbImplementation.Name = "tbImplementation";
+            this.tbImplementation.Size = new System.Drawing.Size(556, 275);
+            this.tbImplementation.TabIndex = 0;
             // 
             // bOk
             // 
@@ -68,7 +68,7 @@
             this.bCancel.Text = "Cancel";
             this.bCancel.UseVisualStyleBackColor = true;
             // 
-            // FormImplementation
+            // Implementation
             // 
             this.AcceptButton = this.bOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -77,11 +77,11 @@
             this.ClientSize = new System.Drawing.Size(580, 328);
             this.Controls.Add(this.bCancel);
             this.Controls.Add(this.bOk);
-            this.Controls.Add(this.tbImplemtation);
+            this.Controls.Add(this.tbImplementation);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormImplementation";
+            this.Name = "Implementation";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -93,7 +93,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox tbImplemtation;
+        private System.Windows.Forms.TextBox tbImplementation;
         private System.Windows.Forms.Button bOk;
         private System.Windows.Forms.Button bCancel;
     }

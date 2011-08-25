@@ -1,4 +1,6 @@
-﻿using ClassTools.Model;
+﻿using ClassTools.Data;
+using ClassTools.Data.Database;
+using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.Common
 {

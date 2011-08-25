@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ClassTools.Common</RootNamespace>
     <AssemblyName>ClassTools.Common</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,9 +65,9 @@
       <Project>{F41C29FB-69CD-42DB-9CE5-499DFD92FCD5}</Project>
       <Name>ClassTools.IPlugin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ClassTools.Model\ClassTools.Model.csproj">
+    <ProjectReference Include="..\ClassTools.Model\ClassTools.Data.csproj">
       <Project>{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}</Project>
-      <Name>ClassTools.Model</Name>
+      <Name>ClassTools.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

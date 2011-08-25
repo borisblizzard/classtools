@@ -7,7 +7,8 @@ using System.Windows.Forms;
 using ClassTools;
 using ClassTools.Common;
 using ClassTools.Common.Forms;
-using ClassTools.Model;
+using ClassTools.Data;
+using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.ClassMaker.Forms
 {
@@ -28,8 +29,8 @@ namespace ClassTools.ClassMaker.Forms
         #endregion
 
         #region Fields
-        private ClassModel model;
-        private ClassModel lastModel;
+        private Model model;
+        private Model lastModel;
         private string lastFilename;
         private bool refreshing;
         private string validationLog;
@@ -41,12 +42,12 @@ namespace ClassTools.ClassMaker.Forms
         {
             InitializeComponent();
             this.refreshing = true;
-            this.model = new ClassModel();
+            this.model = new Model();
             this.lastModel = Serializer.Clone(this.model);
             this.lastFilename = string.Empty;
             this.validationLog = string.Empty;
-            this.cbVariableAccess.DataSource = new List<string>(ClassModel.AccessorNames);
-            this.cbMethodAccess.DataSource = new List<string>(ClassModel.AccessorNames);
+            this.cbVariableAccess.DataSource = new List<string>(ClassTools.Data.Constants.AccessNames);
+            this.cbMethodAccess.DataSource = new List<string>(ClassTools.Data.Constants.AccessNames);
             this.windowLog = new Log();
             this.windowLog.Hide();
             if (args.Length > 0)
@@ -108,7 +109,7 @@ namespace ClassTools.ClassMaker.Forms
             DialogResult result = this.showSaveChangesDialog(savePromptNew);
             if (result != DialogResult.Cancel)
             {
-                this.model = new ClassModel();
+                this.model = new Model();
                 this.lastModel = Serializer.Clone(this.model);
                 this.lastFilename = string.Empty;
                 this.refresh();
@@ -180,29 +181,29 @@ namespace ClassTools.ClassMaker.Forms
             Utility.ApplyNewDataSource(this.cbSuperClass, new List<MetaClass>(this.model.Classes), this.model.Classes.Count);
             Utility.ApplyNewDataSource(this.cbVariableType, new List<MetaType>(this.model.Types), this.model.Classes.Count);
             Utility.ApplyNewDataSource(this.cbMethodType, new List<MetaType>(this.model.Types), this.model.Classes.Count);
-            MetaClass classe = (MetaClass)this.lbClasses.SelectedItem;
-            bool enabled = (classe != null);
+            MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
+            bool enabled = (metaClass != null);
             this.gbClass.Enabled = enabled;
             this.gbVariables.Enabled = enabled;
             this.gbMethods.Enabled = enabled;
             this.bClassDelete.Enabled = enabled;
             if (enabled)
             {
-                this.tbClassName.Text = classe.Name;
-                this.tbClassModule.Text = classe.Module;
-                this.cbxClassSerialize.Checked = classe.CanSerialize;
-                this.cbInheritance.Checked = classe.HasSuperClass;
+                this.tbClassName.Text = metaClass.Name;
+                this.tbClassModule.Text = metaClass.Module;
+                this.cbxClassSerialize.Checked = metaClass.CanSerialize;
+                this.cbInheritance.Checked = metaClass.HasSuperClass;
                 this.cbSuperClass.Enabled = this.cbInheritance.Checked;
-                if (classe.HasSuperClass)
+                if (metaClass.HasSuperClass)
                 {
-                    this.cbSuperClass.SelectedItem = classe.SuperClass;
+                    this.cbSuperClass.SelectedItem = metaClass.SuperClass;
                 }
                 else
                 {
                     this.cbSuperClass.SelectedIndex = 0;
                 }
-                Utility.ApplyNewDataSource(this.lbVariables, new List<MetaVariable>(classe.Variables), classe.Variables.Count);
-                Utility.ApplyNewDataSource(this.lbMethods, new List<MetaMethod>(classe.Methods), classe.Methods.Count);
+                Utility.ApplyNewDataSource(this.lbVariables, new List<MetaVariable>(metaClass.Variables), metaClass.Variables.Count);
+                Utility.ApplyNewDataSource(this.lbMethods, new List<MetaMethod>(metaClass.Methods), metaClass.Methods.Count);
                 this.refreshVariable();
                 this.refreshMethod();
             }
@@ -249,7 +250,7 @@ namespace ClassTools.ClassMaker.Forms
             {
                 this.tbVariableName.Text = string.Empty;
                 this.cbVariableType.SelectedIndex = (this.cbVariableType.Items.Count > 0 ? 0 : -1);
-                this.cbVariableAccess.SelectedIndex = (int)EAccessType.Public;
+                this.cbVariableAccess.SelectedIndex = (int)EAccess.Public;
                 this.tbVariableDefault.Text = string.Empty;
                 this.cbxVariableGetter.Checked = false;
                 this.cbxVariableSetter.Checked = false;
@@ -261,8 +262,8 @@ namespace ClassTools.ClassMaker.Forms
         private void refreshMethod()
         {
             this.bMethodDelete.Enabled = (this.lbMethods.Items.Count > 0);
-            MetaMethod method = (MetaMethod)this.lbMethods.SelectedItem;
-            bool enabled = (method != null);
+            MetaMethod metaMethod = (MetaMethod)this.lbMethods.SelectedItem;
+            bool enabled = (metaMethod != null);
             this.lMethodName.Enabled = enabled;
             this.tbMethodName.Enabled = enabled;
             this.lMethodType.Enabled = enabled;
@@ -275,16 +276,16 @@ namespace ClassTools.ClassMaker.Forms
             this.bMethodImplementation.Enabled = enabled;
             if (enabled)
             {
-                this.tbMethodName.Text = method.Name;
-                this.cbMethodType.SelectedItem = method.Type;
-                this.cbMethodAccess.SelectedIndex = (int)method.AccessType;
-                this.tbMethodPrefix.Text = method.Prefix;
+                this.tbMethodName.Text = metaMethod.Name;
+                this.cbMethodType.SelectedItem = metaMethod.Type;
+                this.cbMethodAccess.SelectedIndex = (int)metaMethod.AccessType;
+                this.tbMethodPrefix.Text = metaMethod.Prefix;
             }
             else
             {
                 this.tbMethodName.Text = string.Empty;
                 this.cbMethodType.SelectedIndex = (this.cbMethodType.Items.Count > 0 ? 0 : -1);
-                this.cbMethodAccess.SelectedIndex = (int)EAccessType.Public;
+                this.cbMethodAccess.SelectedIndex = (int)EAccess.Public;
                 this.tbMethodPrefix.Text = string.Empty;
             }
         }
@@ -356,63 +357,63 @@ namespace ClassTools.ClassMaker.Forms
             this.windowLog.Show();
         }
 
-        private void validateClass(MetaClass classe, int index)
+        private void validateClass(MetaClass metaClass, int index)
         {
-            if (classe.Name.Contains(" "))
+            if (metaClass.Name.Contains(" "))
             {
-                this.validationLog += string.Format(errorClassNameSpaces, classe.Name);
+                this.validationLog += string.Format(errorClassNameSpaces, metaClass.Name);
             }
             else
             {
                 for (int j = index + 1; j < this.model.Classes.Count; j++)
                 {
-                    if (classe.Name == this.model.Classes[j].Name)
+                    if (metaClass.Name == this.model.Classes[j].Name)
                     {
-                        this.validationLog += string.Format(errorClassNameDuplicate, classe.Name);
+                        this.validationLog += string.Format(errorClassNameDuplicate, metaClass.Name);
                     }
                 }
             }
-            for (int j = 0; j < classe.Variables.Count; j++)
+            for (int j = 0; j < metaClass.Variables.Count; j++)
             {
-                this.validateVariable(classe, classe.Variables[j], j);
+                this.validateVariable(metaClass, metaClass.Variables[j], j);
             }
-            for (int j = 0; j < classe.Methods.Count; j++)
+            for (int j = 0; j < metaClass.Methods.Count; j++)
             {
-                this.validateMethod(classe, classe.Methods[j], j);
+                this.validateMethod(metaClass, metaClass.Methods[j], j);
             }
         }
 
-        private void validateVariable(MetaClass classe, MetaVariable variable, int index)
+        private void validateVariable(MetaClass metaClass, MetaVariable metaVariable, int index)
         {
-            if (variable.Name.Contains(" "))
+            if (metaVariable.Name.Contains(" "))
             {
-                this.validationLog += string.Format(errorVariableNameSpaces, classe.Name, variable.Name);
+                this.validationLog += string.Format(errorVariableNameSpaces, metaClass.Name, metaVariable.Name);
             }
             else
             {
-                for (int i = index + 1; i < classe.Variables.Count; i++)
+                for (int i = index + 1; i < metaClass.Variables.Count; i++)
                 {
-                    if (variable.Name == classe.Variables[i].Name)
+                    if (metaVariable.Name == metaClass.Variables[i].Name)
                     {
-                        this.validationLog += string.Format(errorVariableNameDuplicate, classe.Name, variable.Name);
+                        this.validationLog += string.Format(errorVariableNameDuplicate, metaClass.Name, metaVariable.Name);
                     }
                 }
             }
         }
 
-        private void validateMethod(MetaClass classe, MetaMethod method, int index)
+        private void validateMethod(MetaClass metaClass, MetaMethod metaMethod, int index)
         {
-            if (method.Name.Contains(" "))
+            if (metaMethod.Name.Contains(" "))
             {
-                this.validationLog += string.Format(errorMethodNameSpaces, classe.Name, method.Name);
+                this.validationLog += string.Format(errorMethodNameSpaces, metaClass.Name, metaMethod.Name);
             }
             else
             {
-                for (int i = index + 1; i < classe.Methods.Count; i++)
+                for (int i = index + 1; i < metaClass.Methods.Count; i++)
                 {
-                    if (method.Name == classe.Methods[i].Name)
+                    if (metaMethod.Name == metaClass.Methods[i].Name)
                     {
-                        this.validationLog += string.Format(errorMethodNameDuplicate, classe.Name, method.Name);
+                        this.validationLog += string.Format(errorMethodNameDuplicate, metaClass.Name, metaMethod.Name);
                     }
                 }
             }
@@ -481,14 +482,14 @@ namespace ClassTools.ClassMaker.Forms
             }
             else if (this.lbVariables.Focused && InternalClipboard.ContainsVariable)
             {
-                MetaClass classe = this.model.Classes[this.lbClasses.SelectedIndex];
-                classe.ReplaceVariableAt(this.lbVariables.SelectedIndex, InternalClipboard.Variable);
+                MetaClass metaClass = this.model.Classes[this.lbClasses.SelectedIndex];
+                metaClass.ReplaceVariableAt(this.lbVariables.SelectedIndex, InternalClipboard.Variable);
                 this.refresh();
             }
             else if (this.lbMethods.Focused && InternalClipboard.ContainsMethod)
             {
-                MetaClass classe = this.model.Classes[this.lbClasses.SelectedIndex];
-                classe.ReplaceMethodAt(this.lbMethods.SelectedIndex, InternalClipboard.Method);
+                MetaClass metaClass = this.model.Classes[this.lbClasses.SelectedIndex];
+                metaClass.ReplaceMethodAt(this.lbMethods.SelectedIndex, InternalClipboard.Method);
                 this.refresh();
             }
         }
@@ -619,8 +620,8 @@ namespace ClassTools.ClassMaker.Forms
             {
                 return;
             }
-            MetaClass classe = (MetaClass)this.lbClasses.SelectedItem;
-            classe.Name = this.tbClassName.Text;
+            MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
+            metaClass.Name = this.tbClassName.Text;
             this.refresh();
         }
 
@@ -630,8 +631,8 @@ namespace ClassTools.ClassMaker.Forms
             {
                 return;
             }
-            MetaClass classe = (MetaClass)this.lbClasses.SelectedItem;
-            classe.Module = this.tbClassModule.Text;
+            MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
+            metaClass.Module = this.tbClassModule.Text;
             this.refresh();
         }
 
@@ -641,8 +642,8 @@ namespace ClassTools.ClassMaker.Forms
             {
                 return;
             }
-            MetaClass classe = (MetaClass)this.lbClasses.SelectedItem;
-            classe.SuperClass = (this.cbInheritance.Checked ? (MetaClass)this.cbSuperClass.Items[0] : null);
+            MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
+            metaClass.SuperClass = (this.cbInheritance.Checked ? (MetaClass)this.cbSuperClass.Items[0] : null);
             this.refresh();
         }
 
@@ -652,8 +653,8 @@ namespace ClassTools.ClassMaker.Forms
             {
                 return;
             }
-            MetaClass classe = (MetaClass)this.lbClasses.SelectedItem;
-            classe.CanSerialize = this.cbxClassSerialize.Checked;
+            MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
+            metaClass.CanSerialize = this.cbxClassSerialize.Checked;
         }
 
         private void cbSuperClass_SelectedIndexChanged(object sender, EventArgs e)
@@ -662,8 +663,8 @@ namespace ClassTools.ClassMaker.Forms
             {
                 return;
             }
-            MetaClass classe = (MetaClass)this.lbClasses.SelectedItem;
-            classe.SuperClass = (this.cbInheritance.Checked ? (MetaClass)this.cbSuperClass.SelectedItem : null);
+            MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
+            metaClass.SuperClass = (this.cbInheritance.Checked ? (MetaClass)this.cbSuperClass.SelectedItem : null);
         }
         #endregion
 
@@ -708,7 +709,7 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             MetaVariable variable = (MetaVariable)this.lbVariables.SelectedItem;
-            variable.AccessType = (EAccessType)this.cbVariableAccess.SelectedIndex;
+            variable.AccessType = (EAccess)this.cbVariableAccess.SelectedIndex;
         }
 
         private void tbVariableDefault_TextChanged(object sender, EventArgs e)
@@ -781,8 +782,8 @@ namespace ClassTools.ClassMaker.Forms
             {
                 return;
             }
-            MetaMethod Method = (MetaMethod)this.lbMethods.SelectedItem;
-            Method.Name = this.tbMethodName.Text;
+            MetaMethod metaMethod = (MetaMethod)this.lbMethods.SelectedItem;
+            metaMethod.Name = this.tbMethodName.Text;
             this.refresh();
         }
 
@@ -792,8 +793,8 @@ namespace ClassTools.ClassMaker.Forms
             {
                 return;
             }
-            MetaMethod Method = (MetaMethod)this.lbMethods.SelectedItem;
-            Method.Type = (MetaType)this.cbMethodType.SelectedItem;
+            MetaMethod metaMethod = (MetaMethod)this.lbMethods.SelectedItem;
+            metaMethod.Type = (MetaType)this.cbMethodType.SelectedItem;
             this.refresh();
         }
 
@@ -803,8 +804,8 @@ namespace ClassTools.ClassMaker.Forms
             {
                 return;
             }
-            MetaMethod method = (MetaMethod)this.lbMethods.SelectedItem;
-            method.AccessType = (EAccessType)this.cbMethodAccess.SelectedIndex;
+            MetaMethod metaMethod = (MetaMethod)this.lbMethods.SelectedItem;
+            metaMethod.AccessType = (EAccess)this.cbMethodAccess.SelectedIndex;
         }
 
         private void tbMethodPrefix_TextChanged(object sender, EventArgs e)
@@ -813,8 +814,8 @@ namespace ClassTools.ClassMaker.Forms
             {
                 return;
             }
-            MetaMethod method = (MetaMethod)this.lbMethods.SelectedItem;
-            method.Prefix = this.tbMethodPrefix.Text;
+            MetaMethod metaMethod = (MetaMethod)this.lbMethods.SelectedItem;
+            metaMethod.Prefix = this.tbMethodPrefix.Text;
             this.refresh();
         }
         #endregion

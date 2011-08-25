@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ClassTools.Model
+namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
-    public class MetaMember : MetaClassModelBase
+    public class MetaMember : MetaBase
     {
         #region Fields
         protected MetaType type;
-        protected EAccessType accessType;
+        protected EAccess accessType;
         #endregion
 
         #region Properties
@@ -18,7 +18,7 @@ namespace ClassTools.Model
             set { this.type = value; }
         }
 
-        public EAccessType AccessType
+        public EAccess AccessType
         {
             get { return this.accessType; }
             set { this.accessType = value; }
@@ -26,11 +26,11 @@ namespace ClassTools.Model
         #endregion
 
         #region Constructors
-        public MetaMember(ClassModel model, string name)
+        public MetaMember(Model model, string name)
             : base(model, name)
         {
             this.type = model.Types[0];
-            this.accessType = EAccessType.Public;
+            this.accessType = EAccess.Public;
         }
         #endregion
 

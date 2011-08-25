@@ -9,8 +9,8 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ClassTools.DataMaker</RootNamespace>
-    <AssemblyName>DataMaker</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <AssemblyName>Class Tools Data Maker</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <StartupObject>ClassTools.DataMaker.Program</StartupObject>
@@ -33,6 +33,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,20 +57,19 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\Instance.cs">
+    <Compile Include="Forms\ManagerInstance.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Instance.Designer.cs">
-      <DependentUpon>Instance.cs</DependentUpon>
+    <Compile Include="Forms\ManagerInstance.Designer.cs">
+      <DependentUpon>ManagerInstance.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\InstanceCollection.cs">
+    <Compile Include="Forms\ManagerInstances.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\InstanceCollection.Designer.cs">
-      <DependentUpon>InstanceCollection.cs</DependentUpon>
+    <Compile Include="Forms\ManagerInstances.Designer.cs">
+      <DependentUpon>ManagerInstances.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Main.cs">
       <SubType>Form</SubType>
@@ -92,12 +92,12 @@
     <Compile Include="Forms\IRefreshable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\Instance.resx">
-      <DependentUpon>Instance.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ManagerInstance.resx">
+      <DependentUpon>ManagerInstance.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\InstanceCollection.resx">
-      <DependentUpon>InstanceCollection.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ManagerInstances.resx">
+      <DependentUpon>ManagerInstances.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Main.resx">
@@ -147,15 +147,14 @@
       <Project>{F41C29FB-69CD-42DB-9CE5-499DFD92FCD5}</Project>
       <Name>ClassTools.IPlugin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ClassTools.Model\ClassTools.Model.csproj">
+    <ProjectReference Include="..\ClassTools.Model\ClassTools.Data.csproj">
       <Project>{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}</Project>
-      <Name>ClassTools.Model</Name>
+      <Name>ClassTools.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="dm.ico" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

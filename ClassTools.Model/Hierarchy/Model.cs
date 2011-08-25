@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ClassTools.Model
+namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
-    public class ClassModel
+    public class Model
     {
-        #region Constants
-        public static string[] AccessorNames = new string[] { "public", "protected", "private" };
-        #endregion
-
         #region Fields
         protected List<MetaClass> classes;
         protected List<MetaType> types;
@@ -31,9 +27,9 @@ namespace ClassTools.Model
             get
             {
                 List<MetaType> types = new List<MetaType>(this.types);
-                foreach (MetaClass classe in this.classes)
+                foreach (MetaClass metaClass in this.classes)
                 {
-                    types.Remove(classe);
+                    types.Remove(metaClass);
                 }
                 return types;
             }
@@ -41,7 +37,7 @@ namespace ClassTools.Model
         #endregion
 
         #region Constructors
-        public ClassModel() : base()
+        public Model() : base()
         {
             this.classes = new List<MetaClass>();
             this.types = new List<MetaType>();
@@ -62,7 +58,7 @@ namespace ClassTools.Model
         #endregion
 
         #region Behavior
-        public virtual bool Equals(ClassModel other)
+        public virtual bool Equals(Model other)
         {
             if (!Utility.ListEquals(this.classes, other.classes)) return false;
             if (!Utility.ListEquals(this.TypesOnly, other.TypesOnly)) return false;
@@ -73,29 +69,29 @@ namespace ClassTools.Model
         #region Class Methods
         public MetaClass CreateNewClass(int index)
         {
-            MetaClass classe = new MetaClass(this);
-            this.classes.Insert(index, classe);
+            MetaClass metaClass = new MetaClass(this);
+            this.classes.Insert(index, metaClass);
             this.types = this.TypesOnly;
             foreach (MetaClass c in this.classes)
             {
                 this.types.Add(c);
             }
-            return classe;
+            return metaClass;
         }
 
         public void DeleteClass(string name)
         {
-            MetaClass classe = this.classes.Find(c => c.Name == name);
-            if (classe != null)
+            MetaClass metaClass = this.classes.Find(c => c.Name == name);
+            if (metaClass != null)
             {
-                this.DeleteClass(classe);
+                this.DeleteClass(metaClass);
             }
         }
 
-        public void DeleteClass(MetaClass classe)
+        public void DeleteClass(MetaClass metaClass)
         {
-            this.classes.Remove(classe);
-            this.types.Remove(classe);
+            this.classes.Remove(metaClass);
+            this.types.Remove(metaClass);
         }
 
         public void DeleteClassAt(int index)
@@ -103,43 +99,43 @@ namespace ClassTools.Model
             this.DeleteClass(this.classes[index]);
         }
 
-        public void ReplaceClassAt(int index, MetaClass classe)
+        public void ReplaceClassAt(int index, MetaClass metaClass)
         {
             MetaClass oldClass = this.classes[index];
             int otherIndex = this.types.IndexOf(oldClass);
-            this.classes[index] = classe;
-            this.types[otherIndex] = classe;
-            classe.Model = this;
-            switch (classe.TypeCategory)
+            this.classes[index] = metaClass;
+            this.types[otherIndex] = metaClass;
+            metaClass.Model = this;
+            switch (metaClass.TypeCategory)
             {
-                case ETypeCategory.Normal:
-                    classe.SubType1 = null;
-                    classe.SubType2 = null;
+                case ECategory.Normal:
+                    metaClass.SubType1 = null;
+                    metaClass.SubType2 = null;
                     break;
-                case ETypeCategory.Collection:
-                    classe.SubType1 = this.types.Find(t => t.Equals(classe.SubType1));
-                    classe.SubType2 = null;
+                case ECategory.Collection:
+                    metaClass.SubType1 = this.types.Find(t => t.Equals(metaClass.SubType1));
+                    metaClass.SubType2 = null;
                     break;
-                case ETypeCategory.Dictionary:
-                    classe.SubType1 = this.types.Find(t => t.Equals(classe.SubType1));
-                    classe.SubType2 = this.types.Find(t => t.Equals(classe.SubType2));
+                case ECategory.Dictionary:
+                    metaClass.SubType1 = this.types.Find(t => t.Equals(metaClass.SubType1));
+                    metaClass.SubType2 = this.types.Find(t => t.Equals(metaClass.SubType2));
                     break;
             }
-            if (classe.HasSuperClass)
+            if (metaClass.HasSuperClass)
             {
-                classe.SuperClass = this.classes.Find(c => c.Equals(classe.SuperClass));
+                metaClass.SuperClass = this.classes.Find(c => c.Equals(metaClass.SuperClass));
             }
-            for (int i = 0; i < classe.Variables.Count; i++)
+            for (int i = 0; i < metaClass.Variables.Count; i++)
             {
-                classe.ReplaceVariableAt(i, classe.Variables[i]);
+                metaClass.ReplaceVariableAt(i, metaClass.Variables[i]);
             }
-            for (int i = 0; i < classe.Methods.Count; i++)
+            for (int i = 0; i < metaClass.Methods.Count; i++)
             {
-                classe.ReplaceMethodAt(i, classe.Methods[i]);
+                metaClass.ReplaceMethodAt(i, metaClass.Methods[i]);
             }
             for (int i = 0; i < this.types.Count; i++)
             {
-                this.types[i].UpdateType(oldClass, classe);
+                this.types[i].UpdateType(oldClass, metaClass);
             }
         }
 
@@ -147,9 +143,9 @@ namespace ClassTools.Model
         {
             if (index > 0)
             {
-                MetaClass classe = this.classes[index];
+                MetaClass metaClass = this.classes[index];
                 this.classes[index] = this.classes[index - 1];
-                this.classes[index - 1] = classe;
+                this.classes[index - 1] = metaClass;
                 return true;
             }
             return false;
@@ -159,9 +155,9 @@ namespace ClassTools.Model
         {
             if (index < this.classes.Count - 1)
             {
-                MetaClass classe = this.classes[index];
+                MetaClass metaClass = this.classes[index];
                 this.classes[index] = this.classes[index + 1];
-                this.classes[index + 1] = classe;
+                this.classes[index + 1] = metaClass;
                 return true;
             }
             return false;
@@ -179,28 +175,28 @@ namespace ClassTools.Model
             MetaType type = new MetaType(this);
             this.types = this.TypesOnly;
             this.types.Insert(index, type);
-            foreach (MetaClass classe in this.classes)
+            foreach (MetaClass metaClass in this.classes)
             {
-                this.types.Add(classe);
+                this.types.Add(metaClass);
             }
             return type;
         }
 
         public void DeleteType(string name)
         {
-            foreach (MetaType typee in this.types)
+            foreach (MetaType metaType in this.types)
             {
-                if (typee.Name == name)
+                if (metaType.Name == name)
                 {
-                    this.DeleteType(typee);
+                    this.DeleteType(metaType);
                     break;
                 }
             }
         }
 
-        public void DeleteType(MetaType type)
+        public void DeleteType(MetaType metaType)
         {
-            this.types.Remove(type);
+            this.types.Remove(metaType);
         }
 
         public void DeleteTypeAt(int index)
@@ -208,31 +204,31 @@ namespace ClassTools.Model
             this.DeleteType(this.types[index]);
         }
 
-        public void ReplaceTypeAt(int index, MetaType type)
+        public void ReplaceTypeAt(int index, MetaType metaType)
         {
             MetaType oldType = this.types[index];
             int otherIndex = this.types.IndexOf(oldType);
-            this.types[index] = type;
-            this.types[otherIndex] = type;
-            type.Model = this;
-            switch (type.TypeCategory)
+            this.types[index] = metaType;
+            this.types[otherIndex] = metaType;
+            metaType.Model = this;
+            switch (metaType.TypeCategory)
             {
-                case ETypeCategory.Normal:
-                    type.SubType1 = null;
-                    type.SubType2 = null;
+                case ECategory.Normal:
+                    metaType.SubType1 = null;
+                    metaType.SubType2 = null;
                     break;
-                case ETypeCategory.Collection:
-                    type.SubType1 = this.types.Find(t => t.Equals(type.SubType1));
-                    type.SubType2 = null;
+                case ECategory.Collection:
+                    metaType.SubType1 = this.types.Find(t => t.Equals(metaType.SubType1));
+                    metaType.SubType2 = null;
                     break;
-                case ETypeCategory.Dictionary:
-                    type.SubType1 = this.types.Find(t => t.Equals(type.SubType1));
-                    type.SubType2 = this.types.Find(t => t.Equals(type.SubType2));
+                case ECategory.Dictionary:
+                    metaType.SubType1 = this.types.Find(t => t.Equals(metaType.SubType1));
+                    metaType.SubType2 = this.types.Find(t => t.Equals(metaType.SubType2));
                     break;
             }
             for (int i = 0; i < this.types.Count; i++)
             {
-                this.types[i].UpdateType(oldType, type);
+                this.types[i].UpdateType(oldType, metaType);
             }
         }
 
@@ -241,12 +237,12 @@ namespace ClassTools.Model
             if (index > 0)
             {
                 this.types = this.TypesOnly;
-                MetaType type = this.types[index];
+                MetaType metaType = this.types[index];
                 this.types[index] = this.types[index - 1];
-                this.types[index - 1] = type;
-                foreach (MetaClass c in this.classes)
+                this.types[index - 1] = metaType;
+                foreach (MetaClass metaClass in this.classes)
                 {
-                    this.types.Add(c);
+                    this.types.Add(metaClass);
                 }
                 return true;
             }
@@ -255,13 +251,13 @@ namespace ClassTools.Model
 
         public bool TryTypeMoveDown(int index)
         {
-            List<MetaType> types = this.TypesOnly;
-            if (index < types.Count - 1)
+            List<MetaType> metaTypes = this.TypesOnly;
+            if (index < metaTypes.Count - 1)
             {
-                this.types = types;
-                MetaType type = this.types[index];
+                this.types = metaTypes;
+                MetaType metaType = this.types[index];
                 this.types[index] = this.types[index + 1];
-                this.types[index + 1] = type;
+                this.types[index + 1] = metaType;
                 foreach (MetaClass c in this.classes)
                 {
                     this.types.Add(c);

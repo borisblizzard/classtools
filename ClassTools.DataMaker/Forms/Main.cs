@@ -7,7 +7,9 @@ using System.Windows.Forms;
 using ClassTools;
 using ClassTools.Common;
 using ClassTools.Common.Forms;
-using ClassTools.Model;
+using ClassTools.Data;
+using ClassTools.Data.Database;
+using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.DataMaker.Forms
 {
@@ -22,9 +24,9 @@ namespace ClassTools.DataMaker.Forms
         #endregion
 
         #region Fields
-        private ClassModel classModel;
-        private ModelDatabase database;
-        private ModelDatabase lastDatabase;
+        private Model model;
+        private Repository repository;
+        private Repository lastRepository;
         string lastFilename;
         private bool refreshing;
         #endregion
@@ -34,7 +36,7 @@ namespace ClassTools.DataMaker.Forms
         {
             InitializeComponent();
             this.lastFilename = string.Empty;
-            this.classModel = null;
+            this.model = null;
             this.newMenuItem.Enabled = false;
             this.saveMenuItem.Enabled = false;
             this.saveAsMenuItem.Enabled = false;
@@ -53,23 +55,23 @@ namespace ClassTools.DataMaker.Forms
                 if (result == DialogResult.OK)
                 {
                     Stream stream = this.ofdDatabase.OpenFile();
-                    ModelDatabase newDatabase = Serializer.Deserialize(stream, this.database);
+                    Repository newRepository = Serializer.Deserialize(stream, this.repository);
                     this.lastFilename = this.ofdDatabase.FileName;
                     stream.Close();
-                    if (this.classModel == null)
+                    if (this.model == null)
                     {
-                        this.classModel = newDatabase.Model;
+                        this.model = newRepository.Model;
                     }
-                    else if (!newDatabase.Model.Equals(this.classModel))
+                    else if (!newRepository.Model.Equals(this.model))
                     {
                         result = MessageBox.Show(warningModelNotMatching, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     }
                     if (result == DialogResult.OK)
                     {
-                        this.database = newDatabase;
-                        this.lastDatabase = Serializer.Clone(this.database);
-                        this.database.UpdateModel(this.classModel);
-                        this.lastDatabase.UpdateModel(this.classModel);
+                        this.repository = newRepository;
+                        this.lastRepository = Serializer.Clone(this.repository);
+                        this.repository.UpdateModel(this.model);
+                        this.lastRepository.UpdateModel(this.model);
                         this.RefreshData();
                     }
                 }
@@ -102,9 +104,9 @@ namespace ClassTools.DataMaker.Forms
             DialogResult result = this.showSaveChangesDialog(savePromptNew);
             if (result != DialogResult.Cancel)
             {
-                this.database = new ModelDatabase(this.classModel);
-                this.lastDatabase = Serializer.Clone(this.database);
-                this.lastDatabase.UpdateModel(this.classModel);
+                this.repository = new Repository(this.model);
+                this.lastRepository = Serializer.Clone(this.repository);
+                this.lastRepository.UpdateModel(this.model);
                 this.lastFilename = string.Empty;
                 this.RefreshData();
             }
@@ -140,26 +142,26 @@ namespace ClassTools.DataMaker.Forms
                 if (result == DialogResult.OK)
                 {
                     Stream stream = this.ofdModel.OpenFile();
-                    this.classModel = Serializer.Deserialize(stream, this.classModel);
+                    this.model = Serializer.Deserialize(stream, this.model);
                     stream.Close();
-                    if (this.database != null)
+                    if (this.repository != null)
                     {
-                        if (!this.database.Model.Equals(this.classModel))
+                        if (!this.repository.Model.Equals(this.model))
                         {
                             result = MessageBox.Show(warningModelNotMatching, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                         }
                         if (result == DialogResult.OK)
                         {
-                            this.database.UpdateModel(this.classModel);
-                            this.lastDatabase = Serializer.Clone(this.database);
-                            this.lastDatabase.UpdateModel(this.classModel);
+                            this.repository.UpdateModel(this.model);
+                            this.lastRepository = Serializer.Clone(this.repository);
+                            this.lastRepository.UpdateModel(this.model);
                             this.RefreshData();
                         }
                     }
                     else
                     {
-                        this.database = new ModelDatabase(this.classModel);
-                        this.lastDatabase = new ModelDatabase(this.classModel);
+                        this.repository = new Repository(this.model);
+                        this.lastRepository = new Repository(this.model);
                         this.lastFilename = string.Empty;
                     }
                     this.RefreshData();
@@ -169,12 +171,12 @@ namespace ClassTools.DataMaker.Forms
 
         private DialogResult showSaveChangesDialog(string text)
         {
-            if (this.classModel == null)
+            if (this.model == null)
             {
                 return DialogResult.No;
             }
             DialogResult result = DialogResult.OK;
-            if (!this.database.Equals(this.lastDatabase))
+            if (!this.repository.Equals(this.lastRepository))
             {
                 result = MessageBox.Show(text, "Unsaved Changes", MessageBoxButtons.YesNoCancel,
                     MessageBoxIcon.Exclamation);
@@ -205,8 +207,8 @@ namespace ClassTools.DataMaker.Forms
 
         private void save(Stream stream)
         {
-            Serializer.Serialize(stream, this.database);
-            this.lastDatabase = Serializer.Clone(this.database);
+            Serializer.Serialize(stream, this.repository);
+            this.lastRepository = Serializer.Clone(this.repository);
         }
         #endregion
 
@@ -218,27 +220,27 @@ namespace ClassTools.DataMaker.Forms
                 return;
             }
             this.refreshing = true;
-            if (this.classModel != null)
+            if (this.model != null)
             {
                 this.newMenuItem.Enabled = true;
                 this.saveMenuItem.Enabled = true;
                 this.saveAsMenuItem.Enabled = true;
             }
-            Utility.ApplyNewDataSource(this.lbClasses, new List<MetaClass>(this.classModel.Classes), this.classModel.Classes.Count);
-            if (this.classModel.Classes.Count > 0)
+            Utility.ApplyNewDataSource(this.lbClasses, new List<MetaClass>(this.model.Classes), this.model.Classes.Count);
+            if (this.model.Classes.Count > 0)
             {
                 if (this.lbClasses.SelectedIndex < 0)
                 {
                     this.lbClasses.SelectedIndex = 0;
                 }
             }
-            if (this.database != null)
+            if (this.repository != null)
             {
                 this.icInstances.ClearData();
                 MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
                 if (metaClass != null)
                 {
-                    this.icInstances.SetData(this, this.database, metaClass, this.database.GetInstances(metaClass));
+                    this.icInstances.SetData(this, this.repository, metaClass, this.repository.GetInstances(metaClass));
                     this.icInstances.RefreshData();
                 }
             }
@@ -248,10 +250,10 @@ namespace ClassTools.DataMaker.Forms
         private void bEdit_Click(object sender, EventArgs e)
         {
             /*
-            MetaClass classe = (MetaClass)this.lbClasses.SelectedItem;
-            if (classe != null)
+            MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
+            if (metaClass != null)
             {
-                Form form = new InstanceCollection(this.database, classe, this.database.GetInstances(classe));
+                Form form = new InstanceCollection(this.repository, metaClass, this.repository.GetInstances(metaClass));
                 form.ShowDialog();
             }
             */
@@ -295,7 +297,7 @@ namespace ClassTools.DataMaker.Forms
             DialogResult result = f.ShowDialog();
             if (result == DialogResult.OK)
             {
-                f.Execute(this.classModel, this.database);
+                f.Execute(this.model, this.repository);
             }
         }
         #endregion

@@ -4,7 +4,8 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using ClassTools;
-using ClassTools.Model;
+using ClassTools.Data.Database;
+using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.Common.Forms
 {
@@ -48,7 +49,7 @@ namespace ClassTools.Common.Forms
             this.Close();
         }
 
-        public void Execute(ClassModel model, ModelDatabase database)
+        public void Execute(Model model, Repository repository)
         {
             IPlugin plugin = this.Plugin;
             if (plugin == null)
@@ -70,7 +71,7 @@ namespace ClassTools.Common.Forms
             {
                 try
                 {
-                    string message = plugin.Execute(model, database, path);
+                    string message = plugin.Execute(model, repository, path);
                     MessageBox.Show(message, plugin.Name + " is done", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
@@ -80,7 +81,7 @@ namespace ClassTools.Common.Forms
             }
             else if (result == DialogResult.No)
             {
-                string message = plugin.Execute(model, database, path);
+                string message = plugin.Execute(model, repository, path);
                 MessageBox.Show(message, plugin.Name + " is done", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }

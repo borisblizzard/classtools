@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ClassTools.Model
+namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
     public class MetaClass : MetaType
@@ -89,7 +89,7 @@ namespace ClassTools.Model
         #endregion
 
         #region Constructors
-        public MetaClass(ClassModel model)
+        public MetaClass(Model model)
             : base(model, "ANON_CLASS")
         {
             this.module = "ANON_MODULE";

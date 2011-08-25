@@ -1,18 +1,18 @@
 ﻿using System;
 
-namespace ClassTools.Model
+namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
-    public class MetaClassModelBase
+    public class MetaBase
     {
         #region Fields
-        protected ClassModel model;
+        protected Model model;
         protected string name;
         protected string prefix;
         #endregion
 
         #region Properties
-        public ClassModel Model
+        public Model Model
         {
             get { return this.model; }
             set { this.model = value; }
@@ -32,7 +32,7 @@ namespace ClassTools.Model
         #endregion
 
         #region Constructors
-        public MetaClassModelBase(ClassModel model, string name)
+        public MetaBase(Model model, string name)
         {
             this.model = model;
             this.name = name;
@@ -41,7 +41,7 @@ namespace ClassTools.Model
         #endregion
 
         #region Behavior
-        public bool Equals(MetaClassModelBase other)
+        public bool Equals(MetaBase other)
         {
             if (this.name != other.name) return false;
             if (this.prefix != other.prefix) return false;
@@ -59,5 +59,6 @@ namespace ClassTools.Model
             return this.Name;
         }
         #endregion
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClassTools.Model
+namespace ClassTools.Data.Hierarchy
 {
     [Serializable]
     public class MetaVariable : MetaMember
@@ -39,7 +39,7 @@ namespace ClassTools.Model
         #endregion
 
         #region Constructors
-        public MetaVariable(ClassModel model)
+        public MetaVariable(Model model)
             : base(model, "ANON_VARIABLE")
         {
             this.defaultValue = string.Empty;

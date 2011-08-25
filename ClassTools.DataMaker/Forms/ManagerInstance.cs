@@ -1,18 +1,19 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
 using ClassTools.Common;
-using ClassTools.Model;
+using ClassTools.Data;
+using ClassTools.Data.Database;
+using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.DataMaker.Forms
 {
-    public partial class Instance : Form, IRefreshable
+    public partial class ManagerInstance : Form, IRefreshable
     {
         #region Fields
-        private ModelDatabase database;
+        private Repository respository;
         private MetaClass metaClass;
         private MetaInstance metaInstance;
         private bool refreshing;
@@ -26,13 +27,13 @@ namespace ClassTools.DataMaker.Forms
         #endregion
 
         #region Constructors
-        public Instance(ModelDatabase database, MetaClass metaClass, MetaInstance instance)
+        public ManagerInstance(Repository repository, MetaClass metaClass, MetaInstance metaInstance)
         {
             InitializeComponent();
-            this.database = database;
-            this.metaInstance = (instance != null ? instance : new MetaInstance(database, metaClass));
+            this.respository = repository;
+            this.metaInstance = (metaInstance != null ? metaInstance : new MetaInstance(repository, metaClass));
             this.metaClass = metaClass;
-            this.ivbInstanceVariables.SetData(this, this.database, this.metaClass);
+            this.ivbInstanceVariables.SetData(this, this.respository, this.metaClass);
             this.ivbInstanceVariables.MetaInstance = this.metaInstance;
             this.cbExists.Checked = (this.metaInstance != null);
             this.RefreshData();

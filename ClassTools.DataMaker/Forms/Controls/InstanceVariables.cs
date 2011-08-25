@@ -6,7 +6,9 @@ using System.Data;
 using System.Windows.Forms;
 
 using ClassTools.Common;
-using ClassTools.Model;
+using ClassTools.Data;
+using ClassTools.Data.Database;
+using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.DataMaker.Forms.Controls
 {
@@ -22,7 +24,7 @@ namespace ClassTools.DataMaker.Forms.Controls
         #endregion
 
         #region Fields
-        private ModelDatabase database;
+        private Repository repository;
         private MetaClass metaClass;
         private MetaInstance metaInstance;
         private List<Control> valueControls;
@@ -47,7 +49,7 @@ namespace ClassTools.DataMaker.Forms.Controls
         {
             InitializeComponent();
             this.owner = null;
-            this.database = null;
+            this.repository = null;
             this.metaClass = null;
             this.metaInstance = null;
             this.valueControls = new List<Control>();
@@ -66,44 +68,44 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
         }
 
-        public void SetData(IRefreshable owner, ModelDatabase database, MetaClass metaClass)
+        public void SetData(IRefreshable owner, Repository repository, MetaClass metaClass)
         {
             this.owner = owner;
-            this.database = database;
+            this.repository = repository;
             this.metaClass = metaClass;
             this.setupLayout();
         }
 
         private void setupLayout()
         {
-            MetaVariable variable;
+            MetaVariable metaVariable;
             TextBox textBox;
             NumericUpDown numericUpDown;
             CheckBox checkBox;
             Button button;
             Label label;
             int maxWidth = 0;
-            List<MetaVariable> variables = this.metaClass.AllVariables;
-            for (int i = 0; i < variables.Count; i++)
+            List<MetaVariable> metaVariables = this.metaClass.AllVariables;
+            for (int i = 0; i < metaVariables.Count; i++)
             {
-                variable = variables[i];
+                metaVariable = metaVariables[i];
                 label = new Label();
                 this.Controls.Add(label);
                 label.Location = new Point(5, OFFSET + 3 + i * 26);
-                label.Text = variable.ToString();
-                label.Name = "name " + variable.ToString();
+                label.Text = metaVariable.ToString();
+                label.Name = "name " + metaVariable.ToString();
                 label.TabIndex = 10 + i * 2;
                 label.AutoSize = true;
                 if (maxWidth < label.Width)
                 {
                     maxWidth = label.Width;
                 }
-                if (!variable.Type.IsClass)
+                if (!metaVariable.Type.IsClass)
                 {
-                    switch (variable.Type.TypeCategory)
+                    switch (metaVariable.Type.TypeCategory)
                     {
-                        case ETypeCategory.Normal:
-                            switch (variable.Type.Name)
+                        case ECategory.Normal:
+                            switch (metaVariable.Type.Name)
                             {
                                 case "int":
                                     numericUpDown = new NumericUpDown();
@@ -114,7 +116,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Maximum = int.MaxValue;
                                     numericUpDown.Minimum = int.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
-                                    numericUpDown.Name = variable.ToString();
+                                    numericUpDown.Name = metaVariable.ToString();
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
@@ -127,7 +129,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Maximum = uint.MaxValue;
                                     numericUpDown.Minimum = uint.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
-                                    numericUpDown.Name = variable.ToString();
+                                    numericUpDown.Name = metaVariable.ToString();
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
@@ -140,7 +142,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Maximum = short.MaxValue;
                                     numericUpDown.Minimum = short.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
-                                    numericUpDown.Name = variable.ToString();
+                                    numericUpDown.Name = metaVariable.ToString();
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
@@ -153,7 +155,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Maximum = ushort.MaxValue;
                                     numericUpDown.Minimum = ushort.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
-                                    numericUpDown.Name = variable.ToString();
+                                    numericUpDown.Name = metaVariable.ToString();
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
@@ -166,7 +168,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Maximum = long.MaxValue;
                                     numericUpDown.Minimum = long.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
-                                    numericUpDown.Name = variable.ToString();
+                                    numericUpDown.Name = metaVariable.ToString();
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
@@ -179,7 +181,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Maximum = ulong.MaxValue;
                                     numericUpDown.Minimum = ulong.MinValue;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
-                                    numericUpDown.Name = variable.ToString();
+                                    numericUpDown.Name = metaVariable.ToString();
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
@@ -190,7 +192,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     textBox.Size = new Size(160, 20);
                                     textBox.Location = new Point(5, OFFSET + i * 26);
                                     textBox.MaxLength = 1;
-                                    textBox.Name = variable.ToString();
+                                    textBox.Name = metaVariable.ToString();
                                     textBox.TabIndex = 11 + i * 2;
                                     textBox.TextChanged += new EventHandler(this.textBox_TextChanged);
                                     break;
@@ -203,7 +205,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.Maximum = 255;
                                     numericUpDown.Minimum = 0;
                                     numericUpDown.TextAlign = HorizontalAlignment.Right;
-                                    numericUpDown.Name = variable.ToString();
+                                    numericUpDown.Name = metaVariable.ToString();
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
@@ -214,7 +216,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     textBox.Size = new Size(160, 20);
                                     textBox.Location = new Point(5, OFFSET + i * 26);
                                     textBox.Text = "0";
-                                    textBox.Name = variable.ToString();
+                                    textBox.Name = metaVariable.ToString();
                                     textBox.TabIndex = 11 + i * 2;
                                     textBox.TextChanged += new EventHandler(this.textBox_TextChanged);
                                     break;
@@ -225,7 +227,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     textBox.Size = new Size(160, 20);
                                     textBox.Location = new Point(5, OFFSET + i * 26);
                                     textBox.Text = "0";
-                                    textBox.Name = variable.ToString();
+                                    textBox.Name = metaVariable.ToString();
                                     textBox.TabIndex = 11 + i * 2;
                                     textBox.TextChanged += new EventHandler(this.textBox_TextChanged);
                                     break;
@@ -245,30 +247,30 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     this.valueControls.Add(textBox);
                                     textBox.Size = new Size(160, 20);
                                     textBox.Location = new Point(5, OFFSET + i * 26);
-                                    textBox.Name = variable.ToString();
+                                    textBox.Name = metaVariable.ToString();
                                     textBox.TabIndex = 11 + i * 2;
                                     textBox.TextChanged += new EventHandler(this.textBox_TextChanged);
                                     break;
                             }
                             break;
-                        case ETypeCategory.Collection:
+                        case ECategory.Collection:
                             button = new Button();
                             this.Controls.Add(button);
                             this.valueControls.Add(button);
                             button.Size = new Size(80, 23);
                             button.Location = new Point(5, OFFSET - 2 + i * 26);
                             button.Text = MANAGE_TEXT;
-                            button.Name = variable.ToString();
+                            button.Name = metaVariable.ToString();
                             button.TabIndex = 11 + i * 2;
                             break;
-                        case ETypeCategory.Dictionary:
+                        case ECategory.Dictionary:
                             button = new Button();
                             this.Controls.Add(button);
                             this.valueControls.Add(button);
                             button.Size = new Size(80, 23);
                             button.Location = new Point(5, OFFSET - 2 + i * 26);
                             button.Text = MANAGE_TEXT;
-                            button.Name = variable.ToString();
+                            button.Name = metaVariable.ToString();
                             button.TabIndex = 11 + i * 2;
                             break;
                     }
@@ -281,7 +283,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                     button.Size = new Size(80, 23);
                     button.Location = new Point(5, OFFSET - 2 + i * 26);
                     button.Text = MANAGE_TEXT;
-                    button.Name = variable.ToString();
+                    button.Name = metaVariable.ToString();
                     button.TabIndex = 11 + i * 2;
                     button.Click += new EventHandler(this.buttonObject_Click);
                 }
@@ -302,56 +304,56 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
             this.refreshing = true;
             this.owner.RefreshData();
-            MetaVariable variable;
-            MetaInstanceVariable instanceVariable;
+            MetaVariable metaVariable;
+            MetaInstanceVariable metaInstanceVariable;
             TextBox textBox;
             NumericUpDown numericUpDown;
             CheckBox checkBox;
-            List<MetaVariable> variables = this.metaClass.AllVariables;
+            List<MetaVariable> metaVariables = this.metaClass.AllVariables;
             if (this.metaInstance != null)
             {
-                for (int i = 0; i < variables.Count; i++)
+                for (int i = 0; i < metaVariables.Count; i++)
                 {
-                    variable = variables[i];
-                    instanceVariable = this.metaInstance.InstanceVariables[i];
-                    if (!variable.Type.IsClass && variable.Type.TypeCategory == ETypeCategory.Normal)
+                    metaVariable = metaVariables[i];
+                    metaInstanceVariable = this.metaInstance.InstanceVariables[i];
+                    if (!metaVariable.Type.IsClass && metaVariable.Type.TypeCategory == ECategory.Normal)
                     {
-                        if (INT_TYPES.Contains(variable.Type.Name) || CHAR_TYPES.Contains(variable.Type.Name))
+                        if (INT_TYPES.Contains(metaVariable.Type.Name) || CHAR_TYPES.Contains(metaVariable.Type.Name))
                         {
                             numericUpDown = (NumericUpDown)this.valueControls[i];
-                            numericUpDown.Value = instanceVariable.ValueDecimal;
+                            numericUpDown.Value = metaInstanceVariable.ValueDecimal;
                         }
-                        else if (FIXED_POINT_TYPES.Contains(variable.Type.Name))
+                        else if (FIXED_POINT_TYPES.Contains(metaVariable.Type.Name))
                         {
                             textBox = (TextBox)this.valueControls[i];
-                            textBox.Text = instanceVariable.ValueString;
+                            textBox.Text = metaInstanceVariable.ValueString;
                         }
-                        else if (variable.Type.Name == "bool")
+                        else if (metaVariable.Type.Name == "bool")
                         {
                             checkBox = (CheckBox)this.valueControls[i];
-                            checkBox.Checked = instanceVariable.ValueBool;
+                            checkBox.Checked = metaInstanceVariable.ValueBool;
                         }
                         else
                         {
                             textBox = (TextBox)this.valueControls[i];
-                            textBox.Text = instanceVariable.ValueString;
+                            textBox.Text = metaInstanceVariable.ValueString;
                         }
                     }
                 }
             }
             else
             {
-                for (int i = 0; i < variables.Count; i++)
+                for (int i = 0; i < metaVariables.Count; i++)
                 {
-                    variable = variables[i];
-                    if (!variable.Type.IsClass && variable.Type.TypeCategory == ETypeCategory.Normal)
+                    metaVariable = metaVariables[i];
+                    if (!metaVariable.Type.IsClass && metaVariable.Type.TypeCategory == ECategory.Normal)
                     {
-                        if (INT_TYPES.Contains(variable.Type.Name) || CHAR_TYPES.Contains(variable.Type.Name))
+                        if (INT_TYPES.Contains(metaVariable.Type.Name) || CHAR_TYPES.Contains(metaVariable.Type.Name))
                         {
                             numericUpDown = (NumericUpDown)this.valueControls[i];
                             numericUpDown.Value = decimal.Zero;
                         }
-                        else if (variable.Type.Name == "bool")
+                        else if (metaVariable.Type.Name == "bool")
                         {
                             checkBox = (CheckBox)this.valueControls[i];
                             checkBox.Checked = false;
@@ -425,16 +427,16 @@ namespace ClassTools.DataMaker.Forms.Controls
         private void buttonObject_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-            MetaInstanceVariable variable;
+            MetaInstanceVariable metaInstanceVariable;
             for (int i = 0; i < this.metaInstance.InstanceVariables.Count; i++)
             {
-                variable = this.metaInstance.InstanceVariables[i];
-                if (button.Name == variable.ToString())
+                metaInstanceVariable = this.metaInstance.InstanceVariables[i];
+                if (button.Name == metaInstanceVariable.ToString())
                 {
-                    Instance form = new Instance(this.database, (MetaClass)this.metaClass.AllVariables[i].Type, variable.ValueInstance);
-                    form.Text = variable.ToString();
+                    ManagerInstance form = new ManagerInstance(this.repository, (MetaClass)this.metaClass.AllVariables[i].Type, metaInstanceVariable.ValueInstance);
+                    form.Text = metaInstanceVariable.ToString();
                     form.ShowDialog();
-                    variable.ValueInstance = form.MetaInstance;
+                    metaInstanceVariable.ValueInstance = form.MetaInstance;
                     this.RefreshData();
                     break;
                 }

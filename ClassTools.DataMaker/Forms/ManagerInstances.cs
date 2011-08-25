@@ -5,34 +5,36 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using ClassTools.Common;
-using ClassTools.Model;
+using ClassTools.Data;
+using ClassTools.Data.Database;
+using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.DataMaker.Forms
 {
-    public partial class InstanceCollection : Form, IRefreshable
+    public partial class ManagerInstances : Form, IRefreshable
     {
         #region Fields
-        private ModelDatabase database;
+        private Repository repository;
         private MetaClass metaClass;
         private List<MetaInstance> metaInstances;
         private bool refreshing;
         #endregion
 
         #region Properties
-        public List<MetaInstance> MetaInstances
+        public List<MetaInstance> Instances
         {
             get { return this.metaInstances; }
         }
         #endregion
 
         #region Constructors
-        public InstanceCollection(ModelDatabase database, MetaClass metaClass, List<MetaInstance> metaInstances)
+        public ManagerInstances(Repository repository, MetaClass metaClass, List<MetaInstance> metaInstances)
         {
             InitializeComponent();
-            this.database = database;
+            this.repository = repository;
             this.metaInstances = metaInstances;
             this.metaClass = metaClass;
-            this.icInstances.SetData(this, this.database, this.metaClass, this.metaInstances);
+            this.icInstances.SetData(this, this.repository, this.metaClass, this.metaInstances);
             this.RefreshData();
         }
         #endregion

@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using ClassTools.Common;
-using ClassTools.Model;
+using ClassTools.Data.Database;
+using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.DataMaker.Forms.Controls
 {
     public partial class InstanceCollection : UserControl, IRefreshable
     {
         #region Fields
-        private ModelDatabase database;
+        private Repository repository;
         private MetaClass metaClass;
         private List<MetaInstance> metaInstances;
         private IRefreshable owner;
@@ -40,7 +38,7 @@ namespace ClassTools.DataMaker.Forms.Controls
         {
             InitializeComponent();
             this.owner = null;
-            this.database = null;
+            this.repository = null;
             this.metaClass = null;
             this.metaInstances = null;
             this.Enabled = false;
@@ -55,14 +53,14 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
         }
 
-        public void SetData(IRefreshable owner, ModelDatabase database, MetaClass metaClass, List<MetaInstance> metaInstances)
+        public void SetData(IRefreshable owner, Repository repository, MetaClass metaClass, List<MetaInstance> metaInstances)
         {
             this.owner = owner;
-            this.database = database;
+            this.repository = repository;
             this.metaClass = metaClass;
             this.metaInstances = metaInstances;
             this.ivVariables.ClearData();
-            this.ivVariables.SetData(this, this.database, this.metaClass);
+            this.ivVariables.SetData(this, this.repository, this.metaClass);
             this.ivVariables.MetaInstance = (this.metaInstances.Count > 0 ? this.metaInstances[0] : null);
         }
         #endregion
@@ -110,7 +108,7 @@ namespace ClassTools.DataMaker.Forms.Controls
         {
             if (this.lbInstances.Focused)
             {
-                this.database.ReplaceInstanceAt(this.metaClass, this.lbInstances.SelectedIndex, InternalClipboard.Instance);
+                this.repository.ReplaceInstanceAt(this.metaClass, this.lbInstances.SelectedIndex, InternalClipboard.Instance);
                 this.RefreshData();
             }
         }
@@ -119,8 +117,8 @@ namespace ClassTools.DataMaker.Forms.Controls
         {
             if (this.lbInstances.Focused)
             {
-                MetaInstance instance = new MetaInstance(this.database, this.metaClass);
-                this.metaInstances.Insert(this.lbInstances.SelectedIndex + 1, instance);
+                MetaInstance metaInstance = new MetaInstance(this.repository, this.metaClass);
+                this.metaInstances.Insert(this.lbInstances.SelectedIndex + 1, metaInstance);
                 this.RefreshData();
             }
         }

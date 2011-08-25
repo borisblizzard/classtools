@@ -4,7 +4,8 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using ClassTools.Common;
-using ClassTools.Model;
+using ClassTools.Data;
+using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.ClassMaker.Forms
 {
@@ -17,19 +18,16 @@ namespace ClassTools.ClassMaker.Forms
 
         #region Fields
         private bool refreshing;
-        private ClassModel model;
+        private Model model;
         #endregion
 
         #region Construtors
-        public Types(ClassModel model)
+        public Types(Model model)
         {
             InitializeComponent();
             this.model = model;
             this.refreshing = false;
-            // same order as ETypeCategory indexes!
-            this.cbTypeCategory.Items.Add("Normal");
-            this.cbTypeCategory.Items.Add("Collection");
-            this.cbTypeCategory.Items.Add("Dictionary");
+            this.cbTypeCategory.Items.AddRange(Constants.CategoryNames);
             this.refresh();
         }
         #endregion
@@ -44,24 +42,24 @@ namespace ClassTools.ClassMaker.Forms
             this.refreshing = true;
             List<MetaType> typesOnly = this.model.TypesOnly;
             Utility.ApplyNewDataSource(this.lbTypes, typesOnly, typesOnly.Count);
-            MetaType type = this.model.Types[this.lbTypes.SelectedIndex];
+            MetaType metaType = this.model.Types[this.lbTypes.SelectedIndex];
             List<MetaType> types = new List<MetaType>(this.model.Types);
-            types.Remove(type);
+            types.Remove(metaType);
             Utility.ApplyNewDataSource(this.cbSubType1, new List<MetaType>(types), types.Count);
             Utility.ApplyNewDataSource(this.cbSubType2, new List<MetaType>(types), types.Count);
             bool enabled = (typesOnly.Count > 1);
             this.bTypeDelete.Enabled = enabled;
-            this.tbTypeName.Text = type.Name;
-            this.cbSubType1.SelectedItem = type.SubType1;
-            this.cbSubType2.SelectedItem = type.SubType2;
-            this.tbSuffix1.Text = type.Suffix1;
-            this.tbSuffix2.Text = type.Suffix2;
+            this.tbTypeName.Text = metaType.Name;
+            this.cbSubType1.SelectedItem = metaType.SubType1;
+            this.cbSubType2.SelectedItem = metaType.SubType2;
+            this.tbSuffix1.Text = metaType.Suffix1;
+            this.tbSuffix2.Text = metaType.Suffix2;
             if (enabled)
             {
-                this.cbTypeCategory.SelectedIndex = (int)type.TypeCategory;
+                this.cbTypeCategory.SelectedIndex = (int)metaType.TypeCategory;
                 switch (this.cbTypeCategory.SelectedIndex)
                 {
-                    case (int)ETypeCategory.Normal:
+                    case (int)ECategory.Normal:
                         lSubType1.Enabled = false;
                         cbSubType1.Enabled = false;
                         lSuffix1.Enabled = false;
@@ -71,7 +69,7 @@ namespace ClassTools.ClassMaker.Forms
                         lSuffix2.Enabled = false;
                         tbSuffix2.Enabled = false;
                         break;
-                    case (int)ETypeCategory.Collection:
+                    case (int)ECategory.Collection:
                         lSubType1.Enabled = true;
                         cbSubType1.Enabled = true;
                         lSuffix1.Enabled = true;
@@ -81,7 +79,7 @@ namespace ClassTools.ClassMaker.Forms
                         lSuffix2.Enabled = false;
                         tbSuffix2.Enabled = false;
                         break;
-                    case (int)ETypeCategory.Dictionary:
+                    case (int)ECategory.Dictionary:
                         lSubType1.Enabled = true;
                         cbSubType1.Enabled = true;
                         lSuffix1.Enabled = true;
@@ -119,8 +117,8 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             this.refreshing = true;
-            MetaType type = (MetaType)this.lbTypes.SelectedItem;
-            type.Name = this.tbTypeName.Text;
+            MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
+            metaType.Name = this.tbTypeName.Text;
             this.refreshing = false;
             this.refresh();
         }
@@ -138,17 +136,15 @@ namespace ClassTools.ClassMaker.Forms
                 List<MetaType> types = this.model.TypesOnly;
                 if (types.Count == 1)
                 {
-                    MetaType type = (MetaType)this.lbTypes.SelectedItem;
-                    MessageBox.Show(string.Format(errorLastTypeDelete, type.Name), "Error!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
+                    MessageBox.Show(string.Format(errorLastTypeDelete, metaType.Name), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    MetaType type = (MetaType)this.lbTypes.SelectedItem;
-                    if (!types.Contains(type))
+                    MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
+                    if (!types.Contains(metaType))
                     {
-                        MessageBox.Show(string.Format(errorClassDelete, type.Name), "Error!",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(string.Format(errorClassDelete, metaType.Name), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
@@ -167,28 +163,28 @@ namespace ClassTools.ClassMaker.Forms
             }
             this.refreshing = true;
             int index = this.cbTypeCategory.SelectedIndex;
-            MetaType type = (MetaType)this.lbTypes.SelectedItem;
+            MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
             switch (index)
             {
-                case (int)ETypeCategory.Normal:
-                    type.SubType1 = null;
-                    type.SubType2 = null;
+                case (int)ECategory.Normal:
+                    metaType.SubType1 = null;
+                    metaType.SubType2 = null;
                     break;
-                case (int)ETypeCategory.Collection:
-                    if (type.SubType1 == null)
+                case (int)ECategory.Collection:
+                    if (metaType.SubType1 == null)
                     {
-                        type.SubType1 = this.model.Types[0];
+                        metaType.SubType1 = this.model.Types[0];
                     }
-                    type.SubType2 = null;
+                    metaType.SubType2 = null;
                     break;
-                case (int)ETypeCategory.Dictionary:
-                    if (type.SubType1 == null)
+                case (int)ECategory.Dictionary:
+                    if (metaType.SubType1 == null)
                     {
-                        type.SubType1 = this.model.Types[0];
+                        metaType.SubType1 = this.model.Types[0];
                     }
-                    if (type.SubType2 == null)
+                    if (metaType.SubType2 == null)
                     {
-                        type.SubType2 = this.model.Types[0];
+                        metaType.SubType2 = this.model.Types[0];
                     }
                     break;
             }
@@ -203,8 +199,8 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             this.refreshing = true;
-            MetaType type = (MetaType)this.lbTypes.SelectedItem;
-            type.SubType1 = (MetaType)this.cbSubType1.SelectedItem;
+            MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
+            metaType.SubType1 = (MetaType)this.cbSubType1.SelectedItem;
             this.refreshing = false;
             this.refresh();
         }
@@ -216,8 +212,8 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             this.refreshing = true;
-            MetaType type = (MetaType)this.lbTypes.SelectedItem;
-            type.SubType2 = (MetaType)this.cbSubType2.SelectedItem;
+            MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
+            metaType.SubType2 = (MetaType)this.cbSubType2.SelectedItem;
             this.refreshing = false;
             this.refresh();
         }
@@ -229,8 +225,8 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             this.refreshing = true;
-            MetaType type = (MetaType)this.lbTypes.SelectedItem;
-            type.Suffix1 = this.tbSuffix1.Text;
+            MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
+            metaType.Suffix1 = this.tbSuffix1.Text;
             this.refreshing = false;
             this.refresh();
         }
@@ -242,8 +238,8 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             this.refreshing = true;
-            MetaType type = (MetaType)this.lbTypes.SelectedItem;
-            type.Suffix2 = this.tbSuffix2.Text;
+            MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
+            metaType.Suffix2 = this.tbSuffix2.Text;
             this.refreshing = false;
             this.refresh();
         }
