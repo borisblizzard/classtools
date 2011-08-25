@@ -46,8 +46,8 @@ namespace ClassTools.ClassMaker.Forms
             this.lastModel = Serializer.Clone(this.model);
             this.lastFilename = string.Empty;
             this.validationLog = string.Empty;
-            this.cbVariableAccess.DataSource = new List<string>(ClassTools.Data.Constants.NAMES_ACCESS);
-            this.cbMethodAccess.DataSource = new List<string>(ClassTools.Data.Constants.NAMES_ACCESS);
+            this.cbVariableAccess.DataSource = ClassTools.Data.Constants.NAMES_ACCESS;
+            this.cbMethodAccess.DataSource = ClassTools.Data.Constants.NAMES_ACCESS;
             this.windowLog = new Log();
             this.windowLog.Hide();
             if (args.Length > 0)
@@ -177,10 +177,10 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             this.refreshing = true;
-            Utility.ApplyNewDataSource(this.lbClasses, new List<MetaClass>(this.model.Classes), this.model.Classes.Count);
-            Utility.ApplyNewDataSource(this.cbSuperClass, new List<MetaClass>(this.model.Classes), this.model.Classes.Count);
-            Utility.ApplyNewDataSource(this.cbVariableType, new List<MetaType>(this.model.Types), this.model.Classes.Count);
-            Utility.ApplyNewDataSource(this.cbMethodType, new List<MetaType>(this.model.Types), this.model.Classes.Count);
+            Utility.ApplyNewDataSource(this.lbClasses, new MetaList<MetaClass>(this.model.Classes), this.model.Classes.Count);
+            Utility.ApplyNewDataSource(this.cbSuperClass, new MetaList<MetaClass>(this.model.Classes), this.model.Classes.Count);
+            Utility.ApplyNewDataSource(this.cbVariableType, new MetaList<MetaType>(this.model.Types), this.model.Classes.Count);
+            Utility.ApplyNewDataSource(this.cbMethodType, new MetaList<MetaType>(this.model.Types), this.model.Classes.Count);
             MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
             bool enabled = (metaClass != null);
             this.gbClass.Enabled = enabled;
@@ -202,8 +202,8 @@ namespace ClassTools.ClassMaker.Forms
                 {
                     this.cbSuperClass.SelectedIndex = 0;
                 }
-                Utility.ApplyNewDataSource(this.lbVariables, new List<MetaVariable>(metaClass.Variables), metaClass.Variables.Count);
-                Utility.ApplyNewDataSource(this.lbMethods, new List<MetaMethod>(metaClass.Methods), metaClass.Methods.Count);
+                Utility.ApplyNewDataSource(this.lbVariables, new MetaList<MetaVariable>(metaClass.Variables), metaClass.Variables.Count);
+                Utility.ApplyNewDataSource(this.lbMethods, new MetaList<MetaMethod>(metaClass.Methods), metaClass.Methods.Count);
                 this.refreshVariable();
                 this.refreshMethod();
             }

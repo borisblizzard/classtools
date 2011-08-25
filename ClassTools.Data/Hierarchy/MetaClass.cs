@@ -61,11 +61,11 @@ namespace ClassTools.Data.Hierarchy
             }
         }
 
-        public List<MetaMethod> AllMethods
+        public MetaList<MetaMethod> AllMethods
         {
             get
             {
-                List<MetaMethod> methods = new List<MetaMethod>();
+                MetaList<MetaMethod> methods = new MetaList<MetaMethod>();
                 if (this.HasSuperClass)
                 {
                     methods.AddRange(this.superClass.AllMethods);

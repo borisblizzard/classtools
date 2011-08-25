@@ -75,7 +75,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
             this.refreshing = true;
             this.Enabled = (this.metaClass != null);
-            Utility.ApplyNewDataSource(this.lbInstances, new List<MetaInstance>(this.metaInstances), this.metaInstances.Count);
+            Utility.ApplyNewDataSource(this.lbInstances, new MetaList<MetaInstance>(this.metaInstances), this.metaInstances.Count);
             this.lbInstances.Enabled = true;
             this.ivVariables.MetaInstance = (MetaInstance)this.lbInstances.SelectedItem;
             this.refreshing = false;

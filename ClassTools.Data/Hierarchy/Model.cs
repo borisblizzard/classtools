@@ -46,29 +46,29 @@ namespace ClassTools.Data.Hierarchy
         {
             this.classes = new MetaList<MetaClass>();
             this.types = new MetaList<MetaType>();
-            for (int i = 0; i < Constants.TYPES_VOID.Length; i++)
+            foreach (string name in Constants.TYPES_VOID)
             {
-                this.types.Add(new MetaType(this, Constants.TYPES_VOID[i]));
+                this.types.Add(new MetaType(this, name));
             }
-            for (int i = 0; i < Constants.TYPES_INT.Length; i++)
+            foreach (string name in Constants.TYPES_INT)
             {
-                this.types.Add(new MetaType(this, Constants.TYPES_INT[i]));
+                this.types.Add(new MetaType(this, name));
             }
-            for (int i = 0; i < Constants.TYPES_FLOAT.Length; i++)
+            foreach (string name in Constants.TYPES_FLOAT)
             {
-                this.types.Add(new MetaType(this, Constants.TYPES_FLOAT[i]));
+                this.types.Add(new MetaType(this, name));
             }
-            for (int i = 0; i < Constants.TYPES_BOOL.Length; i++)
+            foreach (string name in Constants.TYPES_BOOL)
             {
-                this.types.Add(new MetaType(this, Constants.TYPES_BOOL[i]));
+                this.types.Add(new MetaType(this, name));
             }
-            for (int i = 0; i < Constants.TYPES_CHAR.Length; i++)
+            foreach (string name in Constants.TYPES_CHAR)
             {
-                this.types.Add(new MetaType(this, Constants.TYPES_CHAR[i]));
+                this.types.Add(new MetaType(this, name));
             }
-            for (int i = 0; i < Constants.TYPES_STRING.Length; i++)
+            foreach (string name in Constants.TYPES_STRING)
             {
-                this.types.Add(new MetaType(this, Constants.TYPES_STRING[i]));
+                this.types.Add(new MetaType(this, name));
             }
         }
         #endregion

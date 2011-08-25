@@ -27,7 +27,7 @@ namespace ClassTools.ClassMaker.Forms
             InitializeComponent();
             this.model = model;
             this.refreshing = false;
-            this.cbTypeCategory.Items.AddRange(Constants.NAMES_CATEGORY);
+            this.cbTypeCategory.Items.AddRange(Constants.NAMES_CATEGORY.ToArray());
             this.refresh();
         }
         #endregion
@@ -43,10 +43,10 @@ namespace ClassTools.ClassMaker.Forms
             MetaList<MetaType> typesOnly = this.model.TypesOnly;
             Utility.ApplyNewDataSource(this.lbTypes, typesOnly, typesOnly.Count);
             MetaType metaType = this.model.Types[this.lbTypes.SelectedIndex];
-            List<MetaType> types = new List<MetaType>(this.model.Types);
+            MetaList<MetaType> types = new MetaList<MetaType>(this.model.Types);
             types.Remove(metaType);
-            Utility.ApplyNewDataSource(this.cbSubType1, new List<MetaType>(types), types.Count);
-            Utility.ApplyNewDataSource(this.cbSubType2, new List<MetaType>(types), types.Count);
+            Utility.ApplyNewDataSource(this.cbSubType1, new MetaList<MetaType>(types), types.Count);
+            Utility.ApplyNewDataSource(this.cbSubType2, new MetaList<MetaType>(types), types.Count);
             bool enabled = (typesOnly.Count > 1);
             this.bTypeDelete.Enabled = enabled;
             this.tbTypeName.Text = metaType.Name;

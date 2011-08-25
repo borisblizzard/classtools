@@ -17,10 +17,6 @@ namespace ClassTools.DataMaker.Forms.Controls
         #region Constants
         private const int OFFSET = 5;
         private const string MANAGE_TEXT = "Manage";
-
-        private List<string> INT_TYPES = new List<string>(new string[] { "int", "unsigned int", "short", "unsigned short", "long", "unsigned long", "unsigned char" });
-        private List<string> CHAR_TYPES = new List<string>(new string[] { "char" });
-        private List<string> FIXED_POINT_TYPES = new List<string>(new string[] { "float", "double" });
         #endregion
 
         #region Fields
@@ -85,7 +81,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             Button button;
             Label label;
             int maxWidth = 0;
-            List<MetaVariable> metaVariables = this.metaClass.AllVariables;
+            MetaList<MetaVariable> metaVariables = this.metaClass.AllVariables;
             for (int i = 0; i < metaVariables.Count; i++)
             {
                 metaVariable = metaVariables[i];
@@ -309,7 +305,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             TextBox textBox;
             NumericUpDown numericUpDown;
             CheckBox checkBox;
-            List<MetaVariable> metaVariables = this.metaClass.AllVariables;
+            MetaList<MetaVariable> metaVariables = this.metaClass.AllVariables;
             if (this.metaInstance != null)
             {
                 for (int i = 0; i < metaVariables.Count; i++)
@@ -318,17 +314,12 @@ namespace ClassTools.DataMaker.Forms.Controls
                     metaInstanceVariable = this.metaInstance.InstanceVariables[i];
                     if (!metaVariable.Type.IsClass && metaVariable.Type.Category == ECategory.Normal)
                     {
-                        if (INT_TYPES.Contains(metaVariable.Type.Name) || CHAR_TYPES.Contains(metaVariable.Type.Name))
+                        if (Constants.TYPES_INT.Contains(metaVariable.Type.Name))
                         {
                             numericUpDown = (NumericUpDown)this.valueControls[i];
                             numericUpDown.Value = metaInstanceVariable.ValueDecimal;
                         }
-                        else if (FIXED_POINT_TYPES.Contains(metaVariable.Type.Name))
-                        {
-                            textBox = (TextBox)this.valueControls[i];
-                            textBox.Text = metaInstanceVariable.ValueString;
-                        }
-                        else if (metaVariable.Type.Name == "bool")
+                        else if (Constants.TYPES_BOOL.Contains(metaVariable.Type.Name))
                         {
                             checkBox = (CheckBox)this.valueControls[i];
                             checkBox.Checked = metaInstanceVariable.ValueBool;
@@ -348,12 +339,12 @@ namespace ClassTools.DataMaker.Forms.Controls
                     metaVariable = metaVariables[i];
                     if (!metaVariable.Type.IsClass && metaVariable.Type.Category == ECategory.Normal)
                     {
-                        if (INT_TYPES.Contains(metaVariable.Type.Name) || CHAR_TYPES.Contains(metaVariable.Type.Name))
+                        if (Constants.TYPES_INT.Contains(metaVariable.Type.Name))
                         {
                             numericUpDown = (NumericUpDown)this.valueControls[i];
                             numericUpDown.Value = decimal.Zero;
                         }
-                        else if (metaVariable.Type.Name == "bool")
+                        else if (Constants.TYPES_BOOL.Contains(metaVariable.Type.Name))
                         {
                             checkBox = (CheckBox)this.valueControls[i];
                             checkBox.Checked = false;
