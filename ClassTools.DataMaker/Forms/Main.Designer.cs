@@ -324,7 +324,6 @@
             // 
             this.icInstances.Enabled = false;
             this.icInstances.Location = new System.Drawing.Point(254, 38);
-            this.icInstances.MetaInstances = null;
             this.icInstances.Name = "icInstances";
             this.icInstances.Size = new System.Drawing.Size(618, 440);
             this.icInstances.TabIndex = 2;

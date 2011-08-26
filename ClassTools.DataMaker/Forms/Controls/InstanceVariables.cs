@@ -28,18 +28,6 @@ namespace ClassTools.DataMaker.Forms.Controls
         bool refreshing;
         #endregion
 
-        #region Properties
-        public MetaInstance MetaInstance
-        {
-            set
-            {
-                this.metaInstance = value;
-                this.Enabled = (this.metaInstance != null);
-                this.RefreshData();
-            }
-        }
-        #endregion
-
         #region Construct
         public InstanceVariables()
         {
@@ -359,8 +347,16 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
             this.refreshing = false;
         }
+
+        public void SetMetaInstance(MetaInstance metaInstance)
+        {
+            this.metaInstance = metaInstance;
+            this.Enabled = (this.metaInstance != null);
+            this.RefreshData();
+        }
         #endregion
 
+        #region Events
         private void textBox_TextChanged(object sender, EventArgs e)
         {
             if (this.refreshing)
@@ -464,6 +460,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                 }
             }
         }
+        #endregion
 
     }
 }

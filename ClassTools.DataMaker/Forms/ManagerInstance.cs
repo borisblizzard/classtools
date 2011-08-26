@@ -34,7 +34,7 @@ namespace ClassTools.DataMaker.Forms
             this.metaInstance = (metaInstance != null ? metaInstance : new MetaInstance(repository, metaClass));
             this.metaClass = metaClass;
             this.ivbInstanceVariables.SetData(this, this.respository, this.metaClass);
-            this.ivbInstanceVariables.MetaInstance = this.metaInstance;
+            this.ivbInstanceVariables.SetMetaInstance(this.metaInstance);
             if (nullable)
             {
                 this.cbxExists.Checked = (this.metaInstance != null);

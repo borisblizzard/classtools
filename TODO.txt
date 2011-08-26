@@ -2,5 +2,4 @@
 - multiple constructors
 - parameters for methods
 - static flag
-- validation: circular inheritance
 - validation: empty names

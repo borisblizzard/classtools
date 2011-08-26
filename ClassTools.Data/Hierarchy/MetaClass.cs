@@ -86,13 +86,32 @@ namespace ClassTools.Data.Hierarchy
             get { return (this.module != string.Empty ? string.Format("{0}/{1}", this.module, this.name) : this.name); }
         }
 
+        public List<MetaClass> SuperClasses
+        {
+            get
+            {
+                List<MetaClass> classes = new List<MetaClass>();
+                if (this.HasSuperClass)
+                {
+                    classes.Add(this.superClass);
+                    classes.AddRange(this.superClass.SuperClasses);
+                }
+                return classes;
+            }
+        }
         #endregion
 
         #region Construct
         public MetaClass(Model model)
             : base(model, "ANON_CLASS")
         {
-            this.module = "ANON_MODULE";
+            int i = 0;
+            this.module = "";
+            while (this.model.Classes.Exists(x => x.Name.Equals(this.Name)))
+            {
+                this.name = "ANON_CLASS_" + i.ToString();
+                i++;
+            }
             this.superClass = null;
             this.variables = new MetaList<MetaVariable>();
             this.methods = new MetaList<MetaMethod>();
@@ -140,6 +159,35 @@ namespace ClassTools.Data.Hierarchy
                 name = this.module + separator + name;
             }
             return name;
+        }
+
+        public List<MetaClass> FindSubClasses(List<MetaClass> metaClasses, bool includeThis = false)
+        {
+            List<MetaClass> result = new List<MetaClass>();
+            List<MetaClass> superClasses;
+            foreach (MetaClass classe in metaClasses)
+            {
+                if (classe == this)
+                {
+                    if (includeThis)
+                    {
+                        result.Add(this);
+                    }
+                }
+                else
+                {
+                    superClasses = classe.SuperClasses;
+                    for (int i = 0; i < superClasses.Count; i++)
+                    {
+                        if (superClasses[i] == this)
+                        {
+                            result.Add(classe);
+                            break;
+                        }
+                    }
+                }
+            }
+            return result;
         }
 
         public override string ToString()

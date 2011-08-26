@@ -25,12 +25,6 @@ namespace ClassTools.DataMaker.Forms.Controls
         public MetaList<MetaInstance> MetaInstances
         {
             get { return this.metaInstances; }
-            set
-            {
-                this.metaInstances = value;
-                this.Enabled = (this.metaInstances.Count > 0);
-                this.RefreshData();
-            }
         }
         #endregion
 
@@ -62,7 +56,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             this.metaInstances = metaInstances;
             this.ivVariables.ClearData();
             this.ivVariables.SetData(this, this.repository, this.metaClass);
-            this.ivVariables.MetaInstance = (this.metaInstances.Count > 0 ? this.metaInstances[0] : null);
+            this.ivVariables.SetMetaInstance(this.metaInstances.Count > 0 ? this.metaInstances[0] : null);
         }
         #endregion
 
@@ -77,8 +71,15 @@ namespace ClassTools.DataMaker.Forms.Controls
             this.Enabled = (this.metaClass != null);
             Utility.ApplyNewDataSource(this.lbInstances, new MetaList<MetaInstance>(this.metaInstances), this.metaInstances.Count);
             this.lbInstances.Enabled = true;
-            this.ivVariables.MetaInstance = (MetaInstance)this.lbInstances.SelectedItem;
+            this.ivVariables.SetMetaInstance((MetaInstance)this.lbInstances.SelectedItem);
             this.refreshing = false;
+        }
+
+        public void SetMetaInstances(MetaList<MetaInstance> metaInstances)
+        {
+            this.metaInstances = metaInstances;
+            this.Enabled = (this.metaInstances.Count > 0);
+            this.RefreshData();
         }
         #endregion
 
@@ -150,10 +151,12 @@ namespace ClassTools.DataMaker.Forms.Controls
         }
         #endregion
 
+        #region Events
         private void lbInstances_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.RefreshData();
         }
+        #endregion
 
     }
 }

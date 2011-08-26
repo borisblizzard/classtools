@@ -127,6 +127,7 @@ namespace ClassTools.ClassMaker.Forms
         {
             this.model.CreateNewType(this.lbTypes.SelectedIndex + 1);
             this.refresh();
+            this.lbTypes.SelectedIndex++;
         }
 
         private void bTypeDelete_Click(object sender, EventArgs e)
@@ -272,6 +273,7 @@ namespace ClassTools.ClassMaker.Forms
             {
                 this.model.CreateNewType(this.lbTypes.SelectedIndex + 1);
                 this.refresh();
+                this.lbTypes.SelectedIndex++;
             }
         }
 

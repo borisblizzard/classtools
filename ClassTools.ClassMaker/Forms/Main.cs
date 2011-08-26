@@ -179,17 +179,28 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             this.refreshing = true;
-            Utility.ApplyNewDataSource(this.lbClasses, new MetaList<MetaClass>(this.model.Classes), this.model.Classes.Count);
+            Utility.ApplyNewDataSource(this.lbClasses, new List<MetaClass>(this.model.Classes), this.model.Classes.Count);
             MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
             bool enabled = (metaClass != null);
-            MetaList<MetaClass> metaClasses = new MetaList<MetaClass>(this.model.Classes);
+            List<MetaClass> metaClasses = new List<MetaClass>(this.model.Classes);
             if (enabled)
             {
-                metaClasses.Remove(metaClass);
+                List<MetaClass> subClasses = metaClass.FindSubClasses(metaClasses, true);
+                foreach (MetaClass classe in subClasses)
+                {
+                    for (int i = 0; i < metaClasses.Count; i++)
+                    {
+                        if (metaClasses[i] == classe)
+                        {
+                            metaClasses.RemoveAt(i);
+                            break;
+                        }
+                    }
+                }
             }
             Utility.ApplyNewDataSource(this.cbSuperClass, metaClasses, metaClasses.Count);
-            Utility.ApplyNewDataSource(this.cbVariableType, new MetaList<MetaType>(this.model.AllTypes), this.model.Classes.Count);
-            Utility.ApplyNewDataSource(this.cbMethodType, new MetaList<MetaType>(this.model.AllTypes), this.model.Classes.Count);
+            Utility.ApplyNewDataSource(this.cbVariableType, new List<MetaType>(this.model.AllTypes), this.model.Classes.Count);
+            Utility.ApplyNewDataSource(this.cbMethodType, new List<MetaType>(this.model.AllTypes), this.model.Classes.Count);
             this.gbClass.Enabled = enabled;
             this.gbVariables.Enabled = enabled;
             this.gbMethods.Enabled = enabled;
@@ -199,13 +210,14 @@ namespace ClassTools.ClassMaker.Forms
                 this.tbClassName.Text = metaClass.Name;
                 this.tbClassModule.Text = metaClass.Module;
                 this.cbxClassSerialize.Checked = metaClass.CanSerialize;
+                this.cbInheritance.Enabled = (this.cbSuperClass.Items.Count > 0);
                 this.cbInheritance.Checked = metaClass.HasSuperClass;
-                this.cbSuperClass.Enabled = this.cbInheritance.Checked;
+                this.cbSuperClass.Enabled = (this.cbInheritance.Checked && this.cbInheritance.Enabled);
                 if (metaClass.HasSuperClass)
                 {
                     this.cbSuperClass.SelectedItem = metaClass.SuperClass;
                 }
-                else
+                else if (this.cbSuperClass.Items.Count > 0)
                 {
                     this.cbSuperClass.SelectedIndex = 0;
                 }
@@ -286,6 +298,10 @@ namespace ClassTools.ClassMaker.Forms
         {
             this.model.CreateNewClass(this.lbClasses.SelectedIndex + 1);
             this.refresh();
+            if (this.lbClasses.SelectedIndex < this.lbClasses.Items.Count - 1)
+            {
+                this.lbClasses.SelectedIndex++;
+            }
             this.lbClasses.Focus();
         }
 
@@ -301,6 +317,10 @@ namespace ClassTools.ClassMaker.Forms
         {
             this.model.Classes[this.lbClasses.SelectedIndex].CreateNewVariable(this.lbVariables.SelectedIndex + 1);
             this.refresh();
+            if (this.lbVariables.SelectedIndex < this.lbVariables.Items.Count - 1)
+            {
+                this.lbVariables.SelectedIndex++;
+            }
             this.lbVariables.Focus();
         }
 
@@ -315,6 +335,10 @@ namespace ClassTools.ClassMaker.Forms
         {
             this.model.Classes[this.lbClasses.SelectedIndex].CreateNewMethod(this.lbMethods.SelectedIndex + 1);
             this.refresh();
+            if (this.lbMethods.SelectedIndex < this.lbMethods.Items.Count - 1)
+            {
+                this.lbMethods.SelectedIndex++;
+            }
             this.lbMethods.Focus();
         }
 
