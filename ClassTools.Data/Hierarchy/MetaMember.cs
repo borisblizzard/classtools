@@ -29,7 +29,7 @@ namespace ClassTools.Data.Hierarchy
         public MetaMember(Model model, string name)
             : base(model, name)
         {
-            this.type = model.Types[0];
+            this.type = model.AllTypes[0];
             this.access = EAccess.Public;
         }
         #endregion

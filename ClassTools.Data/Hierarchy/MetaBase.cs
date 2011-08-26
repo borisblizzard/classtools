@@ -41,12 +41,12 @@ namespace ClassTools.Data.Hierarchy
         }
         #endregion
 
-        #region Behavior
+        #region Equals
         public bool Equals(MetaBase other)
         {
             if (!base.Equals(other)) return false;
-            if (this.name != other.name) return false;
-            if (this.prefix != other.prefix) return false;
+            if (!this.name.Equals(other.name)) return false;
+            if (!this.prefix.Equals(other.prefix)) return false;
             return true;
         }
         #endregion

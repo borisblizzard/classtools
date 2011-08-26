@@ -37,7 +37,7 @@
             this.ofdModel = new System.Windows.Forms.OpenFileDialog();
             this.gbInstanceVariables = new System.Windows.Forms.GroupBox();
             this.ivbInstanceVariables = new ClassTools.DataMaker.Forms.Controls.InstanceVariables();
-            this.cbExists = new System.Windows.Forms.CheckBox();
+            this.cbxExists = new System.Windows.Forms.CheckBox();
             this.bOk = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.gbInstanceVariables.SuspendLayout();
@@ -110,16 +110,16 @@
             this.ivbInstanceVariables.Size = new System.Drawing.Size(400, 400);
             this.ivbInstanceVariables.TabIndex = 1;
             // 
-            // cbExists
+            // cbxExists
             // 
-            this.cbExists.AutoSize = true;
-            this.cbExists.Location = new System.Drawing.Point(15, 28);
-            this.cbExists.Name = "cbExists";
-            this.cbExists.Size = new System.Drawing.Size(59, 17);
-            this.cbExists.TabIndex = 5;
-            this.cbExists.Text = "Exists?";
-            this.cbExists.UseVisualStyleBackColor = true;
-            this.cbExists.CheckedChanged += new System.EventHandler(this.cbExists_CheckedChanged);
+            this.cbxExists.AutoSize = true;
+            this.cbxExists.Location = new System.Drawing.Point(15, 28);
+            this.cbxExists.Name = "cbxExists";
+            this.cbxExists.Size = new System.Drawing.Size(59, 17);
+            this.cbxExists.TabIndex = 5;
+            this.cbxExists.Text = "Exists?";
+            this.cbxExists.UseVisualStyleBackColor = true;
+            this.cbxExists.CheckedChanged += new System.EventHandler(this.cbxExists_CheckedChanged);
             // 
             // bOk
             // 
@@ -141,7 +141,7 @@
             this.CancelButton = this.bOk;
             this.ClientSize = new System.Drawing.Size(438, 521);
             this.Controls.Add(this.bOk);
-            this.Controls.Add(this.cbExists);
+            this.Controls.Add(this.cbxExists);
             this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.gbInstanceVariables);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -172,7 +172,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
         private Controls.InstanceVariables ivbInstanceVariables;
-        private System.Windows.Forms.CheckBox cbExists;
+        private System.Windows.Forms.CheckBox cbxExists;
         private System.Windows.Forms.Button bOk;
     }
 }

@@ -9,6 +9,7 @@ namespace ClassTools.Data.Hierarchy
         protected string defaultValue;
         protected bool getter;
         protected bool setter;
+        protected bool nullable;
         protected bool canSerialize;
         #endregion
 
@@ -31,6 +32,12 @@ namespace ClassTools.Data.Hierarchy
             set { this.setter = value; }
         }
 
+        public bool Nullable
+        {
+            get { return this.nullable; }
+            set { this.nullable = value; }
+        }
+
         public bool CanSerialize
         {
             get { return this.canSerialize; }
@@ -45,6 +52,8 @@ namespace ClassTools.Data.Hierarchy
             this.defaultValue = string.Empty;
             this.getter = false;
             this.setter = false;
+            this.nullable = false;
+            this.canSerialize = false;
         }
         #endregion
 
@@ -55,6 +64,7 @@ namespace ClassTools.Data.Hierarchy
             if (!this.defaultValue.Equals(other.defaultValue)) return false;
             if (!this.getter.Equals(other.getter)) return false;
             if (!this.setter.Equals(other.setter)) return false;
+            if (!this.nullable.Equals(other.nullable)) return false;
             if (!this.canSerialize.Equals(other.canSerialize)) return false;
             return true;
         }

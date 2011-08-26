@@ -104,11 +104,12 @@ namespace ClassTools.Data.Hierarchy
         public bool Equals(MetaClass other)
         {
             if (!base.Equals(other)) return false;
-            if (this.module != other.module) return false;
-            if (!this.superClass.Equals(other.superClass)) return false;
-            if (this.variables.Equals(other.variables)) return false;
-            if (this.methods.Equals(other.methods)) return false;
-            if (this.canSerialize != other.canSerialize) return false;
+            if (!this.module.Equals(other.module)) return false;
+            if ((this.superClass != null) != (other.superClass != null)) return false;
+            if (this.superClass != null && !this.superClass.Equals(other.superClass)) return false;
+            if (!this.variables.Equals(other.variables)) return false;
+            if (!this.methods.Equals(other.methods)) return false;
+            if (!this.canSerialize.Equals(other.canSerialize)) return false;
             return true;
         }
         #endregion
@@ -164,7 +165,7 @@ namespace ClassTools.Data.Hierarchy
         {
             this.Variables[index] = variable;
             variable.Model = this.model;
-            variable.Type = this.model.Types.Find(t => t.Equals(variable.Type));
+            variable.Type = this.model.AllTypes.Find(t => t.Equals(variable.Type));
         }
 
         public bool TryVariableMoveUp(int index)
@@ -200,7 +201,7 @@ namespace ClassTools.Data.Hierarchy
         {
             this.Methods[index] = method;
             method.Model = this.model;
-            method.Type = this.model.Types.Find(t => t.Equals(method.Type));
+            method.Type = this.model.AllTypes.Find(t => t.Equals(method.Type));
             for (int i = 0; i < method.Parameters.Count; i++)
             {
                 method.ReplaceParameterAt(i, method.Parameters[i]);

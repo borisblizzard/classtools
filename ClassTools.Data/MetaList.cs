@@ -5,7 +5,7 @@ namespace ClassTools.Data
 {
     [Serializable]
     public class MetaList<T> : List<T>, IEquatable<MetaList<T>>
-       where T : IEquatable<T>
+        where T : IEquatable<T>
     {
         #region Construct
         public MetaList()

@@ -71,11 +71,11 @@
     <Compile Include="Forms\Implementation.Designer.cs">
       <DependentUpon>Implementation.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Types.cs">
+    <Compile Include="Forms\ManagerTypes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Types.Designer.cs">
-      <DependentUpon>Types.cs</DependentUpon>
+    <Compile Include="Forms\ManagerTypes.Designer.cs">
+      <DependentUpon>ManagerTypes.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Log.cs">
       <SubType>Form</SubType>
@@ -95,8 +95,8 @@
       <DependentUpon>Implementation.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Types.resx">
-      <DependentUpon>Types.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ManagerTypes.resx">
+      <DependentUpon>ManagerTypes.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Log.resx">

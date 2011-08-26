@@ -131,7 +131,8 @@
             this.newMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newMenuItem.Image")));
             this.newMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newMenuItem.Name = "newMenuItem";
-            this.newMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.N)));
             this.newMenuItem.Size = new System.Drawing.Size(186, 22);
             this.newMenuItem.Text = "&New";
             this.newMenuItem.Click += new System.EventHandler(this.newMenuItem_Click);
@@ -323,6 +324,7 @@
             // 
             this.icInstances.Enabled = false;
             this.icInstances.Location = new System.Drawing.Point(254, 38);
+            this.icInstances.MetaInstances = null;
             this.icInstances.Name = "icInstances";
             this.icInstances.Size = new System.Drawing.Size(618, 440);
             this.icInstances.TabIndex = 2;

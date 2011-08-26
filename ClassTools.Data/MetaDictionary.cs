@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace ClassTools.Data
 {
@@ -13,6 +14,36 @@ namespace ClassTools.Data
             : base()
         {
         }
+
+        public MetaDictionary(int capacity)
+            : base(capacity)
+        {
+        }
+
+        public MetaDictionary(IEqualityComparer<K> comparer)
+            : base(comparer)
+        {
+        }
+
+        public MetaDictionary(IDictionary<K, V> dictionary)
+            : base(dictionary)
+        {
+        }
+
+        public MetaDictionary(int capacity, IEqualityComparer<K> comparer)
+            : base(capacity, comparer)
+        {
+        }
+
+        public MetaDictionary(IDictionary<K, V> dictionary, IEqualityComparer<K> comparer)
+            : base(dictionary, comparer)
+        {
+        }
+
+        public MetaDictionary(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
         #endregion
 
         #region Equals
@@ -22,7 +53,7 @@ namespace ClassTools.Data
             if (this.Count != other.Count) return false;
             MetaList<K> thisKeys = this.getKeys();
             MetaList<K> otherKeys = other.getKeys();
-            if (thisKeys.Matches(otherKeys)) return false;
+            if (!thisKeys.Matches(otherKeys)) return false;
             otherKeys = thisKeys.Align(otherKeys);
             for (int i = 0; i < this.Count; i++)
             {

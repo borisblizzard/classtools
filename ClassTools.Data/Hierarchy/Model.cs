@@ -22,20 +22,16 @@ namespace ClassTools.Data.Hierarchy
             get { return types; }
         }
 
-        public MetaList<MetaType> TypesOnly
+        public MetaList<MetaType> AllTypes
         {
             get
             {
-                MetaList<MetaType> types = new MetaList<MetaType>(this.types);
-                for (int i = 0; i < 0; i++)
-                {
-                    types.Remove(this.classes[i]);
-                }
+                MetaList<MetaType> result = new MetaList<MetaType>(this.types);
                 foreach (MetaClass metaClass in this.classes)
                 {
-                    types.Remove(metaClass);
+                    result.Add(metaClass);
                 }
-                return types;
+                return result;
             }
         }
         #endregion
@@ -78,7 +74,7 @@ namespace ClassTools.Data.Hierarchy
         {
             if (!base.Equals(other)) return false;
             if (!this.classes.Equals(other.classes)) return false;
-            if (!this.TypesOnly.Equals(other.TypesOnly)) return false;
+            if (!this.types.Equals(other.types)) return false;
             return true;
         }
         #endregion
@@ -88,40 +84,23 @@ namespace ClassTools.Data.Hierarchy
         {
             MetaClass metaClass = new MetaClass(this);
             this.classes.Insert(index, metaClass);
-            this.types = this.TypesOnly;
-            foreach (MetaClass c in this.classes)
-            {
-                this.types.Add(c);
-            }
             return metaClass;
-        }
-
-        public void DeleteClass(string name)
-        {
-            MetaClass metaClass = this.classes.Find(c => c.Name == name);
-            if (metaClass != null)
-            {
-                this.DeleteClass(metaClass);
-            }
         }
 
         public void DeleteClass(MetaClass metaClass)
         {
             this.classes.Remove(metaClass);
-            this.types.Remove(metaClass);
         }
 
         public void DeleteClassAt(int index)
         {
-            this.DeleteClass(this.classes[index]);
+            this.classes.RemoveAt(index);
         }
 
         public void ReplaceClassAt(int index, MetaClass metaClass)
         {
             MetaClass oldClass = this.classes[index];
-            int otherIndex = this.types.IndexOf(oldClass);
             this.classes[index] = metaClass;
-            this.types[otherIndex] = metaClass;
             metaClass.Model = this;
             switch (metaClass.Category)
             {
@@ -156,16 +135,6 @@ namespace ClassTools.Data.Hierarchy
             }
         }
 
-        public bool TryClassMoveUp(int index)
-        {
-            return this.classes.TryMoveUp(index);
-        }
-
-        public bool TryClassMoveDown(int index)
-        {
-            return this.classes.TryMoveDown(index);
-        }
-
         public void SortClasses()
         {
             this.classes.Sort(new Comparison<MetaClass>((a, b) => a.Name.CompareTo(b.Name)));
@@ -176,25 +145,8 @@ namespace ClassTools.Data.Hierarchy
         public MetaType CreateNewType(int index)
         {
             MetaType type = new MetaType(this);
-            this.types = this.TypesOnly;
             this.types.Insert(index, type);
-            foreach (MetaClass metaClass in this.classes)
-            {
-                this.types.Add(metaClass);
-            }
             return type;
-        }
-
-        public void DeleteType(string name)
-        {
-            foreach (MetaType metaType in this.types)
-            {
-                if (metaType.Name == name)
-                {
-                    this.DeleteType(metaType);
-                    break;
-                }
-            }
         }
 
         public void DeleteType(MetaType metaType)
@@ -204,15 +156,13 @@ namespace ClassTools.Data.Hierarchy
 
         public void DeleteTypeAt(int index)
         {
-            this.DeleteType(this.types[index]);
+            this.types.RemoveAt(index);
         }
 
         public void ReplaceTypeAt(int index, MetaType metaType)
         {
             MetaType oldType = this.types[index];
-            int otherIndex = this.types.IndexOf(oldType);
             this.types[index] = metaType;
-            this.types[otherIndex] = metaType;
             metaType.Model = this;
             switch (metaType.Category)
             {
@@ -233,41 +183,6 @@ namespace ClassTools.Data.Hierarchy
             {
                 this.types[i].UpdateType(oldType, metaType);
             }
-        }
-
-        public bool TryTypeMoveUp(int index)
-        {
-            if (index > 0)
-            {
-                this.types = this.TypesOnly;
-                MetaType metaType = this.types[index];
-                this.types[index] = this.types[index - 1];
-                this.types[index - 1] = metaType;
-                foreach (MetaClass metaClass in this.classes)
-                {
-                    this.types.Add(metaClass);
-                }
-                return true;
-            }
-            return false;
-        }
-
-        public bool TryTypeMoveDown(int index)
-        {
-            MetaList<MetaType> metaTypes = this.TypesOnly;
-            if (index < metaTypes.Count - 1)
-            {
-                this.types = metaTypes;
-                MetaType metaType = this.types[index];
-                this.types[index] = this.types[index + 1];
-                this.types[index + 1] = metaType;
-                foreach (MetaClass c in this.classes)
-                {
-                    this.types.Add(c);
-                }
-                return true;
-            }
-            return false;
         }
 
         #endregion

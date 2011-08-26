@@ -424,7 +424,8 @@ namespace ClassTools.DataMaker.Forms.Controls
                 metaInstanceVariable = this.metaInstance.InstanceVariables[i];
                 if (button.Name == metaInstanceVariable.ToString())
                 {
-                    ManagerInstance form = new ManagerInstance(this.repository, (MetaClass)this.metaClass.AllVariables[i].Type, metaInstanceVariable.ValueInstance);
+                    MetaVariable metaVariable = this.metaClass.AllVariables[i];
+                    ManagerInstance form = new ManagerInstance(this.repository, (MetaClass)metaVariable.Type, metaInstanceVariable.ValueInstance, metaVariable.Nullable);
                     form.Text = metaInstanceVariable.ToString();
                     form.ShowDialog();
                     metaInstanceVariable.ValueInstance = form.MetaInstance;

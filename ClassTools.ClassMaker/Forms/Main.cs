@@ -47,7 +47,9 @@ namespace ClassTools.ClassMaker.Forms
             this.lastFilename = string.Empty;
             this.validationLog = string.Empty;
             this.cbVariableAccess.DataSource = ClassTools.Data.Constants.NAMES_ACCESS;
+            this.cbVariableAccess.SelectedIndex = -1;
             this.cbMethodAccess.DataSource = ClassTools.Data.Constants.NAMES_ACCESS;
+            this.cbMethodAccess.SelectedIndex = -1;
             this.windowLog = new Log();
             this.windowLog.Hide();
             if (args.Length > 0)
@@ -178,11 +180,16 @@ namespace ClassTools.ClassMaker.Forms
             }
             this.refreshing = true;
             Utility.ApplyNewDataSource(this.lbClasses, new MetaList<MetaClass>(this.model.Classes), this.model.Classes.Count);
-            Utility.ApplyNewDataSource(this.cbSuperClass, new MetaList<MetaClass>(this.model.Classes), this.model.Classes.Count);
-            Utility.ApplyNewDataSource(this.cbVariableType, new MetaList<MetaType>(this.model.Types), this.model.Classes.Count);
-            Utility.ApplyNewDataSource(this.cbMethodType, new MetaList<MetaType>(this.model.Types), this.model.Classes.Count);
             MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
             bool enabled = (metaClass != null);
+            MetaList<MetaClass> metaClasses = new MetaList<MetaClass>(this.model.Classes);
+            if (enabled)
+            {
+                metaClasses.Remove(metaClass);
+            }
+            Utility.ApplyNewDataSource(this.cbSuperClass, metaClasses, metaClasses.Count);
+            Utility.ApplyNewDataSource(this.cbVariableType, new MetaList<MetaType>(this.model.AllTypes), this.model.Classes.Count);
+            Utility.ApplyNewDataSource(this.cbMethodType, new MetaList<MetaType>(this.model.AllTypes), this.model.Classes.Count);
             this.gbClass.Enabled = enabled;
             this.gbVariables.Enabled = enabled;
             this.gbMethods.Enabled = enabled;
@@ -220,40 +227,31 @@ namespace ClassTools.ClassMaker.Forms
         private void refreshVariable()
         {
             this.bVariableDelete.Enabled = (this.lbVariables.Items.Count > 0);
-            MetaVariable variable = (MetaVariable)this.lbVariables.SelectedItem;
-            bool enabled = (variable != null);
-            this.lVariableName.Enabled = enabled;
-            this.tbVariableName.Enabled = enabled;
-            this.lVariableType.Enabled = enabled;
-            this.cbVariableType.Enabled = enabled;
-            this.lVariableAccess.Enabled = enabled;
-            this.cbVariableAccess.Enabled = enabled;
-            this.lVariableDefault.Enabled = enabled;
-            this.tbVariableDefault.Enabled = enabled;
-            this.cbxVariableGetter.Enabled = enabled;
-            this.cbxVariableSetter.Enabled = enabled;
-            this.cbxVariableSerialize.Enabled = enabled;
-            this.lVariablePrefix.Enabled = enabled;
-            this.tbVariablePrefix.Enabled = enabled;
-            if (enabled)
+            MetaVariable metaVariable = (MetaVariable)this.lbVariables.SelectedItem;
+            if (metaVariable != null)
             {
-                this.tbVariableName.Text = variable.Name;
-                this.cbVariableType.SelectedItem = variable.Type;
-                this.cbVariableAccess.SelectedIndex = (int)variable.Access;
-                this.tbVariableDefault.Text = variable.DefaultValue;
-                this.cbxVariableGetter.Checked = variable.Getter;
-                this.cbxVariableSetter.Checked = variable.Setter;
-                this.cbxVariableSerialize.Checked = variable.CanSerialize;
-                this.tbVariablePrefix.Text = variable.Prefix;
+                this.pVariables.Enabled = true;
+                this.cbxVariableNullable.Enabled = metaVariable.Type.IsClass;
+                this.tbVariableName.Text = metaVariable.Name;
+                this.cbVariableType.SelectedItem = metaVariable.Type;
+                this.cbVariableAccess.SelectedIndex = (int)metaVariable.Access;
+                this.tbVariableDefault.Text = metaVariable.DefaultValue;
+                this.cbxVariableGetter.Checked = metaVariable.Getter;
+                this.cbxVariableSetter.Checked = metaVariable.Setter;
+                this.cbxVariableNullable.Checked = metaVariable.Nullable;
+                this.cbxVariableSerialize.Checked = metaVariable.CanSerialize;
+                this.tbVariablePrefix.Text = metaVariable.Prefix;
             }
             else
             {
+                this.pVariables.Enabled = false;
                 this.tbVariableName.Text = string.Empty;
-                this.cbVariableType.SelectedIndex = (this.cbVariableType.Items.Count > 0 ? 0 : -1);
-                this.cbVariableAccess.SelectedIndex = (int)EAccess.Public;
+                this.cbVariableType.SelectedIndex = -1;
+                this.cbVariableAccess.SelectedIndex = -1;
                 this.tbVariableDefault.Text = string.Empty;
                 this.cbxVariableGetter.Checked = false;
                 this.cbxVariableSetter.Checked = false;
+                this.cbxVariableNullable.Checked = false;
                 this.cbxVariableSerialize.Checked = true;
                 this.tbVariablePrefix.Text = string.Empty;
             }
@@ -263,19 +261,9 @@ namespace ClassTools.ClassMaker.Forms
         {
             this.bMethodDelete.Enabled = (this.lbMethods.Items.Count > 0);
             MetaMethod metaMethod = (MetaMethod)this.lbMethods.SelectedItem;
-            bool enabled = (metaMethod != null);
-            this.lMethodName.Enabled = enabled;
-            this.tbMethodName.Enabled = enabled;
-            this.lMethodType.Enabled = enabled;
-            this.cbMethodType.Enabled = enabled;
-            this.lMethodAccess.Enabled = enabled;
-            this.cbMethodAccess.Enabled = enabled;
-            this.lMethodPrefix.Enabled = enabled;
-            this.tbMethodPrefix.Enabled = enabled;
-            this.bMethodParameters.Enabled = enabled;
-            this.bMethodImplementation.Enabled = enabled;
-            if (enabled)
+            if (metaMethod != null)
             {
+                this.pMethods.Enabled = true;
                 this.tbMethodName.Text = metaMethod.Name;
                 this.cbMethodType.SelectedItem = metaMethod.Type;
                 this.cbMethodAccess.SelectedIndex = (int)metaMethod.Access;
@@ -283,9 +271,10 @@ namespace ClassTools.ClassMaker.Forms
             }
             else
             {
+                this.pMethods.Enabled = false;
                 this.tbMethodName.Text = string.Empty;
-                this.cbMethodType.SelectedIndex = (this.cbMethodType.Items.Count > 0 ? 0 : -1);
-                this.cbMethodAccess.SelectedIndex = (int)EAccess.Public;
+                this.cbMethodType.SelectedIndex = -1;
+                this.cbMethodAccess.SelectedIndex = -1;
                 this.tbMethodPrefix.Text = string.Empty;
             }
         }
@@ -421,7 +410,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void manageTypesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Types f = new Types(this.model);
+            ManagerTypes f = new ManagerTypes(this.model);
             f.ShowDialog();
             this.refresh();
         }
@@ -445,8 +434,9 @@ namespace ClassTools.ClassMaker.Forms
         private void bMethodParameters_Click(object sender, EventArgs e)
         {
             MessageBox.Show("IMPLEMENT ME");
+            // TODO
             /*
-            FormParameters f = new FormParameters((MetaMethod)this.lbMethods.SelectedItem);
+            ManagerParameters f = new ManagerParameters((MetaMethod)this.lbMethods.SelectedItem);
             f.ShowDialog();
             */
         }
@@ -549,7 +539,7 @@ namespace ClassTools.ClassMaker.Forms
         {
             if (this.lbClasses.Focused)
             {
-                if (this.model.TryClassMoveUp(this.lbClasses.SelectedIndex))
+                if (this.model.Classes.TryMoveUp(this.lbClasses.SelectedIndex))
                 {
                     this.lbClasses.SelectedIndex--;
                 }
@@ -580,7 +570,7 @@ namespace ClassTools.ClassMaker.Forms
         {
             if (this.lbClasses.Focused)
             {
-                if (this.model.TryClassMoveDown(this.lbClasses.SelectedIndex))
+                if (this.model.Classes.TryMoveDown(this.lbClasses.SelectedIndex))
                 {
                     this.lbClasses.SelectedIndex++;
                 }
@@ -740,6 +730,16 @@ namespace ClassTools.ClassMaker.Forms
             }
             MetaVariable variable = (MetaVariable)this.lbVariables.SelectedItem;
             variable.Setter = this.cbxVariableSetter.Checked;
+        }
+
+        private void cbxVariableNullable_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.refreshing)
+            {
+                return;
+            }
+            MetaVariable variable = (MetaVariable)this.lbVariables.SelectedItem;
+            variable.Nullable = this.cbxVariableNullable.Checked;
         }
 
         private void cbxVariableSerialize_CheckedChanged(object sender, EventArgs e)

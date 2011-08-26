@@ -43,7 +43,7 @@ namespace ClassTools.Data.Database
         public bool Equals(MetaInstance other)
         {
             if (!base.Equals(other)) return false;
-            if (this.className != other.className) return false;
+            if (!this.className.Equals(other.className)) return false;
             if (!this.instanceVariables.Equals(other.instanceVariables)) return false;
             return true;
         }

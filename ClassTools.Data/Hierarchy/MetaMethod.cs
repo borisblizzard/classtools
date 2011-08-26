@@ -34,7 +34,7 @@ namespace ClassTools.Data.Hierarchy
         }
         #endregion
 
-        #region Behavior
+        #region Equals
         public bool Equals(MetaMethod other)
         {
             if (!base.Equals(other)) return false;
@@ -72,7 +72,7 @@ namespace ClassTools.Data.Hierarchy
         {
             this.Parameters[index] = parameter;
             parameter.Model = this.model;
-            parameter.Type = this.model.Types.Find(t => t.Equals(parameter.Type));
+            parameter.Type = this.model.AllTypes.Find(t => t.Equals(parameter.Type));
         }
 
         public bool TryParameterMoveUp(int index)

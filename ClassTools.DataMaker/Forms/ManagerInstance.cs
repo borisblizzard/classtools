@@ -27,7 +27,7 @@ namespace ClassTools.DataMaker.Forms
         #endregion
 
         #region Construct
-        public ManagerInstance(Repository repository, MetaClass metaClass, MetaInstance metaInstance)
+        public ManagerInstance(Repository repository, MetaClass metaClass, MetaInstance metaInstance, bool nullable)
         {
             InitializeComponent();
             this.respository = repository;
@@ -35,7 +35,15 @@ namespace ClassTools.DataMaker.Forms
             this.metaClass = metaClass;
             this.ivbInstanceVariables.SetData(this, this.respository, this.metaClass);
             this.ivbInstanceVariables.MetaInstance = this.metaInstance;
-            this.cbExists.Checked = (this.metaInstance != null);
+            if (nullable)
+            {
+                this.cbxExists.Checked = (this.metaInstance != null);
+            }
+            else
+            {
+                this.cbxExists.Enabled = false;
+                this.cbxExists.Checked = true;
+            }
             this.RefreshData();
         }
         #endregion
@@ -43,7 +51,7 @@ namespace ClassTools.DataMaker.Forms
         #region Close
         private void onFormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!this.cbExists.Checked)
+            if (!this.cbxExists.Checked)
             {
                 this.metaInstance = null;
             }
@@ -63,13 +71,13 @@ namespace ClassTools.DataMaker.Forms
                 return;
             }
             this.refreshing = true;
-            this.ivbInstanceVariables.Enabled = this.cbExists.Checked;
+            this.ivbInstanceVariables.Enabled = this.cbxExists.Checked;
             this.refreshing = false;
         }
         #endregion
 
         #region Tools
-        private void cbExists_CheckedChanged(object sender, EventArgs e)
+        private void cbxExists_CheckedChanged(object sender, EventArgs e)
         {
             this.RefreshData();
         }

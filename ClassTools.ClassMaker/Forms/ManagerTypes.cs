@@ -9,11 +9,11 @@ using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.ClassMaker.Forms
 {
-    public partial class Types : Form
+    public partial class ManagerTypes : Form
     {
         #region Constants
         const string errorClassDelete = "You cannot delete the class '{0}' using the Types Manager!";
-        const string errorLastTypeDelete = "You cannot delete the last simple type '{0}'!";
+        const string errorLastTypeDelete = "You cannot delete the last integral type '{0}'!";
         #endregion
 
         #region Fields
@@ -22,7 +22,7 @@ namespace ClassTools.ClassMaker.Forms
         #endregion
 
         #region Construtors
-        public Types(Model model)
+        public ManagerTypes(Model model)
         {
             InitializeComponent();
             this.model = model;
@@ -40,14 +40,14 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             this.refreshing = true;
-            MetaList<MetaType> typesOnly = this.model.TypesOnly;
-            Utility.ApplyNewDataSource(this.lbTypes, typesOnly, typesOnly.Count);
-            MetaType metaType = this.model.Types[this.lbTypes.SelectedIndex];
-            MetaList<MetaType> types = new MetaList<MetaType>(this.model.Types);
-            types.Remove(metaType);
-            Utility.ApplyNewDataSource(this.cbSubType1, new MetaList<MetaType>(types), types.Count);
-            Utility.ApplyNewDataSource(this.cbSubType2, new MetaList<MetaType>(types), types.Count);
-            bool enabled = (typesOnly.Count > 1);
+            MetaList<MetaType> types = this.model.Types;
+            Utility.ApplyNewDataSource(this.lbTypes, types, types.Count);
+            MetaList<MetaType> allTypes = new MetaList<MetaType>(this.model.AllTypes);
+            MetaType metaType = allTypes[this.lbTypes.SelectedIndex];
+            allTypes.Remove(metaType);
+            Utility.ApplyNewDataSource(this.cbSubType1, new MetaList<MetaType>(allTypes), allTypes.Count);
+            Utility.ApplyNewDataSource(this.cbSubType2, new MetaList<MetaType>(allTypes), allTypes.Count);
+            bool enabled = (types.Count > 1);
             this.bTypeDelete.Enabled = enabled;
             this.tbTypeName.Text = metaType.Name;
             this.cbSubType1.SelectedItem = metaType.SubType1;
@@ -131,9 +131,14 @@ namespace ClassTools.ClassMaker.Forms
 
         private void bTypeDelete_Click(object sender, EventArgs e)
         {
+            this.tryDeleteType();
+        }
+
+        private void tryDeleteType()
+        {
             if (this.lbTypes.SelectedIndex >= 0)
             {
-                MetaList<MetaType> types = this.model.TypesOnly;
+                MetaList<MetaType> types = this.model.Types;
                 if (types.Count == 1)
                 {
                     MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
@@ -173,18 +178,18 @@ namespace ClassTools.ClassMaker.Forms
                 case (int)ECategory.Collection:
                     if (metaType.SubType1 == null)
                     {
-                        metaType.SubType1 = this.model.Types[0];
+                        metaType.SubType1 = this.model.AllTypes[0];
                     }
                     metaType.SubType2 = null;
                     break;
                 case (int)ECategory.Dictionary:
                     if (metaType.SubType1 == null)
                     {
-                        metaType.SubType1 = this.model.Types[0];
+                        metaType.SubType1 = this.model.AllTypes[0];
                     }
                     if (metaType.SubType2 == null)
                     {
-                        metaType.SubType2 = this.model.Types[0];
+                        metaType.SubType2 = this.model.AllTypes[0];
                     }
                     break;
             }
@@ -265,7 +270,8 @@ namespace ClassTools.ClassMaker.Forms
         {
             if (this.lbTypes.Focused)
             {
-                this.bTypeNew_Click(sender, e);
+                this.model.CreateNewType(this.lbTypes.SelectedIndex + 1);
+                this.refresh();
             }
         }
 
@@ -273,29 +279,23 @@ namespace ClassTools.ClassMaker.Forms
         {
             if (this.lbTypes.Focused)
             {
-                this.bTypeDelete_Click(sender, e);
+                this.tryDeleteType();
             }
         }
 
         private void moveUpMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.lbTypes.Focused)
+            if (this.lbTypes.Focused && this.model.Types.TryMoveUp(this.lbTypes.SelectedIndex))
             {
-                if (this.model.TryTypeMoveUp(this.lbTypes.SelectedIndex))
-                {
-                    this.lbTypes.SelectedIndex--;
-                }
+                this.lbTypes.SelectedIndex--;
             }
         }
 
         private void moveDownMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.lbTypes.Focused)
+            if (this.lbTypes.Focused && this.model.Types.TryMoveDown(this.lbTypes.SelectedIndex))
             {
-                if (this.model.TryTypeMoveDown(this.lbTypes.SelectedIndex))
-                {
-                    this.lbTypes.SelectedIndex++;
-                }
+                this.lbTypes.SelectedIndex++;
             }
         }
         #endregion

@@ -14,7 +14,7 @@ namespace ClassTools.Data.Database
         protected string valueString;
         protected MetaInstance valueInstance;
         protected MetaList<MetaInstanceVariable> valueInstanceCollection;
-        protected Dictionary<MetaInstanceVariable, MetaInstanceVariable> valueInstanceDictionary;
+        protected MetaDictionary<MetaInstanceVariable, MetaInstanceVariable> valueInstanceDictionary;
         #endregion
 
         #region Properties
@@ -35,8 +35,8 @@ namespace ClassTools.Data.Database
             {
                 this.valueString = value;
                 this.valueInstance = null;
-                this.valueInstanceCollection = null;
-                this.valueInstanceDictionary = null;
+                this.valueInstanceCollection = new MetaList<MetaInstanceVariable>();
+                this.valueInstanceDictionary = new MetaDictionary<MetaInstanceVariable, MetaInstanceVariable>();
             }
         }
 
@@ -52,8 +52,8 @@ namespace ClassTools.Data.Database
             {
                 this.valueString = value.ToString().Replace(',', '.');
                 this.valueInstance = null;
-                this.valueInstanceCollection = null;
-                this.valueInstanceDictionary = null;
+                this.valueInstanceCollection = new MetaList<MetaInstanceVariable>();
+                this.valueInstanceDictionary = new MetaDictionary<MetaInstanceVariable, MetaInstanceVariable>();
             }
         }
 
@@ -64,8 +64,8 @@ namespace ClassTools.Data.Database
             {
                 this.valueString = (value ? "true" : "false");
                 this.valueInstance = null;
-                this.valueInstanceCollection = null;
-                this.valueInstanceDictionary = null;
+                this.valueInstanceCollection = new MetaList<MetaInstanceVariable>();
+                this.valueInstanceDictionary = new MetaDictionary<MetaInstanceVariable, MetaInstanceVariable>();
             }
         }
 
@@ -76,8 +76,8 @@ namespace ClassTools.Data.Database
             {
                 this.valueInstance = value;
                 this.valueString = "";
-                this.valueInstanceCollection = null;
-                this.valueInstanceDictionary = null;
+                this.valueInstanceCollection = new MetaList<MetaInstanceVariable>();
+                this.valueInstanceDictionary = new MetaDictionary<MetaInstanceVariable, MetaInstanceVariable>();
             }
         }
 
@@ -89,11 +89,11 @@ namespace ClassTools.Data.Database
                 this.valueInstanceCollection = value;
                 this.valueString = "";
                 this.valueInstance = null;
-                this.valueInstanceDictionary = null;
+                this.valueInstanceDictionary = new MetaDictionary<MetaInstanceVariable, MetaInstanceVariable>();
             }
         }
 
-        public Dictionary<MetaInstanceVariable, MetaInstanceVariable> ValueInstanceDictionary
+        public MetaDictionary<MetaInstanceVariable, MetaInstanceVariable> ValueInstanceDictionary
         {
             get { return this.valueInstanceDictionary; }
             set
@@ -101,7 +101,7 @@ namespace ClassTools.Data.Database
                 this.valueInstanceDictionary = value;
                 this.valueString = "";
                 this.valueInstance = null;
-                this.valueInstanceCollection = null;
+                this.valueInstanceCollection = new MetaList<MetaInstanceVariable>();
             }
         }
         #endregion
@@ -114,21 +114,22 @@ namespace ClassTools.Data.Database
             this.name = variable.Name;
             this.valueString = variable.DefaultValue;
             this.valueInstance = null;
-            this.valueInstanceCollection = null;
-            this.valueInstanceDictionary = null;
+            this.valueInstanceCollection = new MetaList<MetaInstanceVariable>();
+            this.valueInstanceDictionary = new MetaDictionary<MetaInstanceVariable, MetaInstanceVariable>();
         }
         #endregion
 
-        #region Behavior
+        #region Equals
         public bool Equals(MetaInstanceVariable other)
         {
             if (!base.Equals(other)) return false;
-            if (this.type != other.type) return false;
-            if (this.name != other.name) return false;
-            if (this.valueString != other.valueString) return false;
-            if (this.valueInstance.Equals(other.valueInstance)) return false;
-            if (this.valueInstanceCollection.Equals(other.valueInstanceCollection)) return false;
-            if (this.valueInstanceDictionary.Equals(other.valueInstanceDictionary)) return false;
+            if (!this.type.Equals(other.type)) return false;
+            if (!this.name.Equals(other.name)) return false;
+            if (!this.valueString.Equals(other.valueString)) return false;
+            if ((this.valueInstance != null) != (other.valueInstance != null)) return false;
+            if (this.valueInstance != null && !this.valueInstance.Equals(other.valueInstance)) return false;
+            if (!this.valueInstanceCollection.Equals(other.valueInstanceCollection)) return false;
+            if (!this.valueInstanceDictionary.Equals(other.valueInstanceDictionary)) return false;
             return true;
         }
         #endregion
