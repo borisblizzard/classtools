@@ -3,3 +3,7 @@
 - parameters for methods
 - static flag
 - validation: empty names
+- validation: compare all classes and make sure there are no duplicates
+- validation: compare all variables within a class and make sure there are no duplicates
+- validation: compare all methods within a class and make sure there are no duplicates
+- validation: compare all parameters within a method and make sure there are no duplicates

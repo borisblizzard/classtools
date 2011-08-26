@@ -82,6 +82,12 @@ namespace ClassTools.Data.Hierarchy
             this.suffix1 = string.Empty;
             this.subType2 = null;
             this.suffix2 = string.Empty;
+            int i = 0;
+            while (model.TypeExists(this))
+            {
+                this.name = "ANON_TYPE_" + i.ToString();
+                i++;
+            }
         }
         #endregion
 

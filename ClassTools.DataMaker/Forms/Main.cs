@@ -65,6 +65,10 @@ namespace ClassTools.DataMaker.Forms
                     else if (!newRepository.Model.Equals(this.model))
                     {
                         result = MessageBox.Show(warningModelNotMatching, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (result == DialogResult.OK)
+                        {
+                            result = DialogResult.Yes;
+                        }
                     }
                     if (result == DialogResult.OK)
                     {
@@ -142,16 +146,17 @@ namespace ClassTools.DataMaker.Forms
                 if (result == DialogResult.OK)
                 {
                     Stream stream = this.ofdModel.OpenFile();
-                    this.model = Serializer.Deserialize(stream, this.model);
+                    Model newModel = Serializer.Deserialize(stream, this.model);
                     stream.Close();
                     if (this.repository != null)
                     {
-                        if (!this.repository.Model.Equals(this.model))
+                        if (!this.repository.Model.Equals(newModel))
                         {
                             result = MessageBox.Show(warningModelNotMatching, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                         }
                         if (result == DialogResult.OK)
                         {
+                            this.model = newModel;
                             this.repository.UpdateModel(this.model);
                             this.lastRepository = Serializer.Clone(this.repository);
                             this.lastRepository.UpdateModel(this.model);
@@ -160,6 +165,7 @@ namespace ClassTools.DataMaker.Forms
                     }
                     else
                     {
+                        this.model = newModel;
                         this.repository = new Repository(this.model);
                         this.lastRepository = new Repository(this.model);
                         this.lastFilename = string.Empty;

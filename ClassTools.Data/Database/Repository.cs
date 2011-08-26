@@ -52,7 +52,15 @@ namespace ClassTools.Data.Database
         public void UpdateModel(Model model)
         {
             this.model = model;
-            //this.instances.
+            string name;
+            foreach (MetaClass metaClass in model.Classes)
+            {
+                name = metaClass.GetNameWithModule();
+                if (!this.instances.ContainsKey(name))
+                {
+                    this.instances[name] = new MetaList<MetaInstance>();
+                }
+            }
         }
         #endregion
 

@@ -105,17 +105,17 @@ namespace ClassTools.Data.Hierarchy
         public MetaClass(Model model)
             : base(model, "ANON_CLASS")
         {
-            int i = 0;
             this.module = "";
-            while (this.model.Classes.Exists(x => x.Name.Equals(this.Name)))
-            {
-                this.name = "ANON_CLASS_" + i.ToString();
-                i++;
-            }
             this.superClass = null;
             this.variables = new MetaList<MetaVariable>();
             this.methods = new MetaList<MetaMethod>();
             this.canSerialize = false;
+            int i = 0;
+            while (model.ClassExists(this))
+            {
+                this.name = "ANON_CLASS_" + i.ToString();
+                i++;
+            }
         }
         #endregion
 
@@ -199,7 +199,7 @@ namespace ClassTools.Data.Hierarchy
         #region Variable Methods
         public MetaVariable CreateNewVariable(int index)
         {
-            MetaVariable variable = new MetaVariable(this.model);
+            MetaVariable variable = new MetaVariable(this.model, this);
             this.variables.Insert(index, variable);
             return variable;
         }
@@ -230,12 +230,17 @@ namespace ClassTools.Data.Hierarchy
         {
             this.variables.Sort(new Comparison<MetaVariable>((a, b) => a.Name.CompareTo(b.Name)));
         }
+
+        public bool VariableExists(MetaVariable metaVariable)
+        {
+            return this.variables.Exists(c => c.Equals(metaVariable));
+        }
         #endregion
 
         #region Method Methods
         public MetaMethod CreateNewMethod(int index)
         {
-            MetaMethod method = new MetaMethod(this.model);
+            MetaMethod method = new MetaMethod(this.model, this);
             this.methods.Insert(index, method);
             return method;
         }
@@ -269,6 +274,11 @@ namespace ClassTools.Data.Hierarchy
         public void SortMethods()
         {
             this.methods.Sort(new Comparison<MetaMethod>((a, b) => a.Name.CompareTo(b.Name)));
+        }
+
+        public bool MethodExists(MetaMethod metaMethod)
+        {
+            return this.methods.Exists(c => c.Equals(metaMethod));
         }
         #endregion
 

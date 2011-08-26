@@ -139,6 +139,11 @@ namespace ClassTools.Data.Hierarchy
         {
             this.classes.Sort(new Comparison<MetaClass>((a, b) => a.Name.CompareTo(b.Name)));
         }
+
+        public bool ClassExists(MetaClass metaClass)
+        {
+            return this.classes.Exists(c => c.Equals(metaClass));
+        }
         #endregion
 
         #region Type Methods
@@ -185,6 +190,10 @@ namespace ClassTools.Data.Hierarchy
             }
         }
 
+        public bool TypeExists(MetaType metaType)
+        {
+            return this.types.Exists(c => c.Equals(metaType));
+        }
         #endregion
 
     }

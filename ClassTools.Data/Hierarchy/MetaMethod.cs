@@ -26,11 +26,17 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Construct
-        public MetaMethod(Model model)
+        public MetaMethod(Model model, MetaClass metaClass)
             : base(model, "ANON_METHOD")
         {
             this.parameters = new MetaList<MetaVariable>();
             this.implementation = string.Empty;
+            int i = 0;
+            while (metaClass.MethodExists(this))
+            {
+                this.name = "ANON_METHOD_" + i.ToString();
+                i++;
+            }
         }
         #endregion
 
@@ -58,7 +64,7 @@ namespace ClassTools.Data.Hierarchy
         #region Parameters
         public MetaVariable CreateNewParameter(int index)
         {
-            MetaVariable parameter = new MetaVariable(this.model);
+            MetaVariable parameter = new MetaVariable(this.model, this);
             this.parameters.Insert(index, parameter);
             return parameter;
         }
@@ -83,6 +89,11 @@ namespace ClassTools.Data.Hierarchy
         public bool TryParameterMoveDown(int index)
         {
             return this.parameters.TryMoveDown(index);
+        }
+
+        public bool ParameterExists(MetaVariable metaVariable)
+        {
+            return this.parameters.Exists(c => c.Equals(metaVariable));
         }
         #endregion
 

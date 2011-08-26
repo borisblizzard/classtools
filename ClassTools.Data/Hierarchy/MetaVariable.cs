@@ -46,7 +46,7 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Construct
-        public MetaVariable(Model model)
+        public MetaVariable(Model model, MetaClass metaClass)
             : base(model, "ANON_VARIABLE")
         {
             this.defaultValue = string.Empty;
@@ -54,6 +54,28 @@ namespace ClassTools.Data.Hierarchy
             this.setter = false;
             this.nullable = false;
             this.canSerialize = false;
+            int i = 0;
+            while (metaClass.VariableExists(this))
+            {
+                this.name = "ANON_VARIABLE_" + i.ToString();
+                i++;
+            }
+        }
+
+        public MetaVariable(Model model, MetaMethod metaMethod)
+            : base(model, "ANON_PARAMETER")
+        {
+            this.defaultValue = string.Empty;
+            this.getter = false;
+            this.setter = false;
+            this.nullable = false;
+            this.canSerialize = false;
+            int i = 0;
+            while (metaMethod.ParameterExists(this))
+            {
+                this.name = "ANON_PARAMETER_" + i.ToString();
+                i++;
+            }
         }
         #endregion
 
