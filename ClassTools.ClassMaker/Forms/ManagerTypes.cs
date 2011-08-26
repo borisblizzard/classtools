@@ -27,7 +27,7 @@ namespace ClassTools.ClassMaker.Forms
             InitializeComponent();
             this.model = model;
             this.refreshing = false;
-            this.cbTypeCategory.Items.AddRange(Constants.NAMES_CATEGORY.ToArray());
+            this.cbCategoryType.Items.AddRange(Constants.NAMES_CATEGORY.ToArray());
             this.refresh();
         }
         #endregion
@@ -56,10 +56,10 @@ namespace ClassTools.ClassMaker.Forms
             this.tbSuffix2.Text = metaType.Suffix2;
             if (enabled)
             {
-                this.cbTypeCategory.SelectedIndex = (int)metaType.Category;
-                switch (this.cbTypeCategory.SelectedIndex)
+                this.cbCategoryType.SelectedIndex = (int)metaType.CategoryType;
+                switch (this.cbCategoryType.SelectedIndex)
                 {
-                    case (int)ECategory.Normal:
+                    case (int)ECategoryType.Normal:
                         lSubType1.Enabled = false;
                         cbSubType1.Enabled = false;
                         lSuffix1.Enabled = false;
@@ -69,7 +69,7 @@ namespace ClassTools.ClassMaker.Forms
                         lSuffix2.Enabled = false;
                         tbSuffix2.Enabled = false;
                         break;
-                    case (int)ECategory.Collection:
+                    case (int)ECategoryType.Collection:
                         lSubType1.Enabled = true;
                         cbSubType1.Enabled = true;
                         lSuffix1.Enabled = true;
@@ -79,7 +79,7 @@ namespace ClassTools.ClassMaker.Forms
                         lSuffix2.Enabled = false;
                         tbSuffix2.Enabled = false;
                         break;
-                    case (int)ECategory.Dictionary:
+                    case (int)ECategoryType.Dictionary:
                         lSubType1.Enabled = true;
                         cbSubType1.Enabled = true;
                         lSuffix1.Enabled = true;
@@ -161,29 +161,29 @@ namespace ClassTools.ClassMaker.Forms
             }
         }
 
-        private void cbTypeCategory_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbCategoryType_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.refreshing)
             {
                 return;
             }
             this.refreshing = true;
-            int index = this.cbTypeCategory.SelectedIndex;
+            int index = this.cbCategoryType.SelectedIndex;
             MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
             switch (index)
             {
-                case (int)ECategory.Normal:
+                case (int)ECategoryType.Normal:
                     metaType.SubType1 = null;
                     metaType.SubType2 = null;
                     break;
-                case (int)ECategory.Collection:
+                case (int)ECategoryType.Collection:
                     if (metaType.SubType1 == null)
                     {
                         metaType.SubType1 = this.model.AllTypes[0];
                     }
                     metaType.SubType2 = null;
                     break;
-                case (int)ECategory.Dictionary:
+                case (int)ECategoryType.Dictionary:
                     if (metaType.SubType1 == null)
                     {
                         metaType.SubType1 = this.model.AllTypes[0];

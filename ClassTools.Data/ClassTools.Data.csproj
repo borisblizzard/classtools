@@ -57,14 +57,15 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Base.cs" />
+    <Compile Include="Database\EValueType.cs" />
     <Compile Include="MetaList.cs" />
     <Compile Include="MetaDictionary.cs" />
     <Compile Include="Hierarchy\Model.cs" />
     <Compile Include="Database\MetaInstanceVariable.cs" />
     <Compile Include="Database\MetaBase.cs" />
     <Compile Include="Database\MetaInstance.cs" />
-    <Compile Include="Hierarchy\EAccess.cs" />
-    <Compile Include="Hierarchy\ECategory.cs" />
+    <Compile Include="Hierarchy\EAccessType.cs" />
+    <Compile Include="Hierarchy\ECategoryType.cs" />
     <Compile Include="Hierarchy\MetaBase.cs" />
     <Compile Include="Hierarchy\MetaClass.cs" />
     <Compile Include="Hierarchy\MetaMember.cs" />

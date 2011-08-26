@@ -75,54 +75,54 @@
             this.sfd = new System.Windows.Forms.SaveFileDialog();
             this.gbClass = new System.Windows.Forms.GroupBox();
             this.cbxClassSerialize = new System.Windows.Forms.CheckBox();
-            this.tbClassModule = new System.Windows.Forms.TextBox();
             this.cbInheritance = new System.Windows.Forms.CheckBox();
+            this.tbClassModule = new System.Windows.Forms.TextBox();
             this.tbClassName = new System.Windows.Forms.TextBox();
             this.cbSuperClass = new System.Windows.Forms.ComboBox();
-            this.lModule = new System.Windows.Forms.Label();
             this.lClassName = new System.Windows.Forms.Label();
+            this.lModule = new System.Windows.Forms.Label();
             this.gbMethods = new System.Windows.Forms.GroupBox();
+            this.pMethods = new System.Windows.Forms.Panel();
             this.tbMethodPrefix = new System.Windows.Forms.TextBox();
+            this.tbMethodName = new System.Windows.Forms.TextBox();
             this.bMethodImplementation = new System.Windows.Forms.Button();
+            this.lMethodName = new System.Windows.Forms.Label();
             this.bMethodParameters = new System.Windows.Forms.Button();
-            this.cbMethodAccess = new System.Windows.Forms.ComboBox();
+            this.lMethodType = new System.Windows.Forms.Label();
+            this.cbMethodAccessType = new System.Windows.Forms.ComboBox();
+            this.lMethodPrefix = new System.Windows.Forms.Label();
             this.cbMethodType = new System.Windows.Forms.ComboBox();
             this.lMethodAccess = new System.Windows.Forms.Label();
-            this.lMethodPrefix = new System.Windows.Forms.Label();
-            this.lMethodType = new System.Windows.Forms.Label();
-            this.lMethodName = new System.Windows.Forms.Label();
             this.lbMethods = new System.Windows.Forms.ListBox();
-            this.tbMethodName = new System.Windows.Forms.TextBox();
             this.bMethodNew = new System.Windows.Forms.Button();
             this.bMethodDelete = new System.Windows.Forms.Button();
             this.gbVariables = new System.Windows.Forms.GroupBox();
+            this.pVariables = new System.Windows.Forms.Panel();
             this.cbxVariableNullable = new System.Windows.Forms.CheckBox();
-            this.cbxVariableSerialize = new System.Windows.Forms.CheckBox();
-            this.tbVariablePrefix = new System.Windows.Forms.TextBox();
-            this.cbxVariableSetter = new System.Windows.Forms.CheckBox();
-            this.cbxVariableGetter = new System.Windows.Forms.CheckBox();
-            this.tbVariableDefault = new System.Windows.Forms.TextBox();
-            this.cbVariableAccess = new System.Windows.Forms.ComboBox();
-            this.cbVariableType = new System.Windows.Forms.ComboBox();
-            this.lVariablePrefix = new System.Windows.Forms.Label();
-            this.lVariableDefault = new System.Windows.Forms.Label();
-            this.lVariableAccess = new System.Windows.Forms.Label();
-            this.lVariableType = new System.Windows.Forms.Label();
-            this.lVariableName = new System.Windows.Forms.Label();
             this.tbVariableName = new System.Windows.Forms.TextBox();
+            this.cbxVariableSerialize = new System.Windows.Forms.CheckBox();
+            this.lVariableName = new System.Windows.Forms.Label();
+            this.tbVariablePrefix = new System.Windows.Forms.TextBox();
+            this.lVariableType = new System.Windows.Forms.Label();
+            this.cbxVariableSetter = new System.Windows.Forms.CheckBox();
+            this.lVariableAccess = new System.Windows.Forms.Label();
+            this.cbxVariableGetter = new System.Windows.Forms.CheckBox();
+            this.lVariableDefault = new System.Windows.Forms.Label();
+            this.tbVariableDefault = new System.Windows.Forms.TextBox();
+            this.lVariablePrefix = new System.Windows.Forms.Label();
+            this.cbVariableAccessType = new System.Windows.Forms.ComboBox();
+            this.cbVariableType = new System.Windows.Forms.ComboBox();
             this.lbVariables = new System.Windows.Forms.ListBox();
             this.bVariableNew = new System.Windows.Forms.Button();
             this.bVariableDelete = new System.Windows.Forms.Button();
-            this.pVariables = new System.Windows.Forms.Panel();
-            this.pMethods = new System.Windows.Forms.Panel();
             this.gbClasses.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.gbClass.SuspendLayout();
             this.gbMethods.SuspendLayout();
+            this.pMethods.SuspendLayout();
             this.gbVariables.SuspendLayout();
             this.pVariables.SuspendLayout();
-            this.pMethods.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbClasses
@@ -518,16 +518,6 @@
             this.cbxClassSerialize.UseVisualStyleBackColor = true;
             this.cbxClassSerialize.CheckedChanged += new System.EventHandler(this.cbxClassSerialize_CheckedChanged);
             // 
-            // tbClassModule
-            // 
-            this.tbClassModule.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbClassModule.Location = new System.Drawing.Point(76, 20);
-            this.tbClassModule.Name = "tbClassModule";
-            this.tbClassModule.Size = new System.Drawing.Size(154, 20);
-            this.tbClassModule.TabIndex = 2;
-            this.tbClassModule.TextChanged += new System.EventHandler(this.tbClassModule_TextChanged);
-            // 
             // cbInheritance
             // 
             this.cbInheritance.AutoSize = true;
@@ -538,6 +528,16 @@
             this.cbInheritance.Text = "Inheritance";
             this.cbInheritance.UseVisualStyleBackColor = true;
             this.cbInheritance.CheckedChanged += new System.EventHandler(this.cbInheritance_CheckedChanged);
+            // 
+            // tbClassModule
+            // 
+            this.tbClassModule.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbClassModule.Location = new System.Drawing.Point(76, 20);
+            this.tbClassModule.Name = "tbClassModule";
+            this.tbClassModule.Size = new System.Drawing.Size(154, 20);
+            this.tbClassModule.TabIndex = 2;
+            this.tbClassModule.TextChanged += new System.EventHandler(this.tbClassModule_TextChanged);
             // 
             // tbClassName
             // 
@@ -560,15 +560,6 @@
             this.cbSuperClass.SelectedIndexChanged += new System.EventHandler(this.cbSuperClass_SelectedIndexChanged);
             this.cbSuperClass.SelectedValueChanged += new System.EventHandler(this.cbSuperClass_SelectedIndexChanged);
             // 
-            // lModule
-            // 
-            this.lModule.AutoSize = true;
-            this.lModule.Location = new System.Drawing.Point(6, 23);
-            this.lModule.Name = "lModule";
-            this.lModule.Size = new System.Drawing.Size(42, 13);
-            this.lModule.TabIndex = 1;
-            this.lModule.Text = "Module";
-            // 
             // lClassName
             // 
             this.lClassName.AutoSize = true;
@@ -577,6 +568,15 @@
             this.lClassName.Size = new System.Drawing.Size(35, 13);
             this.lClassName.TabIndex = 0;
             this.lClassName.Text = "Name";
+            // 
+            // lModule
+            // 
+            this.lModule.AutoSize = true;
+            this.lModule.Location = new System.Drawing.Point(6, 23);
+            this.lModule.Name = "lModule";
+            this.lModule.Size = new System.Drawing.Size(42, 13);
+            this.lModule.TabIndex = 1;
+            this.lModule.Text = "Module";
             // 
             // gbMethods
             // 
@@ -591,6 +591,24 @@
             this.gbMethods.TabStop = false;
             this.gbMethods.Text = "Methods";
             // 
+            // pMethods
+            // 
+            this.pMethods.Controls.Add(this.tbMethodPrefix);
+            this.pMethods.Controls.Add(this.tbMethodName);
+            this.pMethods.Controls.Add(this.bMethodImplementation);
+            this.pMethods.Controls.Add(this.lMethodName);
+            this.pMethods.Controls.Add(this.bMethodParameters);
+            this.pMethods.Controls.Add(this.lMethodType);
+            this.pMethods.Controls.Add(this.cbMethodAccessType);
+            this.pMethods.Controls.Add(this.lMethodPrefix);
+            this.pMethods.Controls.Add(this.cbMethodType);
+            this.pMethods.Controls.Add(this.lMethodAccess);
+            this.pMethods.Enabled = false;
+            this.pMethods.Location = new System.Drawing.Point(188, 19);
+            this.pMethods.Name = "pMethods";
+            this.pMethods.Size = new System.Drawing.Size(249, 163);
+            this.pMethods.TabIndex = 4;
+            // 
             // tbMethodPrefix
             // 
             this.tbMethodPrefix.Location = new System.Drawing.Point(70, 80);
@@ -598,6 +616,14 @@
             this.tbMethodPrefix.Size = new System.Drawing.Size(169, 20);
             this.tbMethodPrefix.TabIndex = 9;
             this.tbMethodPrefix.TextChanged += new System.EventHandler(this.tbMethodPrefix_TextChanged);
+            // 
+            // tbMethodName
+            // 
+            this.tbMethodName.Location = new System.Drawing.Point(70, 0);
+            this.tbMethodName.Name = "tbMethodName";
+            this.tbMethodName.Size = new System.Drawing.Size(169, 20);
+            this.tbMethodName.TabIndex = 2;
+            this.tbMethodName.TextChanged += new System.EventHandler(this.tbMethodName_TextChanged);
             // 
             // bMethodImplementation
             // 
@@ -609,6 +635,15 @@
             this.bMethodImplementation.UseVisualStyleBackColor = true;
             this.bMethodImplementation.Click += new System.EventHandler(this.bMethodImplementation_Click);
             // 
+            // lMethodName
+            // 
+            this.lMethodName.AutoSize = true;
+            this.lMethodName.Location = new System.Drawing.Point(3, 3);
+            this.lMethodName.Name = "lMethodName";
+            this.lMethodName.Size = new System.Drawing.Size(35, 13);
+            this.lMethodName.TabIndex = 3;
+            this.lMethodName.Text = "Name";
+            // 
             // bMethodParameters
             // 
             this.bMethodParameters.Location = new System.Drawing.Point(70, 106);
@@ -619,15 +654,33 @@
             this.bMethodParameters.UseVisualStyleBackColor = true;
             this.bMethodParameters.Click += new System.EventHandler(this.bMethodParameters_Click);
             // 
-            // cbMethodAccess
+            // lMethodType
             // 
-            this.cbMethodAccess.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cbMethodAccess.FormattingEnabled = true;
-            this.cbMethodAccess.Location = new System.Drawing.Point(70, 53);
-            this.cbMethodAccess.Name = "cbMethodAccess";
-            this.cbMethodAccess.Size = new System.Drawing.Size(169, 21);
-            this.cbMethodAccess.TabIndex = 5;
-            this.cbMethodAccess.SelectedIndexChanged += new System.EventHandler(this.cbMethodAccess_SelectedIndexChanged);
+            this.lMethodType.AutoSize = true;
+            this.lMethodType.Location = new System.Drawing.Point(3, 29);
+            this.lMethodType.Name = "lMethodType";
+            this.lMethodType.Size = new System.Drawing.Size(31, 13);
+            this.lMethodType.TabIndex = 3;
+            this.lMethodType.Text = "Type";
+            // 
+            // cbMethodAccessType
+            // 
+            this.cbMethodAccessType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cbMethodAccessType.FormattingEnabled = true;
+            this.cbMethodAccessType.Location = new System.Drawing.Point(70, 53);
+            this.cbMethodAccessType.Name = "cbMethodAccessType";
+            this.cbMethodAccessType.Size = new System.Drawing.Size(169, 21);
+            this.cbMethodAccessType.TabIndex = 5;
+            this.cbMethodAccessType.SelectedIndexChanged += new System.EventHandler(this.cbMethodAccessType_SelectedIndexChanged);
+            // 
+            // lMethodPrefix
+            // 
+            this.lMethodPrefix.AutoSize = true;
+            this.lMethodPrefix.Location = new System.Drawing.Point(4, 83);
+            this.lMethodPrefix.Name = "lMethodPrefix";
+            this.lMethodPrefix.Size = new System.Drawing.Size(33, 13);
+            this.lMethodPrefix.TabIndex = 3;
+            this.lMethodPrefix.Text = "Prefix";
             // 
             // cbMethodType
             // 
@@ -649,33 +702,6 @@
             this.lMethodAccess.TabIndex = 3;
             this.lMethodAccess.Text = "Access";
             // 
-            // lMethodPrefix
-            // 
-            this.lMethodPrefix.AutoSize = true;
-            this.lMethodPrefix.Location = new System.Drawing.Point(4, 83);
-            this.lMethodPrefix.Name = "lMethodPrefix";
-            this.lMethodPrefix.Size = new System.Drawing.Size(33, 13);
-            this.lMethodPrefix.TabIndex = 3;
-            this.lMethodPrefix.Text = "Prefix";
-            // 
-            // lMethodType
-            // 
-            this.lMethodType.AutoSize = true;
-            this.lMethodType.Location = new System.Drawing.Point(3, 29);
-            this.lMethodType.Name = "lMethodType";
-            this.lMethodType.Size = new System.Drawing.Size(31, 13);
-            this.lMethodType.TabIndex = 3;
-            this.lMethodType.Text = "Type";
-            // 
-            // lMethodName
-            // 
-            this.lMethodName.AutoSize = true;
-            this.lMethodName.Location = new System.Drawing.Point(3, 3);
-            this.lMethodName.Name = "lMethodName";
-            this.lMethodName.Size = new System.Drawing.Size(35, 13);
-            this.lMethodName.TabIndex = 3;
-            this.lMethodName.Text = "Name";
-            // 
             // lbMethods
             // 
             this.lbMethods.ContextMenuStrip = this.contextMenuStrip;
@@ -685,14 +711,6 @@
             this.lbMethods.Size = new System.Drawing.Size(176, 134);
             this.lbMethods.TabIndex = 0;
             this.lbMethods.SelectedIndexChanged += new System.EventHandler(this.lbMethods_SelectedIndexChanged);
-            // 
-            // tbMethodName
-            // 
-            this.tbMethodName.Location = new System.Drawing.Point(70, 0);
-            this.tbMethodName.Name = "tbMethodName";
-            this.tbMethodName.Size = new System.Drawing.Size(169, 20);
-            this.tbMethodName.TabIndex = 2;
-            this.tbMethodName.TextChanged += new System.EventHandler(this.tbMethodName_TextChanged);
             // 
             // bMethodNew
             // 
@@ -728,6 +746,28 @@
             this.gbVariables.TabStop = false;
             this.gbVariables.Text = "Variables";
             // 
+            // pVariables
+            // 
+            this.pVariables.Controls.Add(this.cbxVariableNullable);
+            this.pVariables.Controls.Add(this.tbVariableName);
+            this.pVariables.Controls.Add(this.cbxVariableSerialize);
+            this.pVariables.Controls.Add(this.lVariableName);
+            this.pVariables.Controls.Add(this.tbVariablePrefix);
+            this.pVariables.Controls.Add(this.lVariableType);
+            this.pVariables.Controls.Add(this.cbxVariableSetter);
+            this.pVariables.Controls.Add(this.lVariableAccess);
+            this.pVariables.Controls.Add(this.cbxVariableGetter);
+            this.pVariables.Controls.Add(this.lVariableDefault);
+            this.pVariables.Controls.Add(this.tbVariableDefault);
+            this.pVariables.Controls.Add(this.lVariablePrefix);
+            this.pVariables.Controls.Add(this.cbVariableAccessType);
+            this.pVariables.Controls.Add(this.cbVariableType);
+            this.pVariables.Enabled = false;
+            this.pVariables.Location = new System.Drawing.Point(188, 19);
+            this.pVariables.Name = "pVariables";
+            this.pVariables.Size = new System.Drawing.Size(249, 190);
+            this.pVariables.TabIndex = 12;
+            // 
             // cbxVariableNullable
             // 
             this.cbxVariableNullable.AutoSize = true;
@@ -738,6 +778,14 @@
             this.cbxVariableNullable.Text = "Nullable";
             this.cbxVariableNullable.UseVisualStyleBackColor = true;
             this.cbxVariableNullable.CheckedChanged += new System.EventHandler(this.cbxVariableNullable_CheckedChanged);
+            // 
+            // tbVariableName
+            // 
+            this.tbVariableName.Location = new System.Drawing.Point(70, 0);
+            this.tbVariableName.Name = "tbVariableName";
+            this.tbVariableName.Size = new System.Drawing.Size(169, 20);
+            this.tbVariableName.TabIndex = 2;
+            this.tbVariableName.TextChanged += new System.EventHandler(this.tbVariableName_TextChanged);
             // 
             // cbxVariableSerialize
             // 
@@ -750,6 +798,15 @@
             this.cbxVariableSerialize.UseVisualStyleBackColor = true;
             this.cbxVariableSerialize.CheckedChanged += new System.EventHandler(this.cbxVariableSerialize_CheckedChanged);
             // 
+            // lVariableName
+            // 
+            this.lVariableName.AutoSize = true;
+            this.lVariableName.Location = new System.Drawing.Point(3, 3);
+            this.lVariableName.Name = "lVariableName";
+            this.lVariableName.Size = new System.Drawing.Size(35, 13);
+            this.lVariableName.TabIndex = 3;
+            this.lVariableName.Text = "Name";
+            // 
             // tbVariablePrefix
             // 
             this.tbVariablePrefix.Location = new System.Drawing.Point(70, 109);
@@ -757,6 +814,15 @@
             this.tbVariablePrefix.Size = new System.Drawing.Size(169, 20);
             this.tbVariablePrefix.TabIndex = 9;
             this.tbVariablePrefix.TextChanged += new System.EventHandler(this.tbVariablePrefix_TextChanged);
+            // 
+            // lVariableType
+            // 
+            this.lVariableType.AutoSize = true;
+            this.lVariableType.Location = new System.Drawing.Point(3, 30);
+            this.lVariableType.Name = "lVariableType";
+            this.lVariableType.Size = new System.Drawing.Size(31, 13);
+            this.lVariableType.TabIndex = 3;
+            this.lVariableType.Text = "Type";
             // 
             // cbxVariableSetter
             // 
@@ -769,6 +835,15 @@
             this.cbxVariableSetter.UseVisualStyleBackColor = true;
             this.cbxVariableSetter.CheckedChanged += new System.EventHandler(this.cbxVariableSetter_CheckedChanged);
             // 
+            // lVariableAccess
+            // 
+            this.lVariableAccess.AutoSize = true;
+            this.lVariableAccess.Location = new System.Drawing.Point(3, 57);
+            this.lVariableAccess.Name = "lVariableAccess";
+            this.lVariableAccess.Size = new System.Drawing.Size(42, 13);
+            this.lVariableAccess.TabIndex = 3;
+            this.lVariableAccess.Text = "Access";
+            // 
             // cbxVariableGetter
             // 
             this.cbxVariableGetter.AutoSize = true;
@@ -780,6 +855,15 @@
             this.cbxVariableGetter.UseVisualStyleBackColor = true;
             this.cbxVariableGetter.CheckedChanged += new System.EventHandler(this.cbxVariableGetter_CheckedChanged);
             // 
+            // lVariableDefault
+            // 
+            this.lVariableDefault.AutoSize = true;
+            this.lVariableDefault.Location = new System.Drawing.Point(3, 85);
+            this.lVariableDefault.Name = "lVariableDefault";
+            this.lVariableDefault.Size = new System.Drawing.Size(41, 13);
+            this.lVariableDefault.TabIndex = 3;
+            this.lVariableDefault.Text = "Default";
+            // 
             // tbVariableDefault
             // 
             this.tbVariableDefault.Location = new System.Drawing.Point(70, 82);
@@ -788,15 +872,24 @@
             this.tbVariableDefault.TabIndex = 6;
             this.tbVariableDefault.TextChanged += new System.EventHandler(this.tbVariableDefault_TextChanged);
             // 
-            // cbVariableAccess
+            // lVariablePrefix
             // 
-            this.cbVariableAccess.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cbVariableAccess.FormattingEnabled = true;
-            this.cbVariableAccess.Location = new System.Drawing.Point(70, 54);
-            this.cbVariableAccess.Name = "cbVariableAccess";
-            this.cbVariableAccess.Size = new System.Drawing.Size(169, 21);
-            this.cbVariableAccess.TabIndex = 5;
-            this.cbVariableAccess.SelectedIndexChanged += new System.EventHandler(this.cbVariableAccess_SelectedIndexChanged);
+            this.lVariablePrefix.AutoSize = true;
+            this.lVariablePrefix.Location = new System.Drawing.Point(3, 112);
+            this.lVariablePrefix.Name = "lVariablePrefix";
+            this.lVariablePrefix.Size = new System.Drawing.Size(33, 13);
+            this.lVariablePrefix.TabIndex = 3;
+            this.lVariablePrefix.Text = "Prefix";
+            // 
+            // cbVariableAccessType
+            // 
+            this.cbVariableAccessType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cbVariableAccessType.FormattingEnabled = true;
+            this.cbVariableAccessType.Location = new System.Drawing.Point(70, 54);
+            this.cbVariableAccessType.Name = "cbVariableAccessType";
+            this.cbVariableAccessType.Size = new System.Drawing.Size(169, 21);
+            this.cbVariableAccessType.TabIndex = 5;
+            this.cbVariableAccessType.SelectedIndexChanged += new System.EventHandler(this.cbVariableAccessType_SelectedIndexChanged);
             // 
             // cbVariableType
             // 
@@ -808,59 +901,6 @@
             this.cbVariableType.TabIndex = 4;
             this.cbVariableType.SelectedIndexChanged += new System.EventHandler(this.cbVariableType_SelectedIndexChanged);
             this.cbVariableType.SelectedValueChanged += new System.EventHandler(this.cbVariableType_SelectedIndexChanged);
-            // 
-            // lVariablePrefix
-            // 
-            this.lVariablePrefix.AutoSize = true;
-            this.lVariablePrefix.Location = new System.Drawing.Point(3, 112);
-            this.lVariablePrefix.Name = "lVariablePrefix";
-            this.lVariablePrefix.Size = new System.Drawing.Size(33, 13);
-            this.lVariablePrefix.TabIndex = 3;
-            this.lVariablePrefix.Text = "Prefix";
-            // 
-            // lVariableDefault
-            // 
-            this.lVariableDefault.AutoSize = true;
-            this.lVariableDefault.Location = new System.Drawing.Point(3, 85);
-            this.lVariableDefault.Name = "lVariableDefault";
-            this.lVariableDefault.Size = new System.Drawing.Size(41, 13);
-            this.lVariableDefault.TabIndex = 3;
-            this.lVariableDefault.Text = "Default";
-            // 
-            // lVariableAccess
-            // 
-            this.lVariableAccess.AutoSize = true;
-            this.lVariableAccess.Location = new System.Drawing.Point(3, 57);
-            this.lVariableAccess.Name = "lVariableAccess";
-            this.lVariableAccess.Size = new System.Drawing.Size(42, 13);
-            this.lVariableAccess.TabIndex = 3;
-            this.lVariableAccess.Text = "Access";
-            // 
-            // lVariableType
-            // 
-            this.lVariableType.AutoSize = true;
-            this.lVariableType.Location = new System.Drawing.Point(3, 30);
-            this.lVariableType.Name = "lVariableType";
-            this.lVariableType.Size = new System.Drawing.Size(31, 13);
-            this.lVariableType.TabIndex = 3;
-            this.lVariableType.Text = "Type";
-            // 
-            // lVariableName
-            // 
-            this.lVariableName.AutoSize = true;
-            this.lVariableName.Location = new System.Drawing.Point(3, 3);
-            this.lVariableName.Name = "lVariableName";
-            this.lVariableName.Size = new System.Drawing.Size(35, 13);
-            this.lVariableName.TabIndex = 3;
-            this.lVariableName.Text = "Name";
-            // 
-            // tbVariableName
-            // 
-            this.tbVariableName.Location = new System.Drawing.Point(70, 0);
-            this.tbVariableName.Name = "tbVariableName";
-            this.tbVariableName.Size = new System.Drawing.Size(169, 20);
-            this.tbVariableName.TabIndex = 2;
-            this.tbVariableName.TextChanged += new System.EventHandler(this.tbVariableName_TextChanged);
             // 
             // lbVariables
             // 
@@ -893,46 +933,6 @@
             this.bVariableDelete.UseVisualStyleBackColor = true;
             this.bVariableDelete.Click += new System.EventHandler(this.bVariableDelete_Click);
             // 
-            // pVariables
-            // 
-            this.pVariables.Controls.Add(this.cbxVariableNullable);
-            this.pVariables.Controls.Add(this.tbVariableName);
-            this.pVariables.Controls.Add(this.cbxVariableSerialize);
-            this.pVariables.Controls.Add(this.lVariableName);
-            this.pVariables.Controls.Add(this.tbVariablePrefix);
-            this.pVariables.Controls.Add(this.lVariableType);
-            this.pVariables.Controls.Add(this.cbxVariableSetter);
-            this.pVariables.Controls.Add(this.lVariableAccess);
-            this.pVariables.Controls.Add(this.cbxVariableGetter);
-            this.pVariables.Controls.Add(this.lVariableDefault);
-            this.pVariables.Controls.Add(this.tbVariableDefault);
-            this.pVariables.Controls.Add(this.lVariablePrefix);
-            this.pVariables.Controls.Add(this.cbVariableAccess);
-            this.pVariables.Controls.Add(this.cbVariableType);
-            this.pVariables.Enabled = false;
-            this.pVariables.Location = new System.Drawing.Point(188, 19);
-            this.pVariables.Name = "pVariables";
-            this.pVariables.Size = new System.Drawing.Size(249, 190);
-            this.pVariables.TabIndex = 12;
-            // 
-            // pMethods
-            // 
-            this.pMethods.Controls.Add(this.tbMethodPrefix);
-            this.pMethods.Controls.Add(this.tbMethodName);
-            this.pMethods.Controls.Add(this.bMethodImplementation);
-            this.pMethods.Controls.Add(this.lMethodName);
-            this.pMethods.Controls.Add(this.bMethodParameters);
-            this.pMethods.Controls.Add(this.lMethodType);
-            this.pMethods.Controls.Add(this.cbMethodAccess);
-            this.pMethods.Controls.Add(this.lMethodPrefix);
-            this.pMethods.Controls.Add(this.cbMethodType);
-            this.pMethods.Controls.Add(this.lMethodAccess);
-            this.pMethods.Enabled = false;
-            this.pMethods.Location = new System.Drawing.Point(188, 19);
-            this.pMethods.Name = "pMethods";
-            this.pMethods.Size = new System.Drawing.Size(249, 163);
-            this.pMethods.TabIndex = 4;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -958,11 +958,11 @@
             this.gbClass.ResumeLayout(false);
             this.gbClass.PerformLayout();
             this.gbMethods.ResumeLayout(false);
+            this.pMethods.ResumeLayout(false);
+            this.pMethods.PerformLayout();
             this.gbVariables.ResumeLayout(false);
             this.pVariables.ResumeLayout(false);
             this.pVariables.PerformLayout();
-            this.pMethods.ResumeLayout(false);
-            this.pMethods.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1014,8 +1014,8 @@
         private System.Windows.Forms.ComboBox cbSuperClass;
         private System.Windows.Forms.CheckBox cbInheritance;
         private System.Windows.Forms.ToolStripMenuItem generateToolStripMenuItem;
-        private System.Windows.Forms.ComboBox cbVariableAccess;
-        private System.Windows.Forms.ComboBox cbMethodAccess;
+        private System.Windows.Forms.ComboBox cbVariableAccessType;
+        private System.Windows.Forms.ComboBox cbMethodAccessType;
         private System.Windows.Forms.Label lMethodAccess;
         private System.Windows.Forms.Label lVariableAccess;
         private System.Windows.Forms.TextBox tbVariableDefault;

@@ -1,6 +1,6 @@
 ﻿namespace ClassTools.Data.Hierarchy
 {
-    public enum ECategory
+    public enum ECategoryType
     {
         Normal = 0,
         Collection = 1,

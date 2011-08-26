@@ -102,17 +102,17 @@ namespace ClassTools.Data.Hierarchy
             MetaClass oldClass = this.classes[index];
             this.classes[index] = metaClass;
             metaClass.Model = this;
-            switch (metaClass.Category)
+            switch (metaClass.CategoryType)
             {
-                case ECategory.Normal:
+                case ECategoryType.Normal:
                     metaClass.SubType1 = null;
                     metaClass.SubType2 = null;
                     break;
-                case ECategory.Collection:
+                case ECategoryType.Collection:
                     metaClass.SubType1 = this.types.Find(t => t.Equals(metaClass.SubType1));
                     metaClass.SubType2 = null;
                     break;
-                case ECategory.Dictionary:
+                case ECategoryType.Dictionary:
                     metaClass.SubType1 = this.types.Find(t => t.Equals(metaClass.SubType1));
                     metaClass.SubType2 = this.types.Find(t => t.Equals(metaClass.SubType2));
                     break;
@@ -169,17 +169,17 @@ namespace ClassTools.Data.Hierarchy
             MetaType oldType = this.types[index];
             this.types[index] = metaType;
             metaType.Model = this;
-            switch (metaType.Category)
+            switch (metaType.CategoryType)
             {
-                case ECategory.Normal:
+                case ECategoryType.Normal:
                     metaType.SubType1 = null;
                     metaType.SubType2 = null;
                     break;
-                case ECategory.Collection:
+                case ECategoryType.Collection:
                     metaType.SubType1 = this.types.Find(t => t.Equals(metaType.SubType1));
                     metaType.SubType2 = null;
                     break;
-                case ECategory.Dictionary:
+                case ECategoryType.Dictionary:
                     metaType.SubType1 = this.types.Find(t => t.Equals(metaType.SubType1));
                     metaType.SubType2 = this.types.Find(t => t.Equals(metaType.SubType2));
                     break;

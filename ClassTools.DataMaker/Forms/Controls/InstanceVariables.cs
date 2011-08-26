@@ -86,9 +86,9 @@ namespace ClassTools.DataMaker.Forms.Controls
                 }
                 if (!metaVariable.Type.IsClass)
                 {
-                    switch (metaVariable.Type.Category)
+                    switch (metaVariable.Type.CategoryType)
                     {
-                        case ECategory.Normal:
+                        case ECategoryType.Normal:
                             switch (metaVariable.Type.Name)
                             {
                                 case "int":
@@ -237,7 +237,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     break;
                             }
                             break;
-                        case ECategory.Collection:
+                        case ECategoryType.Collection:
                             button = new Button();
                             this.Controls.Add(button);
                             this.valueControls.Add(button);
@@ -247,7 +247,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                             button.Name = metaVariable.ToString();
                             button.TabIndex = 11 + i * 2;
                             break;
-                        case ECategory.Dictionary:
+                        case ECategoryType.Dictionary:
                             button = new Button();
                             this.Controls.Add(button);
                             this.valueControls.Add(button);
@@ -300,7 +300,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                 {
                     metaVariable = metaVariables[i];
                     metaInstanceVariable = this.metaInstance.InstanceVariables[i];
-                    if (!metaVariable.Type.IsClass && metaVariable.Type.Category == ECategory.Normal)
+                    if (!metaVariable.Type.IsClass && metaVariable.Type.CategoryType == ECategoryType.Normal)
                     {
                         if (Constants.TYPES_INT.Contains(metaVariable.Type.Name))
                         {
@@ -325,7 +325,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                 for (int i = 0; i < metaVariables.Count; i++)
                 {
                     metaVariable = metaVariables[i];
-                    if (!metaVariable.Type.IsClass && metaVariable.Type.Category == ECategory.Normal)
+                    if (!metaVariable.Type.IsClass && metaVariable.Type.CategoryType == ECategoryType.Normal)
                     {
                         if (Constants.TYPES_INT.Contains(metaVariable.Type.Name))
                         {

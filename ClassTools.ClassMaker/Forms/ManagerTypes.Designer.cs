@@ -43,7 +43,7 @@
             this.gbTypes = new System.Windows.Forms.GroupBox();
             this.tbSuffix2 = new System.Windows.Forms.TextBox();
             this.cbSubType2 = new System.Windows.Forms.ComboBox();
-            this.cbTypeCategory = new System.Windows.Forms.ComboBox();
+            this.cbCategoryType = new System.Windows.Forms.ComboBox();
             this.lSubType2 = new System.Windows.Forms.Label();
             this.lCategory = new System.Windows.Forms.Label();
             this.lSubType1 = new System.Windows.Forms.Label();
@@ -154,7 +154,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.gbTypes.Controls.Add(this.tbSuffix2);
             this.gbTypes.Controls.Add(this.cbSubType2);
-            this.gbTypes.Controls.Add(this.cbTypeCategory);
+            this.gbTypes.Controls.Add(this.cbCategoryType);
             this.gbTypes.Controls.Add(this.lSubType2);
             this.gbTypes.Controls.Add(this.lCategory);
             this.gbTypes.Controls.Add(this.lSubType1);
@@ -191,14 +191,14 @@
             this.cbSubType2.TabIndex = 12;
             this.cbSubType2.SelectedIndexChanged += new System.EventHandler(this.cbSubType2_SelectedIndexChanged);
             // 
-            // cbTypeCategory
+            // cbCategoryType
             // 
-            this.cbTypeCategory.FormattingEnabled = true;
-            this.cbTypeCategory.Location = new System.Drawing.Point(258, 46);
-            this.cbTypeCategory.Name = "cbTypeCategory";
-            this.cbTypeCategory.Size = new System.Drawing.Size(169, 21);
-            this.cbTypeCategory.TabIndex = 11;
-            this.cbTypeCategory.SelectedIndexChanged += new System.EventHandler(this.cbTypeCategory_SelectedIndexChanged);
+            this.cbCategoryType.FormattingEnabled = true;
+            this.cbCategoryType.Location = new System.Drawing.Point(258, 46);
+            this.cbCategoryType.Name = "cbCategoryType";
+            this.cbCategoryType.Size = new System.Drawing.Size(169, 21);
+            this.cbCategoryType.TabIndex = 11;
+            this.cbCategoryType.SelectedIndexChanged += new System.EventHandler(this.cbCategoryType_SelectedIndexChanged);
             // 
             // lSubType2
             // 
@@ -437,7 +437,7 @@
         private System.Windows.Forms.Button bOk;
         private System.Windows.Forms.Label lSuffix1;
         private System.Windows.Forms.TextBox tbSuffix1;
-        private System.Windows.Forms.ComboBox cbTypeCategory;
+        private System.Windows.Forms.ComboBox cbCategoryType;
         private System.Windows.Forms.ComboBox cbSubType2;
         private System.Windows.Forms.Label lSubType1;
         private System.Windows.Forms.Label lSubType2;

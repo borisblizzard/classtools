@@ -1,6 +1,6 @@
 ﻿namespace ClassTools.Data.Hierarchy
 {
-    public enum EAccess
+    public enum EAccessType
     {
         Public = 0,
         Protected = 1,

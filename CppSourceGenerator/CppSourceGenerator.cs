@@ -10,7 +10,6 @@ namespace ClassTools
     public class CppSourceGenerator : IPlugin
     {
         #region Fields
-
         private string name = "C++ Source Generator";
         private string description = "Generates C++ source code and headers.";
         private string author = "Boris Mikić";
@@ -18,20 +17,16 @@ namespace ClassTools
         private string path = string.Empty;
         private StreamWriter writer;
         private int indent;
-
         #endregion
 
         #region Properties
-
         public string Name { get { return name; } }
         public string Description { get { return description; } }
         public string Author { get { return author; } }
         public string Version { get { return version; } }
-
         #endregion
 
         #region Main
-
         public void Create() { }
         public void Destroy() { }
 
@@ -59,11 +54,9 @@ namespace ClassTools
             }
             return "Code Generation was successful.";
         }
-
         #endregion
 
         #region Generate
-
         private void generateHeaderClass(MetaClass metaClass)
         {
             this.writeLine("/// @file");
@@ -96,7 +89,7 @@ namespace ClassTools
             }
             this.writeLine(classDef);
             this.writeLine("{");
-            this.writeLine(Constants.NAMES_ACCESS[(int)EAccess.Public]);
+            this.writeLine(Constants.NAMES_ACCESS[(int)EAccessType.Public]);
             this.increaseIndent();
             if (metaClass.CanSerialize)
             {
@@ -120,17 +113,17 @@ namespace ClassTools
 
         private void generateHeaderMembers(MetaClass metaClass)
         {
-            this.generateHeaderVariables(metaClass, EAccess.Public);
+            this.generateHeaderVariables(metaClass, EAccessType.Public);
             this.generateHeaderGettersSetters(metaClass);
-            this.generateHeaderMethods(metaClass, EAccess.Public);
-            EAccess accessType;
+            this.generateHeaderMethods(metaClass, EAccessType.Public);
+            EAccessType accessType;
             List<MetaVariable> metaVariables;
             List<MetaMethod> metaMethods;
             for (int i = 1; i < Constants.NAMES_ACCESS.Count; i++)
             {
-                accessType = (EAccess)i;
-                metaVariables = metaClass.Variables.FindAll(v => v.Access == accessType);
-                metaMethods = metaClass.Methods.FindAll(m => m.Access == accessType);
+                accessType = (EAccessType)i;
+                metaVariables = metaClass.Variables.FindAll(v => v.AccessType == accessType);
+                metaMethods = metaClass.Methods.FindAll(m => m.AccessType == accessType);
                 if (metaVariables.Count > 0 || metaMethods.Count > 0)
                 {
                     this.decreaseIndent();
@@ -142,14 +135,14 @@ namespace ClassTools
             }
         }
 
-        private void generateHeaderVariables(MetaClass metaClass, EAccess access)
+        private void generateHeaderVariables(MetaClass metaClass, EAccessType accessType)
         {
-            this.generateHeaderVariables(metaClass.Variables.FindAll(v => v.Access == access));
+            this.generateHeaderVariables(metaClass.Variables.FindAll(v => v.AccessType == accessType));
         }
 
-        private void generateHeaderMethods(MetaClass metaClass, EAccess access)
+        private void generateHeaderMethods(MetaClass metaClass, EAccessType accessType)
         {
-            this.generateHeaderMethods(metaClass.Methods.FindAll(m => m.Access == access));
+            this.generateHeaderMethods(metaClass.Methods.FindAll(m => m.AccessType == accessType));
         }
 
         private void generateHeaderVariables(List<MetaVariable> metaVariables)
@@ -353,7 +346,6 @@ namespace ClassTools
         {
             this.writer.WriteLine(this.getIndentation() + format, args);
         }
-
         #endregion
 
     }

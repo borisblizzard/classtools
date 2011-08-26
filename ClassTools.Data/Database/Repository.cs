@@ -18,6 +18,11 @@ namespace ClassTools.Data.Database
         {
             get { return this.model; }
         }
+
+        public MetaDictionary<string, MetaList<MetaInstance>> Instances
+        {
+            get { return this.instances; }
+        }
         #endregion
 
         #region Construct

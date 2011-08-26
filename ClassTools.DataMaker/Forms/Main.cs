@@ -65,9 +65,9 @@ namespace ClassTools.DataMaker.Forms
                     else if (!newRepository.Model.Equals(this.model))
                     {
                         result = MessageBox.Show(warningModelNotMatching, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                        if (result == DialogResult.OK)
+                        if (result == DialogResult.Yes)
                         {
-                            result = DialogResult.Yes;
+                            result = DialogResult.OK;
                         }
                     }
                     if (result == DialogResult.OK)
@@ -153,6 +153,10 @@ namespace ClassTools.DataMaker.Forms
                         if (!this.repository.Model.Equals(newModel))
                         {
                             result = MessageBox.Show(warningModelNotMatching, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                            if (result == DialogResult.Yes)
+                            {
+                                result = DialogResult.OK;
+                            }
                         }
                         if (result == DialogResult.OK)
                         {

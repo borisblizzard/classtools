@@ -10,27 +10,22 @@ namespace ClassTools
     public class CppBinSerializerGenerator : IPlugin
     {
         #region Fields
-
         private string name = "C++ Binary Serialization Code Generator";
         private string description = "Generates binary serialization/deserialization code in C++ for liteser.";
         private string author = "Boris Mikić";
         private string version = "0.9";
         private StreamWriter writer;
         private int indent;
-
         #endregion
 
         #region Properties
-
         public string Name { get { return name; } }
         public string Description { get { return description; } }
         public string Author { get { return author; } }
         public string Version { get { return version; } }
-
         #endregion
 
         #region Main
-
         public void Create() { }
         public void Destroy() { }
 
@@ -53,7 +48,6 @@ namespace ClassTools
             this.writer.Close();
             return "Code Generation was successful.";
         }
-
         #endregion
 
         #region Generate
@@ -106,9 +100,9 @@ namespace ClassTools
 
         private void generateSerializeVariable(MetaVariable metaVariable)
         {
-            switch (metaVariable.Type.Category)
+            switch (metaVariable.Type.CategoryType)
             {
-                case ECategory.Normal:
+                case ECategoryType.Normal:
                     if (!metaVariable.Type.IsClass)
                     {
                         this.generateWrite("this->{0}", metaVariable.Name);
@@ -127,7 +121,7 @@ namespace ClassTools
                         this.closeBrackets();
                     }
                     break;
-                case ECategory.Collection:
+                case ECategoryType.Collection:
                     this.generateWrite("this->{0}.size()", metaVariable.Name);
                     this.writeLine("foreach ({0}{1}, it, this->{2})", metaVariable.Type.SubType1.GetNameWithModule(), metaVariable.Type.Prefix, metaVariable.Name);
                     this.openBrackets();
@@ -157,9 +151,9 @@ namespace ClassTools
 
         private void generateDeserializeVariable(MetaVariable metaVariable)
         {
-            switch (metaVariable.Type.Category)
+            switch (metaVariable.Type.CategoryType)
             {
-                case ECategory.Normal:
+                case ECategoryType.Normal:
                     if (!metaVariable.Type.IsClass)
                     {
                         this.generateRead(metaVariable.Type, "this->{0}", metaVariable.Name);
@@ -186,7 +180,7 @@ namespace ClassTools
                         this.closeBrackets();
                     }
                     break;
-                case ECategory.Collection:
+                case ECategoryType.Collection:
                     this.generateReadInt("number");
                     this.writeLine("{0}{1} _{2};", metaVariable.Type.SubType1.GetNameWithModule(), metaVariable.Type.Prefix, metaVariable.Name);
                     this.writeLine("for (int i = 0; i < number; i++)");
@@ -222,19 +216,18 @@ namespace ClassTools
         #endregion
 
         #region Utility
-
         private string getCamelCaseVariable(MetaVariable metaVariable)
         {
             string name = string.Empty;
-            switch (metaVariable.Type.Category)
+            switch (metaVariable.Type.CategoryType)
             {
-                case ECategory.Normal:
+                case ECategoryType.Normal:
                     name = metaVariable.Type.Name;
                     break;
-                case ECategory.Collection:
+                case ECategoryType.Collection:
                     name = metaVariable.Type.SubType1.Name;
                     break;
-                case ECategory.Dictionary:
+                case ECategoryType.Dictionary:
                     name = metaVariable.Type.SubType2.Name;
                     break;
             }
