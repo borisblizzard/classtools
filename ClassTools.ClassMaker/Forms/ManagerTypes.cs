@@ -59,7 +59,7 @@ namespace ClassTools.ClassMaker.Forms
                 this.cbCategoryType.SelectedIndex = (int)metaType.CategoryType;
                 switch (this.cbCategoryType.SelectedIndex)
                 {
-                    case (int)ECategoryType.Normal:
+                    case (int)ECategoryType.Integral:
                         lSubType1.Enabled = false;
                         cbSubType1.Enabled = false;
                         lSuffix1.Enabled = false;
@@ -172,7 +172,7 @@ namespace ClassTools.ClassMaker.Forms
             MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
             switch (index)
             {
-                case (int)ECategoryType.Normal:
+                case (int)ECategoryType.Integral:
                     metaType.SubType1 = null;
                     metaType.SubType2 = null;
                     break;

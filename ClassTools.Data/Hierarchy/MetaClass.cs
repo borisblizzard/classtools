@@ -15,9 +15,9 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Properties
-        public override bool IsClass
+        public override ECategoryType CategoryType
         {
-            get { return true; }
+            get { return ECategoryType.Class; }
         }
 
         public string Module
@@ -139,7 +139,7 @@ namespace ClassTools.Data.Hierarchy
             base.UpdateType(oldType, newType);
             if (this.HasSuperClass && this.SuperClass == oldType)
             {
-                this.SuperClass = (newType.IsClass ? (MetaClass)newType : null);
+                this.SuperClass = (newType.CategoryType == ECategoryType.Class ? (MetaClass)newType : null);
             }
             for (int j = 0; j < this.Variables.Count; j++)
             {

@@ -16,33 +16,26 @@ namespace ClassTools.DataMaker.Forms
         #region Fields
         private Repository repository;
         private MetaClass metaClass;
-        private MetaList<MetaInstance> metaInstances;
+        private MetaList<MetaValue> metaValues;
         private bool refreshing;
         #endregion
 
         #region Properties
-        public MetaList<MetaInstance> Instances
+        public MetaList<MetaValue> MetaValuess
         {
-            get { return this.metaInstances; }
+            get { return this.metaValues; }
         }
         #endregion
 
         #region Construct
-        public ManagerInstances(Repository repository, MetaClass metaClass, MetaList<MetaInstance> metaInstances)
+        public ManagerInstances(Repository repository, MetaClass metaClass, MetaList<MetaValue> metaValues)
         {
             InitializeComponent();
             this.repository = repository;
-            this.metaInstances = metaInstances;
             this.metaClass = metaClass;
-            this.icInstances.SetData(this, this.repository, this.metaClass, this.metaInstances);
+            this.metaValues = metaValues;
+            this.ilInstances.SetData(this, this.repository, this.metaClass, this.metaValues);
             this.RefreshData();
-        }
-        #endregion
-
-        #region Close
-        private void closeMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
         #endregion
 
@@ -61,39 +54,46 @@ namespace ClassTools.DataMaker.Forms
         #region Tools
         private void copyMenuItem_Click(object sender, EventArgs e)
         {
-            this.icInstances.CopyInstance();
+            this.ilInstances.CopyValue();
         }
 
         private void pasteMenuItem_Click(object sender, EventArgs e)
         {
-            this.icInstances.PasteInstance();
+            this.ilInstances.PasteValue();
         }
 
         private void addNewMenuItem_Click(object sender, EventArgs e)
         {
-            this.icInstances.AddNewInstance();
+            this.ilInstances.AddNewValue();
         }
 
         private void deleteMenuItem_Click(object sender, EventArgs e)
         {
-            this.icInstances.DeleteInstance();
+            this.ilInstances.DeleteValue();
         }
 
         private void moveUpMenuItem_Click(object sender, EventArgs e)
         {
-            this.icInstances.MoveUpInstance();
+            this.ilInstances.MoveUpValue();
         }
 
         private void moveDownMenuItem_Click(object sender, EventArgs e)
         {
-            this.icInstances.MoveDownInstance();
+            this.ilInstances.MoveDownValue();
         }
         #endregion
+
+        #region Events
+        private void closeMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
         private void lbInstances_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.RefreshData();
         }
+        #endregion
 
     }
 }

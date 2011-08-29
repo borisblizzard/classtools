@@ -104,7 +104,7 @@ namespace ClassTools.Data.Hierarchy
             metaClass.Model = this;
             switch (metaClass.CategoryType)
             {
-                case ECategoryType.Normal:
+                case ECategoryType.Integral:
                     metaClass.SubType1 = null;
                     metaClass.SubType2 = null;
                     break;
@@ -171,7 +171,7 @@ namespace ClassTools.Data.Hierarchy
             metaType.Model = this;
             switch (metaType.CategoryType)
             {
-                case ECategoryType.Normal:
+                case ECategoryType.Integral:
                     metaType.SubType1 = null;
                     metaType.SubType2 = null;
                     break;

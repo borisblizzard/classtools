@@ -10,7 +10,7 @@ namespace ClassTools.Data.Database
     {
         #region Fields
         protected Model model;
-        protected MetaDictionary<string, MetaList<MetaInstance>> instances;
+        protected MetaDictionary<string, MetaList<MetaValue>> values;
         #endregion
 
         #region Properties
@@ -19,9 +19,9 @@ namespace ClassTools.Data.Database
             get { return this.model; }
         }
 
-        public MetaDictionary<string, MetaList<MetaInstance>> Instances
+        public MetaDictionary<string, MetaList<MetaValue>> Values
         {
-            get { return this.instances; }
+            get { return this.values; }
         }
         #endregion
 
@@ -30,10 +30,10 @@ namespace ClassTools.Data.Database
             : base()
         {
             this.model = model;
-            this.instances = new MetaDictionary<string, MetaList<MetaInstance>>();
+            this.values = new MetaDictionary<string, MetaList<MetaValue>>();
             foreach (MetaClass metaClass in model.Classes)
             {
-                this.instances[metaClass.GetNameWithModule()] = new MetaList<MetaInstance>();
+                this.values[metaClass.GetNameWithModule()] = new MetaList<MetaValue>();
             }
         }
         #endregion
@@ -43,15 +43,15 @@ namespace ClassTools.Data.Database
         {
             if (!base.Equals(other)) return false;
             if (!this.model.Equals(other.model)) return false;
-            if (!this.instances.Equals(other.instances)) return false;
+            if (!this.values.Equals(other.values)) return false;
             return true;
         }
         #endregion
 
         #region Methods
-        public MetaList<MetaInstance> GetInstances(MetaClass metaClass)
+        public MetaList<MetaValue> GetValues(MetaClass metaClass)
         {
-            return this.instances[metaClass.GetNameWithModule()];
+            return this.values[metaClass.GetNameWithModule()];
         }
 
         public void UpdateModel(Model model)
@@ -61,64 +61,62 @@ namespace ClassTools.Data.Database
             foreach (MetaClass metaClass in model.Classes)
             {
                 name = metaClass.GetNameWithModule();
-                if (!this.instances.ContainsKey(name))
+                if (!this.values.ContainsKey(name))
                 {
-                    this.instances[name] = new MetaList<MetaInstance>();
+                    this.values[name] = new MetaList<MetaValue>();
                 }
             }
         }
         #endregion
 
-        #region Instances
-        public MetaInstance CreateNewInstance(MetaClass metaClass, int index)
+        #region Values
+        public void CreateNewValue(MetaClass metaClass, int index)
         {
-            MetaInstance metaInstance = new MetaInstance(this, metaClass);
-            this.instances[metaClass.GetNameWithModule()].Insert(index, metaInstance);
-            return metaInstance;
+            this.GetValues(metaClass).Insert(index, new MetaValue(this, metaClass, new MetaInstance(this, metaClass)));
         }
 
-        public void DeleteInstance(MetaClass metaClass, MetaInstance metaInstance)
+        public void DeleteInstance(MetaClass metaClass, MetaValue metaValue)
         {
-            this.instances[metaClass.GetNameWithModule()].Remove(metaInstance);
+            this.GetValues(metaClass).Remove(metaValue);
         }
 
-        public void DeleteInstanceAt(MetaClass metaClass, int index)
+        public void DeleteValueAt(MetaClass metaClass, int index)
         {
-            this.instances[metaClass.GetNameWithModule()].RemoveAt(index);
+            this.GetValues(metaClass).RemoveAt(index);
         }
 
-        public void ReplaceInstanceAt(MetaClass metaClass, int index, MetaInstance metaInstance)
+        public void ReplaceValueAt(MetaClass metaClass, int index, MetaValue metaValue)
         {
-            MetaList<MetaInstance> metaInstances = this.instances[metaClass.GetNameWithModule()];
-            metaInstances[index] = metaInstance;
-            metaInstance.Repository = this;
-            for (int i = 0; i < metaInstance.InstanceVariables.Count; i++)
+            MetaList<MetaValue> metaValues = this.GetValues(metaClass);
+            metaValues[index] = metaValue;
+            metaValue.Repository = this;
+            for (int i = 0; i < metaValue.Instance.InstanceVariables.Count; i++)
             {
-                metaInstance.ReplaceInstanceVariableAt(i, metaInstance.InstanceVariables[i]);
+                metaValue.Instance.ReplaceInstanceVariableAt(i, metaValue.Instance.InstanceVariables[i]);
             }
         }
 
-        public bool TryInstanceMoveUp(MetaClass metaClass, int index)
+        public bool TryValueMoveUp(MetaClass metaClass, int index)
         {
             if (index > 0)
             {
-                MetaList<MetaInstance> metaInstances = this.instances[metaClass.GetNameWithModule()];
-                MetaInstance metaInstance = metaInstances[index];
-                metaInstances[index] = metaInstances[index - 1];
-                metaInstances[index - 1] = metaInstance;
+                MetaList<MetaValue> metaValues = this.GetValues(metaClass);
+                MetaValue metaValue = metaValues[index];
+                metaValues[index] = metaValues[index - 1];
+                metaValues[index - 1] = metaValue;
                 return true;
             }
             return false;
         }
 
-        public bool TryInstanceMoveDown(MetaClass metaClass, int index)
+        public bool TryValueMoveDown(MetaClass metaClass, int index)
         {
-            MetaList<MetaInstance> metaInstances = this.instances[metaClass.GetNameWithModule()];
-            if (index < metaInstances.Count - 1)
+            MetaList<MetaValue> metaValues = this.GetValues(metaClass);
+            if (index < metaValues.Count - 1)
             {
-                MetaInstance metaInstance = metaInstances[index];
-                metaInstances[index] = metaInstances[index + 1];
-                metaInstances[index + 1] = metaInstance;
+                MetaValue metaValue = metaValues[index];
+                metaValues[index] = metaValues[index + 1];
+                metaValues[index + 1] = metaValue;
                 return true;
             }
             return false;

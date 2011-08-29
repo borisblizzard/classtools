@@ -37,13 +37,13 @@ namespace ClassTools.Data.Hierarchy
             set { this.suffix2 = value; }
         }
 
-        public ECategoryType CategoryType
+        public virtual ECategoryType CategoryType
         {
             get
             {
                 if (this.subType1 == null && this.subType2 == null)
                 {
-                    return ECategoryType.Normal;
+                    return ECategoryType.Integral;
                 }
                 if (this.subType2 == null)
                 {
@@ -51,11 +51,6 @@ namespace ClassTools.Data.Hierarchy
                 }
                 return ECategoryType.Dictionary;
             }
-        }
-
-        public virtual bool IsClass
-        {
-            get { return false; }
         }
 
         public virtual bool CanSerialize

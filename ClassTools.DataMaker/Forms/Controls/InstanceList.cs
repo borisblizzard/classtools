@@ -16,15 +16,15 @@ namespace ClassTools.DataMaker.Forms.Controls
         #region Fields
         private Repository repository;
         private MetaClass metaClass;
-        private MetaList<MetaInstance> metaInstances;
+        private MetaList<MetaValue> metaValues;
         private IRefreshable owner;
         private bool refreshing;
         #endregion
 
         #region Properties
-        public MetaList<MetaInstance> MetaInstances
+        public MetaList<MetaValue> MetaValues
         {
-            get { return this.metaInstances; }
+            get { return this.metaValues; }
         }
         #endregion
 
@@ -35,7 +35,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             this.owner = null;
             this.repository = null;
             this.metaClass = null;
-            this.metaInstances = null;
+            this.metaValues = null;
             this.Enabled = false;
             this.refreshing = false;
         }
@@ -48,15 +48,15 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
         }
 
-        public void SetData(IRefreshable owner, Repository repository, MetaClass metaClass, MetaList<MetaInstance> metaInstances)
+        public void SetData(IRefreshable owner, Repository repository, MetaClass metaClass, MetaList<MetaValue> metaValues)
         {
             this.owner = owner;
             this.repository = repository;
             this.metaClass = metaClass;
-            this.metaInstances = metaInstances;
+            this.metaValues = metaValues;
             this.ivVariables.ClearData();
             this.ivVariables.SetData(this, this.repository, this.metaClass);
-            this.ivVariables.SetMetaInstance(this.metaInstances.Count > 0 ? this.metaInstances[0] : null);
+            this.ivVariables.SetMetaValue(this.metaValues.Count > 0 ? this.metaValues[0] : null);
         }
         #endregion
 
@@ -69,16 +69,16 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
             this.refreshing = true;
             this.Enabled = (this.metaClass != null);
-            Utility.ApplyNewDataSource(this.lbInstances, new MetaList<MetaInstance>(this.metaInstances), this.metaInstances.Count);
+            Utility.ApplyNewDataSource(this.lbInstances, new MetaList<MetaValue>(this.metaValues), this.metaValues.Count);
             this.lbInstances.Enabled = true;
-            this.ivVariables.SetMetaInstance((MetaInstance)this.lbInstances.SelectedItem);
+            this.ivVariables.SetMetaValue((MetaValue)this.lbInstances.SelectedItem);
             this.refreshing = false;
         }
 
-        public void SetMetaInstances(MetaList<MetaInstance> metaInstances)
+        public void SetMetaValues(MetaList<MetaValue> metaValues)
         {
-            this.metaInstances = metaInstances;
-            this.Enabled = (this.metaInstances.Count > 0);
+            this.metaValues = metaValues;
+            this.Enabled = (this.metaValues.Count > 0);
             this.RefreshData();
         }
         #endregion
@@ -87,64 +87,64 @@ namespace ClassTools.DataMaker.Forms.Controls
         private void bInstanceNew_Click(object sender, EventArgs e)
         {
             this.lbInstances.Focus();
-            this.AddNewInstance();
+            this.AddNewValue();
         }
 
         private void bInstanceDelete_Click(object sender, EventArgs e)
         {
             this.lbInstances.Focus();
-            this.DeleteInstance();
+            this.DeleteValue();
         }
         #endregion
 
         #region Tools
-        public void CopyInstance()
+        public void CopyValue()
         {
             if (this.lbInstances.Focused)
             {
-                InternalClipboard.Instance = (MetaInstance)this.lbInstances.SelectedItem;
+                InternalClipboard.Value = (MetaValue)this.lbInstances.SelectedItem;
             }
         }
 
-        public void PasteInstance()
+        public void PasteValue()
         {
             if (this.lbInstances.Focused)
             {
-                this.repository.ReplaceInstanceAt(this.metaClass, this.lbInstances.SelectedIndex, InternalClipboard.Instance);
+                this.repository.ReplaceValueAt(this.metaClass, this.lbInstances.SelectedIndex, InternalClipboard.Value);
                 this.RefreshData();
             }
         }
 
-        public void AddNewInstance()
+        public void AddNewValue()
         {
             if (this.lbInstances.Focused)
             {
-                MetaInstance metaInstance = new MetaInstance(this.repository, this.metaClass);
-                this.metaInstances.Insert(this.lbInstances.SelectedIndex + 1, metaInstance);
+                MetaValue metaValue = new MetaValue(this.repository, this.metaClass, new MetaInstance(this.repository, this.metaClass));
+                this.metaValues.Insert(this.lbInstances.SelectedIndex + 1, metaValue);
                 this.RefreshData();
             }
         }
 
-        public void DeleteInstance()
+        public void DeleteValue()
         {
             if (this.lbInstances.Focused && this.lbInstances.SelectedIndex >= 0)
             {
-                this.metaInstances.RemoveAt(this.lbInstances.SelectedIndex);
+                this.metaValues.RemoveAt(this.lbInstances.SelectedIndex);
                 this.RefreshData();
             }
         }
 
-        public void MoveUpInstance()
+        public void MoveUpValue()
         {
-            if (this.lbInstances.Focused && this.metaInstances.TryMoveUp(this.lbInstances.SelectedIndex))
+            if (this.lbInstances.Focused && this.metaValues.TryMoveUp(this.lbInstances.SelectedIndex))
             {
                 this.lbInstances.SelectedIndex--;
             }
         }
 
-        public void MoveDownInstance()
+        public void MoveDownValue()
         {
-            if (this.lbInstances.Focused && this.metaInstances.TryMoveDown(this.lbInstances.SelectedIndex))
+            if (this.lbInstances.Focused && this.metaValues.TryMoveDown(this.lbInstances.SelectedIndex))
             {
                 this.lbInstances.SelectedIndex++;
             }

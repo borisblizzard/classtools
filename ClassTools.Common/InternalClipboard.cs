@@ -11,8 +11,7 @@ namespace ClassTools.Common
         private static MetaClass cachedClass = null;
         private static MetaVariable cachedVariable = null;
         private static MetaMethod cachedMethod = null;
-        private static MetaInstance cachedInstance = null;
-        private static MetaInstanceVariable cachedInstanceVariable = null;
+        private static MetaValue cachedValue = null;
         #endregion
 
         #region Properties
@@ -60,26 +59,15 @@ namespace ClassTools.Common
             get { return (cachedMethod != null); }
         }
 
-        public static MetaInstance Instance
+        public static MetaValue Value
         {
-            get { return Serializer.Clone(cachedInstance); }
-            set { cachedInstance = Serializer.Clone(value); }
+            get { return Serializer.Clone(cachedValue); }
+            set { cachedValue = Serializer.Clone(value); }
         }
 
-        public static bool ContainsInstance
+        public static bool ContainsValue
         {
-            get { return (cachedInstance != null); }
-        }
-
-        public static MetaInstanceVariable InstanceVariable
-        {
-            get { return Serializer.Clone(cachedInstanceVariable); }
-            set { cachedInstanceVariable = Serializer.Clone(value); }
-        }
-
-        public static bool ContainsInstanceVariable
-        {
-            get { return (cachedInstanceVariable != null); }
+            get { return (cachedValue != null); }
         }
         #endregion
 
@@ -90,8 +78,7 @@ namespace ClassTools.Common
             cachedClass = null;
             cachedVariable = null;
             cachedMethod = null;
-            cachedInstance = null;
-            cachedInstanceVariable = null;
+            cachedValue = null;
         }
         #endregion
 

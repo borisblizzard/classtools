@@ -51,11 +51,8 @@
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.moveUpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveDownMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ofdDatabase = new System.Windows.Forms.OpenFileDialog();
-            this.sfdDatabase = new System.Windows.Forms.SaveFileDialog();
-            this.ofdModel = new System.Windows.Forms.OpenFileDialog();
-            this.icInstances = new ClassTools.DataMaker.Forms.Controls.InstanceList();
             this.bOk = new System.Windows.Forms.Button();
+            this.ilInstances = new ClassTools.DataMaker.Forms.Controls.InstanceList();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -148,7 +145,7 @@
             // 
             this.closeMenuItem.Name = "closeMenuItem";
             this.closeMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.closeMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeMenuItem.Size = new System.Drawing.Size(146, 22);
             this.closeMenuItem.Text = "&Close";
             this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
@@ -229,35 +226,6 @@
             this.moveDownMenuItem.Text = "Move down";
             this.moveDownMenuItem.Click += new System.EventHandler(this.moveDownMenuItem_Click);
             // 
-            // ofdDatabase
-            // 
-            this.ofdDatabase.DefaultExt = "cmm";
-            this.ofdDatabase.Filter = "Model Database files (*.mdb)|*.mdb";
-            this.ofdDatabase.Title = "Open Class Model";
-            // 
-            // sfdDatabase
-            // 
-            this.sfdDatabase.DefaultExt = "cmm";
-            this.sfdDatabase.Filter = "Model Database files (*.mdb)|*.mdb";
-            this.sfdDatabase.Title = "Save Class Model";
-            // 
-            // ofdModel
-            // 
-            this.ofdModel.DefaultExt = "cmm";
-            this.ofdModel.Filter = "Class Maker Model files (*.cmm)|*.cmm";
-            this.ofdModel.Title = "Open Class Model";
-            // 
-            // icInstances
-            // 
-            this.icInstances.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.icInstances.Enabled = false;
-            this.icInstances.Location = new System.Drawing.Point(12, 27);
-            this.icInstances.Name = "icInstances";
-            this.icInstances.Size = new System.Drawing.Size(612, 440);
-            this.icInstances.TabIndex = 1;
-            // 
             // bOk
             // 
             this.bOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -269,6 +237,17 @@
             this.bOk.UseVisualStyleBackColor = true;
             this.bOk.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
+            // ilInstances
+            // 
+            this.ilInstances.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.ilInstances.Enabled = false;
+            this.ilInstances.Location = new System.Drawing.Point(12, 27);
+            this.ilInstances.Name = "ilInstances";
+            this.ilInstances.Size = new System.Drawing.Size(612, 440);
+            this.ilInstances.TabIndex = 1;
+            // 
             // ManagerInstances
             // 
             this.AcceptButton = this.bOk;
@@ -277,7 +256,7 @@
             this.CancelButton = this.bOk;
             this.ClientSize = new System.Drawing.Size(636, 506);
             this.Controls.Add(this.bOk);
-            this.Controls.Add(this.icInstances);
+            this.Controls.Add(this.ilInstances);
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -300,8 +279,6 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip;
-        private System.Windows.Forms.OpenFileDialog ofdDatabase;
-        private System.Windows.Forms.SaveFileDialog sfdDatabase;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteMenuItem;
@@ -320,10 +297,9 @@
         private System.Windows.Forms.ToolStripMenuItem moveDownMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.OpenFileDialog ofdModel;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
-        private Controls.InstanceList icInstances;
+        private Controls.InstanceList ilInstances;
         private System.Windows.Forms.Button bOk;
     }
 }

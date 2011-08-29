@@ -32,13 +32,10 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ofdDatabase = new System.Windows.Forms.OpenFileDialog();
-            this.sfdDatabase = new System.Windows.Forms.SaveFileDialog();
-            this.ofdModel = new System.Windows.Forms.OpenFileDialog();
             this.gbInstanceVariables = new System.Windows.Forms.GroupBox();
-            this.ivbInstanceVariables = new ClassTools.DataMaker.Forms.Controls.InstanceVariables();
             this.cbxExists = new System.Windows.Forms.CheckBox();
             this.bOk = new System.Windows.Forms.Button();
+            this.ivbInstanceVariables = new ClassTools.DataMaker.Forms.Controls.InstanceVariables();
             this.menuStrip.SuspendLayout();
             this.gbInstanceVariables.SuspendLayout();
             this.SuspendLayout();
@@ -68,24 +65,6 @@
             this.closeMenuItem.Text = "&Close";
             this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
-            // ofdDatabase
-            // 
-            this.ofdDatabase.DefaultExt = "cmm";
-            this.ofdDatabase.Filter = "Model Database files (*.mdb)|*.mdb";
-            this.ofdDatabase.Title = "Open Class Model";
-            // 
-            // sfdDatabase
-            // 
-            this.sfdDatabase.DefaultExt = "cmm";
-            this.sfdDatabase.Filter = "Model Database files (*.mdb)|*.mdb";
-            this.sfdDatabase.Title = "Save Class Model";
-            // 
-            // ofdModel
-            // 
-            this.ofdModel.DefaultExt = "cmm";
-            this.ofdModel.Filter = "Class Maker Model files (*.cmm)|*.cmm";
-            this.ofdModel.Title = "Open Class Model";
-            // 
             // gbInstanceVariables
             // 
             this.gbInstanceVariables.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -98,17 +77,6 @@
             this.gbInstanceVariables.TabIndex = 4;
             this.gbInstanceVariables.TabStop = false;
             this.gbInstanceVariables.Text = "Instance Variables";
-            // 
-            // ivbInstanceVariables
-            // 
-            this.ivbInstanceVariables.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.ivbInstanceVariables.Enabled = false;
-            this.ivbInstanceVariables.Location = new System.Drawing.Point(6, 20);
-            this.ivbInstanceVariables.Name = "ivbInstanceVariables";
-            this.ivbInstanceVariables.Size = new System.Drawing.Size(400, 400);
-            this.ivbInstanceVariables.TabIndex = 1;
             // 
             // cbxExists
             // 
@@ -132,6 +100,17 @@
             this.bOk.Text = "OK";
             this.bOk.UseVisualStyleBackColor = true;
             this.bOk.Click += new System.EventHandler(this.closeMenuItem_Click);
+            // 
+            // ivbInstanceVariables
+            // 
+            this.ivbInstanceVariables.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.ivbInstanceVariables.Enabled = false;
+            this.ivbInstanceVariables.Location = new System.Drawing.Point(6, 20);
+            this.ivbInstanceVariables.Name = "ivbInstanceVariables";
+            this.ivbInstanceVariables.Size = new System.Drawing.Size(400, 400);
+            this.ivbInstanceVariables.TabIndex = 1;
             // 
             // ManagerInstance
             // 
@@ -165,9 +144,6 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip;
-        private System.Windows.Forms.OpenFileDialog ofdDatabase;
-        private System.Windows.Forms.SaveFileDialog sfdDatabase;
-        private System.Windows.Forms.OpenFileDialog ofdModel;
         private System.Windows.Forms.GroupBox gbInstanceVariables;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;

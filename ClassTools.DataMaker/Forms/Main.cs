@@ -16,11 +16,11 @@ namespace ClassTools.DataMaker.Forms
     public partial class Main : Form, IRefreshable
     {
         #region Constants
-        const string savePromptNew = "There are unsaved changes. Do you want to save before creating a new file?";
-        const string savePromptOpen = "There are unsaved changes. Do you want to save before opening another file?";
-        const string savePromptExit = "There are unsaved changes. Do you want to save before exiting?";
+        const string SAVE_PROMPT_NEW = "There are unsaved changes. Do you want to save before creating a new file?";
+        const string SAVE_PROMPT_OPEN = "There are unsaved changes. Do you want to save before opening another file?";
+        const string SAVE_PROMPT_EXIT = "There are unsaved changes. Do you want to save before exiting?";
 
-        const string warningModelNotMatching = "The imported Class Model does not match the Database's Class Model. Do you want to continue anyway?";
+        const string WARNING_MODEL_NOT_MATCHING = "The imported Class Model does not match the Database's Class Model. Do you want to continue anyway?";
         #endregion
 
         #region Fields
@@ -40,14 +40,13 @@ namespace ClassTools.DataMaker.Forms
             this.newMenuItem.Enabled = false;
             this.saveMenuItem.Enabled = false;
             this.saveAsMenuItem.Enabled = false;
-            this.bEdit.Enabled = false;
         }
         #endregion
 
         #region Save / Load
         private void openMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = this.showSaveChangesDialog(savePromptOpen);
+            DialogResult result = this.showSaveChangesDialog(SAVE_PROMPT_OPEN);
             if (result != DialogResult.Cancel)
             {
                 this.ofdDatabase.FileName = string.Empty;
@@ -64,7 +63,7 @@ namespace ClassTools.DataMaker.Forms
                     }
                     else if (!newRepository.Model.Equals(this.model))
                     {
-                        result = MessageBox.Show(warningModelNotMatching, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        result = MessageBox.Show(WARNING_MODEL_NOT_MATCHING, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                         if (result == DialogResult.Yes)
                         {
                             result = DialogResult.OK;
@@ -105,7 +104,7 @@ namespace ClassTools.DataMaker.Forms
 
         private void newMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = this.showSaveChangesDialog(savePromptNew);
+            DialogResult result = this.showSaveChangesDialog(SAVE_PROMPT_NEW);
             if (result != DialogResult.Cancel)
             {
                 this.repository = new Repository(this.model);
@@ -123,7 +122,7 @@ namespace ClassTools.DataMaker.Forms
 
         private void onFormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult result = this.showSaveChangesDialog(savePromptExit);
+            DialogResult result = this.showSaveChangesDialog(SAVE_PROMPT_EXIT);
             if (result == DialogResult.Cancel)
             {
                 e.Cancel = true;
@@ -138,7 +137,7 @@ namespace ClassTools.DataMaker.Forms
 
         private void importMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = this.showSaveChangesDialog(savePromptOpen);
+            DialogResult result = this.showSaveChangesDialog(SAVE_PROMPT_OPEN);
             if (result != DialogResult.Cancel)
             {
                 this.ofdModel.FileName = string.Empty;
@@ -152,7 +151,7 @@ namespace ClassTools.DataMaker.Forms
                     {
                         if (!this.repository.Model.Equals(newModel))
                         {
-                            result = MessageBox.Show(warningModelNotMatching, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                            result = MessageBox.Show(WARNING_MODEL_NOT_MATCHING, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                             if (result == DialogResult.Yes)
                             {
                                 result = DialogResult.OK;
@@ -246,59 +245,47 @@ namespace ClassTools.DataMaker.Forms
             }
             if (this.repository != null)
             {
-                this.icInstances.ClearData();
+                this.ilInstances.ClearData();
                 MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
                 if (metaClass != null)
                 {
-                    this.icInstances.SetData(this, this.repository, metaClass, this.repository.GetInstances(metaClass));
-                    this.icInstances.RefreshData();
+                    this.ilInstances.SetData(this, this.repository, metaClass, this.repository.GetValues(metaClass));
+                    this.ilInstances.RefreshData();
                 }
             }
             this.refreshing = false;
-        }
-
-        private void bEdit_Click(object sender, EventArgs e)
-        {
-            /*
-            MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
-            if (metaClass != null)
-            {
-                Form form = new InstanceCollection(this.repository, metaClass, this.repository.GetInstances(metaClass));
-                form.ShowDialog();
-            }
-            */
         }
         #endregion
 
         #region Tools
         private void copyMenuItem_Click(object sender, EventArgs e)
         {
-            this.icInstances.CopyInstance();
+            this.ilInstances.CopyValue();
         }
 
         private void pasteMenuItem_Click(object sender, EventArgs e)
         {
-            this.icInstances.PasteInstance();
+            this.ilInstances.PasteValue();
         }
 
         private void addNewMenuItem_Click(object sender, EventArgs e)
         {
-            this.icInstances.AddNewInstance();
+            this.ilInstances.AddNewValue();
         }
 
         private void deleteMenuItem_Click(object sender, EventArgs e)
         {
-            this.icInstances.DeleteInstance();
+            this.ilInstances.DeleteValue();
         }
 
         private void moveUpMenuItem_Click(object sender, EventArgs e)
         {
-            this.icInstances.MoveUpInstance();
+            this.ilInstances.MoveUpValue();
         }
 
         private void moveDownMenuItem_Click(object sender, EventArgs e)
         {
-            this.icInstances.MoveDownInstance();
+            this.ilInstances.MoveDownValue();
         }
 
         private void generateToolStripMenuItem_Click(object sender, EventArgs e)

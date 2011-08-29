@@ -61,9 +61,9 @@ namespace ClassTools.Data.Database
             string result = this.className;
             foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
             {
-                if ((metaInstanceVariable.Name == "Name" || metaInstanceVariable.Name == "name") && metaInstanceVariable.ValueString.Trim('"') != string.Empty)
+                if ((metaInstanceVariable.Name == "Name" || metaInstanceVariable.Name == "name") && metaInstanceVariable.Value.String.Trim('"') != string.Empty)
                 {
-                    return metaInstanceVariable.ValueString.Trim('"');
+                    return metaInstanceVariable.Value.String.Trim('"');
                 }
             }
             return this.className;

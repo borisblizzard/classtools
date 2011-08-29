@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.gbClasses = new System.Windows.Forms.GroupBox();
-            this.bEdit = new System.Windows.Forms.Button();
             this.lbClasses = new System.Windows.Forms.ListBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,7 +57,7 @@
             this.ofdDatabase = new System.Windows.Forms.OpenFileDialog();
             this.sfdDatabase = new System.Windows.Forms.SaveFileDialog();
             this.ofdModel = new System.Windows.Forms.OpenFileDialog();
-            this.icInstances = new ClassTools.DataMaker.Forms.Controls.InstanceList();
+            this.ilInstances = new ClassTools.DataMaker.Forms.Controls.InstanceList();
             this.gbClasses.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -67,7 +66,6 @@
             // 
             this.gbClasses.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
-            this.gbClasses.Controls.Add(this.bEdit);
             this.gbClasses.Controls.Add(this.lbClasses);
             this.gbClasses.Location = new System.Drawing.Point(12, 38);
             this.gbClasses.Name = "gbClasses";
@@ -75,17 +73,6 @@
             this.gbClasses.TabIndex = 0;
             this.gbClasses.TabStop = false;
             this.gbClasses.Text = "Classes";
-            // 
-            // bEdit
-            // 
-            this.bEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bEdit.Location = new System.Drawing.Point(155, 407);
-            this.bEdit.Name = "bEdit";
-            this.bEdit.Size = new System.Drawing.Size(75, 23);
-            this.bEdit.TabIndex = 2;
-            this.bEdit.Text = "Edit";
-            this.bEdit.UseVisualStyleBackColor = true;
-            this.bEdit.Click += new System.EventHandler(this.bEdit_Click);
             // 
             // lbClasses
             // 
@@ -304,36 +291,36 @@
             // 
             // ofdDatabase
             // 
-            this.ofdDatabase.DefaultExt = "cmm";
-            this.ofdDatabase.Filter = "Model Database files (*.mdb)|*.mdb";
-            this.ofdDatabase.Title = "Open Class Model";
+            this.ofdDatabase.DefaultExt = "dmr";
+            this.ofdDatabase.Filter = "Data Maker Repository files (*.dmr)|*.dmr";
+            this.ofdDatabase.Title = "Open Database Repository";
             // 
             // sfdDatabase
             // 
-            this.sfdDatabase.DefaultExt = "cmm";
-            this.sfdDatabase.Filter = "Model Database files (*.mdb)|*.mdb";
-            this.sfdDatabase.Title = "Save Class Model";
+            this.sfdDatabase.DefaultExt = "dmr";
+            this.sfdDatabase.Filter = "Data Maker Repository files (*.dmr)|*.dmr";
+            this.sfdDatabase.Title = "Save Database Repository";
             // 
             // ofdModel
             // 
             this.ofdModel.DefaultExt = "cmm";
             this.ofdModel.Filter = "Class Maker Model files (*.cmm)|*.cmm";
-            this.ofdModel.Title = "Open Class Model";
+            this.ofdModel.Title = "Import Class Model";
             // 
-            // icInstances
+            // ilInstances
             // 
-            this.icInstances.Enabled = false;
-            this.icInstances.Location = new System.Drawing.Point(254, 38);
-            this.icInstances.Name = "icInstances";
-            this.icInstances.Size = new System.Drawing.Size(618, 440);
-            this.icInstances.TabIndex = 2;
+            this.ilInstances.Enabled = false;
+            this.ilInstances.Location = new System.Drawing.Point(254, 38);
+            this.ilInstances.Name = "ilInstances";
+            this.ilInstances.Size = new System.Drawing.Size(618, 440);
+            this.ilInstances.TabIndex = 2;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(879, 490);
-            this.Controls.Add(this.icInstances);
+            this.Controls.Add(this.ilInstances);
             this.Controls.Add(this.gbClasses);
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -373,8 +360,7 @@
         private System.Windows.Forms.OpenFileDialog ofdModel;
         private System.Windows.Forms.ToolStripMenuItem importMenuItem;
         private System.Windows.Forms.ListBox lbClasses;
-        private System.Windows.Forms.Button bEdit;
-        private Controls.InstanceList icInstances;
+        private Controls.InstanceList ilInstances;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteMenuItem;

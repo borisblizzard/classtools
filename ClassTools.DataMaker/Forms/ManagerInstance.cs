@@ -15,43 +15,44 @@ namespace ClassTools.DataMaker.Forms
         #region Fields
         private Repository respository;
         private MetaClass metaClass;
-        private MetaInstance metaInstance;
+        private MetaValue metaValue;
         private bool refreshing;
         #endregion
 
         #region Properties
-        public MetaInstance MetaInstance
+        public MetaValue MetaValue
         {
-            get { return (this.cbxExists.Checked ? this.metaInstance : null); }
+            get
+            {
+                if (!this.cbxExists.Checked)
+                {
+                    this.metaValue.Instance = null;
+                }
+                return this.metaValue;
+            }
         }
         #endregion
 
         #region Construct
-        public ManagerInstance(Repository repository, MetaClass metaClass, MetaInstance metaInstance, bool nullable)
+        public ManagerInstance(Repository repository, MetaClass metaClass, MetaValue metaValue, bool nullable)
         {
             InitializeComponent();
             this.respository = repository;
-            this.metaInstance = (metaInstance != null ? metaInstance : new MetaInstance(repository, metaClass));
+            this.metaValue = metaValue;
+            this.cbxExists.Checked = (this.metaValue.Instance != null);
+            if (this.metaValue.Instance == null)
+            {
+                this.metaValue.Instance = new MetaInstance(repository, metaClass);
+            }
             this.metaClass = metaClass;
             this.ivbInstanceVariables.SetData(this, this.respository, this.metaClass);
-            this.ivbInstanceVariables.SetMetaInstance(this.metaInstance);
-            if (nullable)
-            {
-                this.cbxExists.Checked = (metaInstance != null);
-            }
-            else
+            this.ivbInstanceVariables.SetMetaValue(this.metaValue);
+            if (!nullable)
             {
                 this.cbxExists.Enabled = false;
                 this.cbxExists.Checked = true;
             }
             this.RefreshData();
-        }
-        #endregion
-
-        #region Close
-        private void closeMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
         #endregion
 
@@ -68,10 +69,15 @@ namespace ClassTools.DataMaker.Forms
         }
         #endregion
 
-        #region Tools
+        #region Events
         private void cbxExists_CheckedChanged(object sender, EventArgs e)
         {
             this.RefreshData();
+        }
+        
+        private void closeMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
         #endregion
 

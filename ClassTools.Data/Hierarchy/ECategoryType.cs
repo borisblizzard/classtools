@@ -2,9 +2,10 @@
 {
     public enum ECategoryType
     {
-        Normal = 0,
-        List = 1,
-        Dictionary = 2
+        Integral = 0,
+        Class = 1,
+        List = 2,
+        Dictionary = 3
     }
 
 }

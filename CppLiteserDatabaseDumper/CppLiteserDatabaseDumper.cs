@@ -39,11 +39,11 @@ namespace ClassTools
                 Directory.CreateDirectory(path);
             }
             this._lsIds = 0;
-            MetaDictionary<string, MetaList<MetaInstance>> instances = repository.Instances;
+            MetaDictionary<string, MetaList<MetaValue>> values = repository.Values;
             string fullPath;
-            foreach (KeyValuePair<string, MetaList<MetaInstance>> pair in instances)
+            foreach (KeyValuePair<string, MetaList<MetaValue>> pair in values)
             {
-                fullPath = path + "/" + pair.Key.Replace("::", "/") + ".dmr";
+                fullPath = path + "/" + pair.Key.Replace("::", "/") + ".lsb";
                 this.createFilePath(fullPath);
                 this.writer = new FileStream(fullPath, FileMode.Create);
                 this.dump((byte)1);
@@ -56,13 +56,21 @@ namespace ClassTools
         #endregion
 
         #region Dump Complex Type
-        private void dump(MetaList<MetaInstance> metaInstances)
+        private void dump(MetaList<MetaValue> metaValues)
         {
-            this.dump(metaInstances.Count);
-            foreach (MetaInstance metaInstance in metaInstances)
+            this.dump(metaValues.Count);
+            foreach (MetaValue metaValue in metaValues)
             {
-                this.dump(metaInstance);
+                this.dump(metaValue);
             }
+        }
+
+        private void dump(MetaDictionary<MetaValue, MetaValue> metaValues)
+        {
+            MetaList<MetaValue> keys = metaValues.GetKeys();
+            MetaList<MetaValue> values = metaValues.GetValues(keys);
+            this.dump(keys);
+            this.dump(values);
         }
 
         private void dump(MetaInstance metaInstance)
@@ -73,7 +81,7 @@ namespace ClassTools
                 this.dump(this._lsIds);
                 foreach (MetaInstanceVariable metaInstanceVariable in metaInstance.InstanceVariables)
                 {
-                    this.dump(metaInstanceVariable);
+                    this.dump(metaInstanceVariable.Value);
                 }
             }
             else
@@ -82,78 +90,61 @@ namespace ClassTools
             }
         }
 
-        private void dump(MetaInstanceVariable metaInstanceVariable)
+        private void dump(MetaValue metaValue)
         {
-            switch (metaInstanceVariable.ValueType)
+            switch (metaValue.ValueType)
             {
                 case EValueType.Integral:
-                    switch (metaInstanceVariable.Type)
+                    switch (metaValue.TypeName)
                     {
                         case Constants.TYPE_INT:
-                            this.dump(metaInstanceVariable.ValueInt);
+                            this.dump(metaValue.AsInt);
                             break;
                         case Constants.TYPE_UINT:
-                            this.dump(metaInstanceVariable.ValueUInt);
+                            this.dump(metaValue.AsUInt);
                             break;
                         case Constants.TYPE_LONG:
-                            this.dump(metaInstanceVariable.ValueLong);
+                            this.dump(metaValue.AsLong);
                             break;
                         case Constants.TYPE_ULONG:
-                            this.dump(metaInstanceVariable.ValueULong);
+                            this.dump(metaValue.AsULong);
                             break;
                         case Constants.TYPE_SHORT:
-                            this.dump(metaInstanceVariable.ValueShort);
+                            this.dump(metaValue.AsShort);
                             break;
                         case Constants.TYPE_USHORT:
-                            this.dump(metaInstanceVariable.ValueUShort);
+                            this.dump(metaValue.AsUShort);
                             break;
                         case Constants.TYPE_UCHAR:
-                            this.dump(metaInstanceVariable.ValueByte);
+                            this.dump(metaValue.AsByte);
                             break;
                         case Constants.TYPE_FLOAT:
-                            this.dump(metaInstanceVariable.ValueFloat);
+                            this.dump(metaValue.AsFloat);
                             break;
                         case Constants.TYPE_DOUBLE:
-                            this.dump(metaInstanceVariable.ValueDouble);
+                            this.dump(metaValue.AsDouble);
                             break;
                         case Constants.TYPE_BOOL:
-                            this.dump(metaInstanceVariable.ValueBool);
+                            this.dump(metaValue.Bool);
                             break;
                         case Constants.TYPE_CHAR:
-                            this.dump(metaInstanceVariable.ValueSByte);
+                            this.dump(metaValue.AsSByte);
                             break;
                         default:
-                            this.dump(metaInstanceVariable.ValueString);
+                            this.dump(metaValue.String);
                             break;
                     }
                     break;
                 case EValueType.Object:
-                    this.dump(metaInstanceVariable.ValueInstance);
+                    this.dump(metaValue.Instance);
                     break;
                 case EValueType.List:
-                    this.dump(metaInstanceVariable.ValueInstanceList);
+                    this.dump(metaValue.List);
                     break;
                 case EValueType.Dictionary:
-                    this.dump(metaInstanceVariable.ValueInstanceDictionary);
+                    this.dump(metaValue.Dictionary);
                     break;
             }
-        }
-
-        private void dump(MetaList<MetaInstanceVariable> metaInstanceVariables)
-        {
-            this.dump(metaInstanceVariables.Count);
-            foreach (MetaInstanceVariable metaInstanceVariable in metaInstanceVariables)
-            {
-                this.dump(metaInstanceVariable);
-            }
-        }
-
-        private void dump(MetaDictionary<MetaInstanceVariable, MetaInstanceVariable> metaInstanceVariables)
-        {
-            MetaList<MetaInstanceVariable> keys = metaInstanceVariables.GetKeys();
-            MetaList<MetaInstanceVariable> values = metaInstanceVariables.GetValues(keys);
-            this.dump(keys);
-            this.dump(values);
         }
         #endregion
 

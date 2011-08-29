@@ -102,12 +102,11 @@ namespace ClassTools
         {
             switch (metaVariable.Type.CategoryType)
             {
-                case ECategoryType.Normal:
-                    if (!metaVariable.Type.IsClass)
-                    {
-                        this.generateWrite("this->{0}", metaVariable.Name);
-                    }
-                    else if (metaVariable.Type.CanSerialize && metaVariable.Prefix == string.Empty)
+                case ECategoryType.Integral:
+                    this.generateWrite("this->{0}", metaVariable.Name);
+                    break;
+                case ECategoryType.Class:
+                    if (metaVariable.Type.CanSerialize && metaVariable.Prefix == string.Empty)
                     {
                         this.generateSerialize("this->{0}.", metaVariable.Name);
                     }
@@ -125,7 +124,7 @@ namespace ClassTools
                     this.generateWrite("this->{0}.size()", metaVariable.Name);
                     this.writeLine("foreach ({0}{1}, it, this->{2})", metaVariable.Type.SubType1.GetNameWithModule(), metaVariable.Type.Prefix, metaVariable.Name);
                     this.openBrackets();
-                    if (!metaVariable.Type.SubType1.IsClass)
+                    if (metaVariable.Type.SubType1.CategoryType != ECategoryType.Class)
                     {
                         this.generateWrite("(*it)");
                     }
@@ -153,12 +152,11 @@ namespace ClassTools
         {
             switch (metaVariable.Type.CategoryType)
             {
-                case ECategoryType.Normal:
-                    if (!metaVariable.Type.IsClass)
-                    {
-                        this.generateRead(metaVariable.Type, "this->{0}", metaVariable.Name);
-                    }
-                    else if (metaVariable.Type.CanSerialize && metaVariable.Prefix == string.Empty)
+                case ECategoryType.Integral:
+                    this.generateRead(metaVariable.Type, "this->{0}", metaVariable.Name);
+                    break;
+                case ECategoryType.Class:
+                    if (metaVariable.Type.CanSerialize && metaVariable.Prefix == string.Empty)
                     {
                         this.generateDeserialize("this->{0}.", metaVariable.Name);
                     }
@@ -185,7 +183,7 @@ namespace ClassTools
                     this.writeLine("{0}{1} _{2};", metaVariable.Type.SubType1.GetNameWithModule(), metaVariable.Type.Prefix, metaVariable.Name);
                     this.writeLine("for (int i = 0; i < number; i++)");
                     this.openBrackets();
-                    if (!metaVariable.Type.SubType1.IsClass)
+                    if (metaVariable.Type.SubType1.CategoryType != ECategoryType.Class)
                     {
                         this.generateRead(metaVariable.Type.SubType1, metaVariable.Name);
                         this.writeLine("this->{0} += _{0};", metaVariable.Name);
@@ -221,7 +219,7 @@ namespace ClassTools
             string name = string.Empty;
             switch (metaVariable.Type.CategoryType)
             {
-                case ECategoryType.Normal:
+                case ECategoryType.Integral:
                     name = metaVariable.Type.Name;
                     break;
                 case ECategoryType.List:

@@ -15,17 +15,17 @@ namespace ClassTools.ClassMaker.Forms
     public partial class Main : Form
     {
         #region Constants
-        const string savePromptNew = "There are unsaved changes. Do you want to save before creating a new file?";
-        const string savePromptOpen = "There are unsaved changes. Do you want to save before opening another file?";
-        const string savePromptExit = "There are unsaved changes. Do you want to save before exiting?";
+        const string SAVE_PROMPT_NEW = "There are unsaved changes. Do you want to save before creating a new file?";
+        const string SAVE_PROMPT_OPEN = "There are unsaved changes. Do you want to save before opening another file?";
+        const string SAVE_PROMPT_EXIT = "There are unsaved changes. Do you want to save before exiting?";
 
-        const string validationSuccess = "Validation successful.\r\n";
-        const string errorClassNameSpaces = "Class '{0}' has spaces in its name!\r\n";
-        const string errorVariableNameSpaces = "In class '{0}' variable '{1}' has spaces in its name!\r\n";
-        const string errorMethodNameSpaces = "In class '{0}' method '{1}' has spaces in its name!\r\n";
-        const string errorClassNameDuplicate = "More than one class has name '{0}'!\r\n";
-        const string errorVariableNameDuplicate = "In class '{0}' more than one variable has name '{1}'!\r\n";
-        const string errorMethodNameDuplicate = "In class '{0}' more than one method has name '{1}'!\r\n";
+        const string NOTIFICATION_VALIDATION_SUCCESS = "Validation successful.\r\n";
+        const string ERROR_CLASS_NAME_SPACES = "Class '{0}' has spaces in its name!\r\n";
+        const string ERROR_VARIABLE_NAME_SPACES = "In class '{0}' variable '{1}' has spaces in its name!\r\n";
+        const string ERROR_METHOD_NAME_SPACES = "In class '{0}' method '{1}' has spaces in its name!\r\n";
+        const string ERROR_CLASS_NAME_DUPLICATE = "More than one class has name '{0}'!\r\n";
+        const string ERROR_VARIABLE_NAME_DUPLICATE = "In class '{0}' more than one variable has name '{1}'!\r\n";
+        const string ERROR_METHOD_NAME_DUPLICATE = "In class '{0}' more than one method has name '{1}'!\r\n";
         #endregion
 
         #region Fields
@@ -68,7 +68,7 @@ namespace ClassTools.ClassMaker.Forms
         #region Save / Load
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = this.showSaveChangesDialog(savePromptOpen);
+            DialogResult result = this.showSaveChangesDialog(SAVE_PROMPT_OPEN);
             if (result != DialogResult.Cancel)
             {
                 ofd.FileName = string.Empty;
@@ -108,7 +108,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = this.showSaveChangesDialog(savePromptNew);
+            DialogResult result = this.showSaveChangesDialog(SAVE_PROMPT_NEW);
             if (result != DialogResult.Cancel)
             {
                 this.model = new Model();
@@ -125,7 +125,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void onFormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult result = this.showSaveChangesDialog(savePromptExit);
+            DialogResult result = this.showSaveChangesDialog(SAVE_PROMPT_EXIT);
             if (result == DialogResult.Cancel)
             {
                 e.Cancel = true;
@@ -243,7 +243,7 @@ namespace ClassTools.ClassMaker.Forms
             if (metaVariable != null)
             {
                 this.pVariables.Enabled = true;
-                this.cbxVariableNullable.Enabled = metaVariable.Type.IsClass;
+                this.cbxVariableNullable.Enabled = (metaVariable.Type.CategoryType == ECategoryType.Class);
                 this.tbVariableName.Text = metaVariable.Name;
                 this.cbVariableType.SelectedItem = metaVariable.Type;
                 this.cbVariableAccessType.SelectedIndex = (int)metaVariable.AccessType;
@@ -360,7 +360,7 @@ namespace ClassTools.ClassMaker.Forms
             }
             if (this.validationLog == string.Empty)
             {
-                this.windowLog.SetText(validationSuccess);
+                this.windowLog.SetText(NOTIFICATION_VALIDATION_SUCCESS);
             }
             else
             {
@@ -374,7 +374,7 @@ namespace ClassTools.ClassMaker.Forms
         {
             if (metaClass.Name.Contains(" "))
             {
-                this.validationLog += string.Format(errorClassNameSpaces, metaClass.Name);
+                this.validationLog += string.Format(ERROR_CLASS_NAME_SPACES, metaClass.Name);
             }
             else
             {
@@ -382,7 +382,7 @@ namespace ClassTools.ClassMaker.Forms
                 {
                     if (metaClass.Name == this.model.Classes[j].Name)
                     {
-                        this.validationLog += string.Format(errorClassNameDuplicate, metaClass.Name);
+                        this.validationLog += string.Format(ERROR_CLASS_NAME_DUPLICATE, metaClass.Name);
                     }
                 }
             }
@@ -400,7 +400,7 @@ namespace ClassTools.ClassMaker.Forms
         {
             if (metaVariable.Name.Contains(" "))
             {
-                this.validationLog += string.Format(errorVariableNameSpaces, metaClass.Name, metaVariable.Name);
+                this.validationLog += string.Format(ERROR_VARIABLE_NAME_SPACES, metaClass.Name, metaVariable.Name);
             }
             else
             {
@@ -408,7 +408,7 @@ namespace ClassTools.ClassMaker.Forms
                 {
                     if (metaVariable.Name == metaClass.Variables[i].Name)
                     {
-                        this.validationLog += string.Format(errorVariableNameDuplicate, metaClass.Name, metaVariable.Name);
+                        this.validationLog += string.Format(ERROR_VARIABLE_NAME_DUPLICATE, metaClass.Name, metaVariable.Name);
                     }
                 }
             }
@@ -418,7 +418,7 @@ namespace ClassTools.ClassMaker.Forms
         {
             if (metaMethod.Name.Contains(" "))
             {
-                this.validationLog += string.Format(errorMethodNameSpaces, metaClass.Name, metaMethod.Name);
+                this.validationLog += string.Format(ERROR_METHOD_NAME_SPACES, metaClass.Name, metaMethod.Name);
             }
             else
             {
@@ -426,7 +426,7 @@ namespace ClassTools.ClassMaker.Forms
                 {
                     if (metaMethod.Name == metaClass.Methods[i].Name)
                     {
-                        this.validationLog += string.Format(errorMethodNameDuplicate, metaClass.Name, metaMethod.Name);
+                        this.validationLog += string.Format(ERROR_METHOD_NAME_DUPLICATE, metaClass.Name, metaMethod.Name);
                     }
                 }
             }
