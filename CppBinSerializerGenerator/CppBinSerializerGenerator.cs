@@ -121,7 +121,7 @@ namespace ClassTools
                         this.closeBrackets();
                     }
                     break;
-                case ECategoryType.Collection:
+                case ECategoryType.List:
                     this.generateWrite("this->{0}.size()", metaVariable.Name);
                     this.writeLine("foreach ({0}{1}, it, this->{2})", metaVariable.Type.SubType1.GetNameWithModule(), metaVariable.Type.Prefix, metaVariable.Name);
                     this.openBrackets();
@@ -180,7 +180,7 @@ namespace ClassTools
                         this.closeBrackets();
                     }
                     break;
-                case ECategoryType.Collection:
+                case ECategoryType.List:
                     this.generateReadInt("number");
                     this.writeLine("{0}{1} _{2};", metaVariable.Type.SubType1.GetNameWithModule(), metaVariable.Type.Prefix, metaVariable.Name);
                     this.writeLine("for (int i = 0; i < number; i++)");
@@ -224,7 +224,7 @@ namespace ClassTools
                 case ECategoryType.Normal:
                     name = metaVariable.Type.Name;
                     break;
-                case ECategoryType.Collection:
+                case ECategoryType.List:
                     name = metaVariable.Type.SubType1.Name;
                     break;
                 case ECategoryType.Dictionary:

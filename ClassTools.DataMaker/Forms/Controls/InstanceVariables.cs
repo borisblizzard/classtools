@@ -91,7 +91,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                         case ECategoryType.Normal:
                             switch (metaVariable.Type.Name)
                             {
-                                case "int":
+                                case Constants.TYPE_INT:
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
@@ -104,7 +104,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
-                                case "unsigned int":
+                                case Constants.TYPE_UINT:
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
@@ -117,7 +117,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
-                                case "short":
+                                case Constants.TYPE_SHORT:
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
@@ -130,7 +130,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
-                                case "unsigned short":
+                                case Constants.TYPE_USHORT:
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
@@ -143,7 +143,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
-                                case "long":
+                                case Constants.TYPE_LONG:
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
@@ -156,7 +156,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
-                                case "unsigned long":
+                                case Constants.TYPE_ULONG:
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
@@ -169,7 +169,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
-                                case "char":
+                                case Constants.TYPE_CHAR:
                                     textBox = new TextBox();
                                     this.Controls.Add(textBox);
                                     this.valueControls.Add(textBox);
@@ -180,7 +180,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     textBox.TabIndex = 11 + i * 2;
                                     textBox.TextChanged += new EventHandler(this.textBox_TextChanged);
                                     break;
-                                case "unsigned char":
+                                case Constants.TYPE_UCHAR:
                                     numericUpDown = new NumericUpDown();
                                     this.Controls.Add(numericUpDown);
                                     this.valueControls.Add(numericUpDown);
@@ -193,7 +193,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     numericUpDown.TabIndex = 101 + i * 2;
                                     numericUpDown.ValueChanged += new EventHandler(this.numericUpDown_ValueChanged);
                                     break;
-                                case "float":
+                                case Constants.TYPE_FLOAT:
                                     textBox = new TextBox();
                                     this.Controls.Add(textBox);
                                     this.valueControls.Add(textBox);
@@ -204,7 +204,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     textBox.TabIndex = 11 + i * 2;
                                     textBox.TextChanged += new EventHandler(this.textBox_TextChanged);
                                     break;
-                                case "double":
+                                case Constants.TYPE_DOUBLE:
                                     textBox = new TextBox();
                                     this.Controls.Add(textBox);
                                     this.valueControls.Add(textBox);
@@ -215,7 +215,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     textBox.TabIndex = 11 + i * 2;
                                     textBox.TextChanged += new EventHandler(this.textBox_TextChanged);
                                     break;
-                                case "bool":
+                                case Constants.TYPE_BOOL:
                                     checkBox = new CheckBox();
                                     this.Controls.Add(checkBox);
                                     this.valueControls.Add(checkBox);
@@ -237,7 +237,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     break;
                             }
                             break;
-                        case ECategoryType.Collection:
+                        case ECategoryType.List:
                             button = new Button();
                             this.Controls.Add(button);
                             this.valueControls.Add(button);
@@ -431,7 +431,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
         }
 
-        private void buttonCollection_Click(object sender, EventArgs e)
+        private void buttonList_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
             MetaInstanceVariable variable;
@@ -444,7 +444,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                     {
                         // TODO
                         /*
-                        Forms.InstanceCollection form = new Forms.InstanceCollection(this.database, (MetaClass)this.metaClass.AllVariables[i].Type, (List<MetaInstance>)variable.ValueObject);
+                        Forms.InstanceList form = new Forms.InstanceList(this.database, (MetaClass)this.metaClass.AllVariables[i].Type, (List<MetaInstance>)variable.ValueObject);
                         form.Text = variable.ToString();
                         form.ShowDialog();
                         */

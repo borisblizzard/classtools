@@ -11,7 +11,7 @@ using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.DataMaker.Forms.Controls
 {
-    public partial class InstanceCollection : UserControl, IRefreshable
+    public partial class InstanceList : UserControl, IRefreshable
     {
         #region Fields
         private Repository repository;
@@ -29,7 +29,7 @@ namespace ClassTools.DataMaker.Forms.Controls
         #endregion
 
         #region Construct
-        public InstanceCollection()
+        public InstanceList()
         {
             InitializeComponent();
             this.owner = null;

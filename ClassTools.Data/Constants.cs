@@ -4,15 +4,35 @@ namespace ClassTools.Data
 {
     public static class Constants
     {
-        public static List<string> NAMES_ACCESS = new List<string>(new string[] { "public", "protected", "private" });
-        public static List<string> NAMES_CATEGORY = new List<string>(new string[] { "Normal", "Collection", "Dictionary" });
+        public const string ACCESS_PUBLIC = "public";
+        public const string ACCESS_PROTECTED = "protected";
+        public const string ACCESS_PRIVATE = "private";
+        public static List<string> NAMES_ACCESS = new List<string>(new string[] { ACCESS_PUBLIC, ACCESS_PROTECTED, ACCESS_PRIVATE });
 
-        public static List<string> TYPES_VOID = new List<string>(new string[] { "void" });
-        public static List<string> TYPES_INT = new List<string>(new string[] { "int", "unsigned int", "long", "unsigned long", "short", "unsigned short", "unsigned char" });
-        public static List<string> TYPES_FLOAT = new List<string>(new string[] { "float", "double" });
-        public static List<string> TYPES_BOOL = new List<string>(new string[] { "bool" });
-        public static List<string> TYPES_CHAR = new List<string>(new string[] { "char" });
-        public static List<string> TYPES_STRING = new List<string>(new string[] { "string" });
+        public const string CATEGORY_NORMAL = "Normal";
+        public const string CATEGORY_LIST = "List";
+        public const string CATEGORY_DICTIONARY = "Dictionary";
+        public static List<string> NAMES_CATEGORY = new List<string>(new string[] { CATEGORY_NORMAL, CATEGORY_LIST, CATEGORY_DICTIONARY });
+
+        public const string TYPE_VOID = "void";
+        public const string TYPE_INT = "int";
+        public const string TYPE_UINT = "unsigned int";
+        public const string TYPE_LONG = "long";
+        public const string TYPE_ULONG = "unsigned long";
+        public const string TYPE_SHORT = "short";
+        public const string TYPE_USHORT = "unsigned short";
+        public const string TYPE_UCHAR = "unsigned char";
+        public const string TYPE_FLOAT = "float";
+        public const string TYPE_DOUBLE = "double";
+        public const string TYPE_BOOL = "bool";
+        public const string TYPE_CHAR = "char";
+        public const string TYPE_STRING = "string";
+        public static List<string> TYPES_VOID = new List<string>(new string[] { TYPE_VOID });
+        public static List<string> TYPES_INT = new List<string>(new string[] { TYPE_INT, TYPE_UINT, TYPE_LONG, TYPE_ULONG, TYPE_SHORT, TYPE_USHORT, TYPE_UCHAR });
+        public static List<string> TYPES_FLOAT = new List<string>(new string[] { TYPE_FLOAT, TYPE_DOUBLE });
+        public static List<string> TYPES_BOOL = new List<string>(new string[] { TYPE_BOOL });
+        public static List<string> TYPES_CHAR = new List<string>(new string[] { TYPE_CHAR });
+        public static List<string> TYPES_STRING = new List<string>(new string[] { TYPE_STRING });
 
     }
 

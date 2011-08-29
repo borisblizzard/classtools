@@ -10,11 +10,12 @@ namespace ClassTools.Data.Database
     {
         #region Fields
         protected string type;
+        protected string prefix;
         protected string name;
         protected EValueType valueType;
         protected string valueString;
         protected MetaInstance valueInstance;
-        protected MetaList<MetaInstanceVariable> valueInstanceCollection;
+        protected MetaList<MetaInstanceVariable> valueInstanceList;
         protected MetaDictionary<MetaInstanceVariable, MetaInstanceVariable> valueInstanceDictionary;
         #endregion
 
@@ -22,6 +23,11 @@ namespace ClassTools.Data.Database
         public string Type
         {
             get { return this.type; }
+        }
+
+        public string Prefix
+        {
+            get { return this.prefix; }
         }
 
         public string Name
@@ -42,7 +48,7 @@ namespace ClassTools.Data.Database
                 this.valueType = EValueType.Integral;
                 this.valueString = value;
                 this.valueInstance = null;
-                this.valueInstanceCollection = new MetaList<MetaInstanceVariable>();
+                this.valueInstanceList = new MetaList<MetaInstanceVariable>();
                 this.valueInstanceDictionary = new MetaDictionary<MetaInstanceVariable, MetaInstanceVariable>();
             }
         }
@@ -60,7 +66,7 @@ namespace ClassTools.Data.Database
                 this.valueType = EValueType.Integral;
                 this.valueString = value.ToString().Replace(',', '.');
                 this.valueInstance = null;
-                this.valueInstanceCollection = new MetaList<MetaInstanceVariable>();
+                this.valueInstanceList = new MetaList<MetaInstanceVariable>();
                 this.valueInstanceDictionary = new MetaDictionary<MetaInstanceVariable, MetaInstanceVariable>();
             }
         }
@@ -73,7 +79,7 @@ namespace ClassTools.Data.Database
                 this.valueType = EValueType.Integral;
                 this.valueString = (value ? "true" : "false");
                 this.valueInstance = null;
-                this.valueInstanceCollection = new MetaList<MetaInstanceVariable>();
+                this.valueInstanceList = new MetaList<MetaInstanceVariable>();
                 this.valueInstanceDictionary = new MetaDictionary<MetaInstanceVariable, MetaInstanceVariable>();
             }
         }
@@ -86,18 +92,18 @@ namespace ClassTools.Data.Database
                 this.valueType = EValueType.Object;
                 this.valueInstance = value;
                 this.valueString = "";
-                this.valueInstanceCollection = new MetaList<MetaInstanceVariable>();
+                this.valueInstanceList = new MetaList<MetaInstanceVariable>();
                 this.valueInstanceDictionary = new MetaDictionary<MetaInstanceVariable, MetaInstanceVariable>();
             }
         }
 
-        public MetaList<MetaInstanceVariable> ValueInstanceCollection
+        public MetaList<MetaInstanceVariable> ValueInstanceList
         {
-            get { return this.valueInstanceCollection; }
+            get { return this.valueInstanceList; }
             set
             {
-                this.valueType = EValueType.Collection;
-                this.valueInstanceCollection = value;
+                this.valueType = EValueType.List;
+                this.valueInstanceList = value;
                 this.valueString = "";
                 this.valueInstance = null;
                 this.valueInstanceDictionary = new MetaDictionary<MetaInstanceVariable, MetaInstanceVariable>();
@@ -113,9 +119,110 @@ namespace ClassTools.Data.Database
                 this.valueInstanceDictionary = value;
                 this.valueString = "";
                 this.valueInstance = null;
-                this.valueInstanceCollection = new MetaList<MetaInstanceVariable>();
+                this.valueInstanceList = new MetaList<MetaInstanceVariable>();
             }
         }
+
+        public int ValueInt
+        {
+            get
+            {
+                int result = 0;
+                int.TryParse(this.valueString, out result);
+                return result;
+            }
+        }
+
+        public uint ValueUInt
+        {
+            get
+            {
+                uint result = 0;
+                uint.TryParse(this.valueString, out result);
+                return result;
+            }
+        }
+
+        public long ValueLong
+        {
+            get
+            {
+                long result = 0;
+                long.TryParse(this.valueString, out result);
+                return result;
+            }
+        }
+
+        public ulong ValueULong
+        {
+            get
+            {
+                ulong result = 0;
+                ulong.TryParse(this.valueString, out result);
+                return result;
+            }
+        }
+
+        public short ValueShort
+        {
+            get
+            {
+                short result = 0;
+                short.TryParse(this.valueString, out result);
+                return result;
+            }
+        }
+
+        public ushort ValueUShort
+        {
+            get
+            {
+                ushort result = 0;
+                ushort.TryParse(this.valueString, out result);
+                return result;
+            }
+        }
+
+        public byte ValueByte
+        {
+            get
+            {
+                byte result = 0;
+                byte.TryParse(this.valueString, out result);
+                return result;
+            }
+        }
+
+        public sbyte ValueSByte
+        {
+            get
+            {
+                sbyte result = 0;
+                sbyte.TryParse(this.valueString, out result);
+                return result;
+            }
+        }
+
+        public float ValueFloat
+        {
+            get
+            {
+                float result = 0.0f;
+                float.TryParse(this.valueString, out result);
+                return result;
+            }
+        }
+
+        public double ValueDouble
+        {
+            get
+            {
+                double result = 0.0;
+                double.TryParse(this.valueString, out result);
+                return result;
+            }
+        }
+
         #endregion
 
         #region Construct
@@ -123,11 +230,12 @@ namespace ClassTools.Data.Database
             : base(repository)
         {
             this.type = variable.Type.GetNameWithModule();
+            this.prefix = variable.Prefix;
             this.name = variable.Name;
             this.valueType = EValueType.Integral;
             this.valueString = variable.DefaultValue;
             this.valueInstance = null;
-            this.valueInstanceCollection = new MetaList<MetaInstanceVariable>();
+            this.valueInstanceList = new MetaList<MetaInstanceVariable>();
             this.valueInstanceDictionary = new MetaDictionary<MetaInstanceVariable, MetaInstanceVariable>();
         }
         #endregion
@@ -148,8 +256,8 @@ namespace ClassTools.Data.Database
                     if ((this.valueInstance != null) != (other.valueInstance != null)) return false;
                     if (this.valueInstance != null && !this.valueInstance.Equals(other.valueInstance)) return false;
                     break;
-                case EValueType.Collection:
-                    if (!this.valueInstanceCollection.Equals(other.valueInstanceCollection)) return false;
+                case EValueType.List:
+                    if (!this.valueInstanceList.Equals(other.valueInstanceList)) return false;
                     break;
                 case EValueType.Dictionary:
                     if (!this.valueInstanceDictionary.Equals(other.valueInstanceDictionary)) return false;
@@ -162,7 +270,7 @@ namespace ClassTools.Data.Database
         #region Methods
         public override string ToString()
         {
-            return (this.type + " " + this.name);
+            return string.Format("{0}{1} {2}", this.type, this.prefix, this.name);
         }
         #endregion
 

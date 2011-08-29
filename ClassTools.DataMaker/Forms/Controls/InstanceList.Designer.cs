@@ -1,6 +1,6 @@
 ﻿namespace ClassTools.DataMaker.Forms.Controls
 {
-    partial class InstanceCollection
+    partial class InstanceList
     {
         /// <summary> 
         /// Required designer variable.

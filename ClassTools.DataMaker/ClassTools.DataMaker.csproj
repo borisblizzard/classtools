@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ClassTools.DataMaker</RootNamespace>
     <AssemblyName>DataMaker</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <StartupObject>ClassTools.DataMaker.Program</StartupObject>
@@ -77,11 +77,11 @@
     <Compile Include="Forms\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Controls\InstanceCollection.cs">
+    <Compile Include="Forms\Controls\InstanceList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\InstanceCollection.Designer.cs">
-      <DependentUpon>InstanceCollection.cs</DependentUpon>
+    <Compile Include="Forms\Controls\InstanceList.Designer.cs">
+      <DependentUpon>InstanceList.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Controls\InstanceVariables.cs">
       <SubType>UserControl</SubType>
@@ -104,8 +104,8 @@
       <DependentUpon>Main.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Controls\InstanceCollection.resx">
-      <DependentUpon>InstanceCollection.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Controls\InstanceList.resx">
+      <DependentUpon>InstanceList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\InstanceVariables.resx">
       <DependentUpon>InstanceVariables.cs</DependentUpon>

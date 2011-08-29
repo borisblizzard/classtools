@@ -56,13 +56,13 @@ namespace ClassTools.Common.Forms
             {
                 return;
             }
-            DialogResult result = MessageBox.Show("Run generator in safe-mode?", plugin.ToString() + " ready", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
+            DialogResult result = DialogResult.OK; // TODO - implement folder selection dialog
             if (result == DialogResult.Cancel)
             {
                 return;
             }
-            result = DialogResult.Cancel; // TODO - implement folder selection dialog
             string path = "generated";
+            result = MessageBox.Show("Run generator in safe-mode?", plugin.ToString() + " ready", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
             if (result == DialogResult.Cancel)
             {
                 return;

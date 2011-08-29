@@ -69,7 +69,7 @@ namespace ClassTools.ClassMaker.Forms
                         lSuffix2.Enabled = false;
                         tbSuffix2.Enabled = false;
                         break;
-                    case (int)ECategoryType.Collection:
+                    case (int)ECategoryType.List:
                         lSubType1.Enabled = true;
                         cbSubType1.Enabled = true;
                         lSuffix1.Enabled = true;
@@ -176,7 +176,7 @@ namespace ClassTools.ClassMaker.Forms
                     metaType.SubType1 = null;
                     metaType.SubType2 = null;
                     break;
-                case (int)ECategoryType.Collection:
+                case (int)ECategoryType.List:
                     if (metaType.SubType1 == null)
                     {
                         metaType.SubType1 = this.model.AllTypes[0];

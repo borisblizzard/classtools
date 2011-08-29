@@ -14,7 +14,7 @@ namespace ClassTools
         private string name = "C++ Lite Serializer Database Dumper";
         private string description = "Dumps database into liteser serialization format.";
         private string author = "Boris Mikić";
-        private string version = "0.2";
+        private string version = "0.8";
         private string path = string.Empty;
         private FileStream writer;
         private uint _lsIds;
@@ -43,79 +43,118 @@ namespace ClassTools
             string fullPath;
             foreach (KeyValuePair<string, MetaList<MetaInstance>> pair in instances)
             {
-                fullPath = pair.Key.Replace("::", "/") + ".dmr";
+                fullPath = path + "/" + pair.Key.Replace("::", "/") + ".dmr";
                 this.createFilePath(fullPath);
                 this.writer = new FileStream(fullPath, FileMode.Create);
+                this.dump((byte)1);
+                this.dump((byte)0);
                 this.dump(pair.Value);
                 this.writer.Close();
             }
-
-            /*
-            string fullPath;
-            foreach (MetaClass metaClass in model.Classes)
-            {
-                this.indent = 0;
-                fullPath = string.Format("{0}/{1}.h", this.path, metaClass.Path);
-                this.createFilePath(fullPath);
-                this.writer = new StreamWriter(new FileStream(fullPath, FileMode.Create));
-                this.generateHeaderClass(metaClass);
-                this.writer.Close();
-                fullPath = string.Format("{0}/{1}.cpp", this.path, metaClass.Path);
-                this.createFilePath(fullPath);
-                this.writer = new StreamWriter(new FileStream(fullPath, FileMode.Create));
-                this.generateImplementationClass(metaClass);
-                this.writer.Close();
-            }
-             * */
             return "Code Generation was successful.";
         }
         #endregion
 
         #region Dump Complex Type
-        private void dump(MetaList<MetaInstance> instances)
+        private void dump(MetaList<MetaInstance> metaInstances)
         {
-            this.dump(instances.Count);
-            foreach (MetaInstance metaInstance in instances)
+            this.dump(metaInstances.Count);
+            foreach (MetaInstance metaInstance in metaInstances)
             {
                 this.dump(metaInstance);
             }
         }
 
-        private void dump(MetaInstance instance)
+        private void dump(MetaInstance metaInstance)
         {
-            this._lsIds++;
-            this.dump(this._lsIds);
-            foreach (MetaInstanceVariable metaInstanceVariable in instance.InstanceVariables)
+            if (metaInstance != null)
+            {
+                this._lsIds++;
+                this.dump(this._lsIds);
+                foreach (MetaInstanceVariable metaInstanceVariable in metaInstance.InstanceVariables)
+                {
+                    this.dump(metaInstanceVariable);
+                }
+            }
+            else
+            {
+                this.dump(0);
+            }
+        }
+
+        private void dump(MetaInstanceVariable metaInstanceVariable)
+        {
+            switch (metaInstanceVariable.ValueType)
+            {
+                case EValueType.Integral:
+                    switch (metaInstanceVariable.Type)
+                    {
+                        case Constants.TYPE_INT:
+                            this.dump(metaInstanceVariable.ValueInt);
+                            break;
+                        case Constants.TYPE_UINT:
+                            this.dump(metaInstanceVariable.ValueUInt);
+                            break;
+                        case Constants.TYPE_LONG:
+                            this.dump(metaInstanceVariable.ValueLong);
+                            break;
+                        case Constants.TYPE_ULONG:
+                            this.dump(metaInstanceVariable.ValueULong);
+                            break;
+                        case Constants.TYPE_SHORT:
+                            this.dump(metaInstanceVariable.ValueShort);
+                            break;
+                        case Constants.TYPE_USHORT:
+                            this.dump(metaInstanceVariable.ValueUShort);
+                            break;
+                        case Constants.TYPE_UCHAR:
+                            this.dump(metaInstanceVariable.ValueByte);
+                            break;
+                        case Constants.TYPE_FLOAT:
+                            this.dump(metaInstanceVariable.ValueFloat);
+                            break;
+                        case Constants.TYPE_DOUBLE:
+                            this.dump(metaInstanceVariable.ValueDouble);
+                            break;
+                        case Constants.TYPE_BOOL:
+                            this.dump(metaInstanceVariable.ValueBool);
+                            break;
+                        case Constants.TYPE_CHAR:
+                            this.dump(metaInstanceVariable.ValueSByte);
+                            break;
+                        default:
+                            this.dump(metaInstanceVariable.ValueString);
+                            break;
+                    }
+                    break;
+                case EValueType.Object:
+                    this.dump(metaInstanceVariable.ValueInstance);
+                    break;
+                case EValueType.List:
+                    this.dump(metaInstanceVariable.ValueInstanceList);
+                    break;
+                case EValueType.Dictionary:
+                    this.dump(metaInstanceVariable.ValueInstanceDictionary);
+                    break;
+            }
+        }
+
+        private void dump(MetaList<MetaInstanceVariable> metaInstanceVariables)
+        {
+            this.dump(metaInstanceVariables.Count);
+            foreach (MetaInstanceVariable metaInstanceVariable in metaInstanceVariables)
             {
                 this.dump(metaInstanceVariable);
             }
         }
 
-        private void dump(MetaInstanceVariable instance)
+        private void dump(MetaDictionary<MetaInstanceVariable, MetaInstanceVariable> metaInstanceVariables)
         {
-            //if ()
-
-            /*
-            this._lsIds++;
-            this.dump(this._lsIds);
-            foreach (MetaInstanceVariable metaInstanceVariable in instance.InstanceVariables)
-            {
-                this.dump(metaInstanceVariable);
-            }
-             * */
+            MetaList<MetaInstanceVariable> keys = metaInstanceVariables.GetKeys();
+            MetaList<MetaInstanceVariable> values = metaInstanceVariables.GetValues(keys);
+            this.dump(keys);
+            this.dump(values);
         }
-
-        /*
-        private void dump<T>(MetaList<T> objects)
-            where T : Base
-        {
-        }
-         * 
-        private void dump<T>(MetaList<T> values)
-            where T : struct
-        {
-        }
-         * */
         #endregion
 
         #region Utility
@@ -135,19 +174,14 @@ namespace ClassTools
         #endregion
 
         #region Dump Integral Type
-        private void dump(string type, string value)
-        {
-            //switch 
-        }
-
-        private void dump(char c)
-        {
-            this.writer.WriteByte((byte)c);
-        }
-
         private void dump(byte b)
         {
             this.writer.WriteByte(b);
+        }
+
+        private void dump(sbyte b)
+        {
+            this.writer.WriteByte((byte)b);
         }
 
         private void dump(int i)

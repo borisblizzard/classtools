@@ -3,7 +3,7 @@
     public enum ECategoryType
     {
         Normal = 0,
-        Collection = 1,
+        List = 1,
         Dictionary = 2
     }
 

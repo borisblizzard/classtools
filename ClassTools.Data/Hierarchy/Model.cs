@@ -108,7 +108,7 @@ namespace ClassTools.Data.Hierarchy
                     metaClass.SubType1 = null;
                     metaClass.SubType2 = null;
                     break;
-                case ECategoryType.Collection:
+                case ECategoryType.List:
                     metaClass.SubType1 = this.types.Find(t => t.Equals(metaClass.SubType1));
                     metaClass.SubType2 = null;
                     break;
@@ -175,7 +175,7 @@ namespace ClassTools.Data.Hierarchy
                     metaType.SubType1 = null;
                     metaType.SubType2 = null;
                     break;
-                case ECategoryType.Collection:
+                case ECategoryType.List:
                     metaType.SubType1 = this.types.Find(t => t.Equals(metaType.SubType1));
                     metaType.SubType2 = null;
                     break;

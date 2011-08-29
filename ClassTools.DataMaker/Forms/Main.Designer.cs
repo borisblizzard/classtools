@@ -58,7 +58,7 @@
             this.ofdDatabase = new System.Windows.Forms.OpenFileDialog();
             this.sfdDatabase = new System.Windows.Forms.SaveFileDialog();
             this.ofdModel = new System.Windows.Forms.OpenFileDialog();
-            this.icInstances = new ClassTools.DataMaker.Forms.Controls.InstanceCollection();
+            this.icInstances = new ClassTools.DataMaker.Forms.Controls.InstanceList();
             this.gbClasses.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -374,7 +374,7 @@
         private System.Windows.Forms.ToolStripMenuItem importMenuItem;
         private System.Windows.Forms.ListBox lbClasses;
         private System.Windows.Forms.Button bEdit;
-        private Controls.InstanceCollection icInstances;
+        private Controls.InstanceList icInstances;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteMenuItem;

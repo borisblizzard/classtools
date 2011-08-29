@@ -22,7 +22,7 @@ namespace ClassTools.DataMaker.Forms
         #region Properties
         public MetaInstance MetaInstance
         {
-            get { return this.metaInstance; }
+            get { return (this.cbxExists.Checked ? this.metaInstance : null); }
         }
         #endregion
 
@@ -37,7 +37,7 @@ namespace ClassTools.DataMaker.Forms
             this.ivbInstanceVariables.SetMetaInstance(this.metaInstance);
             if (nullable)
             {
-                this.cbxExists.Checked = (this.metaInstance != null);
+                this.cbxExists.Checked = (metaInstance != null);
             }
             else
             {
@@ -49,14 +49,6 @@ namespace ClassTools.DataMaker.Forms
         #endregion
 
         #region Close
-        private void onFormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (!this.cbxExists.Checked)
-            {
-                this.metaInstance = null;
-            }
-        }
-
         private void closeMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();

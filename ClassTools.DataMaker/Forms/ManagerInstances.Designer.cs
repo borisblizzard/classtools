@@ -54,7 +54,7 @@
             this.ofdDatabase = new System.Windows.Forms.OpenFileDialog();
             this.sfdDatabase = new System.Windows.Forms.SaveFileDialog();
             this.ofdModel = new System.Windows.Forms.OpenFileDialog();
-            this.icInstances = new ClassTools.DataMaker.Forms.Controls.InstanceCollection();
+            this.icInstances = new ClassTools.DataMaker.Forms.Controls.InstanceList();
             this.bOk = new System.Windows.Forms.Button();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
@@ -323,7 +323,7 @@
         private System.Windows.Forms.OpenFileDialog ofdModel;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
-        private Controls.InstanceCollection icInstances;
+        private Controls.InstanceList icInstances;
         private System.Windows.Forms.Button bOk;
     }
 }

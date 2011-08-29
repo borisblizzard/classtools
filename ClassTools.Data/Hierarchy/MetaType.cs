@@ -47,7 +47,7 @@ namespace ClassTools.Data.Hierarchy
                 }
                 if (this.subType2 == null)
                 {
-                    return ECategoryType.Collection;
+                    return ECategoryType.List;
                 }
                 return ECategoryType.Dictionary;
             }
@@ -96,7 +96,7 @@ namespace ClassTools.Data.Hierarchy
         {
             if (!base.Equals(other)) return false;
             if (!this.CategoryType.Equals(other.CategoryType)) return false;
-            if (this.CategoryType == ECategoryType.Collection)
+            if (this.CategoryType == ECategoryType.List)
             {
                 if (!this.subType1.Equals(other.subType1)) return false;
                 if (!this.suffix1.Equals(other.suffix1)) return false;
@@ -131,7 +131,7 @@ namespace ClassTools.Data.Hierarchy
             string result = this.name;
             switch (this.CategoryType)
             {
-                case ECategoryType.Collection:
+                case ECategoryType.List:
                     result += "<" + this.subType1.GetNameWithModule(separator) + this.suffix1 + ">";
                     break;
                 case ECategoryType.Dictionary:
@@ -151,7 +151,7 @@ namespace ClassTools.Data.Hierarchy
             string result = this.name;
             switch (this.CategoryType)
             {
-                case ECategoryType.Collection:
+                case ECategoryType.List:
                     result += "<" + this.subType1.ToString() + this.suffix1 + ">";
                     break;
                 case ECategoryType.Dictionary:
