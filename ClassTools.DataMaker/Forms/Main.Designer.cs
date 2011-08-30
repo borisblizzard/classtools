@@ -57,7 +57,7 @@
             this.ofdDatabase = new System.Windows.Forms.OpenFileDialog();
             this.sfdDatabase = new System.Windows.Forms.SaveFileDialog();
             this.ofdModel = new System.Windows.Forms.OpenFileDialog();
-            this.ilInstances = new ClassTools.DataMaker.Forms.Controls.InstanceList();
+            this.ilInstances = new ClassTools.DataMaker.Forms.Controls.ValueList();
             this.gbClasses.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -231,7 +231,7 @@
             // deleteMenuItem
             // 
             this.deleteMenuItem.Name = "deleteMenuItem";
-            this.deleteMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.deleteMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
             this.deleteMenuItem.Size = new System.Drawing.Size(202, 22);
             this.deleteMenuItem.Text = "Delete";
             this.deleteMenuItem.Click += new System.EventHandler(this.deleteMenuItem_Click);
@@ -360,7 +360,7 @@
         private System.Windows.Forms.OpenFileDialog ofdModel;
         private System.Windows.Forms.ToolStripMenuItem importMenuItem;
         private System.Windows.Forms.ListBox lbClasses;
-        private Controls.InstanceList ilInstances;
+        private Controls.ValueList ilInstances;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteMenuItem;

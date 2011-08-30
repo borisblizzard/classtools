@@ -61,7 +61,7 @@ namespace ClassTools.ClassMaker.Forms
                 this.lastModel = Serializer.Clone(this.model);
             }
             this.refreshing = false;
-            this.refresh();
+            this.RefreshData();
         }
         #endregion
 
@@ -80,7 +80,7 @@ namespace ClassTools.ClassMaker.Forms
                     this.lastFilename = ofd.FileName;
                     stream.Close();
                     this.lastModel = Serializer.Clone(this.model);
-                    this.refresh();
+                    this.RefreshData();
                 }
             }
         }
@@ -114,7 +114,7 @@ namespace ClassTools.ClassMaker.Forms
                 this.model = new Model();
                 this.lastModel = Serializer.Clone(this.model);
                 this.lastFilename = string.Empty;
-                this.refresh();
+                this.RefreshData();
             }
         }
 
@@ -172,7 +172,7 @@ namespace ClassTools.ClassMaker.Forms
         #endregion
 
         #region Refresh
-        private void refresh()
+        public void RefreshData()
         {
             if (this.refreshing)
             {
@@ -297,7 +297,7 @@ namespace ClassTools.ClassMaker.Forms
         private void bClassNew_Click(object sender, EventArgs e)
         {
             this.model.CreateNewClass(this.lbClasses.SelectedIndex + 1);
-            this.refresh();
+            this.RefreshData();
             if (this.lbClasses.SelectedIndex < this.lbClasses.Items.Count - 1)
             {
                 this.lbClasses.SelectedIndex++;
@@ -309,14 +309,14 @@ namespace ClassTools.ClassMaker.Forms
         {
             //2DO - add check for usage of class
             this.model.DeleteClassAt(this.lbClasses.SelectedIndex);
-            this.refresh();
+            this.RefreshData();
             this.lbClasses.Focus();
         }
 
         private void bVariableNew_Click(object sender, EventArgs e)
         {
             this.model.Classes[this.lbClasses.SelectedIndex].CreateNewVariable(this.lbVariables.SelectedIndex + 1);
-            this.refresh();
+            this.RefreshData();
             if (this.lbVariables.SelectedIndex < this.lbVariables.Items.Count - 1)
             {
                 this.lbVariables.SelectedIndex++;
@@ -327,14 +327,14 @@ namespace ClassTools.ClassMaker.Forms
         private void bVariableDelete_Click(object sender, EventArgs e)
         {
             this.model.Classes[this.lbClasses.SelectedIndex].DeleteVariableAt(this.lbVariables.SelectedIndex);
-            this.refresh();
+            this.RefreshData();
             this.lbVariables.Focus();
         }
 
         private void bMethodNew_Click(object sender, EventArgs e)
         {
             this.model.Classes[this.lbClasses.SelectedIndex].CreateNewMethod(this.lbMethods.SelectedIndex + 1);
-            this.refresh();
+            this.RefreshData();
             if (this.lbMethods.SelectedIndex < this.lbMethods.Items.Count - 1)
             {
                 this.lbMethods.SelectedIndex++;
@@ -345,7 +345,7 @@ namespace ClassTools.ClassMaker.Forms
         private void bMethodDelete_Click(object sender, EventArgs e)
         {
             this.model.Classes[this.lbClasses.SelectedIndex].DeleteMethodAt(this.lbMethods.SelectedIndex);
-            this.refresh();
+            this.RefreshData();
             this.lbMethods.Focus();
         }
         #endregion
@@ -436,7 +436,7 @@ namespace ClassTools.ClassMaker.Forms
         {
             ManagerTypes f = new ManagerTypes(this.model);
             f.ShowDialog();
-            this.refresh();
+            this.RefreshData();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -491,20 +491,23 @@ namespace ClassTools.ClassMaker.Forms
         {
             if (this.lbClasses.Focused && InternalClipboard.ContainsClass)
             {
-                this.model.ReplaceClassAt(this.lbClasses.SelectedIndex, InternalClipboard.Class);
-                this.refresh();
+                this.model.Classes[this.lbClasses.SelectedIndex] = InternalClipboard.Class;
+                this.model.Classes[this.lbClasses.SelectedIndex].Update(this.model);
+                this.RefreshData();
             }
             else if (this.lbVariables.Focused && InternalClipboard.ContainsVariable)
             {
                 MetaClass metaClass = this.model.Classes[this.lbClasses.SelectedIndex];
-                metaClass.ReplaceVariableAt(this.lbVariables.SelectedIndex, InternalClipboard.Variable);
-                this.refresh();
+                metaClass.Variables[this.lbVariables.SelectedIndex] = InternalClipboard.Variable;
+                metaClass.Variables[this.lbVariables.SelectedIndex].Update(this.model);
+                this.RefreshData();
             }
             else if (this.lbMethods.Focused && InternalClipboard.ContainsMethod)
             {
                 MetaClass metaClass = this.model.Classes[this.lbClasses.SelectedIndex];
-                metaClass.ReplaceMethodAt(this.lbMethods.SelectedIndex, InternalClipboard.Method);
-                this.refresh();
+                metaClass.Methods[this.lbMethods.SelectedIndex] = InternalClipboard.Method;
+                metaClass.Methods[this.lbMethods.SelectedIndex].Update(this.model);
+                this.RefreshData();
             }
         }
 
@@ -513,17 +516,17 @@ namespace ClassTools.ClassMaker.Forms
             if (this.lbClasses.Focused)
             {
                 this.model.SortClasses();
-                this.refresh();
+                this.RefreshData();
             }
             else if (this.lbVariables.Focused)
             {
                 this.model.Classes[this.lbClasses.SelectedIndex].SortVariables();
-                this.refresh();
+                this.RefreshData();
             }
             else if (this.lbMethods.Focused)
             {
                 this.model.Classes[this.lbClasses.SelectedIndex].SortMethods();
-                this.refresh();
+                this.RefreshData();
             }
         }
 
@@ -575,7 +578,7 @@ namespace ClassTools.ClassMaker.Forms
                     this.refreshing = true;
                     this.lbVariables.SelectedIndex--;
                     this.refreshing = false;
-                    this.refresh();
+                    this.RefreshData();
                 }
             }
             else if (this.lbMethods.Focused)
@@ -585,7 +588,7 @@ namespace ClassTools.ClassMaker.Forms
                     this.refreshing = true;
                     this.lbMethods.SelectedIndex--;
                     this.refreshing = false;
-                    this.refresh();
+                    this.RefreshData();
                 }
             }
         }
@@ -606,7 +609,7 @@ namespace ClassTools.ClassMaker.Forms
                     this.refreshing = true;
                     this.lbVariables.SelectedIndex++;
                     this.refreshing = false;
-                    this.refresh();
+                    this.RefreshData();
                 }
             }
             else if (this.lbMethods.Focused)
@@ -616,7 +619,7 @@ namespace ClassTools.ClassMaker.Forms
                     this.refreshing = true;
                     this.lbMethods.SelectedIndex++;
                     this.refreshing = false;
-                    this.refresh();
+                    this.RefreshData();
                 }
             }
         }
@@ -625,7 +628,7 @@ namespace ClassTools.ClassMaker.Forms
         #region Class Sync
         private void lbClasses_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.refresh();
+            this.RefreshData();
         }
 
         private void tbClassName_TextChanged(object sender, EventArgs e)
@@ -636,7 +639,7 @@ namespace ClassTools.ClassMaker.Forms
             }
             MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
             metaClass.Name = this.tbClassName.Text;
-            this.refresh();
+            this.RefreshData();
         }
 
         private void tbClassModule_TextChanged(object sender, EventArgs e)
@@ -647,7 +650,7 @@ namespace ClassTools.ClassMaker.Forms
             }
             MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
             metaClass.Module = this.tbClassModule.Text;
-            this.refresh();
+            this.RefreshData();
         }
 
         private void cbInheritance_CheckedChanged(object sender, EventArgs e)
@@ -658,7 +661,7 @@ namespace ClassTools.ClassMaker.Forms
             }
             MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
             metaClass.SuperClass = (this.cbInheritance.Checked ? (MetaClass)this.cbSuperClass.Items[0] : null);
-            this.refresh();
+            this.RefreshData();
         }
 
         private void cbxClassSerialize_CheckedChanged(object sender, EventArgs e)
@@ -702,7 +705,7 @@ namespace ClassTools.ClassMaker.Forms
             }
             MetaVariable variable = (MetaVariable)this.lbVariables.SelectedItem;
             variable.Name = this.tbVariableName.Text;
-            this.refresh();
+            this.RefreshData();
         }
 
         private void cbVariableType_SelectedIndexChanged(object sender, EventArgs e)
@@ -713,7 +716,7 @@ namespace ClassTools.ClassMaker.Forms
             }
             MetaVariable variable = (MetaVariable)this.lbVariables.SelectedItem;
             variable.Type = (MetaType)this.cbVariableType.SelectedItem;
-            this.refresh();
+            this.RefreshData();
         }
 
         private void cbVariableAccessType_SelectedIndexChanged(object sender, EventArgs e)
@@ -784,7 +787,7 @@ namespace ClassTools.ClassMaker.Forms
             }
             MetaVariable variable = (MetaVariable)this.lbVariables.SelectedItem;
             variable.Prefix = this.tbVariablePrefix.Text;
-            this.refresh();
+            this.RefreshData();
         }
         #endregion
 
@@ -808,7 +811,7 @@ namespace ClassTools.ClassMaker.Forms
             }
             MetaMethod metaMethod = (MetaMethod)this.lbMethods.SelectedItem;
             metaMethod.Name = this.tbMethodName.Text;
-            this.refresh();
+            this.RefreshData();
         }
 
         private void cbMethodType_SelectedIndexChanged(object sender, EventArgs e)
@@ -819,7 +822,7 @@ namespace ClassTools.ClassMaker.Forms
             }
             MetaMethod metaMethod = (MetaMethod)this.lbMethods.SelectedItem;
             metaMethod.Type = (MetaType)this.cbMethodType.SelectedItem;
-            this.refresh();
+            this.RefreshData();
         }
 
         private void cbMethodAccessType_SelectedIndexChanged(object sender, EventArgs e)
@@ -840,7 +843,7 @@ namespace ClassTools.ClassMaker.Forms
             }
             MetaMethod metaMethod = (MetaMethod)this.lbMethods.SelectedItem;
             metaMethod.Prefix = this.tbMethodPrefix.Text;
-            this.refresh();
+            this.RefreshData();
         }
         #endregion
 

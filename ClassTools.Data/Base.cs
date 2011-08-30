@@ -1,5 +1,7 @@
 ﻿using System;
 
+using ClassTools.Data.Hierarchy;
+
 namespace ClassTools.Data
 {
     [Serializable]
@@ -9,6 +11,13 @@ namespace ClassTools.Data
         public bool Equals(Base other)
         {
             if (other == null) return false;
+            return true;
+        }
+        #endregion
+
+        #region Methods
+        public virtual bool Update(Model model)
+        {
             return true;
         }
         #endregion

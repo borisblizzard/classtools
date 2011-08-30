@@ -45,12 +45,21 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Methods
-        public override void UpdateType(MetaType oldType, MetaType newType)
+        public override bool Update(Model model)
         {
-            base.UpdateType(oldType, newType);
+            if (!base.Update(model))
+            {
+                return false;
+            }
+            return this.type.Update(model);
+        }
+
+        public override void ReplaceType(MetaType oldType, MetaType newType)
+        {
+            base.ReplaceType(oldType, newType);
             if (this.Type == oldType)
             {
-                this.Type = oldType;
+                this.Type = newType;
             }
         }
 

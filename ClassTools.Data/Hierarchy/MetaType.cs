@@ -108,16 +108,33 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Methods
-        public override void UpdateType(MetaType oldType, MetaType newType)
+        public override bool Update(Model model)
         {
-            base.UpdateType(oldType, newType);
-            if (this.SubType1 == oldType)
+            if (!base.Update(model))
             {
-                this.SubType1 = newType;
+                return false;
             }
-            if (this.SubType2 == oldType)
+            if (this.subType1 != null && !this.subType1.Update(model))
             {
-                this.SubType2 = newType;
+                return false;
+            }
+            if (this.subType2 != null && !this.subType2.Update(model))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override void ReplaceType(MetaType oldType, MetaType newType)
+        {
+            base.ReplaceType(oldType, newType);
+            if (this.subType1 == oldType)
+            {
+                this.subType1 = newType;
+            }
+            if (this.subType2 == oldType)
+            {
+                this.subType2 = newType;
             }
         }
 

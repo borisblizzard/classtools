@@ -9,26 +9,26 @@ namespace ClassTools.Data.Database
     public class MetaInstanceVariable : MetaBase, IEquatable<MetaInstanceVariable>
     {
         #region Fields
-        protected string type;
-        protected string prefix;
+        protected MetaType type;
         protected string name;
+        protected string prefix;
         protected MetaValue value;
         #endregion
 
         #region Properties
-        public string Type
+        public MetaType Type
         {
             get { return this.type; }
-        }
-
-        public string Prefix
-        {
-            get { return this.prefix; }
         }
 
         public string Name
         {
             get { return this.name; }
+        }
+
+        public string Prefix
+        {
+            get { return this.prefix; }
         }
 
         public MetaValue Value
@@ -39,26 +39,26 @@ namespace ClassTools.Data.Database
         #endregion
 
         #region Construct
-        public MetaInstanceVariable(Repository repository, MetaVariable metaVariable)
-            : base(repository)
+        public MetaInstanceVariable(MetaVariable metaVariable)
+            : base()
         {
-            this.type = metaVariable.Type.GetNameWithModule();
+            this.type = metaVariable.Type;
             this.prefix = metaVariable.Prefix;
             this.name = metaVariable.Name;
             switch (metaVariable.Type.CategoryType)
             {
                 case ECategoryType.Integral:
-                    this.value = new MetaValue(repository, metaVariable.Type, metaVariable.DefaultValue);
+                    this.value = new MetaValue(this.type, metaVariable.DefaultValue);
                     break;
                 case ECategoryType.Class:
-                    MetaClass metaClass = (MetaClass)metaVariable.Type;
-                    this.value = new MetaValue(repository, metaClass, metaVariable.Nullable ? null : new MetaInstance(repository, metaClass));
+                    MetaClass metaClass = (MetaClass)this.type;
+                    this.value = new MetaValue(metaClass, metaVariable.Nullable ? null : new MetaInstance(metaClass));
                     break;
                 case ECategoryType.List:
-                    this.value = new MetaValue(repository, metaVariable.Type, new MetaList<MetaValue>());
+                    this.value = new MetaValue(this.type, new MetaList<MetaValue>());
                     break;
                 case ECategoryType.Dictionary:
-                    this.value = new MetaValue(repository, metaVariable.Type, new MetaDictionary<MetaValue, MetaValue>());
+                    this.value = new MetaValue(this.type, new MetaDictionary<MetaValue, MetaValue>());
                     break;
             }
         }
@@ -77,6 +77,15 @@ namespace ClassTools.Data.Database
         #endregion
 
         #region Methods
+        public override bool Update(Model model)
+        {
+            if (!base.Update(model))
+            {
+                return false;
+            }
+            return this.value.Update(model);
+        }
+
         public override string ToString()
         {
             return string.Format("{0}{1} {2}", this.type, this.prefix, this.name);

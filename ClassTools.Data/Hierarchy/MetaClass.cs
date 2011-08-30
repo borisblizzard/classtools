@@ -134,20 +134,47 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Methods
-        public override void UpdateType(MetaType oldType, MetaType newType)
+        public override bool Update(Model model)
         {
-            base.UpdateType(oldType, newType);
-            if (this.HasSuperClass && this.SuperClass == oldType)
+            if (!base.Update(model))
+            {
+                return false;
+            }
+            if (this.superClass != null && !this.SuperClass.Update(model))
+            {
+                return false;
+            }
+            foreach (MetaVariable variable in this.variables)
+            {
+                if (!variable.Update(model))
+                {
+                    return false;
+                }
+            }
+            foreach (MetaMethod method in this.methods)
+            {
+                if (!method.Update(model))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public override void ReplaceType(MetaType oldType, MetaType newType)
+        {
+            base.ReplaceType(oldType, newType);
+            if (this.superClass != null && this.superClass == oldType)
             {
                 this.SuperClass = (newType.CategoryType == ECategoryType.Class ? (MetaClass)newType : null);
             }
-            for (int j = 0; j < this.Variables.Count; j++)
+            foreach (MetaVariable variable in this.variables)
             {
-                this.Variables[j].UpdateType(oldType, oldType);
+                variable.ReplaceType(oldType, oldType);
             }
-            for (int j = 0; j < this.Methods.Count; j++)
+            foreach (MetaMethod method in this.methods)
             {
-                this.Variables[j].UpdateType(oldType, oldType);
+                method.ReplaceType(oldType, oldType);
             }
         }
 
@@ -209,13 +236,6 @@ namespace ClassTools.Data.Hierarchy
             this.variables.RemoveAt(index);
         }
 
-        public void ReplaceVariableAt(int index, MetaVariable variable)
-        {
-            this.Variables[index] = variable;
-            variable.Model = this.model;
-            variable.Type = this.model.AllTypes.Find(t => t.Equals(variable.Type));
-        }
-
         public bool TryVariableMoveUp(int index)
         {
             return this.variables.TryMoveUp(index);
@@ -248,17 +268,6 @@ namespace ClassTools.Data.Hierarchy
         public void DeleteMethodAt(int index)
         {
             this.methods.RemoveAt(index);
-        }
-
-        public void ReplaceMethodAt(int index, MetaMethod method)
-        {
-            this.Methods[index] = method;
-            method.Model = this.model;
-            method.Type = this.model.AllTypes.Find(t => t.Equals(method.Type));
-            for (int i = 0; i < method.Parameters.Count; i++)
-            {
-                method.ReplaceParameterAt(i, method.Parameters[i]);
-            }
         }
 
         public bool TryMethodMoveUp(int index)

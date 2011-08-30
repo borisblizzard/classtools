@@ -13,22 +13,22 @@ namespace ClassTools.DataMaker.Forms
     public partial class ManagerInstance : Form, IRefreshable
     {
         #region Fields
-        private Repository respository;
-        private MetaClass metaClass;
-        private MetaValue metaValue;
+        private Repository repository;
+        private MetaClass classe;
+        private MetaValue value;
         private bool refreshing;
         #endregion
 
         #region Properties
-        public MetaValue MetaValue
+        public MetaValue Value
         {
             get
             {
                 if (!this.cbxExists.Checked)
                 {
-                    this.metaValue.Instance = null;
+                    this.value.Instance = null;
                 }
-                return this.metaValue;
+                return this.value;
             }
         }
         #endregion
@@ -37,16 +37,16 @@ namespace ClassTools.DataMaker.Forms
         public ManagerInstance(Repository repository, MetaClass metaClass, MetaValue metaValue, bool nullable)
         {
             InitializeComponent();
-            this.respository = repository;
-            this.metaValue = metaValue;
-            this.cbxExists.Checked = (this.metaValue.Instance != null);
-            if (this.metaValue.Instance == null)
+            this.repository = repository;
+            this.value = metaValue;
+            this.cbxExists.Checked = (this.value.Instance != null);
+            if (this.value.Instance == null)
             {
-                this.metaValue.Instance = new MetaInstance(repository, metaClass);
+                this.value.Instance = new MetaInstance(metaClass);
             }
-            this.metaClass = metaClass;
-            this.ivbInstanceVariables.SetData(this, this.respository, this.metaClass);
-            this.ivbInstanceVariables.SetMetaValue(this.metaValue);
+            this.classe = metaClass;
+            this.ivbInstanceVariables.SetData(this, this.repository, this.classe);
+            this.ivbInstanceVariables.SetValue(this.value);
             if (!nullable)
             {
                 this.cbxExists.Enabled = false;

@@ -51,13 +51,29 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Methods
-        public override void UpdateType(MetaType oldType, MetaType newType)
+        public override bool Update(Model model)
         {
- 	         base.UpdateType(oldType, newType);
-             for (int i = 0; i < this.Parameters.Count; i++)
-             {
-                 this.Parameters[i].UpdateType(oldType, newType);
-             }
+            if (!base.Update(model))
+            {
+                return false;
+            }
+            foreach (MetaVariable parameter in this.parameters)
+            {
+                if (!parameter.Update(model))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public override void ReplaceType(MetaType oldType, MetaType newType)
+        {
+            base.ReplaceType(oldType, newType);
+            foreach (MetaVariable parameter in this.parameters)
+            {
+                parameter.ReplaceType(oldType, newType);
+            }
         }
         #endregion
 
@@ -72,13 +88,6 @@ namespace ClassTools.Data.Hierarchy
         public void DeleteParameterAt(int index)
         {
             this.parameters.RemoveAt(index);
-        }
-
-        public void ReplaceParameterAt(int index, MetaVariable parameter)
-        {
-            this.Parameters[index] = parameter;
-            parameter.Model = this.model;
-            parameter.Type = this.model.AllTypes.Find(t => t.Equals(parameter.Type));
         }
 
         public bool TryParameterMoveUp(int index)

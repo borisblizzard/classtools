@@ -15,7 +15,6 @@ namespace ClassTools.Data.Hierarchy
         public Model Model
         {
             get { return this.model; }
-            set { this.model = value; }
         }
 
         public string Name
@@ -52,7 +51,13 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Methods
-        public virtual void UpdateType(MetaType oldType, MetaType newType)
+        public override bool Update(Model model)
+        {
+            this.model = model;
+            return base.Update(model);
+        }
+
+        public virtual void ReplaceType(MetaType oldType, MetaType newType)
         {
         }
 

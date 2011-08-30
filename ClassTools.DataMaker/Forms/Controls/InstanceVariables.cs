@@ -21,8 +21,8 @@ namespace ClassTools.DataMaker.Forms.Controls
 
         #region Fields
         private Repository repository;
-        private MetaType metaType;
-        private MetaValue metaValue;
+        private MetaType type;
+        private MetaValue value;
         private List<Control> valueControls;
         private IRefreshable owner;
         bool refreshing;
@@ -34,8 +34,8 @@ namespace ClassTools.DataMaker.Forms.Controls
             InitializeComponent();
             this.owner = null;
             this.repository = null;
-            this.metaType = null;
-            this.metaValue = null;
+            this.type = null;
+            this.value = null;
             this.valueControls = new List<Control>();
             this.refreshing = false;
             this.Enabled = false;
@@ -47,7 +47,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             {
                 this.Controls.Clear();
                 this.valueControls.Clear();
-                this.metaValue = null;
+                this.value = null;
                 this.Enabled = false;
             }
         }
@@ -56,7 +56,7 @@ namespace ClassTools.DataMaker.Forms.Controls
         {
             this.owner = owner;
             this.repository = repository;
-            this.metaType = metaType;
+            this.type = metaType;
             this.setupLayout();
         }
 
@@ -67,26 +67,31 @@ namespace ClassTools.DataMaker.Forms.Controls
             int maxWidth = 0;
             Control newControl;
             // TODO - if type is not class if ()
-            if (metaType.CategoryType == ECategoryType.Class)
+            switch (type.CategoryType)
             {
-                MetaList<MetaVariable> metaVariables = ((MetaClass)this.metaType).AllVariables;
-                for (int i = 0; i < metaVariables.Count; i++)
-                {
-                    metaVariable = metaVariables[i];
-                    label = this.createLabel(metaVariable.ToString(), i);
-                    this.Controls.Add(label);
-                    if (maxWidth < label.Width)
-                    {
-                        maxWidth = label.Width;
-                    }
-                    newControl = this.createControl(metaVariable.Type, metaVariable.ToString(), i);
+                case ECategoryType.Integral:
+                    label = this.createLabel("Value", 0);
+                    maxWidth = label.Width;
+                    newControl = this.createIntegralControl(type.Name, 0);
                     this.Controls.Add(newControl);
                     this.valueControls.Add(newControl);
-                }
-            }
-            else
-            {
-                // TODO
+                    break;
+                case ECategoryType.Class:
+                    MetaList<MetaVariable> metaVariables = ((MetaClass)this.type).AllVariables;
+                    for (int i = 0; i < metaVariables.Count; i++)
+                    {
+                        metaVariable = metaVariables[i];
+                        label = this.createLabel(metaVariable.ToString(), i);
+                        this.Controls.Add(label);
+                        if (maxWidth < label.Width)
+                        {
+                            maxWidth = label.Width;
+                        }
+                        newControl = this.createControl(metaVariable.Type, metaVariable.ToString(), i);
+                        this.Controls.Add(newControl);
+                        this.valueControls.Add(newControl);
+                    }
+                    break;
             }
             foreach (Control control in this.valueControls)
             {
@@ -111,51 +116,13 @@ namespace ClassTools.DataMaker.Forms.Controls
             switch (metaType.CategoryType)
             {
                 case ECategoryType.Integral:
-                    switch (metaType.Name)
-                    {
-                        case Constants.TYPE_INT:
-                            control = this.createNumericUpDown(index, int.MinValue, int.MaxValue);
-                            break;
-                        case Constants.TYPE_UINT:
-                            control = this.createNumericUpDown(index, uint.MinValue, uint.MaxValue);
-                            break;
-                        case Constants.TYPE_SHORT:
-                            control = this.createNumericUpDown(index, short.MinValue, short.MaxValue);
-                            break;
-                        case Constants.TYPE_USHORT:
-                            control = this.createNumericUpDown(index, ushort.MinValue, ushort.MaxValue);
-                            break;
-                        case Constants.TYPE_LONG:
-                            control = this.createNumericUpDown(index, long.MinValue, long.MaxValue);
-                            break;
-                        case Constants.TYPE_ULONG:
-                            control = this.createNumericUpDown(index, ulong.MinValue, ulong.MaxValue);
-                            break;
-                        case Constants.TYPE_CHAR:
-                            control = this.createTextBox(index, "", 1);
-                            break;
-                        case Constants.TYPE_UCHAR:
-                            control = this.createNumericUpDown(index, 0, 255);
-                            break;
-                        case Constants.TYPE_FLOAT:
-                            control = this.createTextBox(index, "0.0");
-                            break;
-                        case Constants.TYPE_DOUBLE:
-                            control = this.createTextBox(index, "0.0");
-                            break;
-                        case Constants.TYPE_BOOL:
-                            control = this.createCheckBox(index);
-                            break;
-                        default:
-                            control = this.createTextBox(index);
-                            break;
-                    }
+                    control = this.createIntegralControl(metaType.Name, index);
                     break;
                 case ECategoryType.Class:
-                    control = this.createButton(index, new EventHandler(this.ivButtonInstance_Click));
+                    control = this.createButton(index, new EventHandler(this.ivButtonManage_Click));
                     break;
                 case ECategoryType.List:
-                    control = this.createButton(index);
+                    control = this.createButton(index, new EventHandler(this.ivButtonManage_Click));
                     break;
                 case ECategoryType.Dictionary:
                     control = this.createButton(index);
@@ -163,6 +130,55 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
             control.Name = name;
             control.TabIndex = 101 + index * 2;
+            return control;
+        }
+
+        private Control createIntegralControl(string typeName, int index)
+        {
+            Control control = null;
+            switch (typeName)
+            {
+                case Constants.TYPE_VOID:
+                    control = this.createTextBox(index);
+                    control.Enabled = false;
+                    break;
+                case Constants.TYPE_INT:
+                    control = this.createNumericUpDown(index, int.MinValue, int.MaxValue);
+                    break;
+                case Constants.TYPE_UINT:
+                    control = this.createNumericUpDown(index, uint.MinValue, uint.MaxValue);
+                    break;
+                case Constants.TYPE_SHORT:
+                    control = this.createNumericUpDown(index, short.MinValue, short.MaxValue);
+                    break;
+                case Constants.TYPE_USHORT:
+                    control = this.createNumericUpDown(index, ushort.MinValue, ushort.MaxValue);
+                    break;
+                case Constants.TYPE_LONG:
+                    control = this.createNumericUpDown(index, long.MinValue, long.MaxValue);
+                    break;
+                case Constants.TYPE_ULONG:
+                    control = this.createNumericUpDown(index, ulong.MinValue, ulong.MaxValue);
+                    break;
+                case Constants.TYPE_CHAR:
+                    control = this.createTextBox(index, "", 1);
+                    break;
+                case Constants.TYPE_UCHAR:
+                    control = this.createNumericUpDown(index, 0, 255);
+                    break;
+                case Constants.TYPE_FLOAT:
+                    control = this.createTextBox(index, "0.0");
+                    break;
+                case Constants.TYPE_DOUBLE:
+                    control = this.createTextBox(index, "0.0");
+                    break;
+                case Constants.TYPE_BOOL:
+                    control = this.createCheckBox(index);
+                    break;
+                default:
+                    control = this.createTextBox(index);
+                    break;
+            }
             return control;
         }
 
@@ -225,74 +241,89 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
             this.refreshing = true;
             this.owner.RefreshData();
-            TextBox textBox;
-            NumericUpDown numericUpDown;
-            CheckBox checkBox;
-            if (this.metaValue != null)
+            if (this.value != null)
             {
-                // TODO - what happens when metaValue is not a class
-                MetaValue metaValue;
-                MetaList<MetaInstanceVariable> metaInstanceVariables = this.metaValue.Instance.InstanceVariables;
-                for (int i = 0; i < metaInstanceVariables.Count; i++)
+                switch (this.value.ValueType)
                 {
-                    metaValue = metaInstanceVariables[i].Value;
-                    if (metaValue.ValueType == EValueType.Integral)
-                    {
-                        if (Constants.TYPES_INT.Contains(metaValue.TypeName))
+                    case EValueType.Integral:
+                        this.refreshEntry(this.value, 0);
+                        break;
+                    case EValueType.Object:
+                        MetaList<MetaInstanceVariable> metaInstanceVariables = this.value.Instance.InstanceVariables;
+                        for (int i = 0; i < metaInstanceVariables.Count; i++)
                         {
-                            numericUpDown = (NumericUpDown)this.valueControls[i];
-                            numericUpDown.Value = metaValue.Decimal;
+                            this.refreshEntry(metaInstanceVariables[i].Value, i);
                         }
-                        else if (Constants.TYPES_BOOL.Contains(metaValue.TypeName))
-                        {
-                            checkBox = (CheckBox)this.valueControls[i];
-                            checkBox.Checked = metaValue.Bool;
-                        }
-                        else if (!Constants.TYPES_VOID.Contains(metaValue.TypeName) && !Constants.TYPES_FLOAT.Contains(metaValue.TypeName))
-                        {
-                            textBox = (TextBox)this.valueControls[i];
-                            textBox.Text = metaValue.String;
-                        }
-                    }
+                        break;
                 }
             }
             else
             {
-                if (this.metaType.CategoryType == ECategoryType.Class)
+                switch (this.type.CategoryType)
                 {
-                    MetaType metaType;
-                    MetaList<MetaVariable> metaVariables = ((MetaClass)this.metaType).AllVariables;
-                    for (int i = 0; i < metaVariables.Count; i++)
-                    {
-                        metaType = metaVariables[i].Type;
-                        if (metaType.CategoryType == ECategoryType.Integral)
+                    case ECategoryType.Integral:
+                        this.refreshEntry(this.type, 0);
+                        break;
+                    case ECategoryType.Class:
+                        MetaList<MetaVariable> metaVariables = ((MetaClass)this.type).AllVariables;
+                        for (int i = 0; i < metaVariables.Count; i++)
                         {
-                            if (Constants.TYPES_INT.Contains(metaType.Name))
-                            {
-                                numericUpDown = (NumericUpDown)this.valueControls[i];
-                                numericUpDown.Value = decimal.Zero;
-                            }
-                            else if (Constants.TYPES_BOOL.Contains(metaType.Name))
-                            {
-                                checkBox = (CheckBox)this.valueControls[i];
-                                checkBox.Checked = false;
-                            }
-                            else
-                            {
-                                textBox = (TextBox)this.valueControls[i];
-                                textBox.Text = string.Empty;
-                            }
+                            this.refreshEntry(metaVariables[i].Type, i);
                         }
-                    }
+                        break;
                 }
             }
             this.refreshing = false;
         }
 
-        public void SetMetaValue(MetaValue metaValue)
+        private void refreshEntry(MetaValue metaValue, int index)
         {
-            this.metaValue = metaValue;
-            this.Enabled = (this.metaValue != null);
+            if (metaValue.ValueType == EValueType.Integral)
+            {
+                if (Constants.TYPES_INT.Contains(metaValue.Type.Name))
+                {
+                    NumericUpDown numericUpDown = (NumericUpDown)this.valueControls[index];
+                    numericUpDown.Value = metaValue.Decimal;
+                }
+                else if (Constants.TYPES_BOOL.Contains(metaValue.Type.Name))
+                {
+                    CheckBox checkBox = (CheckBox)this.valueControls[index];
+                    checkBox.Checked = metaValue.Bool;
+                }
+                else if (!Constants.TYPES_VOID.Contains(metaValue.Type.Name))// && !Constants.TYPES_FLOAT.Contains(metaValue.TypeName))
+                {
+                    TextBox textBox = (TextBox)this.valueControls[index];
+                    textBox.Text = metaValue.String;
+                }
+            }
+        }
+
+        private void refreshEntry(MetaType metaType, int index)
+        {
+            if (metaType.CategoryType == ECategoryType.Integral)
+            {
+                if (Constants.TYPES_INT.Contains(metaType.Name))
+                {
+                    NumericUpDown numericUpDown = (NumericUpDown)this.valueControls[index];
+                    numericUpDown.Value = decimal.Zero;
+                }
+                else if (Constants.TYPES_BOOL.Contains(metaType.Name))
+                {
+                    CheckBox checkBox = (CheckBox)this.valueControls[index];
+                    checkBox.Checked = false;
+                }
+                else if (!Constants.TYPES_VOID.Contains(metaType.Name))
+                {
+                    TextBox textBox = (TextBox)this.valueControls[index];
+                    textBox.Text = string.Empty;
+                }
+            }
+        }
+
+        public void SetValue(MetaValue metaValue)
+        {
+            this.value = metaValue;
+            this.Enabled = (this.value != null);
             this.RefreshData();
         }
         #endregion
@@ -304,8 +335,9 @@ namespace ClassTools.DataMaker.Forms.Controls
             {
                 return;
             }
+            this.refreshing = true;
             TextBox textBox = (TextBox)sender;
-            foreach (MetaInstanceVariable variable in this.metaValue.Instance.InstanceVariables)
+            foreach (MetaInstanceVariable variable in this.value.Instance.InstanceVariables)
             {
                 if (textBox.Name == variable.ToString())
                 {
@@ -313,6 +345,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                     break;
                 }
             }
+            this.refreshing = false;
             this.RefreshData();
         }
 
@@ -322,8 +355,9 @@ namespace ClassTools.DataMaker.Forms.Controls
             {
                 return;
             }
+            this.refreshing = true;
             NumericUpDown numericUpDown = (NumericUpDown)sender;
-            foreach (MetaInstanceVariable variable in this.metaValue.Instance.InstanceVariables)
+            foreach (MetaInstanceVariable variable in this.value.Instance.InstanceVariables)
             {
                 if (numericUpDown.Name == variable.ToString())
                 {
@@ -331,6 +365,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                     break;
                 }
             }
+            this.refreshing = false;
             this.RefreshData();
         }
 
@@ -340,8 +375,9 @@ namespace ClassTools.DataMaker.Forms.Controls
             {
                 return;
             }
+            this.refreshing = true;
             CheckBox checkBox = (CheckBox)sender;
-            foreach (MetaInstanceVariable variable in this.metaValue.Instance.InstanceVariables)
+            foreach (MetaInstanceVariable variable in this.value.Instance.InstanceVariables)
             {
                 if (checkBox.Name == variable.ToString())
                 {
@@ -349,103 +385,51 @@ namespace ClassTools.DataMaker.Forms.Controls
                     break;
                 }
             }
+            this.refreshing = false;
             this.RefreshData();
         }
 
-        private void ivButtonInstance_Click(object sender, EventArgs e)
+        private void ivButtonManage_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
             MetaInstanceVariable metaInstanceVariable;
-            for (int i = 0; i < this.metaValue.Instance.InstanceVariables.Count; i++)
+            MetaVariable metaVariable;
+            MetaClass metaClass = (MetaClass)this.type;
+            for (int i = 0; i < this.value.Instance.InstanceVariables.Count; i++)
             {
-                metaInstanceVariable = this.metaValue.Instance.InstanceVariables[i];
+                metaInstanceVariable = this.value.Instance.InstanceVariables[i];
                 if (button.Name == metaInstanceVariable.ToString())
                 {
-                    MetaVariable metaVariable = ((MetaClass)this.metaType).AllVariables[i];
-                    ManagerInstance form = new ManagerInstance(this.repository, (MetaClass)metaVariable.Type, metaInstanceVariable.Value, metaVariable.Nullable);
-                    form.Text = metaInstanceVariable.ToString();
-                    form.ShowDialog();
-                    metaInstanceVariable.Value = form.MetaValue;
-                    this.RefreshData();
-                    break;
-                }
-            }
-        }
-
-        private void ivButtonValueList_Click(object sender, EventArgs e)
-        {
-            Button button = (Button)sender;
-            MetaInstanceVariable metaInstanceVariable;
-            for (int i = 0; i < this.metaValue.Instance.InstanceVariables.Count; i++)
-            {
-                metaInstanceVariable = this.metaValue.Instance.InstanceVariables[i];
-                if (button.Name == metaInstanceVariable.ToString())
-                {
-                    /*
-                    MetaVariable metaVariable = this.metaClass.AllVariables[i];
-                    if (metaVariable.Type.IsClass)
+                    value = metaInstanceVariable.Value;
+                    metaVariable = metaClass.AllVariables[i];
+                    switch (metaVariable.Type.CategoryType)
                     {
-                        MetaList<MetaInstance> metaInstances = new MetaList<MetaInstance>();
-                        foreach (MetaValue value in metaInstanceVariable.Value.InstanceList)
-                        {
-                            metaInstances.Add(value.Instance);
-                        }
-                        
-                        ManagerInstances form = new ManagerInstances(this.repository, (MetaClass)metaVariable.Type, metaInstances);
-                        form.Text = metaInstanceVariable.ToString();
-                        form.ShowDialog();
-                        metaInstances = form.MetaInstances;
-                        MetaList<MetaInstanceVariable> metaInstanceList = new MetaList<MetaInstanceVariable>();
-                        foreach (MetaInstance mi in metaInstances)
-                        {
-                            //metaInstanceVariable = new MetaInstanceVariable(this.repository, );
-                            metaInstanceVariable.Value.Instance = mi;
-                            metaInstanceList.Add(metaInstanceVariable);
-                        }
-                        //metaInstanceVariable.ValueInstanceList = new 
-
-                        metaInstances = new MetaList<MetaInstance>();
-                        foreach (MetaInstanceVariable miv in metaInstanceVariable.Value.InstanceList)
-                        {
-                            metaInstances.Add(miv.ValueInstance);
-                        }
-                        //metaInstanceVariable.ValueInstanceList = form.MetaInstances;
-                        
-                    }
-                    else
-                    {
-                    }
-                    */
-                    this.RefreshData();
-                    break;
-                }
-            }
-            /*
-            Button button = (Button)sender;
-            MetaInstanceVariable variable;
-            for (int i = 0; i < this.metaInstance.InstanceVariables.Count; i++)
-            {
-                variable = this.metaInstance.InstanceVariables[i];
-                if (button.Name == variable.ToString())
-                {
-                    if (this.metaClass.AllVariables[i].Type.IsClass)
-                    {
-                        // TODO
-                        //Forms.InstanceList form = new Forms.InstanceList(this.database, (MetaClass)this.metaClass.AllVariables[i].Type, (List<MetaInstance>)variable.ValueObject);
-                        //form.Text = variable.ToString();
-                        //form.ShowDialog();
-                    }
-                    else
-                    {
-                        //FormInstanceVariableCollection form = new FormInstanceVariableCollection(this.database, (MetaClass)this.metaClass.AllVariables[i].Type, (List<MetaVariableInstance>)variable.ValueObject);
-                        //form.ShowDialog();
-                        // TODO
+                        case ECategoryType.Integral:
+                            break;
+                        case ECategoryType.Class:
+                            ManagerInstance formInstance = new ManagerInstance(this.repository, (MetaClass)metaVariable.Type, metaInstanceVariable.Value, metaVariable.Nullable);
+                            formInstance.Text = metaInstanceVariable.ToString();
+                            formInstance.ShowDialog();
+                            metaInstanceVariable.Value = formInstance.Value;
+                            this.RefreshData();
+                            break;
+                        case ECategoryType.List:
+                            ManagerList formList = new ManagerList(this.repository, metaVariable.Type.SubType1, metaInstanceVariable.Value.List);
+                            formList.Text = metaInstanceVariable.ToString();
+                            formList.ShowDialog();
+                            metaInstanceVariable.Value.List = formList.ListValues;
+                            break;
+                        case ECategoryType.Dictionary:
+                            ManagerDictionary formDictionary = new ManagerDictionary(this.repository, (MetaClass)metaVariable.Type.SubType1, metaInstanceVariable.Value.Dictionary);
+                            formDictionary.Text = metaInstanceVariable.ToString();
+                            formDictionary.ShowDialog();
+                            metaInstanceVariable.Value.Dictionary = formDictionary.DictionaryValues;
+                            break;
                     }
                     this.RefreshData();
                     break;
                 }
             }
-            */
         }
         #endregion
 

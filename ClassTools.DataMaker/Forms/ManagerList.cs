@@ -11,30 +11,30 @@ using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.DataMaker.Forms
 {
-    public partial class ManagerInstances : Form, IRefreshable
+    public partial class ManagerList : Form, IRefreshable
     {
         #region Fields
         private Repository repository;
-        private MetaClass metaClass;
-        private MetaList<MetaValue> metaValues;
+        private MetaType type;
+        private MetaList<MetaValue> listValues;
         private bool refreshing;
         #endregion
 
         #region Properties
-        public MetaList<MetaValue> MetaValuess
+        public MetaList<MetaValue> ListValues
         {
-            get { return this.metaValues; }
+            get { return this.listValues; }
         }
         #endregion
 
         #region Construct
-        public ManagerInstances(Repository repository, MetaClass metaClass, MetaList<MetaValue> metaValues)
+        public ManagerList(Repository repository, MetaType metaType, MetaList<MetaValue> metaValues)
         {
             InitializeComponent();
             this.repository = repository;
-            this.metaClass = metaClass;
-            this.metaValues = metaValues;
-            this.ilInstances.SetData(this, this.repository, this.metaClass, this.metaValues);
+            this.type = metaType;
+            this.listValues = metaValues;
+            this.ilInstances.SetData(this, this.repository, this.type, this.listValues);
             this.RefreshData();
         }
         #endregion

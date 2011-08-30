@@ -1,6 +1,6 @@
 ﻿namespace ClassTools.DataMaker.Forms
 {
-    partial class ManagerInstances
+    partial class ManagerDictionary
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagerInstances));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagerList));
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,7 +52,7 @@
             this.moveUpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveDownMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bOk = new System.Windows.Forms.Button();
-            this.ilInstances = new ClassTools.DataMaker.Forms.Controls.InstanceList();
+            this.ilInstances = new ClassTools.DataMaker.Forms.Controls.ValueList();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -299,7 +299,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
-        private Controls.InstanceList ilInstances;
+        private Controls.ValueList ilInstances;
         private System.Windows.Forms.Button bOk;
     }
 }

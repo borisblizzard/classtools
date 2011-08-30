@@ -11,31 +11,31 @@ using ClassTools.Data.Hierarchy;
 
 namespace ClassTools.DataMaker.Forms.Controls
 {
-    public partial class InstanceList : UserControl, IRefreshable
+    public partial class ValueList : UserControl, IRefreshable
     {
         #region Fields
         private Repository repository;
-        private MetaClass metaClass;
-        private MetaList<MetaValue> metaValues;
+        private MetaType type;
+        private MetaList<MetaValue> listValues;
         private IRefreshable owner;
         private bool refreshing;
         #endregion
 
         #region Properties
-        public MetaList<MetaValue> MetaValues
+        public MetaList<MetaValue> ListValues
         {
-            get { return this.metaValues; }
+            get { return this.listValues; }
         }
         #endregion
 
         #region Construct
-        public InstanceList()
+        public ValueList()
         {
             InitializeComponent();
             this.owner = null;
             this.repository = null;
-            this.metaClass = null;
-            this.metaValues = null;
+            this.type = null;
+            this.listValues = null;
             this.Enabled = false;
             this.refreshing = false;
         }
@@ -48,15 +48,15 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
         }
 
-        public void SetData(IRefreshable owner, Repository repository, MetaClass metaClass, MetaList<MetaValue> metaValues)
+        public void SetData(IRefreshable owner, Repository repository, MetaType metaType, MetaList<MetaValue> metaValues)
         {
             this.owner = owner;
             this.repository = repository;
-            this.metaClass = metaClass;
-            this.metaValues = metaValues;
+            this.type = metaType;
+            this.listValues = metaValues;
             this.ivVariables.ClearData();
-            this.ivVariables.SetData(this, this.repository, this.metaClass);
-            this.ivVariables.SetMetaValue(this.metaValues.Count > 0 ? this.metaValues[0] : null);
+            this.ivVariables.SetData(this, this.repository, this.type);
+            this.ivVariables.SetValue(this.listValues.Count > 0 ? this.listValues[0] : null);
         }
         #endregion
 
@@ -68,17 +68,17 @@ namespace ClassTools.DataMaker.Forms.Controls
                 return;
             }
             this.refreshing = true;
-            this.Enabled = (this.metaClass != null);
-            Utility.ApplyNewDataSource(this.lbInstances, new MetaList<MetaValue>(this.metaValues), this.metaValues.Count);
+            this.Enabled = (this.type != null);
+            Utility.ApplyNewDataSource(this.lbInstances, new MetaList<MetaValue>(this.listValues), this.listValues.Count);
             this.lbInstances.Enabled = true;
-            this.ivVariables.SetMetaValue((MetaValue)this.lbInstances.SelectedItem);
+            this.ivVariables.SetValue((MetaValue)this.lbInstances.SelectedItem);
             this.refreshing = false;
         }
 
-        public void SetMetaValues(MetaList<MetaValue> metaValues)
+        public void SetListValues(MetaList<MetaValue> metaValues)
         {
-            this.metaValues = metaValues;
-            this.Enabled = (this.metaValues.Count > 0);
+            this.listValues = metaValues;
+            this.Enabled = (this.listValues.Count > 0);
             this.RefreshData();
         }
         #endregion
@@ -110,7 +110,8 @@ namespace ClassTools.DataMaker.Forms.Controls
         {
             if (this.lbInstances.Focused)
             {
-                this.repository.ReplaceValueAt(this.metaClass, this.lbInstances.SelectedIndex, InternalClipboard.Value);
+                this.listValues[this.lbInstances.SelectedIndex] = InternalClipboard.Value;
+                this.listValues[this.lbInstances.SelectedIndex].Update(this.repository.Model);
                 this.RefreshData();
             }
         }
@@ -119,8 +120,23 @@ namespace ClassTools.DataMaker.Forms.Controls
         {
             if (this.lbInstances.Focused)
             {
-                MetaValue metaValue = new MetaValue(this.repository, this.metaClass, new MetaInstance(this.repository, this.metaClass));
-                this.metaValues.Insert(this.lbInstances.SelectedIndex + 1, metaValue);
+                MetaValue metaValue = null;
+                switch (this.type.CategoryType)
+                {
+                    case ECategoryType.Integral:
+                        metaValue = new MetaValue(this.type);
+                        break;
+                    case ECategoryType.Class:
+                        metaValue = new MetaValue((MetaClass)this.type, new MetaInstance((MetaClass)this.type));
+                        break;
+                    case ECategoryType.List:
+                        metaValue = new MetaValue(this.type, new MetaList<MetaValue>());
+                        break;
+                    case ECategoryType.Dictionary:
+                        metaValue = new MetaValue(this.type, new MetaDictionary<MetaValue, MetaValue>());
+                        break;
+                }
+                this.listValues.Insert(this.lbInstances.SelectedIndex + 1, metaValue);
                 this.RefreshData();
             }
         }
@@ -129,14 +145,14 @@ namespace ClassTools.DataMaker.Forms.Controls
         {
             if (this.lbInstances.Focused && this.lbInstances.SelectedIndex >= 0)
             {
-                this.metaValues.RemoveAt(this.lbInstances.SelectedIndex);
+                this.listValues.RemoveAt(this.lbInstances.SelectedIndex);
                 this.RefreshData();
             }
         }
 
         public void MoveUpValue()
         {
-            if (this.lbInstances.Focused && this.metaValues.TryMoveUp(this.lbInstances.SelectedIndex))
+            if (this.lbInstances.Focused && this.listValues.TryMoveUp(this.lbInstances.SelectedIndex))
             {
                 this.lbInstances.SelectedIndex--;
             }
@@ -144,7 +160,7 @@ namespace ClassTools.DataMaker.Forms.Controls
 
         public void MoveDownValue()
         {
-            if (this.lbInstances.Focused && this.metaValues.TryMoveDown(this.lbInstances.SelectedIndex))
+            if (this.lbInstances.Focused && this.listValues.TryMoveDown(this.lbInstances.SelectedIndex))
             {
                 this.lbInstances.SelectedIndex++;
             }

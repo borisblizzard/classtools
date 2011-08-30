@@ -73,8 +73,9 @@ namespace ClassTools.DataMaker.Forms
                     {
                         this.repository = newRepository;
                         this.lastRepository = Serializer.Clone(this.repository);
-                        this.repository.UpdateModel(this.model);
-                        this.lastRepository.UpdateModel(this.model);
+                        this.repository.Update(this.model);
+                        this.lastRepository.Update(this.model);
+                        InternalClipboard.Clear();
                         this.RefreshData();
                     }
                 }
@@ -108,8 +109,8 @@ namespace ClassTools.DataMaker.Forms
             if (result != DialogResult.Cancel)
             {
                 this.repository = new Repository(this.model);
-                this.lastRepository = Serializer.Clone(this.repository);
-                this.lastRepository.UpdateModel(this.model);
+                this.lastRepository = new Repository(this.model);
+                InternalClipboard.Clear();
                 this.lastFilename = string.Empty;
                 this.RefreshData();
             }
@@ -160,9 +161,10 @@ namespace ClassTools.DataMaker.Forms
                         if (result == DialogResult.OK)
                         {
                             this.model = newModel;
-                            this.repository.UpdateModel(this.model);
+                            this.repository.Update(this.model);
                             this.lastRepository = Serializer.Clone(this.repository);
-                            this.lastRepository.UpdateModel(this.model);
+                            this.lastRepository.Update(this.model);
+                            InternalClipboard.Clear();
                             this.RefreshData();
                         }
                     }
@@ -171,6 +173,7 @@ namespace ClassTools.DataMaker.Forms
                         this.model = newModel;
                         this.repository = new Repository(this.model);
                         this.lastRepository = new Repository(this.model);
+                        InternalClipboard.Clear();
                         this.lastFilename = string.Empty;
                     }
                     this.RefreshData();
@@ -249,7 +252,7 @@ namespace ClassTools.DataMaker.Forms
                 MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
                 if (metaClass != null)
                 {
-                    this.ilInstances.SetData(this, this.repository, metaClass, this.repository.GetValues(metaClass));
+                    this.ilInstances.SetData(this, this.repository, metaClass, this.repository.Values[metaClass]);
                     this.ilInstances.RefreshData();
                 }
             }

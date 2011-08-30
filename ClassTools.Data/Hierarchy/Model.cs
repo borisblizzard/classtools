@@ -80,59 +80,14 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Class Methods
-        public MetaClass CreateNewClass(int index)
+        public void CreateNewClass(int index)
         {
-            MetaClass metaClass = new MetaClass(this);
-            this.classes.Insert(index, metaClass);
-            return metaClass;
-        }
-
-        public void DeleteClass(MetaClass metaClass)
-        {
-            this.classes.Remove(metaClass);
+            this.classes.Insert(index, new MetaClass(this));
         }
 
         public void DeleteClassAt(int index)
         {
             this.classes.RemoveAt(index);
-        }
-
-        public void ReplaceClassAt(int index, MetaClass metaClass)
-        {
-            MetaClass oldClass = this.classes[index];
-            this.classes[index] = metaClass;
-            metaClass.Model = this;
-            switch (metaClass.CategoryType)
-            {
-                case ECategoryType.Integral:
-                    metaClass.SubType1 = null;
-                    metaClass.SubType2 = null;
-                    break;
-                case ECategoryType.List:
-                    metaClass.SubType1 = this.types.Find(t => t.Equals(metaClass.SubType1));
-                    metaClass.SubType2 = null;
-                    break;
-                case ECategoryType.Dictionary:
-                    metaClass.SubType1 = this.types.Find(t => t.Equals(metaClass.SubType1));
-                    metaClass.SubType2 = this.types.Find(t => t.Equals(metaClass.SubType2));
-                    break;
-            }
-            if (metaClass.HasSuperClass)
-            {
-                metaClass.SuperClass = this.classes.Find(c => c.Equals(metaClass.SuperClass));
-            }
-            for (int i = 0; i < metaClass.Variables.Count; i++)
-            {
-                metaClass.ReplaceVariableAt(i, metaClass.Variables[i]);
-            }
-            for (int i = 0; i < metaClass.Methods.Count; i++)
-            {
-                metaClass.ReplaceMethodAt(i, metaClass.Methods[i]);
-            }
-            for (int i = 0; i < this.types.Count; i++)
-            {
-                this.types[i].UpdateType(oldClass, metaClass);
-            }
         }
 
         public void SortClasses()
@@ -147,47 +102,14 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Type Methods
-        public MetaType CreateNewType(int index)
+        public void CreateNewType(int index)
         {
-            MetaType type = new MetaType(this);
-            this.types.Insert(index, type);
-            return type;
-        }
-
-        public void DeleteType(MetaType metaType)
-        {
-            this.types.Remove(metaType);
+            this.types.Insert(index, new MetaType(this));
         }
 
         public void DeleteTypeAt(int index)
         {
             this.types.RemoveAt(index);
-        }
-
-        public void ReplaceTypeAt(int index, MetaType metaType)
-        {
-            MetaType oldType = this.types[index];
-            this.types[index] = metaType;
-            metaType.Model = this;
-            switch (metaType.CategoryType)
-            {
-                case ECategoryType.Integral:
-                    metaType.SubType1 = null;
-                    metaType.SubType2 = null;
-                    break;
-                case ECategoryType.List:
-                    metaType.SubType1 = this.types.Find(t => t.Equals(metaType.SubType1));
-                    metaType.SubType2 = null;
-                    break;
-                case ECategoryType.Dictionary:
-                    metaType.SubType1 = this.types.Find(t => t.Equals(metaType.SubType1));
-                    metaType.SubType2 = this.types.Find(t => t.Equals(metaType.SubType2));
-                    break;
-            }
-            for (int i = 0; i < this.types.Count; i++)
-            {
-                this.types[i].UpdateType(oldType, metaType);
-            }
         }
 
         public bool TypeExists(MetaType metaType)

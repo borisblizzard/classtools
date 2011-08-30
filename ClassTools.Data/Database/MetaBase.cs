@@ -7,23 +7,10 @@ namespace ClassTools.Data.Database
     [Serializable]
     public class MetaBase : Base, IEquatable<MetaBase>
     {
-        #region Fields
-        protected Repository repository;
-        #endregion
-
-        #region Properties
-        public Repository Repository
-        {
-            get { return this.repository; }
-            set { this.repository = value; }
-        }
-        #endregion
-
         #region Construct
-        public MetaBase(Repository repository)
+        public MetaBase()
             : base()
         {
-            this.repository = repository;
         }
         #endregion
 
@@ -36,7 +23,7 @@ namespace ClassTools.Data.Database
         #endregion
 
         #region Methods
-        public virtual void UpdateModel(Model model)
+        public virtual void ReplaceType(MetaType oldType, MetaType newType)
         {
         }
         #endregion

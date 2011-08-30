@@ -9,7 +9,7 @@ namespace ClassTools.Data.Database
     public class MetaValue : MetaBase, IEquatable<MetaValue>
     {
         #region Fields
-        protected string typeName;
+        protected MetaType type;
         protected EValueType valueType;
         protected string valueString;
         protected MetaInstance instance;
@@ -18,9 +18,9 @@ namespace ClassTools.Data.Database
         #endregion
 
         #region Properties
-        public string TypeName
+        public MetaType Type
         {
-            get { return this.typeName; }
+            get { return this.type; }
         }
 
         public EValueType ValueType
@@ -214,34 +214,34 @@ namespace ClassTools.Data.Database
         #endregion
 
         #region Construct
-        public MetaValue(Repository repository, MetaType metaType, string defaultValue = "")
-            : base(repository)
+        public MetaValue(MetaType metaType, string defaultValue = "")
+            : base()
         {
-            this.typeName = metaType.Name;
+            this.type = metaType;
             this.valueType = EValueType.Integral;
             this.String = defaultValue;
         }
 
-        public MetaValue(Repository repository, MetaClass metaClass, MetaInstance metaInstance)
-            : base(repository)
+        public MetaValue(MetaClass metaClass, MetaInstance metaInstance)
+            : base()
         {
-            this.typeName = metaClass.Name;
+            this.type = metaClass;
             this.valueType = EValueType.Object;
             this.Instance = metaInstance;
         }
 
-        public MetaValue(Repository repository, MetaType metaType, MetaList<MetaValue> list)
-            : base(repository)
+        public MetaValue(MetaType metaType, MetaList<MetaValue> list)
+            : base()
         {
-            this.typeName = metaType.Name;
+            this.type = metaType;
             this.valueType = EValueType.List;
             this.List = list;
         }
 
-        public MetaValue(Repository repository, MetaType metaType, MetaDictionary<MetaValue, MetaValue> dictionary)
-            : base(repository)
+        public MetaValue(MetaType metaType, MetaDictionary<MetaValue, MetaValue> dictionary)
+            : base()
         {
-            this.typeName = metaType.Name;
+            this.type = metaType;
             this.valueType = EValueType.Dictionary;
             this.Dictionary = dictionary;
         }
@@ -251,7 +251,7 @@ namespace ClassTools.Data.Database
         public bool Equals(MetaValue other)
         {
             if (!base.Equals(other)) return false;
-            if (!this.typeName.Equals(other.typeName)) return false;
+            if (!this.type.Equals(other.type)) return false;
             if (!this.valueType.Equals(other.valueType)) return false;
             switch (valueType)
             {
@@ -274,6 +274,70 @@ namespace ClassTools.Data.Database
         #endregion
 
         #region Methods
+        public override bool Update(Model model)
+        {
+            if (!base.Update(model))
+            {
+                return false;
+            }
+            switch (this.valueType)
+            {
+                case EValueType.Object:
+                    if (this.instance != null)
+                    {
+                        return this.instance.Update(model);
+                    }
+                    break;
+                case EValueType.List:
+                    foreach (MetaValue metaValue in this.list)
+                    {
+                        if (!metaValue.Update(model))
+                        {
+                            return false;
+                        }
+                    }
+                    break;
+                case EValueType.Dictionary:
+                    foreach (KeyValuePair<MetaValue, MetaValue> pair in this.dictionary)
+                    {
+                        if (!pair.Key.Update(model) || !pair.Value.Update(model))
+                        {
+                            return false;
+                        }
+                    }
+                    break;
+            }
+            return true;
+        }
+
+        public override void ReplaceType(MetaType oldType, MetaType newType)
+        {
+            base.ReplaceType(oldType, newType);
+            this.type = newType;
+            switch (this.valueType)
+            {
+                case EValueType.Object:
+                    if (this.instance != null)
+                    {
+                        this.instance.ReplaceType(oldType, newType);
+                    }
+                    break;
+                case EValueType.List:
+                    foreach (MetaValue metaValue in this.list)
+                    {
+                        metaValue.ReplaceType(oldType, newType);
+                    }
+                    break;
+                case EValueType.Dictionary:
+                    foreach (KeyValuePair<MetaValue, MetaValue> pair in this.dictionary)
+                    {
+                        pair.Key.ReplaceType(oldType, newType);
+                        pair.Value.ReplaceType(oldType, newType);
+                    }
+                    break;
+            }
+        }
+
         public override string ToString()
         {
             switch (this.valueType)
@@ -283,9 +347,9 @@ namespace ClassTools.Data.Database
                 case EValueType.Object:
                     return (this.instance != null ? this.instance.ToString() : "null");
                 case EValueType.List:
-                    return "List";
+                    return this.type.Name;
                 case EValueType.Dictionary:
-                    return "Dictionary";
+                    return this.type.Name;
             }
             return "unknown value";
         }

@@ -10,7 +10,7 @@ namespace ClassTools.Data.Database
     {
         #region Fields
         protected Model model;
-        protected MetaDictionary<string, MetaList<MetaValue>> values;
+        protected MetaDictionary<MetaClass, MetaList<MetaValue>> values;
         #endregion
 
         #region Properties
@@ -19,7 +19,7 @@ namespace ClassTools.Data.Database
             get { return this.model; }
         }
 
-        public MetaDictionary<string, MetaList<MetaValue>> Values
+        public MetaDictionary<MetaClass, MetaList<MetaValue>> Values
         {
             get { return this.values; }
         }
@@ -30,10 +30,10 @@ namespace ClassTools.Data.Database
             : base()
         {
             this.model = model;
-            this.values = new MetaDictionary<string, MetaList<MetaValue>>();
+            this.values = new MetaDictionary<MetaClass, MetaList<MetaValue>>();
             foreach (MetaClass metaClass in model.Classes)
             {
-                this.values[metaClass.GetNameWithModule()] = new MetaList<MetaValue>();
+                this.values[metaClass] = new MetaList<MetaValue>();
             }
         }
         #endregion
@@ -49,77 +49,50 @@ namespace ClassTools.Data.Database
         #endregion
 
         #region Methods
-        public MetaList<MetaValue> GetValues(MetaClass metaClass)
-        {
-            return this.values[metaClass.GetNameWithModule()];
-        }
-
-        public void UpdateModel(Model model)
+        public override bool Update(Model model)
         {
             this.model = model;
-            string name;
+            // TODO - if values does not have a key anymore, allow user to swap classes
             foreach (MetaClass metaClass in model.Classes)
             {
-                name = metaClass.GetNameWithModule();
-                if (!this.values.ContainsKey(name))
+                if (!this.values.ContainsKey(metaClass))
                 {
-                    this.values[name] = new MetaList<MetaValue>();
+                    this.values[metaClass] = new MetaList<MetaValue>();
                 }
             }
+            foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in this.values)
+            {
+                foreach (MetaValue value in pair.Value)
+                {
+                    if (!value.Update(model))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
         #endregion
 
         #region Values
         public void CreateNewValue(MetaClass metaClass, int index)
         {
-            this.GetValues(metaClass).Insert(index, new MetaValue(this, metaClass, new MetaInstance(this, metaClass)));
-        }
-
-        public void DeleteInstance(MetaClass metaClass, MetaValue metaValue)
-        {
-            this.GetValues(metaClass).Remove(metaValue);
+            this.values[metaClass].Insert(index, new MetaValue(metaClass, new MetaInstance(metaClass)));
         }
 
         public void DeleteValueAt(MetaClass metaClass, int index)
         {
-            this.GetValues(metaClass).RemoveAt(index);
-        }
-
-        public void ReplaceValueAt(MetaClass metaClass, int index, MetaValue metaValue)
-        {
-            MetaList<MetaValue> metaValues = this.GetValues(metaClass);
-            metaValues[index] = metaValue;
-            metaValue.Repository = this;
-            for (int i = 0; i < metaValue.Instance.InstanceVariables.Count; i++)
-            {
-                metaValue.Instance.ReplaceInstanceVariableAt(i, metaValue.Instance.InstanceVariables[i]);
-            }
+            this.values[metaClass].RemoveAt(index);
         }
 
         public bool TryValueMoveUp(MetaClass metaClass, int index)
         {
-            if (index > 0)
-            {
-                MetaList<MetaValue> metaValues = this.GetValues(metaClass);
-                MetaValue metaValue = metaValues[index];
-                metaValues[index] = metaValues[index - 1];
-                metaValues[index - 1] = metaValue;
-                return true;
-            }
-            return false;
+            return this.values[metaClass].TryMoveUp(index);
         }
 
         public bool TryValueMoveDown(MetaClass metaClass, int index)
         {
-            MetaList<MetaValue> metaValues = this.GetValues(metaClass);
-            if (index < metaValues.Count - 1)
-            {
-                MetaValue metaValue = metaValues[index];
-                metaValues[index] = metaValues[index + 1];
-                metaValues[index + 1] = metaValue;
-                return true;
-            }
-            return false;
+            return this.values[metaClass].TryMoveDown(index);
         }
 
         #endregion

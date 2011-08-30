@@ -9,15 +9,15 @@ namespace ClassTools.Data.Database
     public class MetaInstance : MetaBase, IEquatable<MetaInstance>
     {
         #region Fields
-        protected string className;
+        protected string typeName;
         protected MetaList<MetaInstanceVariable> instanceVariables;
         #endregion
 
         #region Properties
-        public string ClassName
+        public string TypeName
         {
-            get { return this.className; }
-            set { this.className = value; }
+            get { return this.typeName; }
+            set { this.typeName = value; }
         }
 
         public MetaList<MetaInstanceVariable> InstanceVariables
@@ -27,14 +27,14 @@ namespace ClassTools.Data.Database
         #endregion
 
         #region Construct
-        public MetaInstance(Repository repository, MetaClass metaClass)
-            : base(repository)
+        public MetaInstance(MetaClass metaClass)
+            : base()
         {
-            this.className = metaClass.GetNameWithModule();
+            this.typeName = metaClass.Name;
             this.instanceVariables = new MetaList<MetaInstanceVariable>();
             foreach (MetaVariable metaVariable in metaClass.AllVariables)
             {
-                this.instanceVariables.Add(new MetaInstanceVariable(repository, metaVariable));
+                this.instanceVariables.Add(new MetaInstanceVariable(metaVariable));
             }
         }
         #endregion
@@ -43,22 +43,42 @@ namespace ClassTools.Data.Database
         public bool Equals(MetaInstance other)
         {
             if (!base.Equals(other)) return false;
-            if (!this.className.Equals(other.className)) return false;
+            if (!this.typeName.Equals(other.typeName)) return false;
             if (!this.instanceVariables.Equals(other.instanceVariables)) return false;
             return true;
         }
         #endregion
 
         #region Methods
-        public void ReplaceInstanceVariableAt(int index, MetaInstanceVariable instanceVariable)
+        public override bool Update(Model model)
         {
-            this.instanceVariables[index] = instanceVariable;
-            instanceVariable.Repository = this.repository;
+            if (!base.Update(model))
+            {
+                return false;
+            }
+            foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
+            {
+                if (!metaInstanceVariable.Update(model))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public override void ReplaceType(MetaType oldType, MetaType newType)
+        {
+            base.ReplaceType(oldType, newType);
+            this.typeName = newType.GetNameWithModule();
+            foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
+            {
+                metaInstanceVariable.ReplaceType(oldType, newType);
+            }
         }
 
         public override string ToString()
         {
-            string result = this.className;
+            string result = this.typeName;
             foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
             {
                 if ((metaInstanceVariable.Name == "Name" || metaInstanceVariable.Name == "name") && metaInstanceVariable.Value.String.Trim('"') != string.Empty)
@@ -66,7 +86,7 @@ namespace ClassTools.Data.Database
                     return metaInstanceVariable.Value.String.Trim('"');
                 }
             }
-            return this.className;
+            return this.typeName;
         }
         #endregion
 

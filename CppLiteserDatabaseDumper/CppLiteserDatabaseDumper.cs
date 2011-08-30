@@ -39,17 +39,22 @@ namespace ClassTools
                 Directory.CreateDirectory(path);
             }
             this._lsIds = 0;
-            MetaDictionary<string, MetaList<MetaValue>> values = repository.Values;
+            MetaDictionary<MetaClass, MetaList<MetaValue>> values = repository.Values;
             string fullPath;
-            foreach (KeyValuePair<string, MetaList<MetaValue>> pair in values)
+            MetaList<MetaValue> metaValues;
+            foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in values)
             {
-                fullPath = path + "/" + pair.Key.Replace("::", "/") + ".lsb";
-                this.createFilePath(fullPath);
-                this.writer = new FileStream(fullPath, FileMode.Create);
-                this.dump((byte)1);
-                this.dump((byte)0);
-                this.dump(pair.Value);
-                this.writer.Close();
+                metaValues = pair.Value;
+                if (metaValues.Count > 0)
+                {
+                    fullPath = path + "/" + pair.Key.GetNameWithModule("/") + ".lsb";
+                    this.createFilePath(fullPath);
+                    this.writer = new FileStream(fullPath, FileMode.Create);
+                    this.dump((byte)1);
+                    this.dump((byte)0);
+                    this.dump(metaValues);
+                    this.writer.Close();
+                }
             }
             return "Code Generation was successful.";
         }
@@ -95,7 +100,7 @@ namespace ClassTools
             switch (metaValue.ValueType)
             {
                 case EValueType.Integral:
-                    switch (metaValue.TypeName)
+                    switch (metaValue.Type.Name)
                     {
                         case Constants.TYPE_INT:
                             this.dump(metaValue.AsInt);

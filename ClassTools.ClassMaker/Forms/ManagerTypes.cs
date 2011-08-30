@@ -262,7 +262,8 @@ namespace ClassTools.ClassMaker.Forms
         {
             if (this.lbTypes.Focused)
             {
-                this.model.ReplaceTypeAt(this.lbTypes.SelectedIndex, InternalClipboard.Type);
+                this.model.Types[this.lbTypes.SelectedIndex] = InternalClipboard.Type;
+                this.model.Types[this.lbTypes.SelectedIndex].Update(this.model);
                 this.refresh();
             }
         }
