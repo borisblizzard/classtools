@@ -9,15 +9,15 @@ namespace ClassTools.Data.Database
     public class MetaInstance : MetaBase, IEquatable<MetaInstance>
     {
         #region Fields
-        protected string typeName;
+        protected MetaType type;
         protected MetaList<MetaInstanceVariable> instanceVariables;
         #endregion
 
         #region Properties
-        public string TypeName
+        public MetaType Type
         {
-            get { return this.typeName; }
-            set { this.typeName = value; }
+            get { return this.type; }
+            set { this.type = value; }
         }
 
         public MetaList<MetaInstanceVariable> InstanceVariables
@@ -30,7 +30,7 @@ namespace ClassTools.Data.Database
         public MetaInstance(MetaClass metaClass)
             : base()
         {
-            this.typeName = metaClass.Name;
+            this.type = metaClass;
             this.instanceVariables = new MetaList<MetaInstanceVariable>();
             foreach (MetaVariable metaVariable in metaClass.AllVariables)
             {
@@ -43,7 +43,7 @@ namespace ClassTools.Data.Database
         public bool Equals(MetaInstance other)
         {
             if (!base.Equals(other)) return false;
-            if (!this.typeName.Equals(other.typeName)) return false;
+            if (!this.type.Equals(other.type)) return false;
             if (!this.instanceVariables.Equals(other.instanceVariables)) return false;
             return true;
         }
@@ -69,7 +69,10 @@ namespace ClassTools.Data.Database
         public override void ReplaceType(MetaType oldType, MetaType newType)
         {
             base.ReplaceType(oldType, newType);
-            this.typeName = newType.GetNameWithModule();
+            if (this.type == oldType)
+            {
+                this.type = newType;
+            }
             foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
             {
                 metaInstanceVariable.ReplaceType(oldType, newType);
@@ -78,7 +81,6 @@ namespace ClassTools.Data.Database
 
         public override string ToString()
         {
-            string result = this.typeName;
             foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
             {
                 if ((metaInstanceVariable.Name == "Name" || metaInstanceVariable.Name == "name") && metaInstanceVariable.Value.String.Trim('"') != string.Empty)
@@ -86,7 +88,7 @@ namespace ClassTools.Data.Database
                     return metaInstanceVariable.Value.String.Trim('"');
                 }
             }
-            return this.typeName;
+            return this.type.Name;
         }
         #endregion
 

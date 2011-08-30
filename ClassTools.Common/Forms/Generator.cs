@@ -4,8 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using ClassTools;
-using ClassTools.Data.Database;
-using ClassTools.Data.Hierarchy;
+using ClassTools.Data;
 
 namespace ClassTools.Common.Forms
 {
@@ -26,10 +25,10 @@ namespace ClassTools.Common.Forms
             }
         }
 
-        public Generator()
+        public Generator(string toolId)
         {
             InitializeComponent();
-            this.pluginManager = new PluginManager();
+            this.pluginManager = new PluginManager(toolId);
             this.pluginManager.FindPlugins();
             List<AvailablePlugin> availablePlugins = this.pluginManager.AvailablePlugins;
             if (availablePlugins.Count > 0)
@@ -49,7 +48,7 @@ namespace ClassTools.Common.Forms
             this.Close();
         }
 
-        public void Execute(Model model, Repository repository)
+        public void Execute(Base data)
         {
             IPlugin plugin = this.Plugin;
             if (plugin == null)
@@ -71,7 +70,7 @@ namespace ClassTools.Common.Forms
             {
                 try
                 {
-                    string message = plugin.Execute(model, repository, path);
+                    string message = plugin.Execute(data, path);
                     MessageBox.Show(message, plugin.Name + " is done", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
@@ -81,7 +80,7 @@ namespace ClassTools.Common.Forms
             }
             else if (result == DialogResult.No)
             {
-                string message = plugin.Execute(model, repository, path);
+                string message = plugin.Execute(data, path);
                 MessageBox.Show(message, plugin.Name + " is done", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }

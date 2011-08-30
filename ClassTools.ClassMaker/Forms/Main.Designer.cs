@@ -287,7 +287,7 @@
                         | System.Windows.Forms.Keys.N)));
             this.newToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.newToolStripMenuItem.Text = "&New";
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -297,7 +297,7 @@
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.openToolStripMenuItem.Text = "&Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openMenuItem_Click);
             // 
             // toolStripSeparator
             // 
@@ -312,7 +312,7 @@
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.saveToolStripMenuItem.Text = "&Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
@@ -321,7 +321,7 @@
                         | System.Windows.Forms.Keys.S)));
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.saveAsToolStripMenuItem.Text = "Save &As";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -334,7 +334,7 @@
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -444,7 +444,7 @@
                         | System.Windows.Forms.Keys.T)));
             this.manageTypesToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.manageTypesToolStripMenuItem.Text = "Manage Types";
-            this.manageTypesToolStripMenuItem.Click += new System.EventHandler(this.manageTypesToolStripMenuItem_Click);
+            this.manageTypesToolStripMenuItem.Click += new System.EventHandler(this.manageTypesMenuItem_Click);
             // 
             // validateToolStripMenuItem
             // 
@@ -462,7 +462,7 @@
                         | System.Windows.Forms.Keys.G)));
             this.generateToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.generateToolStripMenuItem.Text = "Generate";
-            this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateToolStripMenuItem_Click);
+            this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -477,7 +477,7 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
             // 
             // ofd
             // 

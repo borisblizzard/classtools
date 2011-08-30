@@ -45,8 +45,8 @@ namespace ClassTools.DataMaker.Forms
                 this.value.Instance = new MetaInstance(metaClass);
             }
             this.classe = metaClass;
-            this.ivbInstanceVariables.SetData(this, this.repository, this.classe);
-            this.ivbInstanceVariables.SetValue(this.value);
+            this.vlVariables.SetData(this, this.repository, this.classe);
+            this.vlVariables.SetValue(this.value);
             if (!nullable)
             {
                 this.cbxExists.Enabled = false;
@@ -64,7 +64,7 @@ namespace ClassTools.DataMaker.Forms
                 return;
             }
             this.refreshing = true;
-            this.ivbInstanceVariables.Enabled = this.cbxExists.Checked;
+            this.vlVariables.Enabled = this.cbxExists.Checked;
             this.refreshing = false;
         }
         #endregion

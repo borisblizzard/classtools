@@ -38,9 +38,6 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AvailablePlugin.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,9 +51,6 @@
       <DependentUpon>Generator.cs</DependentUpon>
     </Compile>
     <Compile Include="InternalClipboard.cs" />
-    <Compile Include="PluginManager.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>

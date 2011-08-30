@@ -1,5 +1,4 @@
-﻿using ClassTools.Data.Database;
-using ClassTools.Data.Hierarchy;
+﻿using ClassTools.Data;
 
 namespace ClassTools
 {
@@ -7,12 +6,13 @@ namespace ClassTools
     {
         void Create();
         void Destroy();
-        string Execute(Model model, Repository repository, string path);
+        string Execute(Base data, string path);
 
         string Name { get; }
         string Description { get; }
         string Author { get; }
         string Version { get; }
+        string ToolId { get; }
 
     }
 

@@ -57,7 +57,7 @@
             this.ofdDatabase = new System.Windows.Forms.OpenFileDialog();
             this.sfdDatabase = new System.Windows.Forms.SaveFileDialog();
             this.ofdModel = new System.Windows.Forms.OpenFileDialog();
-            this.ilInstances = new ClassTools.DataMaker.Forms.Controls.ValueList();
+            this.vlValues = new ClassTools.DataMaker.Forms.Controls.ValueList();
             this.gbClasses.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -285,7 +285,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
             // 
@@ -307,20 +307,20 @@
             this.ofdModel.Filter = "Class Maker Model files (*.cmm)|*.cmm";
             this.ofdModel.Title = "Import Class Model";
             // 
-            // ilInstances
+            // vlValues
             // 
-            this.ilInstances.Enabled = false;
-            this.ilInstances.Location = new System.Drawing.Point(254, 38);
-            this.ilInstances.Name = "ilInstances";
-            this.ilInstances.Size = new System.Drawing.Size(618, 440);
-            this.ilInstances.TabIndex = 2;
+            this.vlValues.Enabled = false;
+            this.vlValues.Location = new System.Drawing.Point(254, 38);
+            this.vlValues.Name = "vlValues";
+            this.vlValues.Size = new System.Drawing.Size(618, 440);
+            this.vlValues.TabIndex = 2;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(879, 490);
-            this.Controls.Add(this.ilInstances);
+            this.Controls.Add(this.vlValues);
             this.Controls.Add(this.gbClasses);
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -360,7 +360,7 @@
         private System.Windows.Forms.OpenFileDialog ofdModel;
         private System.Windows.Forms.ToolStripMenuItem importMenuItem;
         private System.Windows.Forms.ListBox lbClasses;
-        private Controls.ValueList ilInstances;
+        private Controls.ValueList vlValues;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteMenuItem;

@@ -40,8 +40,6 @@
             this.upStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,7 +50,7 @@
             this.moveUpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveDownMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bOk = new System.Windows.Forms.Button();
-            this.ilInstances = new ClassTools.DataMaker.Forms.Controls.ValueList();
+            this.vlValues = new ClassTools.DataMaker.Forms.Controls.ValueList();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -126,28 +124,11 @@
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
             this.editToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(636, 24);
             this.menuStrip.TabIndex = 1;
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.closeMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "&File";
-            // 
-            // closeMenuItem
-            // 
-            this.closeMenuItem.Name = "closeMenuItem";
-            this.closeMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.closeMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.closeMenuItem.Text = "&Close";
-            this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -237,18 +218,18 @@
             this.bOk.UseVisualStyleBackColor = true;
             this.bOk.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
-            // ilInstances
+            // vlValues
             // 
-            this.ilInstances.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.vlValues.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.ilInstances.Enabled = false;
-            this.ilInstances.Location = new System.Drawing.Point(12, 27);
-            this.ilInstances.Name = "ilInstances";
-            this.ilInstances.Size = new System.Drawing.Size(612, 440);
-            this.ilInstances.TabIndex = 1;
+            this.vlValues.Enabled = false;
+            this.vlValues.Location = new System.Drawing.Point(12, 27);
+            this.vlValues.Name = "vlValues";
+            this.vlValues.Size = new System.Drawing.Size(612, 440);
+            this.vlValues.TabIndex = 1;
             // 
-            // ManagerInstances
+            // Values
             // 
             this.AcceptButton = this.bOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -256,18 +237,17 @@
             this.CancelButton = this.bOk;
             this.ClientSize = new System.Drawing.Size(636, 506);
             this.Controls.Add(this.bOk);
-            this.Controls.Add(this.ilInstances);
+            this.Controls.Add(this.vlValues);
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ManagerInstances";
+            this.Name = "Values";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Instances";
             this.contextMenuStrip.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
@@ -297,9 +277,7 @@
         private System.Windows.Forms.ToolStripMenuItem moveDownMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
-        private Controls.ValueList ilInstances;
+        private Controls.ValueList vlValues;
         private System.Windows.Forms.Button bOk;
     }
 }

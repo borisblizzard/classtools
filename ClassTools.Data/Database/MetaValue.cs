@@ -313,7 +313,10 @@ namespace ClassTools.Data.Database
         public override void ReplaceType(MetaType oldType, MetaType newType)
         {
             base.ReplaceType(oldType, newType);
-            this.type = newType;
+            if (this.type == oldType)
+            {
+                this.type = newType;
+            }
             switch (this.valueType)
             {
                 case EValueType.Object:
@@ -343,9 +346,9 @@ namespace ClassTools.Data.Database
             switch (this.valueType)
             {
                 case EValueType.Integral:
-                    return this.valueString;
+                    return (this.valueString != string.Empty ? this.valueString : "EMPTY");
                 case EValueType.Object:
-                    return (this.instance != null ? this.instance.ToString() : "null");
+                    return (this.instance != null ? this.instance.ToString() : "NULL");
                 case EValueType.List:
                     return this.type.Name;
                 case EValueType.Dictionary:

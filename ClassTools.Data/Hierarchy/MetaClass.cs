@@ -224,11 +224,9 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Variable Methods
-        public MetaVariable CreateNewVariable(int index)
+        public void CreateNewVariable(int index)
         {
-            MetaVariable variable = new MetaVariable(this.model, this);
-            this.variables.Insert(index, variable);
-            return variable;
+            this.variables.Insert(index, new MetaVariable(this.model, this));
         }
 
         public void DeleteVariableAt(int index)
@@ -258,11 +256,9 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Method Methods
-        public MetaMethod CreateNewMethod(int index)
+        public void CreateNewMethod(int index)
         {
-            MetaMethod method = new MetaMethod(this.model, this);
-            this.methods.Insert(index, method);
-            return method;
+            this.methods.Insert(index, new MetaMethod(this.model, this));
         }
 
         public void DeleteMethodAt(int index)

@@ -3,18 +3,16 @@ using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ClassTools.Common
+namespace ClassTools.Data
 {
     public class PluginManager
     {
         #region Fields
-
         protected List<AvailablePlugin> availablePlugins;
-
+        protected string toolId;
         #endregion
 
         #region Properties
-
         public List<AvailablePlugin> AvailablePlugins
         {
             get { return availablePlugins; }
@@ -32,25 +30,22 @@ namespace ClassTools.Common
                 return result;
             }
         }
-
         #endregion
 
         #region Construct
-
-        public PluginManager()
+        public PluginManager(string toolId)
         {
             this.availablePlugins = new List<AvailablePlugin>();
+            this.toolId = toolId;
         }
 
         ~PluginManager()
         {
             this.DestroyPlugins();
         }
-
         #endregion
 
         #region Methods
-
         public void FindPlugins()
         {
             this.FindPlugins("Plugins");
@@ -88,7 +83,10 @@ namespace ClassTools.Common
                         AvailablePlugin availablePlugin = new AvailablePlugin();
                         availablePlugin.Plugin = (IPlugin)Activator.CreateInstance(pluginAssembly.GetType(pluginType.ToString()));
                         availablePlugin.Path = filename;
-                        this.availablePlugins.Add(availablePlugin);
+                        if (availablePlugin.Plugin.ToolId == this.toolId)
+                        {
+                            this.availablePlugins.Add(availablePlugin);
+                        }
                     }
                 }
             }
@@ -103,7 +101,6 @@ namespace ClassTools.Common
             }
             availablePlugins.Clear();
         }
-
         #endregion
 
     }

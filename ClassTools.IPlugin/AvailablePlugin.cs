@@ -1,18 +1,15 @@
 ﻿using ClassTools;
 
-namespace ClassTools.Common
+namespace ClassTools.Data
 {
     public class AvailablePlugin
     {
         #region Fields
-
         protected IPlugin plugin;
         protected string path;
-
         #endregion
 
         #region Properties
-
         public IPlugin Plugin
         {
             get { return this.plugin; }
@@ -24,15 +21,12 @@ namespace ClassTools.Common
             get { return this.path; }
             set { this.path = value; }
         }
-
         #endregion
 
         #region Construct
-
         public AvailablePlugin()
         {
         }
-
         #endregion
 
     }

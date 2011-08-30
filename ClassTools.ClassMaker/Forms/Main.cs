@@ -66,18 +66,18 @@ namespace ClassTools.ClassMaker.Forms
         #endregion
 
         #region Save / Load
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void openMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result = this.showSaveChangesDialog(SAVE_PROMPT_OPEN);
             if (result != DialogResult.Cancel)
             {
-                ofd.FileName = string.Empty;
-                result = ofd.ShowDialog();
+                this.ofd.FileName = string.Empty;
+                result = this.ofd.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    Stream stream = ofd.OpenFile();
+                    Stream stream = this.ofd.OpenFile();
                     this.model = Serializer.Deserialize(stream, this.model);
-                    this.lastFilename = ofd.FileName;
+                    this.lastFilename = this.ofd.FileName;
                     stream.Close();
                     this.lastModel = Serializer.Clone(this.model);
                     this.RefreshData();
@@ -85,13 +85,13 @@ namespace ClassTools.ClassMaker.Forms
             }
         }
 
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveAsMenuItem_Click(object sender, EventArgs e)
         {
             this.showSaveDialog();
-            this.lastFilename = sfd.FileName;
+            this.lastFilename = this.sfd.FileName;
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveMenuItem_Click(object sender, EventArgs e)
         {
             if (this.lastFilename != string.Empty)
             {
@@ -106,7 +106,7 @@ namespace ClassTools.ClassMaker.Forms
             }
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        private void newMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result = this.showSaveChangesDialog(SAVE_PROMPT_NEW);
             if (result != DialogResult.Cancel)
@@ -118,7 +118,7 @@ namespace ClassTools.ClassMaker.Forms
             }
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exitMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -132,13 +132,35 @@ namespace ClassTools.ClassMaker.Forms
             }
         }
 
+        private void aboutMenuItem_Click(object sender, EventArgs e)
+        {
+            About form = new About();
+            form.ShowDialog();
+        }
+
+        private void manageTypesMenuItem_Click(object sender, EventArgs e)
+        {
+            ManagerTypes form = new ManagerTypes(this.model);
+            form.ShowDialog();
+            this.RefreshData();
+        }
+
+        private void generateMenuItem_Click(object sender, EventArgs e)
+        {
+            Generator form = new Generator("ClassMaker");
+            DialogResult result = form.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                form.Execute(this.model);
+            }
+        }
+
         private DialogResult showSaveChangesDialog(string text)
         {
             DialogResult result = DialogResult.OK;
             if (!this.model.Equals(this.lastModel))
             {
-                result = MessageBox.Show(text, "Unsaved Changes", MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Exclamation);
+                result = MessageBox.Show(text, "Unsaved Changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if (result == DialogResult.Yes)
                 {
                     result = this.showSaveDialog();
@@ -432,43 +454,20 @@ namespace ClassTools.ClassMaker.Forms
             }
         }
 
-        private void manageTypesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ManagerTypes f = new ManagerTypes(this.model);
-            f.ShowDialog();
-            this.RefreshData();
-        }
-
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            About f = new About();
-            f.ShowDialog();
-        }
-
-        private void generateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Generator f = new Generator();
-            DialogResult result = f.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                f.Execute(this.model, null);
-            }
-        }
-
         private void bMethodParameters_Click(object sender, EventArgs e)
         {
             MessageBox.Show("IMPLEMENT ME");
             // TODO
             /*
-            ManagerParameters f = new ManagerParameters((MetaMethod)this.lbMethods.SelectedItem);
-            f.ShowDialog();
+            ManagerParameters form = new ManagerParameters((MetaMethod)this.lbMethods.SelectedItem);
+            form.ShowDialog();
             */
         }
 
         private void bMethodImplementation_Click(object sender, EventArgs e)
         {
-            Implementation f = new Implementation((MetaMethod)this.lbMethods.SelectedItem);
-            DialogResult result = f.ShowDialog();
+            Implementation form = new Implementation((MetaMethod)this.lbMethods.SelectedItem);
+            DialogResult result = form.ShowDialog();
         }
 
         private void copyMenuItem_Click(object sender, EventArgs e)

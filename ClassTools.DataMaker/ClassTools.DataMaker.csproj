@@ -89,11 +89,11 @@
     <Compile Include="Forms\Controls\ValueList.Designer.cs">
       <DependentUpon>ValueList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Controls\InstanceVariables.cs">
+    <Compile Include="Forms\Controls\VariableList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\InstanceVariables.Designer.cs">
-      <DependentUpon>InstanceVariables.cs</DependentUpon>
+    <Compile Include="Forms\Controls\VariableList.Designer.cs">
+      <DependentUpon>VariableList.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\IRefreshable.cs" />
     <Compile Include="Program.cs" />
@@ -117,8 +117,8 @@
     <EmbeddedResource Include="Forms\Controls\ValueList.resx">
       <DependentUpon>ValueList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Controls\InstanceVariables.resx">
-      <DependentUpon>InstanceVariables.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Controls\VariableList.resx">
+      <DependentUpon>VariableList.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

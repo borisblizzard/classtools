@@ -15,7 +15,8 @@ namespace ClassTools.DataMaker.Forms
     {
         #region Fields
         private Repository repository;
-        private MetaType type;
+        private MetaType type1;
+        private MetaType type2;
         private MetaDictionary<MetaValue, MetaValue> dictionaryValues;
         private bool refreshing;
         #endregion
@@ -28,11 +29,12 @@ namespace ClassTools.DataMaker.Forms
         #endregion
 
         #region Construct
-        public ManagerDictionary(Repository repository, MetaType metaType, MetaDictionary<MetaValue, MetaValue> metaValues)
+        public ManagerDictionary(Repository repository, MetaType metaType1, MetaType metaType2, MetaDictionary<MetaValue, MetaValue> metaValues)
         {
             InitializeComponent();
             this.repository = repository;
-            this.type = metaType;
+            this.type1 = metaType1;
+            this.type2 = metaType2;
             this.dictionaryValues = metaValues;
             // TODO
             //this.ilInstances.SetData(this, this.repository, this.metaClass, this.metaValues);
@@ -55,32 +57,32 @@ namespace ClassTools.DataMaker.Forms
         #region Tools
         private void copyMenuItem_Click(object sender, EventArgs e)
         {
-            this.ilInstances.CopyValue();
+            this.vlValues.CopyValue();
         }
 
         private void pasteMenuItem_Click(object sender, EventArgs e)
         {
-            this.ilInstances.PasteValue();
+            this.vlValues.PasteValue();
         }
 
         private void addNewMenuItem_Click(object sender, EventArgs e)
         {
-            this.ilInstances.AddNewValue();
+            this.vlValues.AddNewValue();
         }
 
         private void deleteMenuItem_Click(object sender, EventArgs e)
         {
-            this.ilInstances.DeleteValue();
+            this.vlValues.DeleteValue();
         }
 
         private void moveUpMenuItem_Click(object sender, EventArgs e)
         {
-            this.ilInstances.MoveUpValue();
+            this.vlValues.MoveUpValue();
         }
 
         private void moveDownMenuItem_Click(object sender, EventArgs e)
         {
-            this.ilInstances.MoveDownValue();
+            this.vlValues.MoveDownValue();
         }
         #endregion
 

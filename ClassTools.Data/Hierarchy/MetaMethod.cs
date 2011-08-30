@@ -78,11 +78,9 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Parameters
-        public MetaVariable CreateNewParameter(int index)
+        public void CreateNewParameter(int index)
         {
-            MetaVariable parameter = new MetaVariable(this.model, this);
-            this.parameters.Insert(index, parameter);
-            return parameter;
+            this.parameters.Insert(index, new MetaVariable(this.model, this));
         }
 
         public void DeleteParameterAt(int index)

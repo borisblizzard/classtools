@@ -14,6 +14,7 @@ namespace ClassTools
         private string description = "Generates binary serialization/deserialization code in C++ for liteser.";
         private string author = "Boris Mikić";
         private string version = "0.9";
+        private string toolId = "ClassMaker";
         private StreamWriter writer;
         private int indent;
         #endregion
@@ -23,14 +24,16 @@ namespace ClassTools
         public string Description { get { return description; } }
         public string Author { get { return author; } }
         public string Version { get { return version; } }
+        public string ToolId { get { return toolId; } }
         #endregion
 
         #region Main
         public void Create() { }
         public void Destroy() { }
 
-        public string Execute(Model model, Repository repository, string path)
+        public string Execute(Base data, string path)
         {
+            Model model = (Model)data;
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);

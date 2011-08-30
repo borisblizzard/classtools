@@ -136,6 +136,16 @@ namespace ClassTools.DataMaker.Forms
             f.ShowDialog();
         }
 
+        private void generateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Generator f = new Generator("DataMaker");
+            DialogResult result = f.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                f.Execute(this.repository);
+            }
+        }
+
         private void importMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result = this.showSaveChangesDialog(SAVE_PROMPT_OPEN);
@@ -190,8 +200,7 @@ namespace ClassTools.DataMaker.Forms
             DialogResult result = DialogResult.OK;
             if (!this.repository.Equals(this.lastRepository))
             {
-                result = MessageBox.Show(text, "Unsaved Changes", MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Exclamation);
+                result = MessageBox.Show(text, "Unsaved Changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if (result == DialogResult.Yes)
                 {
                     result = this.showSaveDialog();
@@ -221,6 +230,8 @@ namespace ClassTools.DataMaker.Forms
         {
             Serializer.Serialize(stream, this.repository);
             this.lastRepository = Serializer.Clone(this.repository);
+            this.repository.Update(this.model);
+            this.lastRepository.Update(this.model);
         }
         #endregion
 
@@ -248,12 +259,12 @@ namespace ClassTools.DataMaker.Forms
             }
             if (this.repository != null)
             {
-                this.ilInstances.ClearData();
+                this.vlValues.ClearData();
                 MetaClass metaClass = (MetaClass)this.lbClasses.SelectedItem;
                 if (metaClass != null)
                 {
-                    this.ilInstances.SetData(this, this.repository, metaClass, this.repository.Values[metaClass]);
-                    this.ilInstances.RefreshData();
+                    this.vlValues.SetData(this, this.repository, metaClass, this.repository.Values[metaClass]);
+                    this.vlValues.RefreshData();
                 }
             }
             this.refreshing = false;
@@ -263,49 +274,41 @@ namespace ClassTools.DataMaker.Forms
         #region Tools
         private void copyMenuItem_Click(object sender, EventArgs e)
         {
-            this.ilInstances.CopyValue();
+            this.vlValues.CopyValue();
         }
 
         private void pasteMenuItem_Click(object sender, EventArgs e)
         {
-            this.ilInstances.PasteValue();
+            this.vlValues.PasteValue();
         }
 
         private void addNewMenuItem_Click(object sender, EventArgs e)
         {
-            this.ilInstances.AddNewValue();
+            this.vlValues.AddNewValue();
         }
 
         private void deleteMenuItem_Click(object sender, EventArgs e)
         {
-            this.ilInstances.DeleteValue();
+            this.vlValues.DeleteValue();
         }
 
         private void moveUpMenuItem_Click(object sender, EventArgs e)
         {
-            this.ilInstances.MoveUpValue();
+            this.vlValues.MoveUpValue();
         }
 
         private void moveDownMenuItem_Click(object sender, EventArgs e)
         {
-            this.ilInstances.MoveDownValue();
-        }
-
-        private void generateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Generator f = new Generator();
-            DialogResult result = f.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                f.Execute(this.model, this.repository);
-            }
+            this.vlValues.MoveDownValue();
         }
         #endregion
 
+        #region Events
         private void lbClasses_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.RefreshData();
         }
+        #endregion
 
     }
 }
