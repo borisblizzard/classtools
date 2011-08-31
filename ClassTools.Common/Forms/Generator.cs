@@ -5,6 +5,7 @@ using System.Windows.Forms;
 
 using ClassTools;
 using ClassTools.Data;
+using ClassTools.Plugin;
 
 namespace ClassTools.Common.Forms
 {
@@ -17,9 +18,9 @@ namespace ClassTools.Common.Forms
             get
             {
                 int index = this.lbPlugins.SelectedIndex;
-                if (index >= 0 && index < this.pluginManager.AvailablePlugins.Count)
+                if (index >= 0 && index < this.pluginManager.Entries.Count)
                 {
-                    return this.pluginManager.AvailablePlugins[index].Plugin;
+                    return this.pluginManager.Entries[index].Plugin;
                 }
                 return null;
             }
@@ -30,11 +31,11 @@ namespace ClassTools.Common.Forms
             InitializeComponent();
             this.pluginManager = new PluginManager(toolId);
             this.pluginManager.FindPlugins();
-            List<AvailablePlugin> availablePlugins = this.pluginManager.AvailablePlugins;
+            List<Entry> availablePlugins = this.pluginManager.Entries;
             if (availablePlugins.Count > 0)
             {
                 List<string> names = new List<string>();
-                foreach (AvailablePlugin availablePlugin in availablePlugins)
+                foreach (Entry availablePlugin in availablePlugins)
                 {
                     names.Add(string.Format("{0} ({1}) {2}", availablePlugin.Plugin.Name, availablePlugin.Plugin.Author, availablePlugin.Plugin.Version));
                 }

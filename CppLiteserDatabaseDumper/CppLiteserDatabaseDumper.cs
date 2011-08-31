@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ClassTools.Data;
 using ClassTools.Data.Database;
 using ClassTools.Data.Hierarchy;
+using ClassTools.Plugin;
 
 namespace ClassTools
 {
@@ -59,7 +60,7 @@ namespace ClassTools
                     this.writer.Close();
                 }
             }
-            return "Code Generation was successful.";
+            return "Code generation was successful.";
         }
         #endregion
 

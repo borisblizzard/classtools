@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("C++ Binary Serializer Generator")]
+[assembly: AssemblyTitle("C++ Lite Serializer Code Generator")]
 [assembly: AssemblyDescription("Generator Plugin for Class Tools")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("C++ Binary Serializer Generator")]
+[assembly: AssemblyProduct("C++ Lite Serializer Code Generator")]
 [assembly: AssemblyCopyright("© Boris Mikić")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

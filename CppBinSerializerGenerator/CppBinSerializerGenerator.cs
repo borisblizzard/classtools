@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ClassTools.Data;
 using ClassTools.Data.Database;
 using ClassTools.Data.Hierarchy;
+using ClassTools.Plugin;
 
 namespace ClassTools
 {
@@ -11,7 +12,7 @@ namespace ClassTools
     {
         #region Fields
         private string name = "C++ Binary Serialization Code Generator";
-        private string description = "Generates binary serialization/deserialization code in C++ for liteser.";
+        private string description = "Generates binary serialization/deserialization code in C++ for hltypes.";
         private string author = "Boris Mikić";
         private string version = "0.9";
         private string toolId = "ClassMaker";
@@ -49,7 +50,7 @@ namespace ClassTools
                 }
             }
             this.writer.Close();
-            return "Code Generation was successful.";
+            return "Code generation was successful.";
         }
         #endregion
 

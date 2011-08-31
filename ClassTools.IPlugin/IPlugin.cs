@@ -1,6 +1,6 @@
 ﻿using ClassTools.Data;
 
-namespace ClassTools
+namespace ClassTools.Plugin
 {
     public interface IPlugin
     {

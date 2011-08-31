@@ -1,8 +1,8 @@
 ﻿using ClassTools;
 
-namespace ClassTools.Data
+namespace ClassTools.Plugin
 {
-    public class AvailablePlugin
+    public class Entry
     {
         #region Fields
         protected IPlugin plugin;
@@ -24,7 +24,7 @@ namespace ClassTools.Data
         #endregion
 
         #region Construct
-        public AvailablePlugin()
+        public Entry()
         {
         }
         #endregion

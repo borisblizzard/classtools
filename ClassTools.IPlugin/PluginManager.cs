@@ -3,19 +3,19 @@ using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ClassTools.Data
+namespace ClassTools.Plugin
 {
     public class PluginManager
     {
         #region Fields
-        protected List<AvailablePlugin> availablePlugins;
+        protected List<Entry> entries;
         protected string toolId;
         #endregion
 
         #region Properties
-        public List<AvailablePlugin> AvailablePlugins
+        public List<Entry> Entries
         {
-            get { return availablePlugins; }
+            get { return entries; }
         }
 
         public List<string> Paths
@@ -23,9 +23,9 @@ namespace ClassTools.Data
             get
             {
                 List<string> result = new List<string>();
-                foreach (AvailablePlugin plugin in this.availablePlugins)
+                foreach (Entry entry in this.entries)
                 {
-                    result.Add(plugin.Path);
+                    result.Add(entry.Path);
                 }
                 return result;
             }
@@ -35,7 +35,7 @@ namespace ClassTools.Data
         #region Construct
         public PluginManager(string toolId)
         {
-            this.availablePlugins = new List<AvailablePlugin>();
+            this.entries = new List<Entry>();
             this.toolId = toolId;
         }
 
@@ -54,7 +54,7 @@ namespace ClassTools.Data
         public void FindPlugins(string path)
         {
             path = AppDomain.CurrentDomain.BaseDirectory + "\\" + path;
-            availablePlugins.Clear();
+            entries.Clear();
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -77,15 +77,16 @@ namespace ClassTools.Data
             {
                 if (pluginType.IsPublic && !pluginType.IsAbstract)
                 {
-                    typeInterface = pluginType.GetInterface("ClassTools.IPlugin", true);
+                    typeInterface = pluginType.GetInterface("ClassTools.Plugin.IPlugin", true);
                     if (typeInterface != null)
                     {
-                        AvailablePlugin availablePlugin = new AvailablePlugin();
-                        availablePlugin.Plugin = (IPlugin)Activator.CreateInstance(pluginAssembly.GetType(pluginType.ToString()));
-                        availablePlugin.Path = filename;
-                        if (availablePlugin.Plugin.ToolId == this.toolId)
+                        Entry entry = new Entry();
+                        entry.Plugin = (IPlugin)Activator.CreateInstance(pluginAssembly.GetType(pluginType.ToString()));
+                        entry.Path = filename;
+                        if (entry.Plugin.ToolId == this.toolId)
                         {
-                            this.availablePlugins.Add(availablePlugin);
+                            entry.Plugin.Create();
+                            this.entries.Add(entry);
                         }
                     }
                 }
@@ -94,12 +95,12 @@ namespace ClassTools.Data
 
         public void DestroyPlugins()
         {
-            foreach (AvailablePlugin availablePlugin in this.availablePlugins)
+            foreach (Entry entry in this.entries)
             {
-                availablePlugin.Plugin.Destroy();
-                availablePlugin.Plugin = null;
+                entry.Plugin.Destroy();
+                entry.Plugin = null;
             }
-            availablePlugins.Clear();
+            entries.Clear();
         }
         #endregion
 
