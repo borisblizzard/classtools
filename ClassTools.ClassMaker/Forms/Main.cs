@@ -46,9 +46,9 @@ namespace ClassTools.ClassMaker.Forms
             this.lastModel = Serializer.Clone(this.model);
             this.lastFilename = string.Empty;
             this.validationLog = string.Empty;
-            this.cbVariableAccessType.DataSource = ClassTools.Data.Constants.NAMES_ACCESS;
+            this.cbVariableAccessType.DataSource = new List<string>(Constants.NAMES_ACCESS);
             this.cbVariableAccessType.SelectedIndex = -1;
-            this.cbMethodAccessType.DataSource = ClassTools.Data.Constants.NAMES_ACCESS;
+            this.cbMethodAccessType.DataSource = new List<string>(Constants.NAMES_ACCESS);
             this.cbMethodAccessType.SelectedIndex = -1;
             this.windowLog = new Log();
             this.windowLog.Hide();
