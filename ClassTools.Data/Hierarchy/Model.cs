@@ -34,6 +34,22 @@ namespace ClassTools.Data.Hierarchy
                 return result;
             }
         }
+
+        public MetaList<MetaClass> LeafClasses
+        {
+            get
+            {
+                MetaList<MetaClass> result = new MetaList<MetaClass>();
+                foreach (MetaClass metaClass in this.classes)
+                {
+                    if (metaClass.FindSubClasses(this.classes).Count == 0)
+                    {
+                        result.Add(metaClass);
+                    }
+                }
+                return result;
+            }
+        }
         #endregion
 
         #region Construct

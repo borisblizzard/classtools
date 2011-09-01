@@ -249,8 +249,9 @@ namespace ClassTools.DataMaker.Forms
                 this.saveMenuItem.Enabled = true;
                 this.saveAsMenuItem.Enabled = true;
             }
-            Utility.ApplyNewDataSource(this.lbClasses, new MetaList<MetaClass>(this.model.Classes), this.model.Classes.Count);
-            if (this.model.Classes.Count > 0)
+            MetaList<MetaClass> classes = this.model.LeafClasses;
+            Utility.ApplyNewDataSource(this.lbClasses, classes, classes.Count);
+            if (classes.Count > 0)
             {
                 if (this.lbClasses.SelectedIndex < 0)
                 {

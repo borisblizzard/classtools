@@ -31,7 +31,8 @@ namespace ClassTools.Data.Database
         {
             this.model = model;
             this.values = new MetaDictionary<MetaClass, MetaList<MetaValue>>();
-            foreach (MetaClass metaClass in model.Classes)
+            MetaList<MetaClass> classes = model.LeafClasses;
+            foreach (MetaClass metaClass in classes)
             {
                 this.values[metaClass] = new MetaList<MetaValue>();
             }
@@ -54,11 +55,12 @@ namespace ClassTools.Data.Database
             this.model = model;
             // TODO - if values does not have a key anymore, allow user to swap classes
             MetaList<MetaClass> keys = this.values.GetKeys();
-            foreach (MetaClass metaClass in model.Classes)
+            MetaList<MetaClass> classes = model.LeafClasses;
+            foreach (MetaClass metaClass in classes)
             {
                 // cannot use "ContainsKey" because "GetHashCode" was not implemented
                 // and ContainsKey seems to use it to determine object identity rather than "Equals"
-                if (!keys.Contains(metaClass)) 
+                if (!keys.Contains(metaClass))
                 {
                     this.values[metaClass] = new MetaList<MetaValue>();
                 }
