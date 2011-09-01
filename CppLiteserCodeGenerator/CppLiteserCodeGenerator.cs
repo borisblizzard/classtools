@@ -307,12 +307,12 @@ namespace ClassTools
 
         private void generateSer(string suffix, params string[] args)
         {
-            this.writeLine("LS_SER{0}({1});", suffix, string.Join(", ", args));
+            this.writeLine("LS_SER{0}({1})", suffix, string.Join(", ", args));
         }
 
         private void generateDes(string suffix, params string[] args)
         {
-            this.writeLine("LS_DES{0}({1});", suffix, string.Join(", ", args));
+            this.writeLine("LS_DES{0}({1})", suffix, string.Join(", ", args));
         }
 
         private string getIndentation()
