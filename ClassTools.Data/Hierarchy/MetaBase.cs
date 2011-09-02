@@ -57,10 +57,6 @@ namespace ClassTools.Data.Hierarchy
             return base.Update(model);
         }
 
-        public virtual void ReplaceType(MetaType oldType, MetaType newType)
-        {
-        }
-
         public override string ToString()
         {
             return this.Name;

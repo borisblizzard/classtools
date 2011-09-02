@@ -20,7 +20,7 @@ namespace ClassTools.DataMaker.Forms
         const string SAVE_PROMPT_OPEN = "There are unsaved changes. Do you want to save before opening another file?";
         const string SAVE_PROMPT_EXIT = "There are unsaved changes. Do you want to save before exiting?";
 
-        const string WARNING_MODEL_NOT_MATCHING = "The imported Class Model does not match the Database's Class Model. Do you want to continue anyway?";
+        const string WARNING_MODEL_NOT_MATCHING = "The imported Class Model does not match the Database's Class Model.";
         #endregion
 
         #region Fields
@@ -38,6 +38,7 @@ namespace ClassTools.DataMaker.Forms
             this.lastFilename = string.Empty;
             this.model = null;
             this.newMenuItem.Enabled = false;
+            this.updateModelMenuItem.Enabled = false;
             this.saveMenuItem.Enabled = false;
             this.saveAsMenuItem.Enabled = false;
         }
@@ -54,30 +55,14 @@ namespace ClassTools.DataMaker.Forms
                 if (result == DialogResult.OK)
                 {
                     Stream stream = this.ofdDatabase.OpenFile();
-                    Repository newRepository = Serializer.Deserialize(stream, this.repository);
-                    this.lastFilename = this.ofdDatabase.FileName;
+                    this.repository = Serializer.Deserialize(stream, this.repository);
                     stream.Close();
-                    if (this.model == null)
-                    {
-                        this.model = newRepository.Model;
-                    }
-                    else if (!newRepository.Model.Equals(this.model))
-                    {
-                        result = MessageBox.Show(WARNING_MODEL_NOT_MATCHING, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                        if (result == DialogResult.Yes)
-                        {
-                            result = DialogResult.OK;
-                        }
-                    }
-                    if (result == DialogResult.OK)
-                    {
-                        this.repository = newRepository;
-                        this.lastRepository = Serializer.Clone(this.repository);
-                        this.repository.Update(this.model);
-                        this.lastRepository.Update(this.model);
-                        InternalClipboard.Clear();
-                        this.RefreshData();
-                    }
+                    this.lastFilename = this.ofdDatabase.FileName;
+                    this.model = repository.Model;
+                    this.lastRepository = Serializer.Clone(this.repository);
+                    this.lastRepository.Update(this.model);
+                    InternalClipboard.Clear();
+                    this.RefreshData();
                 }
             }
         }
@@ -146,7 +131,28 @@ namespace ClassTools.DataMaker.Forms
             }
         }
 
-        private void importMenuItem_Click(object sender, EventArgs e)
+        private void importModelMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = this.showSaveChangesDialog(SAVE_PROMPT_OPEN);
+            if (result != DialogResult.Cancel)
+            {
+                this.ofdModel.FileName = string.Empty;
+                result = this.ofdModel.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    Stream stream = this.ofdModel.OpenFile();
+                    this.model = Serializer.Deserialize(stream, this.model);
+                    stream.Close();
+                    this.repository = new Repository(this.model);
+                    this.lastRepository = new Repository(this.model);
+                    InternalClipboard.Clear();
+                    this.lastFilename = string.Empty;
+                    this.RefreshData();
+                }
+            }
+        }
+
+        private void updateModelMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result = this.showSaveChangesDialog(SAVE_PROMPT_OPEN);
             if (result != DialogResult.Cancel)
@@ -158,35 +164,24 @@ namespace ClassTools.DataMaker.Forms
                     Stream stream = this.ofdModel.OpenFile();
                     Model newModel = Serializer.Deserialize(stream, this.model);
                     stream.Close();
-                    if (this.repository != null)
+                    if (!this.repository.Model.Equals(newModel))
                     {
-                        if (!this.repository.Model.Equals(newModel))
-                        {
-                            result = MessageBox.Show(WARNING_MODEL_NOT_MATCHING, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                            if (result == DialogResult.Yes)
-                            {
-                                result = DialogResult.OK;
-                            }
-                        }
+                        Repository newRepository = Serializer.Clone(this.repository);
+                        result = this.updateTypes(newRepository, newModel);
                         if (result == DialogResult.OK)
                         {
-                            this.model = newModel;
-                            this.repository.Update(this.model);
-                            this.lastRepository = Serializer.Clone(this.repository);
-                            this.lastRepository.Update(this.model);
-                            InternalClipboard.Clear();
-                            this.RefreshData();
+                            this.repository = newRepository;
                         }
                     }
-                    else
+                    if (result == DialogResult.OK)
                     {
                         this.model = newModel;
-                        this.repository = new Repository(this.model);
-                        this.lastRepository = new Repository(this.model);
+                        this.repository.Update(this.model);
+                        this.lastRepository = Serializer.Clone(this.repository);
+                        this.lastRepository.Update(this.model);
                         InternalClipboard.Clear();
-                        this.lastFilename = string.Empty;
+                        this.RefreshData();
                     }
-                    this.RefreshData();
                 }
             }
         }
@@ -233,6 +228,13 @@ namespace ClassTools.DataMaker.Forms
             this.repository.Update(this.model);
             this.lastRepository.Update(this.model);
         }
+
+        private DialogResult updateTypes(Repository repository, Model newModel)
+        {
+            MessageBox.Show(WARNING_MODEL_NOT_MATCHING, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            TypeUpdate form = new TypeUpdate(repository, newModel);
+            return form.ShowDialog();
+        }
         #endregion
 
         #region Refresh
@@ -246,6 +248,7 @@ namespace ClassTools.DataMaker.Forms
             if (this.model != null)
             {
                 this.newMenuItem.Enabled = true;
+                this.updateModelMenuItem.Enabled = true;
                 this.saveMenuItem.Enabled = true;
                 this.saveAsMenuItem.Enabled = true;
             }

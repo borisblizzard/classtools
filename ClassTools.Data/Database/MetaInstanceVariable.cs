@@ -86,10 +86,10 @@ namespace ClassTools.Data.Database
             return this.value.Update(model);
         }
 
-        public override void ReplaceType(MetaType oldType, MetaType newType)
+        public override void UpdateType(MetaType oldType, MetaType newType)
         {
-            base.ReplaceType(oldType, newType);
-            this.value.ReplaceType(oldType, newType);
+            base.UpdateType(oldType, newType);
+            this.value.UpdateType(oldType, newType);
         }
 
         public override string ToString()

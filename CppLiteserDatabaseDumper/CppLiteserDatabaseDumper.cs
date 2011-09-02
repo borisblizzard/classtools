@@ -15,7 +15,7 @@ namespace ClassTools
         private string name = "C++ Lite Serializer Database Dumper";
         private string description = "Dumps database into liteser serialization format.";
         private string author = "Boris Mikić";
-        private string version = "0.8";
+        private string version = "1.0";
         private string toolId = "DataMaker";
         private string path = string.Empty;
         private FileStream writer;
@@ -101,9 +101,9 @@ namespace ClassTools
 
         private void dump(MetaValue metaValue)
         {
-            switch (metaValue.ValueType)
+            switch (metaValue.Type.CategoryType)
             {
-                case EValueType.Integral:
+                case ECategoryType.Integral:
                     switch (metaValue.Type.Name)
                     {
                         case Constants.TYPE_INT:
@@ -144,13 +144,13 @@ namespace ClassTools
                             break;
                     }
                     break;
-                case EValueType.Object:
+                case ECategoryType.Class:
                     this.dump(metaValue.Instance);
                     break;
-                case EValueType.List:
+                case ECategoryType.List:
                     this.dump(metaValue.List);
                     break;
-                case EValueType.Dictionary:
+                case ECategoryType.Dictionary:
                     this.dump(metaValue.Dictionary);
                     break;
             }

@@ -20,6 +20,10 @@ namespace ClassTools.Data
         {
             return true;
         }
+
+        public virtual void UpdateType(MetaType oldType, MetaType newType)
+        {
+        }
         #endregion
 
     }

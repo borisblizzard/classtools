@@ -28,19 +28,19 @@ namespace ClassTools.ClassMaker.Forms
             this.model = model;
             this.refreshing = false;
             this.cbCategoryType.Items.AddRange(Constants.NAMES_CATEGORY.ToArray());
-            this.refresh();
+            this.RefreshData();
         }
         #endregion
 
         #region Methods
-        private void refresh()
+        public void RefreshData()
         {
             if (this.refreshing)
             {
                 return;
             }
             this.refreshing = true;
-            MetaList<MetaType> types = this.model.Types;
+            MetaList<MetaType> types = new MetaList<MetaType>(this.model.Types);
             Utility.ApplyNewDataSource(this.lbTypes, types, types.Count);
             MetaList<MetaType> allTypes = new MetaList<MetaType>(this.model.AllTypes);
             MetaType metaType = allTypes[this.lbTypes.SelectedIndex];
@@ -49,65 +49,67 @@ namespace ClassTools.ClassMaker.Forms
             Utility.ApplyNewDataSource(this.cbSubType2, new MetaList<MetaType>(allTypes), allTypes.Count);
             bool enabled = (types.Count > 1);
             this.bTypeDelete.Enabled = enabled;
+            this.RefreshType();
+            this.refreshing = false;
+        }
+
+        public void RefreshType()
+        {
+            MetaList<MetaType> allTypes = new MetaList<MetaType>(this.model.AllTypes);
+            MetaType metaType = allTypes[this.lbTypes.SelectedIndex];
+            allTypes.Remove(metaType);
+            Utility.ApplyNewDataSource(this.cbSubType1, new MetaList<MetaType>(allTypes), allTypes.Count);
+            Utility.ApplyNewDataSource(this.cbSubType2, new MetaList<MetaType>(allTypes), allTypes.Count);
             this.tbTypeName.Text = metaType.Name;
             this.cbSubType1.SelectedItem = metaType.SubType1;
             this.cbSubType2.SelectedItem = metaType.SubType2;
             this.tbSuffix1.Text = metaType.Suffix1;
             this.tbSuffix2.Text = metaType.Suffix2;
-            if (enabled)
+            this.cbCategoryType.SelectedIndex = (int)metaType.CategoryType;
+            switch (this.cbCategoryType.SelectedIndex)
             {
-                this.cbCategoryType.SelectedIndex = (int)metaType.CategoryType;
-                switch (this.cbCategoryType.SelectedIndex)
-                {
-                    case (int)ECategoryType.Integral:
-                        lSubType1.Enabled = false;
-                        cbSubType1.Enabled = false;
-                        lSuffix1.Enabled = false;
-                        tbSuffix1.Enabled = false;
-                        lSubType2.Enabled = false;
-                        cbSubType2.Enabled = false;
-                        lSuffix2.Enabled = false;
-                        tbSuffix2.Enabled = false;
-                        break;
-                    case (int)ECategoryType.List:
-                        lSubType1.Enabled = true;
-                        cbSubType1.Enabled = true;
-                        lSuffix1.Enabled = true;
-                        tbSuffix1.Enabled = true;
-                        lSubType2.Enabled = false;
-                        cbSubType2.Enabled = false;
-                        lSuffix2.Enabled = false;
-                        tbSuffix2.Enabled = false;
-                        break;
-                    case (int)ECategoryType.Dictionary:
-                        lSubType1.Enabled = true;
-                        cbSubType1.Enabled = true;
-                        lSuffix1.Enabled = true;
-                        tbSuffix1.Enabled = true;
-                        lSubType2.Enabled = true;
-                        cbSubType2.Enabled = true;
-                        lSuffix2.Enabled = true;
-                        tbSuffix2.Enabled = true;
-                        break;
-                }
+                case (int)ECategoryType.Integral:
+                    lSubType1.Enabled = false;
+                    cbSubType1.Enabled = false;
+                    lSuffix1.Enabled = false;
+                    tbSuffix1.Enabled = false;
+                    lSubType2.Enabled = false;
+                    cbSubType2.Enabled = false;
+                    lSuffix2.Enabled = false;
+                    tbSuffix2.Enabled = false;
+                    break;
+                case (int)ECategoryType.List:
+                    lSubType1.Enabled = true;
+                    cbSubType1.Enabled = true;
+                    lSuffix1.Enabled = true;
+                    tbSuffix1.Enabled = true;
+                    lSubType2.Enabled = false;
+                    cbSubType2.Enabled = false;
+                    lSuffix2.Enabled = false;
+                    tbSuffix2.Enabled = false;
+                    break;
+                case (int)ECategoryType.Dictionary:
+                    lSubType1.Enabled = true;
+                    cbSubType1.Enabled = true;
+                    lSuffix1.Enabled = true;
+                    tbSuffix1.Enabled = true;
+                    lSubType2.Enabled = true;
+                    cbSubType2.Enabled = true;
+                    lSuffix2.Enabled = true;
+                    tbSuffix2.Enabled = true;
+                    break;
             }
-            else
-            {
-                lSubType1.Enabled = false;
-                cbSubType1.Enabled = false;
-                lSuffix1.Enabled = false;
-                tbSuffix1.Enabled = false;
-                lSubType2.Enabled = false;
-                cbSubType2.Enabled = false;
-                lSuffix2.Enabled = false;
-                tbSuffix2.Enabled = false;
-            }
-            this.refreshing = false;
         }
 
         private void lbTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.refresh();
+            if (this.refreshing)
+            {
+                return;
+            }
+            this.refreshing = true;
+            this.RefreshType();
+            this.refreshing = false;
         }
 
         private void tbTypeName_TextChanged(object sender, EventArgs e)
@@ -120,13 +122,13 @@ namespace ClassTools.ClassMaker.Forms
             MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
             metaType.Name = this.tbTypeName.Text;
             this.refreshing = false;
-            this.refresh();
+            this.RefreshData();
         }
 
         private void bTypeNew_Click(object sender, EventArgs e)
         {
             this.model.CreateNewType(this.lbTypes.SelectedIndex + 1);
-            this.refresh();
+            this.RefreshData();
             this.lbTypes.SelectedIndex++;
         }
 
@@ -155,7 +157,7 @@ namespace ClassTools.ClassMaker.Forms
                     else
                     {
                         this.model.DeleteTypeAt(this.lbTypes.SelectedIndex);
-                        this.refresh();
+                        this.RefreshData();
                     }
                 }
             }
@@ -168,22 +170,22 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             this.refreshing = true;
-            int index = this.cbCategoryType.SelectedIndex;
+            ECategoryType categoryType = (ECategoryType)this.cbCategoryType.SelectedIndex;
             MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
-            switch (index)
+            switch (categoryType)
             {
-                case (int)ECategoryType.Integral:
+                case ECategoryType.Integral:
                     metaType.SubType1 = null;
                     metaType.SubType2 = null;
                     break;
-                case (int)ECategoryType.List:
+                case ECategoryType.List:
                     if (metaType.SubType1 == null)
                     {
                         metaType.SubType1 = this.model.AllTypes[0];
                     }
                     metaType.SubType2 = null;
                     break;
-                case (int)ECategoryType.Dictionary:
+                case ECategoryType.Dictionary:
                     if (metaType.SubType1 == null)
                     {
                         metaType.SubType1 = this.model.AllTypes[0];
@@ -195,7 +197,7 @@ namespace ClassTools.ClassMaker.Forms
                     break;
             }
             this.refreshing = false;
-            this.refresh();
+            this.RefreshData();
         }
 
         private void cbSubType1_SelectedIndexChanged(object sender, EventArgs e)
@@ -208,7 +210,7 @@ namespace ClassTools.ClassMaker.Forms
             MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
             metaType.SubType1 = (MetaType)this.cbSubType1.SelectedItem;
             this.refreshing = false;
-            this.refresh();
+            this.RefreshData();
         }
 
         private void cbSubType2_SelectedIndexChanged(object sender, EventArgs e)
@@ -221,7 +223,7 @@ namespace ClassTools.ClassMaker.Forms
             MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
             metaType.SubType2 = (MetaType)this.cbSubType2.SelectedItem;
             this.refreshing = false;
-            this.refresh();
+            this.RefreshData();
         }
 
         private void tbSuffix1_TextChanged(object sender, EventArgs e)
@@ -234,7 +236,7 @@ namespace ClassTools.ClassMaker.Forms
             MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
             metaType.Suffix1 = this.tbSuffix1.Text;
             this.refreshing = false;
-            this.refresh();
+            this.RefreshData();
         }
 
         private void tbSuffix2_TextChanged(object sender, EventArgs e)
@@ -247,7 +249,7 @@ namespace ClassTools.ClassMaker.Forms
             MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
             metaType.Suffix2 = this.tbSuffix2.Text;
             this.refreshing = false;
-            this.refresh();
+            this.RefreshData();
         }
 
         private void copyMenuItem_Click(object sender, EventArgs e)
@@ -264,7 +266,7 @@ namespace ClassTools.ClassMaker.Forms
             {
                 this.model.Types[this.lbTypes.SelectedIndex] = InternalClipboard.Type;
                 this.model.Types[this.lbTypes.SelectedIndex].Update(this.model);
-                this.refresh();
+                this.RefreshData();
             }
         }
 
@@ -273,7 +275,7 @@ namespace ClassTools.ClassMaker.Forms
             if (this.lbTypes.Focused)
             {
                 this.model.CreateNewType(this.lbTypes.SelectedIndex + 1);
-                this.refresh();
+                this.RefreshData();
                 this.lbTypes.SelectedIndex++;
             }
         }

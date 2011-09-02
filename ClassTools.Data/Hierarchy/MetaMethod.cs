@@ -67,12 +67,12 @@ namespace ClassTools.Data.Hierarchy
             return true;
         }
 
-        public override void ReplaceType(MetaType oldType, MetaType newType)
+        public override void UpdateType(MetaType oldType, MetaType newType)
         {
-            base.ReplaceType(oldType, newType);
+            base.UpdateType(oldType, newType);
             foreach (MetaVariable parameter in this.parameters)
             {
-                parameter.ReplaceType(oldType, newType);
+                parameter.UpdateType(oldType, newType);
             }
         }
         #endregion

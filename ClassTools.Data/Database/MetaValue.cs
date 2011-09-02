@@ -10,7 +10,6 @@ namespace ClassTools.Data.Database
     {
         #region Fields
         protected MetaType type;
-        protected EValueType valueType;
         protected string valueString;
         protected MetaInstance instance;
         protected MetaList<MetaValue> list;
@@ -23,17 +22,11 @@ namespace ClassTools.Data.Database
             get { return this.type; }
         }
 
-        public EValueType ValueType
-        {
-            get { return this.valueType; }
-        }
-
         public string String
         {
             get { return this.valueString.Trim('"'); }
             set
             {
-                this.valueType = EValueType.Integral;
                 this.valueString = value;
                 this.instance = null;
                 this.list = new MetaList<MetaValue>();
@@ -51,7 +44,6 @@ namespace ClassTools.Data.Database
             }
             set
             {
-                this.valueType = EValueType.Integral;
                 this.valueString = value.ToString().Replace(',', '.');
                 this.instance = null;
                 this.list = new MetaList<MetaValue>();
@@ -64,7 +56,6 @@ namespace ClassTools.Data.Database
             get { return (this.valueString != "0" && this.valueString.ToLower() != "false"); }
             set
             {
-                this.valueType = EValueType.Integral;
                 this.valueString = (value ? "true" : "false");
                 this.instance = null;
                 this.list = new MetaList<MetaValue>();
@@ -77,7 +68,6 @@ namespace ClassTools.Data.Database
             get { return this.instance; }
             set
             {
-                this.valueType = EValueType.Object;
                 this.instance = value;
                 this.valueString = "";
                 this.list = new MetaList<MetaValue>();
@@ -90,7 +80,6 @@ namespace ClassTools.Data.Database
             get { return this.list; }
             set
             {
-                this.valueType = EValueType.List;
                 this.list = value;
                 this.valueString = "";
                 this.instance = null;
@@ -103,7 +92,6 @@ namespace ClassTools.Data.Database
             get { return this.dictionary; }
             set
             {
-                this.valueType = EValueType.Dictionary;
                 this.dictionary = value;
                 this.valueString = "";
                 this.instance = null;
@@ -218,7 +206,6 @@ namespace ClassTools.Data.Database
             : base()
         {
             this.type = metaType;
-            this.valueType = EValueType.Integral;
             this.String = defaultValue;
         }
 
@@ -226,7 +213,6 @@ namespace ClassTools.Data.Database
             : base()
         {
             this.type = metaClass;
-            this.valueType = EValueType.Object;
             this.Instance = metaInstance;
         }
 
@@ -234,7 +220,6 @@ namespace ClassTools.Data.Database
             : base()
         {
             this.type = metaType;
-            this.valueType = EValueType.List;
             this.List = list;
         }
 
@@ -242,7 +227,6 @@ namespace ClassTools.Data.Database
             : base()
         {
             this.type = metaType;
-            this.valueType = EValueType.Dictionary;
             this.Dictionary = dictionary;
         }
         #endregion
@@ -252,20 +236,19 @@ namespace ClassTools.Data.Database
         {
             if (!base.Equals(other)) return false;
             if (!this.type.Equals(other.type)) return false;
-            if (!this.valueType.Equals(other.valueType)) return false;
-            switch (valueType)
+            switch (this.type.CategoryType)
             {
-                case EValueType.Integral:
+                case ECategoryType.Integral:
                     if (!this.valueString.Equals(other.valueString)) return false;
                     break;
-                case EValueType.Object:
+                case ECategoryType.Class:
                     if ((this.instance != null) != (other.instance != null)) return false;
                     if (this.instance != null && !this.instance.Equals(other.instance)) return false;
                     break;
-                case EValueType.List:
+                case ECategoryType.List:
                     if (!this.list.Equals(other.list)) return false;
                     break;
-                case EValueType.Dictionary:
+                case ECategoryType.Dictionary:
                     if (!this.dictionary.Equals(other.dictionary)) return false;
                     break;
             }
@@ -280,15 +263,26 @@ namespace ClassTools.Data.Database
             {
                 return false;
             }
-            switch (this.valueType)
+            MetaType newType = model.FindMatchingType(this.type);
+            if (newType == null)
             {
-                case EValueType.Object:
+                return false;
+            }
+            this.type = newType;
+            switch (this.type.CategoryType)
+            {
+                case ECategoryType.Integral:
+                    this.String = this.String;
+                    break;
+                case ECategoryType.Class:
+                    this.Instance = this.Instance;
                     if (this.instance != null)
                     {
                         return this.instance.Update(model);
                     }
                     break;
-                case EValueType.List:
+                case ECategoryType.List:
+                    this.List = this.List;
                     foreach (MetaValue metaValue in this.list)
                     {
                         if (!metaValue.Update(model))
@@ -297,7 +291,8 @@ namespace ClassTools.Data.Database
                         }
                     }
                     break;
-                case EValueType.Dictionary:
+                case ECategoryType.Dictionary:
+                    this.Dictionary = this.Dictionary;
                     foreach (KeyValuePair<MetaValue, MetaValue> pair in this.dictionary)
                     {
                         if (!pair.Key.Update(model) || !pair.Value.Update(model))
@@ -310,32 +305,38 @@ namespace ClassTools.Data.Database
             return true;
         }
 
-        public override void ReplaceType(MetaType oldType, MetaType newType)
+        public override void UpdateType(MetaType oldType, MetaType newType)
         {
-            base.ReplaceType(oldType, newType);
-            if (this.type == oldType)
+            base.UpdateType(oldType, newType);
+            if (this.type.Matches(oldType, newType))
             {
                 this.type = newType;
             }
-            switch (this.valueType)
+            switch (this.type.CategoryType)
             {
-                case EValueType.Object:
+                case ECategoryType.Integral:
+                    this.String = this.String;
+                    break;
+                case ECategoryType.Class:
+                    this.Instance = this.Instance;
                     if (this.instance != null)
                     {
-                        this.instance.ReplaceType(oldType, newType);
+                        this.instance.UpdateType(oldType, newType);
                     }
                     break;
-                case EValueType.List:
+                case ECategoryType.List:
+                    this.List = this.List;
                     foreach (MetaValue metaValue in this.list)
                     {
-                        metaValue.ReplaceType(oldType, newType);
+                        metaValue.UpdateType(oldType, newType);
                     }
                     break;
-                case EValueType.Dictionary:
+                case ECategoryType.Dictionary:
+                    this.Dictionary = this.Dictionary;
                     foreach (KeyValuePair<MetaValue, MetaValue> pair in this.dictionary)
                     {
-                        pair.Key.ReplaceType(oldType, newType);
-                        pair.Value.ReplaceType(oldType, newType);
+                        pair.Key.UpdateType(oldType, newType);
+                        pair.Value.UpdateType(oldType, newType);
                     }
                     break;
             }
@@ -343,15 +344,15 @@ namespace ClassTools.Data.Database
 
         public override string ToString()
         {
-            switch (this.valueType)
+            switch (this.type.CategoryType)
             {
-                case EValueType.Integral:
+                case ECategoryType.Integral:
                     return (this.valueString != string.Empty ? this.valueString : "EMPTY");
-                case EValueType.Object:
+                case ECategoryType.Class:
                     return (this.instance != null ? this.instance.ToString() : "NULL");
-                case EValueType.List:
+                case ECategoryType.List:
                     return this.type.Name;
-                case EValueType.Dictionary:
+                case ECategoryType.Dictionary:
                     return this.type.Name;
             }
             return "unknown value";

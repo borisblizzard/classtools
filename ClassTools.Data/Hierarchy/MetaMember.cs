@@ -51,15 +51,21 @@ namespace ClassTools.Data.Hierarchy
             {
                 return false;
             }
+            MetaType metaType = model.FindMatchingType(this.type);
+            if (metaType == null)
+            {
+                return false;
+            }
+            this.type = metaType;
             return this.type.Update(model);
         }
 
-        public override void ReplaceType(MetaType oldType, MetaType newType)
+        public override void UpdateType(MetaType oldType, MetaType newType)
         {
-            base.ReplaceType(oldType, newType);
-            if (this.Type == oldType)
+            base.UpdateType(oldType, newType);
+            if (this.type.Matches(oldType))
             {
-                this.Type = newType;
+                this.type = newType;
             }
         }
 

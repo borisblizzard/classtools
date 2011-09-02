@@ -56,6 +56,13 @@ namespace ClassTools.Data.Database
             {
                 return false;
             }
+            MetaType metaType = model.FindMatchingType(this.type);
+            if (metaType == null)
+            {
+                return false;
+            }
+            this.type = metaType;
+            // TODO update the existing instance variables!
             foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
             {
                 if (!metaInstanceVariable.Update(model))
@@ -66,16 +73,16 @@ namespace ClassTools.Data.Database
             return true;
         }
 
-        public override void ReplaceType(MetaType oldType, MetaType newType)
+        public override void UpdateType(MetaType oldType, MetaType newType)
         {
-            base.ReplaceType(oldType, newType);
-            if (this.type == oldType)
+            base.UpdateType(oldType, newType);
+            if (this.type.Matches(oldType, newType))
             {
                 this.type = newType;
             }
             foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
             {
-                metaInstanceVariable.ReplaceType(oldType, newType);
+                metaInstanceVariable.UpdateType(oldType, newType);
             }
         }
 

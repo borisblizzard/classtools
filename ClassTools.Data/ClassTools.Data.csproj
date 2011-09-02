@@ -57,7 +57,6 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Base.cs" />
-    <Compile Include="Database\EValueType.cs" />
     <Compile Include="Database\MetaValue.cs" />
     <Compile Include="MetaList.cs" />
     <Compile Include="MetaDictionary.cs" />

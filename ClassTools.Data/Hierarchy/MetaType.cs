@@ -114,28 +114,48 @@ namespace ClassTools.Data.Hierarchy
             {
                 return false;
             }
-            if (this.subType1 != null && !this.subType1.Update(model))
+            if (this.subType1 != null)
             {
-                return false;
+                MetaType metaType = model.FindMatchingType(this.subType1);
+                if (metaType != null)
+                {
+                    return false;
+                }
+                this.subType1 = metaType;
             }
-            if (this.subType2 != null && !this.subType2.Update(model))
+            if (this.subType2 != null)
             {
-                return false;
+                MetaType metaType = model.FindMatchingType(this.subType2);
+                if (metaType != null)
+                {
+                    return false;
+                }
+                this.subType2 = metaType;
             }
             return true;
         }
 
-        public override void ReplaceType(MetaType oldType, MetaType newType)
+        public override void UpdateType(MetaType oldType, MetaType newType)
         {
-            base.ReplaceType(oldType, newType);
-            if (this.subType1 == oldType)
+            base.UpdateType(oldType, newType);
+            if (this.subType1 != null && this.subType1.Matches(oldType))
             {
                 this.subType1 = newType;
             }
-            if (this.subType2 == oldType)
+            if (this.subType2 != null && this.subType2.Matches(oldType))
             {
                 this.subType2 = newType;
             }
+        }
+
+        public virtual bool Matches(MetaType oldType)
+        {
+            return (oldType.CategoryType != ECategoryType.Class && this.Equals(oldType));
+        }
+
+        public virtual bool Matches(MetaType oldType, MetaType newType)
+        {
+            return (oldType.CategoryType != ECategoryType.Class && newType.CategoryType != ECategoryType.Class && this.Equals(oldType));
         }
 
         public virtual string GetNameWithModule(string separator)

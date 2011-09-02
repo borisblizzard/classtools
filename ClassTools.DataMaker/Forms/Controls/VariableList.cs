@@ -241,12 +241,12 @@ namespace ClassTools.DataMaker.Forms.Controls
             this.owner.RefreshData();
             if (this.value != null)
             {
-                switch (this.value.ValueType)
+                switch (this.type.CategoryType)
                 {
-                    case EValueType.Integral:
+                    case ECategoryType.Integral:
                         this.refreshEntry(this.value, 0);
                         break;
-                    case EValueType.Object:
+                    case ECategoryType.Class:
                         MetaList<MetaInstanceVariable> metaInstanceVariables = this.value.Instance.InstanceVariables;
                         for (int i = 0; i < metaInstanceVariables.Count; i++)
                         {
@@ -276,7 +276,7 @@ namespace ClassTools.DataMaker.Forms.Controls
 
         private void refreshEntry(MetaValue metaValue, int index)
         {
-            if (metaValue.ValueType == EValueType.Integral)
+            if (metaValue.Type.CategoryType == ECategoryType.Integral)
             {
                 if (Constants.TYPES_INT.Contains(metaValue.Type.Name))
                 {
@@ -335,12 +335,12 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
             this.refreshing = true;
             TextBox textBox = (TextBox)sender;
-            switch (this.value.ValueType)
+            switch (this.value.Type.CategoryType)
             {
-                case EValueType.Integral:
+                case ECategoryType.Integral:
                     this.value.String = textBox.Text;
                     break;
-                case EValueType.Object:
+                case ECategoryType.Class:
                     foreach (MetaInstanceVariable variable in this.value.Instance.InstanceVariables)
                     {
                         if (textBox.Name == variable.ToString())
@@ -363,12 +363,12 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
             this.refreshing = true;
             NumericUpDown numericUpDown = (NumericUpDown)sender;
-            switch (this.value.ValueType)
+            switch (this.value.Type.CategoryType)
             {
-                case EValueType.Integral:
+                case ECategoryType.Integral:
                     this.value.Decimal = numericUpDown.Value;
                     break;
-                case EValueType.Object:
+                case ECategoryType.Class:
                     foreach (MetaInstanceVariable variable in this.value.Instance.InstanceVariables)
                     {
                         if (numericUpDown.Name == variable.ToString())
@@ -391,12 +391,12 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
             this.refreshing = true;
             CheckBox checkBox = (CheckBox)sender;
-            switch (this.value.ValueType)
+            switch (this.value.Type.CategoryType)
             {
-                case EValueType.Integral:
+                case ECategoryType.Integral:
                     this.value.Bool = checkBox.Checked;
                     break;
-                case EValueType.Object:
+                case ECategoryType.Class:
                     foreach (MetaInstanceVariable variable in this.value.Instance.InstanceVariables)
                     {
                         if (checkBox.Name == variable.ToString())
@@ -416,10 +416,9 @@ namespace ClassTools.DataMaker.Forms.Controls
             Button button = (Button)sender;
             MetaInstanceVariable metaInstanceVariable;
             MetaType metaType;
-            switch (this.value.ValueType)
+            switch (this.value.Type.CategoryType)
             {
-                case EValueType.Integral:
-
+                case ECategoryType.Integral:
                     metaType = this.value.Type;
                     switch (metaType.CategoryType)
                     {
@@ -442,7 +441,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                     }
                     this.RefreshData();
                     break;
-                case EValueType.Object:
+                case ECategoryType.Class:
                     for (int i = 0; i < this.value.Instance.InstanceVariables.Count; i++)
                     {
                         metaInstanceVariable = this.value.Instance.InstanceVariables[i];

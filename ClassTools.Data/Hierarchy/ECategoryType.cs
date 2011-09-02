@@ -3,9 +3,9 @@
     public enum ECategoryType
     {
         Integral = 0,
-        Class = 1,
-        List = 2,
-        Dictionary = 3
+        List = 1,
+        Dictionary = 2,
+        Class = 3
     }
 
 }

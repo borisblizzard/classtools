@@ -27,28 +27,14 @@ namespace ClassTools.Data.Hierarchy
             get
             {
                 MetaList<MetaType> result = new MetaList<MetaType>(this.types);
-                foreach (MetaClass metaClass in this.classes)
-                {
-                    result.Add(metaClass);
-                }
+                result.AddRange(this.classes.ToArray());
                 return result;
             }
         }
 
         public MetaList<MetaClass> LeafClasses
         {
-            get
-            {
-                MetaList<MetaClass> result = new MetaList<MetaClass>();
-                foreach (MetaClass metaClass in this.classes)
-                {
-                    if (metaClass.FindSubClasses(this.classes).Count == 0)
-                    {
-                        result.Add(metaClass);
-                    }
-                }
-                return result;
-            }
+            get { return new MetaList<MetaClass>(this.classes.FindAll(c => c.FindSubClasses(this.classes).Count == 0)); }
         }
         #endregion
 
@@ -92,6 +78,70 @@ namespace ClassTools.Data.Hierarchy
             if (!this.classes.Equals(other.classes)) return false;
             if (!this.types.Equals(other.types)) return false;
             return true;
+        }
+        #endregion
+
+        #region Methods
+        public MetaList<MetaType> FindTypeMismatches(Model other)
+        {
+            MetaList<MetaType> result = new MetaList<MetaType>();
+            result.AddRange(this.types.FindAll(t => !other.types.Contains(t)));
+            result.AddRange(this.classes.FindAll(c => !other.classes.Contains(c)).ToArray());
+            return result;
+        }
+
+        public MetaType FindMatchingType(MetaType type)
+        {
+            if (type.CategoryType == ECategoryType.Class)
+            {
+                MetaClass metaClass = (MetaClass)type;
+                return this.classes.Find(c => c.Equals(metaClass));
+            }
+            return this.types.Find(t => t.Equals(type));
+        }
+
+        public override void UpdateType(MetaType oldType, MetaType newType)
+        {
+            int index = -1;
+            if (oldType.CategoryType == ECategoryType.Class && newType.CategoryType == ECategoryType.Class)
+            {
+                index = this.classes.IndexOf((MetaClass)oldType);
+            }
+            else if (oldType.CategoryType != ECategoryType.Class && newType.CategoryType != ECategoryType.Class)
+            {
+                index = this.types.IndexOf((MetaClass)oldType);
+            }
+            if (oldType.CategoryType == ECategoryType.Class)
+            {
+                this.classes.Remove((MetaClass)oldType);
+            }
+            else
+            {
+                this.types.Remove(oldType);
+            }
+            if (newType.CategoryType == ECategoryType.Class)
+            {
+                if (index >= 0)
+                {
+                    this.classes.Insert(index, (MetaClass)newType);
+                }
+                else
+                {
+                    this.classes.Add((MetaClass)newType);
+                }
+            }
+            else
+            {
+                if (index >= 0)
+                {
+                    this.types.Insert(index, (MetaClass)newType);
+                }
+                else
+                {
+                    this.types.Add((MetaClass)newType);
+                }
+            }
+            base.UpdateType(oldType, newType);
         }
         #endregion
 

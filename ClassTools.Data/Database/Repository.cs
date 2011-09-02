@@ -56,6 +56,8 @@ namespace ClassTools.Data.Database
             // TODO - if values does not have a key anymore, allow user to swap classes
             MetaList<MetaClass> keys = this.values.GetKeys();
             MetaList<MetaClass> classes = model.LeafClasses;
+            MetaClass keyClass;
+            MetaList<MetaValue> values;
             foreach (MetaClass metaClass in classes)
             {
                 // cannot use "ContainsKey" because "GetHashCode" was not implemented
@@ -63,6 +65,13 @@ namespace ClassTools.Data.Database
                 if (!keys.Contains(metaClass))
                 {
                     this.values[metaClass] = new MetaList<MetaValue>();
+                }
+                else
+                {
+                    keyClass = keys[keys.IndexOf(metaClass)];
+                    values = this.values[keyClass];
+                    this.values.Remove(keyClass);
+                    this.values[metaClass] = values;
                 }
             }
             foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in this.values)
@@ -76,6 +85,29 @@ namespace ClassTools.Data.Database
                 }
             }
             return true;
+        }
+
+        public override void UpdateType(MetaType oldType, MetaType newType)
+        {
+            this.model.UpdateType(oldType, newType);
+            if (oldType.CategoryType == ECategoryType.Class && newType.CategoryType == ECategoryType.Class)
+            {
+                MetaClass oldClass = (MetaClass)oldType;
+                MetaClass newClass = (MetaClass)newType;
+                if (this.values.GetKeys().Contains(oldClass))
+                {
+                    MetaList<MetaValue> values = this.values[oldClass];
+                    this.values.Remove(oldClass);
+                    this.values[newClass] = values;
+                }
+            }
+            foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in this.values)
+            {
+                foreach (MetaValue value in pair.Value)
+                {
+                    value.UpdateType(oldType, newType);
+                }
+            }
         }
         #endregion
 

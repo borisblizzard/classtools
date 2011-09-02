@@ -14,7 +14,7 @@ namespace ClassTools
         private string name = "C++ Binary Serialization Code Generator";
         private string description = "Generates binary serialization/deserialization code in C++ for hltypes.";
         private string author = "Boris Mikić";
-        private string version = "0.9";
+        private string version = "1.0";
         private string toolId = "ClassMaker";
         private StreamWriter writer;
         private int indent;

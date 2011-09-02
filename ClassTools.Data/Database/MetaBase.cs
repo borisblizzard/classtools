@@ -22,11 +22,5 @@ namespace ClassTools.Data.Database
         }
         #endregion
 
-        #region Methods
-        public virtual void ReplaceType(MetaType oldType, MetaType newType)
-        {
-        }
-        #endregion
-
     }
 }

@@ -161,21 +161,31 @@ namespace ClassTools.Data.Hierarchy
             return true;
         }
 
-        public override void ReplaceType(MetaType oldType, MetaType newType)
+        public override void UpdateType(MetaType oldType, MetaType newType)
         {
-            base.ReplaceType(oldType, newType);
-            if (this.superClass != null && this.superClass == oldType)
+            base.UpdateType(oldType, newType);
+            if (this.superClass != null && this.superClass.Matches(oldType))
             {
-                this.SuperClass = (newType.CategoryType == ECategoryType.Class ? (MetaClass)newType : null);
+                this.superClass = (this.superClass.Matches(oldType, newType) ? (MetaClass)newType : null);
             }
             foreach (MetaVariable variable in this.variables)
             {
-                variable.ReplaceType(oldType, oldType);
+                variable.UpdateType(oldType, oldType);
             }
             foreach (MetaMethod method in this.methods)
             {
-                method.ReplaceType(oldType, oldType);
+                method.UpdateType(oldType, oldType);
             }
+        }
+
+        public override bool Matches(MetaType oldType)
+        {
+            return (oldType.CategoryType == ECategoryType.Class && this.Equals((MetaClass)oldType));
+        }
+
+        public override bool Matches(MetaType oldType, MetaType newType)
+        {
+            return (oldType.CategoryType == ECategoryType.Class && newType.CategoryType == ECategoryType.Class && this.Equals((MetaClass)oldType));
         }
 
         public override string GetNameWithModule(string separator)

@@ -245,8 +245,8 @@ namespace ClassTools.ClassMaker.Forms
                 }
                 Utility.ApplyNewDataSource(this.lbVariables, new MetaList<MetaVariable>(metaClass.Variables), metaClass.Variables.Count);
                 Utility.ApplyNewDataSource(this.lbMethods, new MetaList<MetaMethod>(metaClass.Methods), metaClass.Methods.Count);
-                this.refreshVariable();
-                this.refreshMethod();
+                this.RefreshVariable();
+                this.RefreshMethod();
             }
             else
             {
@@ -258,7 +258,7 @@ namespace ClassTools.ClassMaker.Forms
             this.refreshing = false;
         }
 
-        private void refreshVariable()
+        public void RefreshVariable()
         {
             this.bVariableDelete.Enabled = (this.lbVariables.Items.Count > 0);
             MetaVariable metaVariable = (MetaVariable)this.lbVariables.SelectedItem;
@@ -291,7 +291,7 @@ namespace ClassTools.ClassMaker.Forms
             }
         }
 
-        private void refreshMethod()
+        public void RefreshMethod()
         {
             this.bMethodDelete.Enabled = (this.lbMethods.Items.Count > 0);
             MetaMethod metaMethod = (MetaMethod)this.lbMethods.SelectedItem;
@@ -692,7 +692,7 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             this.refreshing = true;
-            this.refreshVariable();
+            this.RefreshVariable();
             this.refreshing = false;
         }
 
@@ -798,7 +798,7 @@ namespace ClassTools.ClassMaker.Forms
                 return;
             }
             this.refreshing = true;
-            this.refreshMethod();
+            this.RefreshMethod();
             this.refreshing = false;
         }
 
