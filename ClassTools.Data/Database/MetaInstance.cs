@@ -80,6 +80,7 @@ namespace ClassTools.Data.Database
             {
                 this.type = newType;
             }
+            // TODO update the existing instance variables!
             foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
             {
                 metaInstanceVariable.UpdateType(oldType, newType);

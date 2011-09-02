@@ -140,9 +140,14 @@ namespace ClassTools.Data.Hierarchy
             {
                 return false;
             }
-            if (this.superClass != null && !this.SuperClass.Update(model))
+            if (this.superClass != null)
             {
-                return false;
+                MetaType metaType = model.FindMatchingType(this.superClass);
+                if (metaType == null)
+                {
+                    return false;
+                }
+                this.superClass = (MetaClass)metaType;
             }
             foreach (MetaVariable variable in this.variables)
             {
