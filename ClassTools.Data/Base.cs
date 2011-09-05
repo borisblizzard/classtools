@@ -24,6 +24,10 @@ namespace ClassTools.Data
         public virtual void UpdateType(MetaType oldType, MetaType newType)
         {
         }
+        
+        public virtual void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        {
+        }
         #endregion
 
     }

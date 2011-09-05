@@ -14,6 +14,8 @@ namespace ClassTools.DataMaker.Forms
     {
         #region Constants
         private const string ERROR_TYPE_UPDATE_INCOMPLETE = "There are still mismatched types that have not been replaced.";
+
+        private const string WARNING_TYPE_NOT_MATCHING = "The selected type's variables do not match.";
         #endregion
 
         #region Fields
@@ -21,9 +23,6 @@ namespace ClassTools.DataMaker.Forms
         private Model newModel;
         private MetaList<MetaType> mismatchedTypes;
         private bool refreshing;
-        #endregion
-
-        #region Properties
         #endregion
 
         #region Construct
@@ -47,7 +46,7 @@ namespace ClassTools.DataMaker.Forms
                 return;
             }
             this.refreshing = true;
-            this.mismatchedTypes = repository.Model.FindTypeMismatches(newModel);
+            this.mismatchedTypes = this.repository.Model.FindTypeMismatches(newModel);
             Utility.ApplyNewDataSource(this.lbOldTypes, new MetaList<MetaType>(this.mismatchedTypes), this.mismatchedTypes.Count);
             this.refreshing = false;
         }
@@ -58,12 +57,11 @@ namespace ClassTools.DataMaker.Forms
         {
             this.RefreshData();
         }
-        
+
         private void closeMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-        #endregion
 
         private void onFormClosing(object sender, FormClosingEventArgs e)
         {
@@ -90,12 +88,14 @@ namespace ClassTools.DataMaker.Forms
             {
                 return;
             }
+            this.updateVariables(oldType, newType);
             this.repository.UpdateType(oldType, newType);
             this.RefreshData();
         }
 
         private void bAutoReplace_Click(object sender, EventArgs e)
         {
+            bool found = false;
             MetaType newType;
             foreach (MetaType oldType in this.mismatchedTypes)
             {
@@ -110,11 +110,27 @@ namespace ClassTools.DataMaker.Forms
                 }
                 if (newType != null)
                 {
+                    this.updateVariables(oldType, newType);
                     this.repository.UpdateType(oldType, newType);
+                    found = true;
                 }
             }
-            this.RefreshData();
+            if (found)
+            {
+                this.RefreshData();
+            }
         }
+
+        private void updateVariables(MetaType oldType, MetaType newType)
+        {
+            if (oldType.FindVariableMismatches(newType).Count > 0)
+            {
+                MessageBox.Show(WARNING_TYPE_NOT_MATCHING, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                VariableUpdate form = new VariableUpdate(repository, (MetaClass)oldType, (MetaClass)newType);
+                form.ShowDialog();
+            }
+        }
+        #endregion
 
     }
 }

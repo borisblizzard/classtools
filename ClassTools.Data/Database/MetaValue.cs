@@ -229,6 +229,27 @@ namespace ClassTools.Data.Database
             this.type = metaType;
             this.Dictionary = dictionary;
         }
+
+        public MetaValue(MetaValue other)
+            : base()
+        {
+            this.type = other.type;
+            switch (this.type.CategoryType)
+            {
+                case ECategoryType.Integral:
+                    this.String = other.String;
+                    break;
+                case ECategoryType.Class:
+                    this.Instance = other.Instance;
+                    break;
+                case ECategoryType.List:
+                    this.List = other.List;
+                    break;
+                case ECategoryType.Dictionary:
+                    this.Dictionary = other.Dictionary;
+                    break;
+            }
+        }
         #endregion
 
         #region Equals
@@ -337,6 +358,32 @@ namespace ClassTools.Data.Database
                     {
                         pair.Key.UpdateType(oldType, newType);
                         pair.Value.UpdateType(oldType, newType);
+                    }
+                    break;
+            }
+        }
+
+        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        {
+            switch (this.type.CategoryType)
+            {
+                case ECategoryType.Class:
+                    if (this.instance != null)
+                    {
+                        this.instance.UpdateVariable(oldVariable, newVariable);
+                    }
+                    break;
+                case ECategoryType.List:
+                    foreach (MetaValue metaValue in this.list)
+                    {
+                        metaValue.UpdateVariable(oldVariable, newVariable);
+                    }
+                    break;
+                case ECategoryType.Dictionary:
+                    foreach (KeyValuePair<MetaValue, MetaValue> pair in this.dictionary)
+                    {
+                        pair.Key.UpdateVariable(oldVariable, newVariable);
+                        pair.Value.UpdateVariable(oldVariable, newVariable);
                     }
                     break;
             }

@@ -56,18 +56,28 @@ namespace ClassTools.Data.Database
             {
                 return false;
             }
+            MetaClass oldClass = (MetaClass)this.type;
             MetaType metaType = model.FindMatchingType(this.type);
             if (metaType == null)
             {
                 return false;
             }
             this.type = metaType;
-            // TODO update the existing instance variables!
-            foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
+            MetaClass newClass = (MetaClass)this.type;
+            MetaInstanceVariable instanceVariable;
+            MetaList<MetaInstanceVariable> metaInstanceVariables = new MetaList<MetaInstanceVariable>(this.instanceVariables);
+            this.instanceVariables.Clear();
+            foreach (MetaVariable metaVariable in newClass.AllVariables)
             {
-                if (!metaInstanceVariable.Update(model))
+                instanceVariable = metaInstanceVariables.Find(iv => iv.Variable.Equals(metaVariable));
+                if (instanceVariable != null)
                 {
-                    return false;
+                    this.instanceVariables.Add(instanceVariable);
+                }
+                else
+                {
+                    instanceVariable = metaInstanceVariables.Find(iv => iv.Variable.Equals(metaVariable));
+                    this.instanceVariables.Add(new MetaInstanceVariable(metaVariable));
                 }
             }
             return true;
@@ -80,10 +90,18 @@ namespace ClassTools.Data.Database
             {
                 this.type = newType;
             }
-            // TODO update the existing instance variables!
             foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
             {
                 metaInstanceVariable.UpdateType(oldType, newType);
+            }
+        }
+
+        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        {
+            base.UpdateVariable(oldVariable, newVariable);
+            foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
+            {
+                metaInstanceVariable.UpdateVariable(oldVariable, newVariable);
             }
         }
 
@@ -91,7 +109,7 @@ namespace ClassTools.Data.Database
         {
             foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
             {
-                if ((metaInstanceVariable.Name == "Name" || metaInstanceVariable.Name == "name") && metaInstanceVariable.Value.String.Trim('"') != string.Empty)
+                if ((metaInstanceVariable.Variable.Name == "Name" || metaInstanceVariable.Variable.Name == "name") && metaInstanceVariable.Value.String.Trim('"') != string.Empty)
                 {
                     return metaInstanceVariable.Value.String.Trim('"');
                 }

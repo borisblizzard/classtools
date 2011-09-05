@@ -61,28 +61,13 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Construct
-        public MetaType(Model model, string name)
-            : base(model, name)
+        public MetaType(string name)
+            : base(name)
         {
             this.subType1 = null;
             this.suffix1 = string.Empty;
             this.subType2 = null;
             this.suffix2 = string.Empty;
-        }
-
-        public MetaType(Model model)
-            : base(model, "ANON_TYPE")
-        {
-            this.subType1 = null;
-            this.suffix1 = string.Empty;
-            this.subType2 = null;
-            this.suffix2 = string.Empty;
-            int i = 0;
-            while (model.TypeExists(this))
-            {
-                this.name = "ANON_TYPE_" + i.ToString();
-                i++;
-            }
         }
         #endregion
 
@@ -91,6 +76,10 @@ namespace ClassTools.Data.Hierarchy
         {
             if (!base.Equals(other)) return false;
             if (!this.CategoryType.Equals(other.CategoryType)) return false;
+            if (this.CategoryType == ECategoryType.Class)
+            {
+                if (!this.checkClassMatch((MetaClass)other)) return false;
+            }
             if (this.CategoryType == ECategoryType.List)
             {
                 if (!this.subType1.Equals(other.subType1)) return false;
@@ -103,6 +92,11 @@ namespace ClassTools.Data.Hierarchy
                 if (!this.subType2.Equals(other.subType2)) return false;
                 if (!this.suffix2.Equals(other.suffix2)) return false;
             }
+            return true;
+        }
+
+        protected virtual bool checkClassMatch(MetaClass other)
+        {
             return true;
         }
         #endregion
@@ -138,24 +132,24 @@ namespace ClassTools.Data.Hierarchy
         public override void UpdateType(MetaType oldType, MetaType newType)
         {
             base.UpdateType(oldType, newType);
-            if (this.subType1 != null && this.subType1.Matches(oldType))
+            if (this.subType1 != null && this.subType1.Equals(oldType))
             {
                 this.subType1 = newType;
             }
-            if (this.subType2 != null && this.subType2.Matches(oldType))
+            if (this.subType2 != null && this.subType2.Equals(oldType))
             {
                 this.subType2 = newType;
             }
         }
 
-        public virtual bool Matches(MetaType oldType)
-        {
-            return (oldType.CategoryType != ECategoryType.Class && this.Equals(oldType));
-        }
-
         public virtual bool Matches(MetaType oldType, MetaType newType)
         {
             return (oldType.CategoryType != ECategoryType.Class && newType.CategoryType != ECategoryType.Class && this.Equals(oldType));
+        }
+
+        public virtual MetaList<MetaVariable> FindVariableMismatches(MetaType metaType)
+        {
+            return new MetaList<MetaVariable>();
         }
 
         public virtual string GetNameWithModule(string separator)

@@ -53,7 +53,6 @@ namespace ClassTools.Data.Database
         public override bool Update(Model model)
         {
             this.model = model;
-            // TODO - if values does not have a key anymore, allow user to swap classes
             MetaList<MetaClass> keys = this.values.GetKeys();
             MetaList<MetaClass> classes = model.LeafClasses;
             MetaClass keyClass;
@@ -106,6 +105,18 @@ namespace ClassTools.Data.Database
                 foreach (MetaValue value in pair.Value)
                 {
                     value.UpdateType(oldType, newType);
+                }
+            }
+        }
+
+        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        {
+            this.model.UpdateVariable(oldVariable, newVariable);
+            foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in this.values)
+            {
+                foreach (MetaValue value in pair.Value)
+                {
+                    value.UpdateVariable(oldVariable, newVariable);
                 }
             }
         }

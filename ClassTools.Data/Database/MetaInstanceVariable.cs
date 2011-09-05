@@ -9,26 +9,14 @@ namespace ClassTools.Data.Database
     public class MetaInstanceVariable : MetaBase, IEquatable<MetaInstanceVariable>
     {
         #region Fields
-        protected string name;
-        protected string prefix;
-        protected bool nullable;
+        protected MetaVariable variable;
         protected MetaValue value;
         #endregion
 
         #region Properties
-        public string Name
+        public MetaVariable Variable
         {
-            get { return this.name; }
-        }
-
-        public string Prefix
-        {
-            get { return this.prefix; }
-        }
-
-        public bool Nullable
-        {
-            get { return this.nullable; }
+            get { return this.variable; }
         }
 
         public MetaValue Value
@@ -42,23 +30,46 @@ namespace ClassTools.Data.Database
         public MetaInstanceVariable(MetaVariable metaVariable)
             : base()
         {
-            this.name = metaVariable.Name;
-            this.prefix = metaVariable.Prefix;
-            this.nullable = metaVariable.Nullable;
-            switch (metaVariable.Type.CategoryType)
+            this.variable = metaVariable;
+            this.resetValue();
+        }
+
+        private void resetValue()
+        {
+            switch (this.variable.Type.CategoryType)
             {
                 case ECategoryType.Integral:
-                    this.value = new MetaValue(metaVariable.Type, metaVariable.DefaultValue);
+                    this.value = new MetaValue(this.variable.Type, this.variable.DefaultValue);
                     break;
                 case ECategoryType.Class:
-                    MetaClass metaClass = (MetaClass)metaVariable.Type;
-                    this.value = new MetaValue(metaClass, metaVariable.Nullable ? null : new MetaInstance(metaClass));
+                    MetaClass metaClass = (MetaClass)this.variable.Type;
+                    this.value = new MetaValue(metaClass, this.variable.Nullable ? null : new MetaInstance(metaClass));
                     break;
                 case ECategoryType.List:
-                    this.value = new MetaValue(metaVariable.Type, new MetaList<MetaValue>());
+                    this.value = new MetaValue(this.variable.Type, new MetaList<MetaValue>());
                     break;
                 case ECategoryType.Dictionary:
-                    this.value = new MetaValue(metaVariable.Type, new MetaDictionary<MetaValue, MetaValue>());
+                    this.value = new MetaValue(this.variable.Type, new MetaDictionary<MetaValue, MetaValue>());
+                    break;
+            }
+        }
+
+        private void resetValue(MetaValue metaValue)
+        {
+            switch (this.variable.Type.CategoryType)
+            {
+                case ECategoryType.Integral:
+                    this.value = new MetaValue(this.variable.Type, metaValue.String);
+                    break;
+                case ECategoryType.Class:
+                    MetaClass metaClass = (MetaClass)this.variable.Type;
+                    this.value = new MetaValue(metaClass, (this.variable.Nullable || metaValue.Instance != null) ? metaValue.Instance : new MetaInstance(metaClass));
+                    break;
+                case ECategoryType.List:
+                    this.value = new MetaValue(this.variable.Type, metaValue.List);
+                    break;
+                case ECategoryType.Dictionary:
+                    this.value = new MetaValue(this.variable.Type, metaValue.Dictionary);
                     break;
             }
         }
@@ -68,9 +79,7 @@ namespace ClassTools.Data.Database
         public bool Equals(MetaInstanceVariable other)
         {
             if (!base.Equals(other)) return false;
-            if (!this.name.Equals(other.name)) return false;
-            if (!this.prefix.Equals(other.prefix)) return false;
-            if (!this.nullable.Equals(other.nullable)) return false;
+            if (!this.variable.Equals(other.variable)) return false;
             if (!this.value.Equals(other.value)) return false;
             return true;
         }
@@ -89,12 +98,30 @@ namespace ClassTools.Data.Database
         public override void UpdateType(MetaType oldType, MetaType newType)
         {
             base.UpdateType(oldType, newType);
+            this.variable.UpdateType(oldType, newType);
             this.value.UpdateType(oldType, newType);
+        }
+
+        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        {
+            if (this.variable.Equals(oldVariable))
+            {
+                if (this.variable.Type.Equals(newVariable.Type))
+                {
+                    this.resetValue(this.value);
+                }
+                else
+                {
+                    this.resetValue();
+                }
+                this.variable = newVariable;
+            }
+            this.value.UpdateVariable(oldVariable, newVariable);
         }
 
         public override string ToString()
         {
-            return string.Format("{0}{1} {2}", this.Value.Type.GetNameWithModule(), this.prefix, this.name);
+            return string.Format("{0}{1} {2}", this.variable.Type.GetNameWithModule(), this.variable.Prefix, this.variable.Name);
         }
         #endregion
 

@@ -337,7 +337,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void bVariableNew_Click(object sender, EventArgs e)
         {
-            this.model.Classes[this.lbClasses.SelectedIndex].CreateNewVariable(this.lbVariables.SelectedIndex + 1);
+            this.model.Classes[this.lbClasses.SelectedIndex].CreateNewVariable(this.lbVariables.SelectedIndex + 1, this.model.AllTypes[0]);
             this.RefreshData();
             if (this.lbVariables.SelectedIndex < this.lbVariables.Items.Count - 1)
             {
@@ -355,7 +355,7 @@ namespace ClassTools.ClassMaker.Forms
 
         private void bMethodNew_Click(object sender, EventArgs e)
         {
-            this.model.Classes[this.lbClasses.SelectedIndex].CreateNewMethod(this.lbMethods.SelectedIndex + 1);
+            this.model.Classes[this.lbClasses.SelectedIndex].CreateNewMethod(this.lbMethods.SelectedIndex + 1, this.model.AllTypes[0]);
             this.RefreshData();
             if (this.lbMethods.SelectedIndex < this.lbMethods.Items.Count - 1)
             {

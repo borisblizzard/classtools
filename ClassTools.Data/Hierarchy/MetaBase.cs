@@ -6,17 +6,11 @@ namespace ClassTools.Data.Hierarchy
     public class MetaBase : Base, IEquatable<MetaBase>
     {
         #region Fields
-        protected Model model;
         protected string name;
         protected string prefix;
         #endregion
 
         #region Properties
-        public Model Model
-        {
-            get { return this.model; }
-        }
-
         public string Name
         {
             get { return this.name; }
@@ -31,10 +25,9 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Construct
-        public MetaBase(Model model, string name)
+        public MetaBase(string name)
             : base()
         {
-            this.model = model;
             this.name = name;
             this.prefix = string.Empty;
         }
@@ -53,7 +46,6 @@ namespace ClassTools.Data.Hierarchy
         #region Methods
         public override bool Update(Model model)
         {
-            this.model = model;
             return base.Update(model);
         }
 

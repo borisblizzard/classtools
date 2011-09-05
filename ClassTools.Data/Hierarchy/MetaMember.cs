@@ -26,10 +26,10 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Construct
-        public MetaMember(Model model, string name)
-            : base(model, name)
+        public MetaMember(string name, MetaType metaType)
+            : base(name)
         {
-            this.type = model.AllTypes[0];
+            this.type = metaType;
             this.accessType = EAccessType.Public;
         }
         #endregion
@@ -63,7 +63,7 @@ namespace ClassTools.Data.Hierarchy
         public override void UpdateType(MetaType oldType, MetaType newType)
         {
             base.UpdateType(oldType, newType);
-            if (this.type.Matches(oldType))
+            if (this.type.Equals(oldType))
             {
                 this.type = newType;
             }

@@ -16,11 +16,11 @@ namespace ClassTools.DataMaker.Forms
     public partial class Main : Form, IRefreshable
     {
         #region Constants
-        const string SAVE_PROMPT_NEW = "There are unsaved changes. Do you want to save before creating a new file?";
-        const string SAVE_PROMPT_OPEN = "There are unsaved changes. Do you want to save before opening another file?";
-        const string SAVE_PROMPT_EXIT = "There are unsaved changes. Do you want to save before exiting?";
+        private const string SAVE_PROMPT_NEW = "There are unsaved changes. Do you want to save before creating a new file?";
+        private const string SAVE_PROMPT_OPEN = "There are unsaved changes. Do you want to save before opening another file?";
+        private const string SAVE_PROMPT_EXIT = "There are unsaved changes. Do you want to save before exiting?";
 
-        const string WARNING_MODEL_NOT_MATCHING = "The imported Class Model does not match the Database's Class Model.";
+        private const string WARNING_MODEL_NOT_MATCHING = "The imported Class Model does not match the Database's Class Model.";
         #endregion
 
         #region Fields

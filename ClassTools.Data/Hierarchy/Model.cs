@@ -46,27 +46,27 @@ namespace ClassTools.Data.Hierarchy
             this.types = new MetaList<MetaType>();
             foreach (string name in Constants.TYPES_VOID)
             {
-                this.types.Add(new MetaType(this, name));
+                this.types.Add(new MetaType(name));
             }
             foreach (string name in Constants.TYPES_INT)
             {
-                this.types.Add(new MetaType(this, name));
+                this.types.Add(new MetaType(name));
             }
             foreach (string name in Constants.TYPES_FLOAT)
             {
-                this.types.Add(new MetaType(this, name));
+                this.types.Add(new MetaType(name));
             }
             foreach (string name in Constants.TYPES_BOOL)
             {
-                this.types.Add(new MetaType(this, name));
+                this.types.Add(new MetaType(name));
             }
             foreach (string name in Constants.TYPES_CHAR)
             {
-                this.types.Add(new MetaType(this, name));
+                this.types.Add(new MetaType(name));
             }
             foreach (string name in Constants.TYPES_STRING)
             {
-                this.types.Add(new MetaType(this, name));
+                this.types.Add(new MetaType(name));
             }
         }
         #endregion
@@ -90,14 +90,14 @@ namespace ClassTools.Data.Hierarchy
             return result;
         }
 
-        public MetaType FindMatchingType(MetaType type)
+        public MetaType FindMatchingType(MetaType metaType)
         {
-            if (type.CategoryType == ECategoryType.Class)
+            if (metaType.CategoryType == ECategoryType.Class)
             {
-                MetaClass metaClass = (MetaClass)type;
+                MetaClass metaClass = (MetaClass)metaType;
                 return this.classes.Find(c => c.Equals(metaClass));
             }
-            return this.types.Find(t => t.Equals(type));
+            return this.types.Find(t => t.Equals(metaType));
         }
 
         public override void UpdateType(MetaType oldType, MetaType newType)
@@ -143,12 +143,27 @@ namespace ClassTools.Data.Hierarchy
             }
             base.UpdateType(oldType, newType);
         }
+
+        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        {
+            foreach (MetaClass metaClass in this.classes)
+            {
+                metaClass.UpdateVariable(oldVariable, newVariable);
+            }
+        }
         #endregion
 
         #region Class Methods
         public void CreateNewClass(int index)
         {
-            this.classes.Insert(index, new MetaClass(this));
+            int i = 1;
+            string name = "ANON_CLASS";
+            while (this.classes.Exists(c => c.Module == "" && c.Name == name))
+            {
+                name = "ANON_CLASS_" + i.ToString();
+                i++;
+            }
+            this.classes.Insert(index, new MetaClass(name));
         }
 
         public void DeleteClassAt(int index)
@@ -160,27 +175,24 @@ namespace ClassTools.Data.Hierarchy
         {
             this.classes.Sort(new Comparison<MetaClass>((a, b) => a.Name.CompareTo(b.Name)));
         }
-
-        public bool ClassExists(MetaClass metaClass)
-        {
-            return this.classes.Exists(c => c.Equals(metaClass));
-        }
         #endregion
 
         #region Type Methods
         public void CreateNewType(int index)
         {
-            this.types.Insert(index, new MetaType(this));
+            int i = 1;
+            string name = "ANON_TYPE";
+            while (this.types.Exists(t => t.Name == name))
+            {
+                name = "ANON_TYPE_" + i.ToString();
+                i++;
+            }
+            this.types.Insert(index, new MetaType(name));
         }
 
         public void DeleteTypeAt(int index)
         {
             this.types.RemoveAt(index);
-        }
-
-        public bool TypeExists(MetaType metaType)
-        {
-            return this.types.Exists(c => c.Equals(metaType));
         }
         #endregion
 

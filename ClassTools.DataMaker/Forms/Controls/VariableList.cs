@@ -66,7 +66,6 @@ namespace ClassTools.DataMaker.Forms.Controls
             Label label;
             int maxWidth = 0;
             Control newControl;
-            // TODO - if type is not class if ()
             switch (type.CategoryType)
             {
                 case ECategoryType.Integral:
@@ -86,6 +85,12 @@ namespace ClassTools.DataMaker.Forms.Controls
                         }
                         newControl = this.createControl(metaVariable.Type, metaVariable.ToString(), i);
                     }
+                    break;
+                case ECategoryType.List:
+                    // TODO
+                    break;
+                case ECategoryType.Dictionary:
+                    // TODO
                     break;
             }
             foreach (Control control in this.valueControls)
@@ -452,9 +457,10 @@ namespace ClassTools.DataMaker.Forms.Controls
                             switch (metaType.CategoryType)
                             {
                                 case ECategoryType.Integral:
+                                    // can't happen
                                     break;
                                 case ECategoryType.Class:
-                                    ManagerInstance formInstance = new ManagerInstance(this.repository, (MetaClass)metaType, value, metaInstanceVariable.Nullable);
+                                    ManagerInstance formInstance = new ManagerInstance(this.repository, (MetaClass)metaType, value, metaInstanceVariable.Variable.Nullable);
                                     formInstance.Text = metaInstanceVariable.ToString();
                                     formInstance.ShowDialog();
                                     metaInstanceVariable.Value = formInstance.Value;

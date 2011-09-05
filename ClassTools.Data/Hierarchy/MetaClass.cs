@@ -102,20 +102,14 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Construct
-        public MetaClass(Model model)
-            : base(model, "ANON_CLASS")
+        public MetaClass(string name)
+            : base(name)
         {
             this.module = "";
             this.superClass = null;
             this.variables = new MetaList<MetaVariable>();
             this.methods = new MetaList<MetaMethod>();
             this.canSerialize = false;
-            int i = 0;
-            while (model.ClassExists(this))
-            {
-                this.name = "ANON_CLASS_" + i.ToString();
-                i++;
-            }
         }
         #endregion
 
@@ -123,6 +117,11 @@ namespace ClassTools.Data.Hierarchy
         public bool Equals(MetaClass other)
         {
             if (!base.Equals(other)) return false;
+            return true;
+        }
+
+        protected override bool checkClassMatch(MetaClass other)
+        {
             if (!this.module.Equals(other.module)) return false;
             if ((this.superClass != null) != (other.superClass != null)) return false;
             if (this.superClass != null && !this.superClass.Equals(other.superClass)) return false;
@@ -169,7 +168,7 @@ namespace ClassTools.Data.Hierarchy
         public override void UpdateType(MetaType oldType, MetaType newType)
         {
             base.UpdateType(oldType, newType);
-            if (this.superClass != null && this.superClass.Matches(oldType))
+            if (this.superClass != null && this.superClass.Equals(oldType))
             {
                 this.superClass = (this.superClass.Matches(oldType, newType) ? (MetaClass)newType : null);
             }
@@ -183,14 +182,46 @@ namespace ClassTools.Data.Hierarchy
             }
         }
 
-        public override bool Matches(MetaType oldType)
-        {
-            return (oldType.CategoryType == ECategoryType.Class && this.Equals((MetaClass)oldType));
-        }
-
         public override bool Matches(MetaType oldType, MetaType newType)
         {
             return (oldType.CategoryType == ECategoryType.Class && newType.CategoryType == ECategoryType.Class && this.Equals((MetaClass)oldType));
+        }
+
+        public override MetaList<MetaVariable> FindVariableMismatches(MetaType metaType)
+        {
+            MetaList<MetaVariable> result = base.FindVariableMismatches(metaType);
+            if (metaType.CategoryType == ECategoryType.Class)
+            {
+                MetaClass metaClass = (MetaClass)metaType;
+                result.AddRange(this.variables.FindAll(v => !metaClass.variables.Contains(v)));
+            }
+            return result;
+        }
+
+        public MetaVariable FindMatchingVariable(MetaVariable metaVariable)
+        {
+            return this.variables.Find(v => v.Equals(metaVariable));
+        }
+
+        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        {
+            //base.UpdateVariable(oldClass, oldVariable, newVariable);
+            // TODO
+            /*
+            base.UpdateType(oldVariable, newVariable);
+            if (this.superClass != null && this.superClass.Matches(oldVariable))
+            {
+                this.superClass = (this.superClass.Matches(oldVariable, newVariable) ? (MetaClass)newVariable : null);
+            }
+            foreach (MetaVariable variable in this.variables)
+            {
+                variable.UpdateType(oldVariable, oldVariable);
+            }
+            foreach (MetaMethod method in this.methods)
+            {
+                method.UpdateType(oldVariable, oldVariable);
+            }
+             * */
         }
 
         public override string GetNameWithModule(string separator)
@@ -239,9 +270,16 @@ namespace ClassTools.Data.Hierarchy
         #endregion
 
         #region Variable Methods
-        public void CreateNewVariable(int index)
+        public void CreateNewVariable(int index, MetaType metaType)
         {
-            this.variables.Insert(index, new MetaVariable(this.model, this));
+            int i = 1;
+            string name = "ANON_VAR";
+            while (this.variables.Exists(v => v.Name == name))
+            {
+                name = "ANON_VAR_" + i.ToString();
+                i++;
+            }
+            this.variables.Insert(index, new MetaVariable(name, metaType));
         }
 
         public void DeleteVariableAt(int index)
@@ -263,17 +301,19 @@ namespace ClassTools.Data.Hierarchy
         {
             this.variables.Sort(new Comparison<MetaVariable>((a, b) => a.Name.CompareTo(b.Name)));
         }
-
-        public bool VariableExists(MetaVariable metaVariable)
-        {
-            return this.variables.Exists(c => c.Equals(metaVariable));
-        }
         #endregion
 
         #region Method Methods
-        public void CreateNewMethod(int index)
+        public void CreateNewMethod(int index, MetaType metaType)
         {
-            this.methods.Insert(index, new MetaMethod(this.model, this));
+            int i = 1;
+            string name = "ANON_METHOD";
+            while (this.methods.Exists(v => v.Name == name))
+            {
+                name = "ANON_METHOD_" + i.ToString();
+                i++;
+            }
+            this.methods.Insert(index, new MetaMethod(name, metaType));
         }
 
         public void DeleteMethodAt(int index)
@@ -294,11 +334,6 @@ namespace ClassTools.Data.Hierarchy
         public void SortMethods()
         {
             this.methods.Sort(new Comparison<MetaMethod>((a, b) => a.Name.CompareTo(b.Name)));
-        }
-
-        public bool MethodExists(MetaMethod metaMethod)
-        {
-            return this.methods.Exists(c => c.Equals(metaMethod));
         }
         #endregion
 
