@@ -105,6 +105,23 @@ namespace ClassTools.Data.Database
             }
         }
 
+        public override void RemoveVariable(MetaVariable metaVariable)
+        {
+            base.RemoveVariable(metaVariable);
+            for (int i = 0; i < this.instanceVariables.Count; i++)
+            {
+                if (this.instanceVariables[i].Variable.Equals(metaVariable))
+                {
+                    this.instanceVariables.RemoveAt(i);
+                    i--;
+                }
+                else
+                {
+                    this.instanceVariables[i].RemoveVariable(metaVariable);
+                }
+            }
+        }
+
         public override string ToString()
         {
             foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)

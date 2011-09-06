@@ -102,53 +102,36 @@ namespace ClassTools.Data.Hierarchy
 
         public override void UpdateType(MetaType oldType, MetaType newType)
         {
-            int index = -1;
+            base.UpdateType(oldType, newType);
             if (oldType.CategoryType == ECategoryType.Class && newType.CategoryType == ECategoryType.Class)
             {
-                index = this.classes.IndexOf((MetaClass)oldType);
+                this.classes[this.classes.IndexOf((MetaClass)oldType)] = (MetaClass)newType;
             }
             else if (oldType.CategoryType != ECategoryType.Class && newType.CategoryType != ECategoryType.Class)
             {
-                index = this.types.IndexOf((MetaClass)oldType);
+                this.types[this.types.IndexOf(oldType)] = newType;
             }
-            if (oldType.CategoryType == ECategoryType.Class)
+            foreach (MetaType metaType in this.AllTypes)
             {
-                this.classes.Remove((MetaClass)oldType);
+                metaType.UpdateType(oldType, newType);
             }
-            else
-            {
-                this.types.Remove(oldType);
-            }
-            if (newType.CategoryType == ECategoryType.Class)
-            {
-                if (index >= 0)
-                {
-                    this.classes.Insert(index, (MetaClass)newType);
-                }
-                else
-                {
-                    this.classes.Add((MetaClass)newType);
-                }
-            }
-            else
-            {
-                if (index >= 0)
-                {
-                    this.types.Insert(index, (MetaClass)newType);
-                }
-                else
-                {
-                    this.types.Add((MetaClass)newType);
-                }
-            }
-            base.UpdateType(oldType, newType);
         }
 
         public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
         {
-            foreach (MetaClass metaClass in this.classes)
+            base.UpdateVariable(oldVariable, newVariable);
+            foreach (MetaType metaType in this.AllTypes)
             {
-                metaClass.UpdateVariable(oldVariable, newVariable);
+                metaType.UpdateVariable(oldVariable, newVariable);
+            }
+        }
+
+        public override void RemoveVariable(MetaVariable metaVariable)
+        {
+            base.RemoveVariable(metaVariable);
+            foreach (MetaType metaType in this.AllTypes)
+            {
+                metaType.RemoveVariable(metaVariable);
             }
         }
         #endregion

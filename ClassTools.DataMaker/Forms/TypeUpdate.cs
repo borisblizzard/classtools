@@ -15,7 +15,7 @@ namespace ClassTools.DataMaker.Forms
         #region Constants
         private const string ERROR_TYPE_UPDATE_INCOMPLETE = "There are still mismatched types that have not been replaced.";
 
-        private const string WARNING_TYPE_NOT_MATCHING = "The selected type's variables do not match.";
+        private const string WARNING_TYPE_NOT_MATCHING = "The selected types' variables do not match.";
         #endregion
 
         #region Fields

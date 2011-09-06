@@ -36,6 +36,7 @@
             this.gbNewVariables = new System.Windows.Forms.GroupBox();
             this.lbNewVariables = new System.Windows.Forms.ListBox();
             this.bReplace = new System.Windows.Forms.Button();
+            this.bRemove = new System.Windows.Forms.Button();
             this.gbOldVariables.SuspendLayout();
             this.gbNewVariables.SuspendLayout();
             this.SuspendLayout();
@@ -108,7 +109,7 @@
             // 
             // bReplace
             // 
-            this.bReplace.Location = new System.Drawing.Point(312, 207);
+            this.bReplace.Location = new System.Drawing.Point(312, 186);
             this.bReplace.Name = "bReplace";
             this.bReplace.Size = new System.Drawing.Size(75, 23);
             this.bReplace.TabIndex = 1;
@@ -116,12 +117,23 @@
             this.bReplace.UseVisualStyleBackColor = true;
             this.bReplace.Click += new System.EventHandler(this.bReplace_Click);
             // 
+            // bRemove
+            // 
+            this.bRemove.Location = new System.Drawing.Point(312, 215);
+            this.bRemove.Name = "bRemove";
+            this.bRemove.Size = new System.Drawing.Size(75, 23);
+            this.bRemove.TabIndex = 8;
+            this.bRemove.Text = "Remove";
+            this.bRemove.UseVisualStyleBackColor = true;
+            this.bRemove.Click += new System.EventHandler(this.bRemove_Click);
+            // 
             // VariableUpdate
             // 
             this.AcceptButton = this.bOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(704, 484);
+            this.Controls.Add(this.bRemove);
             this.Controls.Add(this.bReplace);
             this.Controls.Add(this.gbNewVariables);
             this.Controls.Add(this.bOk);
@@ -151,6 +163,7 @@
         private System.Windows.Forms.Button bReplace;
         private System.Windows.Forms.ListBox lbNewVariables;
         private System.Windows.Forms.Button bAutoReplace;
+        private System.Windows.Forms.Button bRemove;
     }
 }
 

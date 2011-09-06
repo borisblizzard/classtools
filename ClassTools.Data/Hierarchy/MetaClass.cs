@@ -205,23 +205,47 @@ namespace ClassTools.Data.Hierarchy
 
         public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
         {
-            //base.UpdateVariable(oldClass, oldVariable, newVariable);
-            // TODO
-            /*
-            base.UpdateType(oldVariable, newVariable);
-            if (this.superClass != null && this.superClass.Matches(oldVariable))
+            base.UpdateVariable(oldVariable, newVariable);
+            if (this.superClass != null)
             {
-                this.superClass = (this.superClass.Matches(oldVariable, newVariable) ? (MetaClass)newVariable : null);
+                this.superClass.UpdateVariable(oldVariable, newVariable);
             }
-            foreach (MetaVariable variable in this.variables)
+            for (int i = 0; i < this.variables.Count; i++)
             {
-                variable.UpdateType(oldVariable, oldVariable);
+                if (this.variables[i].Equals(oldVariable))
+                {
+                    this.variables[i] = newVariable;
+                }
+                else
+                {
+                    this.variables[i].UpdateVariable(oldVariable, newVariable);
+                }
             }
             foreach (MetaMethod method in this.methods)
             {
-                method.UpdateType(oldVariable, oldVariable);
+                method.UpdateVariable(oldVariable, newVariable);
             }
-             * */
+        }
+
+        public override void RemoveVariable(MetaVariable metaVariable)
+        {
+            base.RemoveVariable(metaVariable);
+            if (this.superClass != null)
+            {
+                this.superClass.RemoveVariable(metaVariable);
+            }
+            for (int i = 0; i < this.variables.Count; i++)
+            {
+                if (this.variables[i].Equals(metaVariable))
+                {
+                    this.variables.RemoveAt(i);
+                    break;
+                }
+            }
+            foreach (MetaMethod method in this.methods)
+            {
+                method.RemoveVariable(metaVariable);
+            }
         }
 
         public override string GetNameWithModule(string separator)

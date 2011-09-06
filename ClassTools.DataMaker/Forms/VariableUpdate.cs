@@ -93,6 +93,17 @@ namespace ClassTools.DataMaker.Forms
             this.RefreshData();
         }
 
+        private void bRemove_Click(object sender, EventArgs e)
+        {
+            MetaVariable metaVariable = (MetaVariable)this.lbOldVariables.SelectedItem;
+            if (metaVariable == null)
+            {
+                return;
+            }
+            this.repository.RemoveVariable(metaVariable);
+            this.RefreshData();
+        }
+
         private void bAutoReplace_Click(object sender, EventArgs e)
         {
             MetaVariable newVariable;

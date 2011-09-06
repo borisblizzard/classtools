@@ -365,6 +365,7 @@ namespace ClassTools.Data.Database
 
         public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
         {
+            base.UpdateVariable(oldVariable, newVariable);
             switch (this.type.CategoryType)
             {
                 case ECategoryType.Class:
@@ -384,6 +385,33 @@ namespace ClassTools.Data.Database
                     {
                         pair.Key.UpdateVariable(oldVariable, newVariable);
                         pair.Value.UpdateVariable(oldVariable, newVariable);
+                    }
+                    break;
+            }
+        }
+
+        public override void RemoveVariable(MetaVariable metaVariable)
+        {
+            base.RemoveVariable(metaVariable);
+            switch (this.type.CategoryType)
+            {
+                case ECategoryType.Class:
+                    if (this.instance != null)
+                    {
+                        this.instance.RemoveVariable(metaVariable);
+                    }
+                    break;
+                case ECategoryType.List:
+                    foreach (MetaValue metaValue in this.list)
+                    {
+                        metaValue.RemoveVariable(metaVariable);
+                    }
+                    break;
+                case ECategoryType.Dictionary:
+                    foreach (KeyValuePair<MetaValue, MetaValue> pair in this.dictionary)
+                    {
+                        pair.Key.RemoveVariable(metaVariable);
+                        pair.Value.RemoveVariable(metaVariable);
                     }
                     break;
             }

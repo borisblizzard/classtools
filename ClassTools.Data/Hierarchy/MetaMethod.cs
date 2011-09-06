@@ -69,6 +69,24 @@ namespace ClassTools.Data.Hierarchy
                 parameter.UpdateType(oldType, newType);
             }
         }
+
+        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        {
+            base.UpdateVariable(oldVariable, newVariable);
+            foreach (MetaVariable parameter in this.parameters)
+            {
+                parameter.UpdateVariable(oldVariable, newVariable);
+            }
+        }
+
+        public override void RemoveVariable(MetaVariable metaVariable)
+        {
+            base.RemoveVariable(metaVariable);
+            foreach (MetaVariable parameter in this.parameters)
+            {
+                parameter.RemoveVariable(metaVariable);
+            }
+        }
         #endregion
 
         #region Parameters

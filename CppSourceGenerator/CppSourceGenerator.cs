@@ -14,7 +14,7 @@ namespace ClassTools
         private string name = "C++ Source Generator";
         private string description = "Generates C++ source code and headers.";
         private string author = "Boris Mikić";
-        private string version = "0.91";
+        private string version = "0.92";
         private string toolId = "ClassMaker";
         private string path = string.Empty;
         private StreamWriter writer;

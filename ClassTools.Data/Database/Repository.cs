@@ -120,6 +120,18 @@ namespace ClassTools.Data.Database
                 }
             }
         }
+
+        public override void RemoveVariable(MetaVariable metaVariable)
+        {
+            this.model.RemoveVariable(metaVariable);
+            foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in this.values)
+            {
+                foreach (MetaValue value in pair.Value)
+                {
+                    value.RemoveVariable(metaVariable);
+                }
+            }
+        }
         #endregion
 
         #region Values
