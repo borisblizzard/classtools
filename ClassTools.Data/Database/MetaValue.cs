@@ -202,7 +202,20 @@ namespace ClassTools.Data.Database
         #endregion
 
         #region Construct
-        public MetaValue(MetaType metaType, string defaultValue = "")
+        public MetaValue(MetaVariable metaVariable)
+            : base()
+        {
+            this.Reset(metaVariable);
+        }
+
+        public MetaValue(MetaType metaType)
+            : base()
+        {
+            this.type = metaType;
+            this.Reset();
+        }
+
+        public MetaValue(MetaType metaType, string defaultValue)
             : base()
         {
             this.type = metaType;
@@ -229,24 +242,64 @@ namespace ClassTools.Data.Database
             this.type = metaType;
             this.Dictionary = dictionary;
         }
+        #endregion
 
-        public MetaValue(MetaValue other)
-            : base()
+        #region Reset
+        public void Reset(MetaVariable metaVariable)
         {
-            this.type = other.type;
+            this.type = metaVariable.Type;
             switch (this.type.CategoryType)
             {
                 case ECategoryType.Integral:
-                    this.String = other.String;
+                    this.String = metaVariable.DefaultValue;
                     break;
                 case ECategoryType.Class:
-                    this.Instance = other.Instance;
+                    this.Instance = (!metaVariable.Nullable ? new MetaInstance((MetaClass)this.type) : null);
                     break;
                 case ECategoryType.List:
-                    this.List = other.List;
+                    this.List = new MetaList<MetaValue>();
                     break;
                 case ECategoryType.Dictionary:
-                    this.Dictionary = other.Dictionary;
+                    this.Dictionary = new MetaDictionary<MetaValue, MetaValue>();
+                    break;
+            }
+        }
+
+        public void Reset(MetaValue metaValue)
+        {
+            this.type = metaValue.type;
+            switch (this.type.CategoryType)
+            {
+                case ECategoryType.Integral:
+                    this.String = metaValue.String;
+                    break;
+                case ECategoryType.Class:
+                    this.Instance = metaValue.Instance;
+                    break;
+                case ECategoryType.List:
+                    this.List = metaValue.List;
+                    break;
+                case ECategoryType.Dictionary:
+                    this.Dictionary = metaValue.Dictionary;
+                    break;
+            }
+        }
+
+        public void Reset()
+        {
+            switch (this.type.CategoryType)
+            {
+                case ECategoryType.Integral:
+                    this.String = "";
+                    break;
+                case ECategoryType.Class:
+                    this.Instance = new MetaInstance((MetaClass)this.type);
+                    break;
+                case ECategoryType.List:
+                    this.List = new MetaList<MetaValue>();
+                    break;
+                case ECategoryType.Dictionary:
+                    this.Dictionary = new MetaDictionary<MetaValue, MetaValue>();
                     break;
             }
         }

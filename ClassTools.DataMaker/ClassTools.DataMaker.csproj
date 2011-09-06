@@ -59,6 +59,12 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\Controls\ValueDictionary.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\ValueDictionary.Designer.cs">
+      <DependentUpon>ValueDictionary.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\VariableUpdate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +116,9 @@
     <Compile Include="Forms\IRefreshable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\Controls\ValueDictionary.resx">
+      <DependentUpon>ValueDictionary.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\VariableUpdate.resx">
       <DependentUpon>VariableUpdate.cs</DependentUpon>
       <SubType>Designer</SubType>

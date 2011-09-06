@@ -419,32 +419,14 @@ namespace ClassTools.DataMaker.Forms.Controls
         private void vlButtonManage_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
+            ManagerInstance formInstance;
+            ManagerList formList;
+            ManagerDictionary formDictionary;
             MetaInstanceVariable metaInstanceVariable;
-            MetaType metaType;
             switch (this.value.Type.CategoryType)
             {
                 case ECategoryType.Integral:
-                    metaType = this.value.Type;
-                    switch (metaType.CategoryType)
-                    {
-                        case ECategoryType.List:
-                            ManagerList formList = new ManagerList(this.repository, metaType.SubType1, this.value.List);
-                            formList.Text = metaType.GetNameWithModule();
-                            formList.ShowDialog();
-                            this.value.List = formList.ListValues;
-                            break;
-                        case ECategoryType.Dictionary:
-                            MessageBox.Show("IMPLEMENT ME");
-                            // TODO
-                            /*
-                            ManagerDictionary formDictionary = new ManagerDictionary(this.repository, metaType.SubType1, metaType.SubType2, this.value.Dictionary);
-                            formDictionary.Text = metaType.GetNameWithModule();
-                            formDictionary.ShowDialog();
-                            this.value.Dictionary = formDictionary.DictionaryValues;
-                            */
-                            break;
-                    }
-                    this.RefreshData();
+                    // can't happen
                     break;
                 case ECategoryType.Class:
                     for (int i = 0; i < this.value.Instance.InstanceVariables.Count; i++)
@@ -452,41 +434,47 @@ namespace ClassTools.DataMaker.Forms.Controls
                         metaInstanceVariable = this.value.Instance.InstanceVariables[i];
                         if (button.Name == metaInstanceVariable.ToString())
                         {
-                            value = metaInstanceVariable.Value;
-                            metaType = value.Type;
-                            switch (metaType.CategoryType)
+                            MetaValue value = metaInstanceVariable.Value;
+                            switch (value.Type.CategoryType)
                             {
                                 case ECategoryType.Integral:
                                     // can't happen
                                     break;
                                 case ECategoryType.Class:
-                                    ManagerInstance formInstance = new ManagerInstance(this.repository, (MetaClass)metaType, value, metaInstanceVariable.Variable.Nullable);
+                                    formInstance = new ManagerInstance(this.repository, (MetaClass)value.Type, value, metaInstanceVariable.Variable.Nullable);
                                     formInstance.Text = metaInstanceVariable.ToString();
                                     formInstance.ShowDialog();
                                     metaInstanceVariable.Value = formInstance.Value;
-                                    this.RefreshData();
                                     break;
                                 case ECategoryType.List:
-                                    ManagerList formList = new ManagerList(this.repository, metaType.SubType1, value.List);
+                                    formList = new ManagerList(this.repository, value.Type.SubType1, value.List);
                                     formList.Text = metaInstanceVariable.ToString();
                                     formList.ShowDialog();
-                                    metaInstanceVariable.Value.List = formList.ListValues;
+                                    value.List = formList.ListValues;
                                     break;
                                 case ECategoryType.Dictionary:
-                                    MessageBox.Show("IMPLEMENT ME");
-                                    // TODO
-                                    /*
-                                    ManagerDictionary formDictionary = new ManagerDictionary(this.repository, metaType.SubType1, metaType.SubType2, value.Dictionary);
+                                    formDictionary = new ManagerDictionary(this.repository, value.Type.SubType1, value.Type.SubType2, value.Dictionary);
                                     formDictionary.Text = metaInstanceVariable.ToString();
                                     formDictionary.ShowDialog();
-                                    metaInstanceVariable.Value.Dictionary = formDictionary.DictionaryValues;
-                                    */
+                                    value.Dictionary = formDictionary.DictionaryValues;
                                     break;
                             }
                             this.RefreshData();
                             break;
                         }
                     }
+                    break;
+                case ECategoryType.List:
+                    formList = new ManagerList(this.repository, this.value.Type.SubType1, this.value.List);
+                    formList.Text = this.value.Type.GetNameWithModule();
+                    formList.ShowDialog();
+                    this.value.List = formList.ListValues;
+                    break;
+                case ECategoryType.Dictionary:
+                    formList = new ManagerList(this.repository, this.value.Type.SubType1, this.value.List);
+                    formList.Text = this.value.Type.GetNameWithModule();
+                    formList.ShowDialog();
+                    this.value.List = formList.ListValues;
                     break;
             }
         }

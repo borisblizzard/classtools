@@ -13,17 +13,10 @@ namespace ClassTools.DataMaker.Forms
 {
     public partial class ManagerList : Form, IRefreshable
     {
-        #region Fields
-        private Repository repository;
-        private MetaType type;
-        private MetaList<MetaValue> listValues;
-        private bool refreshing;
-        #endregion
-
         #region Properties
         public MetaList<MetaValue> ListValues
         {
-            get { return this.listValues; }
+            get { return this.vlValues.ListValues; }
         }
         #endregion
 
@@ -31,23 +24,13 @@ namespace ClassTools.DataMaker.Forms
         public ManagerList(Repository repository, MetaType metaType, MetaList<MetaValue> metaValues)
         {
             InitializeComponent();
-            this.repository = repository;
-            this.type = metaType;
-            this.listValues = metaValues;
-            this.vlValues.SetData(this, this.repository, this.type, this.listValues);
-            this.RefreshData();
+            this.vlValues.SetData(this, repository, metaType, metaValues);
         }
         #endregion
 
         #region Refresh
         public void RefreshData()
         {
-            if (this.refreshing)
-            {
-                return;
-            }
-            this.refreshing = true;
-            this.refreshing = false;
         }
         #endregion
 
@@ -87,11 +70,6 @@ namespace ClassTools.DataMaker.Forms
         private void closeMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void lbInstances_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.RefreshData();
         }
         #endregion
 

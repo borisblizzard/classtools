@@ -229,7 +229,7 @@
             this.vlValues.Size = new System.Drawing.Size(612, 440);
             this.vlValues.TabIndex = 1;
             // 
-            // Values
+            // ManagerList
             // 
             this.AcceptButton = this.bOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -237,14 +237,14 @@
             this.CancelButton = this.bOk;
             this.ClientSize = new System.Drawing.Size(636, 506);
             this.Controls.Add(this.bOk);
-            this.Controls.Add(this.vlValues);
             this.Controls.Add(this.menuStrip);
+            this.Controls.Add(this.vlValues);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Values";
+            this.Name = "ManagerList";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

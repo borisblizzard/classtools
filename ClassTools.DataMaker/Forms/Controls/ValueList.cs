@@ -120,23 +120,7 @@ namespace ClassTools.DataMaker.Forms.Controls
         {
             if (this.lbValues.Focused)
             {
-                MetaValue metaValue = null;
-                switch (this.type.CategoryType)
-                {
-                    case ECategoryType.Integral:
-                        metaValue = new MetaValue(this.type);
-                        break;
-                    case ECategoryType.Class:
-                        metaValue = new MetaValue((MetaClass)this.type, new MetaInstance((MetaClass)this.type));
-                        break;
-                    case ECategoryType.List:
-                        metaValue = new MetaValue(this.type, new MetaList<MetaValue>());
-                        break;
-                    case ECategoryType.Dictionary:
-                        metaValue = new MetaValue(this.type, new MetaDictionary<MetaValue, MetaValue>());
-                        break;
-                }
-                this.listValues.Insert(this.lbValues.SelectedIndex + 1, metaValue);
+                this.listValues.Insert(this.lbValues.SelectedIndex + 1, new MetaValue(this.type));
                 this.RefreshData();
             }
         }

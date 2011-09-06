@@ -31,47 +31,7 @@ namespace ClassTools.Data.Database
             : base()
         {
             this.variable = metaVariable;
-            this.resetValue();
-        }
-
-        private void resetValue()
-        {
-            switch (this.variable.Type.CategoryType)
-            {
-                case ECategoryType.Integral:
-                    this.value = new MetaValue(this.variable.Type, this.variable.DefaultValue);
-                    break;
-                case ECategoryType.Class:
-                    MetaClass metaClass = (MetaClass)this.variable.Type;
-                    this.value = new MetaValue(metaClass, this.variable.Nullable ? null : new MetaInstance(metaClass));
-                    break;
-                case ECategoryType.List:
-                    this.value = new MetaValue(this.variable.Type, new MetaList<MetaValue>());
-                    break;
-                case ECategoryType.Dictionary:
-                    this.value = new MetaValue(this.variable.Type, new MetaDictionary<MetaValue, MetaValue>());
-                    break;
-            }
-        }
-
-        private void resetValue(MetaValue metaValue)
-        {
-            switch (this.variable.Type.CategoryType)
-            {
-                case ECategoryType.Integral:
-                    this.value = new MetaValue(this.variable.Type, metaValue.String);
-                    break;
-                case ECategoryType.Class:
-                    MetaClass metaClass = (MetaClass)this.variable.Type;
-                    this.value = new MetaValue(metaClass, (this.variable.Nullable || metaValue.Instance != null) ? metaValue.Instance : new MetaInstance(metaClass));
-                    break;
-                case ECategoryType.List:
-                    this.value = new MetaValue(this.variable.Type, metaValue.List);
-                    break;
-                case ECategoryType.Dictionary:
-                    this.value = new MetaValue(this.variable.Type, metaValue.Dictionary);
-                    break;
-            }
+            this.value = new MetaValue(this.variable);
         }
         #endregion
 
@@ -109,11 +69,11 @@ namespace ClassTools.Data.Database
             {
                 if (this.variable.Type.Equals(newVariable.Type))
                 {
-                    this.resetValue(this.value);
+                    this.value.Reset(this.value);
                 }
                 else
                 {
-                    this.resetValue();
+                    this.value.Reset(this.variable);
                 }
                 this.variable = newVariable;
             }

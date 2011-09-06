@@ -63,7 +63,7 @@ namespace ClassTools.Data
         }
         #endregion
 
-        #region Utility
+        #region Methods
         public MetaList<K> GetKeys()
         {
             Dictionary<K, V>.KeyCollection keyCollection = this.Keys;
