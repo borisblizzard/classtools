@@ -35,8 +35,8 @@
             this.bInstanceDelete = new System.Windows.Forms.Button();
             this.lbValues = new System.Windows.Forms.ListBox();
             this.gbKeys = new System.Windows.Forms.GroupBox();
-            this.lbKeys = new System.Windows.Forms.ListBox();
             this.bEdit = new System.Windows.Forms.Button();
+            this.lbKeys = new System.Windows.Forms.ListBox();
             this.gbVariables.SuspendLayout();
             this.gbValues.SuspendLayout();
             this.gbKeys.SuspendLayout();
@@ -127,16 +127,6 @@
             this.gbKeys.TabStop = false;
             this.gbKeys.Text = "Keys";
             // 
-            // lbKeys
-            // 
-            this.lbKeys.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbKeys.FormattingEnabled = true;
-            this.lbKeys.Location = new System.Drawing.Point(7, 20);
-            this.lbKeys.Name = "lbKeys";
-            this.lbKeys.Size = new System.Drawing.Size(187, 381);
-            this.lbKeys.TabIndex = 0;
-            // 
             // bEdit
             // 
             this.bEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -147,6 +137,17 @@
             this.bEdit.Text = "Edit Key";
             this.bEdit.UseVisualStyleBackColor = true;
             this.bEdit.Click += new System.EventHandler(this.bEdit_Click);
+            // 
+            // lbKeys
+            // 
+            this.lbKeys.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbKeys.FormattingEnabled = true;
+            this.lbKeys.Location = new System.Drawing.Point(7, 20);
+            this.lbKeys.Name = "lbKeys";
+            this.lbKeys.Size = new System.Drawing.Size(187, 381);
+            this.lbKeys.TabIndex = 0;
+            this.lbKeys.SelectedIndexChanged += new System.EventHandler(this.lbKeys_SelectedIndexChanged);
             // 
             // ValueDictionary
             // 

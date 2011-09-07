@@ -75,6 +75,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             this.owner = owner;
             this.repository = repository;
             this.type1 = metaType1;
+            this.type2 = metaType2;
             this.dictionaryKeys = metaValues.GetKeys();
             this.dictionaryValues = metaValues.GetValues(this.dictionaryKeys);
             this.vlVariables.ClearData();
@@ -91,6 +92,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                 return;
             }
             this.refreshing = true;
+            this.owner.RefreshData();
             this.Enabled = (this.type1 != null && this.type2 != null);
             Utility.ApplyNewDataSource(this.lbKeys, new MetaList<MetaValue>(this.dictionaryKeys), this.dictionaryKeys.Count);
             Utility.ApplyNewDataSource(this.lbValues, new MetaList<MetaValue>(this.dictionaryValues), this.dictionaryValues.Count);
@@ -144,7 +146,7 @@ namespace ClassTools.DataMaker.Forms.Controls
 
         public void AddNewValue()
         {
-            if (this.lbValues.Focused)
+            if (this.lbKeys.Focused || this.lbValues.Focused)
             {
                 this.dictionaryKeys.Insert(this.lbValues.SelectedIndex + 1, new MetaValue(this.type1));
                 this.dictionaryValues.Insert(this.lbValues.SelectedIndex + 1, new MetaValue(this.type2));
@@ -154,7 +156,7 @@ namespace ClassTools.DataMaker.Forms.Controls
 
         public void DeleteValue()
         {
-            if (this.lbValues.Focused && this.lbValues.SelectedIndex >= 0)
+            if ((this.lbKeys.Focused || this.lbValues.Focused) && this.lbValues.SelectedIndex >= 0)
             {
                 this.dictionaryKeys.RemoveAt(this.lbValues.SelectedIndex);
                 this.dictionaryValues.RemoveAt(this.lbValues.SelectedIndex);
@@ -186,6 +188,25 @@ namespace ClassTools.DataMaker.Forms.Controls
         #region Events
         private void lbInstances_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (this.refreshing)
+            {
+                return;
+            }
+            this.refreshing = true;
+            this.lbKeys.SelectedIndex = this.lbValues.SelectedIndex;
+            this.refreshing = false;
+            this.RefreshData();
+        }
+
+        private void lbKeys_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.refreshing)
+            {
+                return;
+            }
+            this.refreshing = true;
+            this.lbValues.SelectedIndex = this.lbKeys.SelectedIndex;
+            this.refreshing = false;
             this.RefreshData();
         }
 
@@ -193,7 +214,12 @@ namespace ClassTools.DataMaker.Forms.Controls
         {
             if (this.lbKeys.SelectedIndex >= 0)
             {
-
+                MetaValue value = this.dictionaryKeys[this.lbKeys.SelectedIndex];
+                ManagerInstance formInstance = new ManagerInstance(this.repository, value.Type, value);
+                formInstance.Text = value.Type.GetNameWithModule();
+                formInstance.ShowDialog();
+                this.dictionaryKeys[this.lbKeys.SelectedIndex] = formInstance.Value;
+                this.RefreshData();
             }
         }
         #endregion

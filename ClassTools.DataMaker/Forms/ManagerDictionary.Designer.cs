@@ -90,14 +90,12 @@
             this.newStripMenuItem.Name = "newStripMenuItem";
             this.newStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.newStripMenuItem.Text = "Add new";
-            this.newStripMenuItem.Click += new System.EventHandler(this.addNewMenuItem_Click);
             // 
             // deleteStripMenuItem
             // 
             this.deleteStripMenuItem.Name = "deleteStripMenuItem";
             this.deleteStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.deleteStripMenuItem.Text = "Delete";
-            this.deleteStripMenuItem.Click += new System.EventHandler(this.deleteMenuItem_Click);
             // 
             // toolStripSeparator3
             // 

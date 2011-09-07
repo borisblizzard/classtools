@@ -194,6 +194,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             numericUpDown.Maximum = max;
             numericUpDown.TextAlign = HorizontalAlignment.Right;
             numericUpDown.ValueChanged += new EventHandler(this.vlNumericUpDown_ValueChanged);
+            numericUpDown.LostFocus += new EventHandler(this.vlNumericUpDown_ValueChanged);
             return numericUpDown;
         }
 
@@ -441,7 +442,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                                     // can't happen
                                     break;
                                 case ECategoryType.Class:
-                                    formInstance = new ManagerInstance(this.repository, (MetaClass)value.Type, value, metaInstanceVariable.Variable.Nullable);
+                                    formInstance = new ManagerInstance(this.repository, value.Type, value, metaInstanceVariable.Variable.Nullable);
                                     formInstance.Text = metaInstanceVariable.ToString();
                                     formInstance.ShowDialog();
                                     metaInstanceVariable.Value = formInstance.Value;

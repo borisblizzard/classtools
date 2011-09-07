@@ -58,16 +58,6 @@ namespace ClassTools.DataMaker.Forms
         {
             this.vdValues.DeleteValue();
         }
-
-        private void moveUpMenuItem_Click(object sender, EventArgs e)
-        {
-            this.vdValues.MoveUpValue();
-        }
-
-        private void moveDownMenuItem_Click(object sender, EventArgs e)
-        {
-            this.vdValues.MoveDownValue();
-        }
         #endregion
 
         #region Events

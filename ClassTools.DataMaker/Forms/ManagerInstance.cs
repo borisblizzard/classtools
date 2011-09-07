@@ -14,7 +14,7 @@ namespace ClassTools.DataMaker.Forms
     {
         #region Fields
         private Repository repository;
-        private MetaClass classe;
+        private MetaType type;
         private MetaValue value;
         private bool refreshing;
         #endregion
@@ -34,18 +34,18 @@ namespace ClassTools.DataMaker.Forms
         #endregion
 
         #region Construct
-        public ManagerInstance(Repository repository, MetaClass metaClass, MetaValue metaValue, bool nullable)
+        public ManagerInstance(Repository repository, MetaType metaType, MetaValue metaValue, bool nullable = false)
         {
             InitializeComponent();
             this.repository = repository;
             this.value = metaValue;
             this.cbxExists.Checked = (this.value.Instance != null);
-            if (this.value.Instance == null)
+            if (this.value.Type.CategoryType == ECategoryType.Class && this.value.Instance == null)
             {
-                this.value.Instance = new MetaInstance(metaClass);
+                this.value.Instance = new MetaInstance((MetaClass)metaType);
             }
-            this.classe = metaClass;
-            this.vlVariables.SetData(this, this.repository, this.classe);
+            this.type = metaType;
+            this.vlVariables.SetData(this, this.repository, this.type);
             this.vlVariables.SetValue(this.value);
             if (!nullable)
             {
