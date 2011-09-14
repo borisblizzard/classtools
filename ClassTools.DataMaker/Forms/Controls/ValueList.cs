@@ -139,6 +139,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             if (this.lbValues.Focused && this.listValues.TryMoveUp(this.lbValues.SelectedIndex))
             {
                 this.lbValues.SelectedIndex--;
+                this.RefreshData();
             }
         }
 
@@ -147,6 +148,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             if (this.lbValues.Focused && this.listValues.TryMoveDown(this.lbValues.SelectedIndex))
             {
                 this.lbValues.SelectedIndex++;
+                this.RefreshData();
             }
         }
         #endregion

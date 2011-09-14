@@ -171,6 +171,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                 this.dictionaryKeys.TryMoveUp(this.lbValues.SelectedIndex);
                 this.lbValues.SelectedIndex--;
                 this.lbKeys.SelectedIndex--;
+                this.RefreshData();
             }
         }
 
@@ -181,6 +182,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                 this.dictionaryKeys.TryMoveDown(this.lbValues.SelectedIndex);
                 this.lbValues.SelectedIndex++;
                 this.lbKeys.SelectedIndex++;
+                this.RefreshData();
             }
         }
         #endregion
