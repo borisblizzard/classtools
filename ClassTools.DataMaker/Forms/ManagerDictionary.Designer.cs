@@ -140,8 +140,9 @@
             this.copyMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyMenuItem.Image")));
             this.copyMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.copyMenuItem.Name = "copyMenuItem";
-            this.copyMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.copyMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.C)));
+            this.copyMenuItem.Size = new System.Drawing.Size(176, 22);
             this.copyMenuItem.Text = "&Copy";
             this.copyMenuItem.Click += new System.EventHandler(this.copyMenuItem_Click);
             // 
@@ -150,21 +151,22 @@
             this.pasteMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pasteMenuItem.Image")));
             this.pasteMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.pasteMenuItem.Name = "pasteMenuItem";
-            this.pasteMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.pasteMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.V)));
+            this.pasteMenuItem.Size = new System.Drawing.Size(176, 22);
             this.pasteMenuItem.Text = "&Paste";
             this.pasteMenuItem.Click += new System.EventHandler(this.pasteMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(173, 6);
             // 
             // addNewMenuItem
             // 
             this.addNewMenuItem.Name = "addNewMenuItem";
             this.addNewMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.addNewMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.addNewMenuItem.Size = new System.Drawing.Size(176, 22);
             this.addNewMenuItem.Text = "Add new";
             this.addNewMenuItem.Click += new System.EventHandler(this.addNewMenuItem_Click);
             // 
@@ -172,7 +174,7 @@
             // 
             this.deleteMenuItem.Name = "deleteMenuItem";
             this.deleteMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.deleteMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.deleteMenuItem.Size = new System.Drawing.Size(176, 22);
             this.deleteMenuItem.Text = "Delete";
             this.deleteMenuItem.Click += new System.EventHandler(this.deleteMenuItem_Click);
             // 

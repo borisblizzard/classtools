@@ -150,7 +150,8 @@
             this.copyMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyMenuItem.Image")));
             this.copyMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.copyMenuItem.Name = "copyMenuItem";
-            this.copyMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.C)));
             this.copyMenuItem.Size = new System.Drawing.Size(202, 22);
             this.copyMenuItem.Text = "&Copy";
             this.copyMenuItem.Click += new System.EventHandler(this.copyMenuItem_Click);
@@ -160,7 +161,8 @@
             this.pasteMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pasteMenuItem.Image")));
             this.pasteMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.pasteMenuItem.Name = "pasteMenuItem";
-            this.pasteMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.pasteMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.V)));
             this.pasteMenuItem.Size = new System.Drawing.Size(202, 22);
             this.pasteMenuItem.Text = "&Paste";
             this.pasteMenuItem.Click += new System.EventHandler(this.pasteMenuItem_Click);

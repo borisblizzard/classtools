@@ -28,10 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagerTypes));
             this.lbTypes = new System.Windows.Forms.ListBox();
-            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
             this.copyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -339,7 +338,8 @@
             this.copyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripMenuItem.Image")));
             this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.C)));
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyMenuItem_Click);
@@ -349,7 +349,8 @@
             this.pasteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripMenuItem.Image")));
             this.pasteToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.V)));
             this.pasteToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.pasteToolStripMenuItem.Text = "&Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteMenuItem_Click);
