@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using System.Drawing;
 using System.Reflection;
 
 using ClassTools.Data.Hierarchy;
@@ -10,7 +11,19 @@ namespace ClassTools.Common
     public static class Utility
     {
         #region Data Update
-        public static void ApplyNewDataSource(ListControl container, object dataSource, int count)
+        public static void ApplyNewDataSource(ListBox container, object dataSource, int count)
+        {
+            int topIndex = container.TopIndex;
+            Utility.applyNewDataSource(container, dataSource, count);
+            container.TopIndex = topIndex;
+        }
+
+        public static void ApplyNewDataSource(ComboBox container, object dataSource, int count)
+        {
+            Utility.applyNewDataSource(container, dataSource, count);
+        }
+
+        private static void applyNewDataSource(ListControl container, object dataSource, int count)
         {
             int index = container.SelectedIndex;
             container.DataSource = null;

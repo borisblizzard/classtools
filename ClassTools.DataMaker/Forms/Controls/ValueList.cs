@@ -154,7 +154,13 @@ namespace ClassTools.DataMaker.Forms.Controls
         #region Events
         private void lbInstances_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.RefreshData();
+            if (this.refreshing)
+            {
+                return;
+            }
+            this.refreshing = true;
+            this.vlVariables.SetValue((MetaValue)this.lbValues.SelectedItem);
+            this.refreshing = false;
         }
         #endregion
 

@@ -194,8 +194,8 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
             this.refreshing = true;
             this.lbKeys.SelectedIndex = this.lbValues.SelectedIndex;
+            this.vlVariables.SetValue((MetaValue)this.lbValues.SelectedItem);
             this.refreshing = false;
-            this.RefreshData();
         }
 
         private void lbKeys_SelectedIndexChanged(object sender, EventArgs e)
@@ -206,8 +206,8 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
             this.refreshing = true;
             this.lbValues.SelectedIndex = this.lbKeys.SelectedIndex;
+            this.vlVariables.SetValue((MetaValue)this.lbValues.SelectedItem);
             this.refreshing = false;
-            this.RefreshData();
         }
 
         private void bEdit_Click(object sender, EventArgs e)
