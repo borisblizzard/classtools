@@ -1,3 +1,6 @@
+General:
+- fix bug where variables would be replace globally instead only internally in a class
+
 ClassMaker:
 - add possibility to create enumerators
 - multiple constructors
