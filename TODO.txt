@@ -1,5 +1,8 @@
 General:
 - fix bug where variables would be replace globally instead only internally in a class
+- fix bug in source generation when already using ::
+- fix bug in source generation with nested classes
+- make instance variables display scrollable
 
 ClassMaker:
 - add possibility to create enumerators
