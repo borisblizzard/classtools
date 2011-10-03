@@ -117,21 +117,39 @@ namespace ClassTools.Data.Hierarchy
             }
         }
 
-        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        public override void UpdateVariable(MetaType metaType, MetaVariable oldVariable, MetaVariable newVariable)
         {
-            base.UpdateVariable(oldVariable, newVariable);
-            foreach (MetaType metaType in this.AllTypes)
+            base.UpdateVariable(metaType, oldVariable, newVariable);
+            foreach (MetaClass metaClass in this.classes)
             {
-                metaType.UpdateVariable(oldVariable, newVariable);
+                metaClass.UpdateVariable(metaType, oldVariable, newVariable);
             }
         }
 
-        public override void RemoveVariable(MetaVariable metaVariable)
+        public override void RemoveVariable(MetaType metaType, MetaVariable metaVariable)
         {
-            base.RemoveVariable(metaVariable);
-            foreach (MetaType metaType in this.AllTypes)
+            base.RemoveVariable(metaType, metaVariable);
+            foreach (MetaClass metaClass in this.classes)
             {
-                metaType.RemoveVariable(metaVariable);
+                metaClass.RemoveVariable(metaType, metaVariable);
+            }
+        }
+
+        public override void UpdateParameter(MetaType metaType, MetaMethod metaMethod, MetaParameter oldParameter, MetaParameter newParameter)
+        {
+            base.UpdateParameter(metaType, metaMethod, oldParameter, newParameter);
+            foreach (MetaClass metaClass in this.classes)
+            {
+                metaClass.UpdateParameter(metaType, metaMethod, oldParameter, newParameter);
+            }
+        }
+
+        public override void RemoveParameter(MetaType metaType, MetaMethod metaMethod, MetaParameter metaParameter)
+        {
+            base.RemoveParameter(metaType, metaMethod, metaParameter);
+            foreach (MetaClass metaClass in this.classes)
+            {
+                metaClass.RemoveParameter(metaType, metaMethod, metaParameter);
             }
         }
         #endregion

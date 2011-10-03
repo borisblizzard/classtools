@@ -25,11 +25,19 @@ namespace ClassTools.Data
         {
         }
 
-        public virtual void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        public virtual void UpdateVariable(MetaType metaType, MetaVariable oldVariable, MetaVariable newVariable)
         {
         }
 
-        public virtual void RemoveVariable(MetaVariable metaVariable)
+        public virtual void RemoveVariable(MetaType metaType, MetaVariable metaVariable)
+        {
+        }
+
+        public virtual void UpdateParameter(MetaType metaType, MetaMethod metaMethod, MetaParameter oldParameter, MetaParameter newParameter)
+        {
+        }
+
+        public virtual void RemoveParameter(MetaType metaType, MetaMethod metaMethod, MetaParameter metaParameter)
         {
         }
         #endregion

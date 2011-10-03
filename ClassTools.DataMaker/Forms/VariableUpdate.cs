@@ -89,7 +89,7 @@ namespace ClassTools.DataMaker.Forms
             {
                 return;
             }
-            this.repository.UpdateVariable(oldVariable, newVariable);
+            this.repository.UpdateVariable(this.oldClass, oldVariable, newVariable);
             this.RefreshData();
         }
 
@@ -100,7 +100,7 @@ namespace ClassTools.DataMaker.Forms
             {
                 return;
             }
-            this.repository.RemoveVariable(metaVariable);
+            this.repository.RemoveVariable(this.oldClass, metaVariable);
             this.RefreshData();
         }
 
@@ -112,7 +112,7 @@ namespace ClassTools.DataMaker.Forms
                 newVariable = this.newClass.Variables.Find(v => v.Name.Equals(oldVariable.Name));
                 if (newVariable != null)
                 {
-                    this.repository.UpdateVariable(oldVariable, newVariable);
+                    this.repository.UpdateVariable(this.oldClass, oldVariable, newVariable);
                 }
             }
             this.RefreshData();

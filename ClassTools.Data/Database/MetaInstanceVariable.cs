@@ -62,9 +62,9 @@ namespace ClassTools.Data.Database
             this.value.UpdateType(oldType, newType);
         }
 
-        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        public override void UpdateVariable(MetaType metaType, MetaVariable oldVariable, MetaVariable newVariable)
         {
-            base.UpdateVariable(oldVariable, newVariable);
+            base.UpdateVariable(metaType, oldVariable, newVariable);
             if (this.variable.Equals(oldVariable))
             {
                 if (this.variable.Type.Equals(newVariable.Type))
@@ -77,13 +77,13 @@ namespace ClassTools.Data.Database
                 }
                 this.variable = newVariable;
             }
-            this.value.UpdateVariable(oldVariable, newVariable);
+            this.value.UpdateVariable(metaType, oldVariable, newVariable);
         }
 
-        public override void RemoveVariable(MetaVariable metaVariable)
+        public override void RemoveVariable(MetaType metaType, MetaVariable metaVariable)
         {
-            base.RemoveVariable(metaVariable);
-            this.value.RemoveVariable(metaVariable);
+            base.RemoveVariable(metaType, metaVariable);
+            this.value.RemoveVariable(metaType, metaVariable);
         }
 
         public override string ToString()

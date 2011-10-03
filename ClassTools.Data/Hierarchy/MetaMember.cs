@@ -69,18 +69,6 @@ namespace ClassTools.Data.Hierarchy
             }
         }
 
-        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
-        {
-            base.UpdateVariable(oldVariable, newVariable);
-            this.type.UpdateVariable(oldVariable, newVariable);
-        }
-
-        public override void RemoveVariable(MetaVariable metaVariable)
-        {
-            base.RemoveVariable(metaVariable);
-            this.type.RemoveVariable(metaVariable);
-        }
-
         public override string ToString()
         {
             return string.Format("{0}{1} {2}", this.type.ToString(), this.prefix, base.ToString());

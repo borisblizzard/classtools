@@ -142,32 +142,6 @@ namespace ClassTools.Data.Hierarchy
             }
         }
 
-        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
-        {
-            base.UpdateVariable(oldVariable, newVariable);
-            if (this.subType1 != null)
-            {
-                this.subType1.UpdateVariable(oldVariable, newVariable);
-            }
-            if (this.subType2 != null)
-            {
-                this.subType2.UpdateVariable(oldVariable, newVariable);
-            }
-        }
-
-        public override void RemoveVariable(MetaVariable metaVariable)
-        {
-            base.RemoveVariable(metaVariable);
-            if (this.subType1 != null)
-            {
-                this.subType1.RemoveVariable(metaVariable);
-            }
-            if (this.subType2 != null)
-            {
-                this.subType2.RemoveVariable(metaVariable);
-            }
-        }
-
         public virtual bool Matches(MetaType oldType, MetaType newType)
         {
             return (oldType.CategoryType != ECategoryType.Class && newType.CategoryType != ECategoryType.Class && this.Equals(oldType));

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 using ClassTools.Data.Hierarchy;
 
@@ -184,7 +185,7 @@ namespace ClassTools.Data.Database
             get
             {
                 float result = 0.0f;
-                float.TryParse(this.valueString, out result);
+                float.TryParse(this.valueString, NumberStyles.Float, CultureInfo.InvariantCulture, out result);
                 return result;
             }
         }
@@ -194,7 +195,7 @@ namespace ClassTools.Data.Database
             get
             {
                 double result = 0.0;
-                double.TryParse(this.valueString, out result);
+                double.TryParse(this.valueString, NumberStyles.Float, CultureInfo.InvariantCulture, out result);
                 return result;
             }
         }
@@ -416,55 +417,55 @@ namespace ClassTools.Data.Database
             }
         }
 
-        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        public override void UpdateVariable(MetaType metaType, MetaVariable oldVariable, MetaVariable newVariable)
         {
-            base.UpdateVariable(oldVariable, newVariable);
+            base.UpdateVariable(type, oldVariable, newVariable);
             switch (this.type.CategoryType)
             {
                 case ECategoryType.Class:
                     if (this.instance != null)
                     {
-                        this.instance.UpdateVariable(oldVariable, newVariable);
+                        this.instance.UpdateVariable(type, oldVariable, newVariable);
                     }
                     break;
                 case ECategoryType.List:
                     foreach (MetaValue metaValue in this.list)
                     {
-                        metaValue.UpdateVariable(oldVariable, newVariable);
+                        metaValue.UpdateVariable(type, oldVariable, newVariable);
                     }
                     break;
                 case ECategoryType.Dictionary:
                     foreach (KeyValuePair<MetaValue, MetaValue> pair in this.dictionary)
                     {
-                        pair.Key.UpdateVariable(oldVariable, newVariable);
-                        pair.Value.UpdateVariable(oldVariable, newVariable);
+                        pair.Key.UpdateVariable(type, oldVariable, newVariable);
+                        pair.Value.UpdateVariable(type, oldVariable, newVariable);
                     }
                     break;
             }
         }
 
-        public override void RemoveVariable(MetaVariable metaVariable)
+        public override void RemoveVariable(MetaType metaType, MetaVariable metaVariable)
         {
-            base.RemoveVariable(metaVariable);
+            base.RemoveVariable(type, metaVariable);
             switch (this.type.CategoryType)
             {
                 case ECategoryType.Class:
                     if (this.instance != null)
                     {
-                        this.instance.RemoveVariable(metaVariable);
+                        this.instance.RemoveVariable(type, metaVariable);
                     }
                     break;
                 case ECategoryType.List:
                     foreach (MetaValue metaValue in this.list)
                     {
-                        metaValue.RemoveVariable(metaVariable);
+                        metaValue.RemoveVariable(type, metaVariable);
                     }
                     break;
                 case ECategoryType.Dictionary:
                     foreach (KeyValuePair<MetaValue, MetaValue> pair in this.dictionary)
                     {
-                        pair.Key.RemoveVariable(metaVariable);
-                        pair.Value.RemoveVariable(metaVariable);
+                        pair.Key.RemoveVariable(type, metaVariable);
+                        pair.Value.RemoveVariable(type, metaVariable);
                     }
                     break;
             }

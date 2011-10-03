@@ -109,28 +109,38 @@ namespace ClassTools.Data.Database
             }
         }
 
-        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        public override void UpdateVariable(MetaType metaType, MetaVariable oldVariable, MetaVariable newVariable)
         {
-            this.model.UpdateVariable(oldVariable, newVariable);
+            this.model.UpdateVariable(metaType, oldVariable, newVariable);
             foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in this.values)
             {
                 foreach (MetaValue value in pair.Value)
                 {
-                    value.UpdateVariable(oldVariable, newVariable);
+                    value.UpdateVariable(metaType, oldVariable, newVariable);
                 }
             }
         }
 
-        public override void RemoveVariable(MetaVariable metaVariable)
+        public override void RemoveVariable(MetaType metaType, MetaVariable metaVariable)
         {
-            this.model.RemoveVariable(metaVariable);
+            this.model.RemoveVariable(metaType, metaVariable);
             foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in this.values)
             {
                 foreach (MetaValue value in pair.Value)
                 {
-                    value.RemoveVariable(metaVariable);
+                    value.RemoveVariable(metaType, metaVariable);
                 }
             }
+        }
+
+        public override void UpdateParameter(MetaType metaType, MetaMethod metaMethod, MetaParameter oldParameter, MetaParameter newParameter)
+        {
+            this.model.UpdateParameter(metaType, metaMethod, oldParameter, newParameter);
+        }
+
+        public override void RemoveParameter(MetaType metaType, MetaMethod metaMethod, MetaParameter metaParameter)
+        {
+            this.model.RemoveParameter(metaType, metaMethod, metaParameter);
         }
         #endregion
 

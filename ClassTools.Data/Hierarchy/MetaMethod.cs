@@ -7,12 +7,12 @@ namespace ClassTools.Data.Hierarchy
     public class MetaMethod : MetaMember, IEquatable<MetaMethod>
     {
         #region Fields
-        protected MetaList<MetaVariable> parameters;
+        protected MetaList<MetaParameter> parameters;
         protected string implementation;
         #endregion
 
         #region Properties
-        public MetaList<MetaVariable> Parameters
+        public MetaList<MetaParameter> Parameters
         {
             get { return this.parameters; }
             set { this.parameters = value; }
@@ -29,7 +29,7 @@ namespace ClassTools.Data.Hierarchy
         public MetaMethod(string name, MetaType metaType)
             : base(name, metaType)
         {
-            this.parameters = new MetaList<MetaVariable>();
+            this.parameters = new MetaList<MetaParameter>();
             this.implementation = string.Empty;
         }
         #endregion
@@ -70,21 +70,31 @@ namespace ClassTools.Data.Hierarchy
             }
         }
 
-        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        public override void UpdateParameter(MetaType metaType, MetaMethod metaMethod, MetaParameter oldParameter, MetaParameter newParameter)
         {
-            base.UpdateVariable(oldVariable, newVariable);
-            foreach (MetaVariable parameter in this.parameters)
+            base.UpdateParameter(metaType, metaMethod, oldParameter, newParameter);
+            if (this.Equals(metaMethod))
             {
-                parameter.UpdateVariable(oldVariable, newVariable);
+                foreach (MetaParameter parameter in this.parameters)
+                {
+                    parameter.UpdateParameter(metaType, metaMethod, oldParameter, newParameter);
+                }
             }
         }
 
-        public override void RemoveVariable(MetaVariable metaVariable)
+        public override void RemoveParameter(MetaType metaType, MetaMethod metaMethod, MetaParameter metaParameter)
         {
-            base.RemoveVariable(metaVariable);
-            foreach (MetaVariable parameter in this.parameters)
+            base.RemoveParameter(metaType, metaMethod, metaParameter);
+            if (this.Equals(metaMethod))
             {
-                parameter.RemoveVariable(metaVariable);
+                for (int i = 0; i < this.parameters.Count; i++)
+                {
+                    if (this.parameters[i].Equals(metaParameter))
+                    {
+                        this.parameters.RemoveAt(i);
+                        i--;
+                    }
+                }
             }
         }
         #endregion
@@ -99,7 +109,7 @@ namespace ClassTools.Data.Hierarchy
                 name = "ANON_PARAM_" + i.ToString();
                 i++;
             }
-            this.parameters.Insert(index, new MetaVariable(name, metaType));
+            this.parameters.Insert(index, new MetaParameter(name, metaType));
         }
 
         public void DeleteParameterAt(int index)

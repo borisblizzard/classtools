@@ -96,18 +96,18 @@ namespace ClassTools.Data.Database
             }
         }
 
-        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        public override void UpdateVariable(MetaType metaType, MetaVariable oldVariable, MetaVariable newVariable)
         {
-            base.UpdateVariable(oldVariable, newVariable);
+            base.UpdateVariable(type, oldVariable, newVariable);
             foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
             {
-                metaInstanceVariable.UpdateVariable(oldVariable, newVariable);
+                metaInstanceVariable.UpdateVariable(type, oldVariable, newVariable);
             }
         }
 
-        public override void RemoveVariable(MetaVariable metaVariable)
+        public override void RemoveVariable(MetaType metaType, MetaVariable metaVariable)
         {
-            base.RemoveVariable(metaVariable);
+            base.RemoveVariable(type, metaVariable);
             for (int i = 0; i < this.instanceVariables.Count; i++)
             {
                 if (this.instanceVariables[i].Variable.Equals(metaVariable))
@@ -117,7 +117,7 @@ namespace ClassTools.Data.Database
                 }
                 else
                 {
-                    this.instanceVariables[i].RemoveVariable(metaVariable);
+                    this.instanceVariables[i].RemoveVariable(type, metaVariable);
                 }
             }
         }
@@ -126,7 +126,7 @@ namespace ClassTools.Data.Database
         {
             foreach (MetaInstanceVariable metaInstanceVariable in this.instanceVariables)
             {
-                if ((metaInstanceVariable.Variable.Name == "Name" || metaInstanceVariable.Variable.Name == "name") && metaInstanceVariable.Value.String.Trim('"') != string.Empty)
+                if ((metaInstanceVariable.Variable.Name.ToLower() == "name") && metaInstanceVariable.Value.String.Trim('"') != string.Empty)
                 {
                     return metaInstanceVariable.Value.String.Trim('"');
                 }

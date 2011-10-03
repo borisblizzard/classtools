@@ -203,48 +203,62 @@ namespace ClassTools.Data.Hierarchy
             return this.variables.Find(v => v.Equals(metaVariable));
         }
 
-        public override void UpdateVariable(MetaVariable oldVariable, MetaVariable newVariable)
+        public override void UpdateVariable(MetaType metaType, MetaVariable oldVariable, MetaVariable newVariable)
         {
-            base.UpdateVariable(oldVariable, newVariable);
-            if (this.superClass != null)
+            base.UpdateVariable(metaType, oldVariable, newVariable);
+            if (this.Equals(metaType))
             {
-                this.superClass.UpdateVariable(oldVariable, newVariable);
-            }
-            for (int i = 0; i < this.variables.Count; i++)
-            {
-                if (this.variables[i].Equals(oldVariable))
+                for (int i = 0; i < this.variables.Count; i++)
                 {
-                    this.variables[i] = newVariable;
+                    if (this.variables[i].Equals(oldVariable))
+                    {
+                        this.variables[i] = newVariable;
+                    }
+                    else
+                    {
+                        this.variables[i].UpdateVariable(metaType, oldVariable, newVariable);
+                    }
                 }
-                else
-                {
-                    this.variables[i].UpdateVariable(oldVariable, newVariable);
-                }
-            }
-            foreach (MetaMethod method in this.methods)
-            {
-                method.UpdateVariable(oldVariable, newVariable);
             }
         }
 
-        public override void RemoveVariable(MetaVariable metaVariable)
+        public override void RemoveVariable(MetaType metaType, MetaVariable metaVariable)
         {
-            base.RemoveVariable(metaVariable);
-            if (this.superClass != null)
+            base.RemoveVariable(metaType, metaVariable);
+            if (this.Equals(metaType))
             {
-                this.superClass.RemoveVariable(metaVariable);
-            }
-            for (int i = 0; i < this.variables.Count; i++)
-            {
-                if (this.variables[i].Equals(metaVariable))
+                for (int i = 0; i < this.variables.Count; i++)
                 {
-                    this.variables.RemoveAt(i);
-                    break;
+                    if (this.variables[i].Equals(metaVariable))
+                    {
+                        this.variables.RemoveAt(i);
+                        break;
+                    }
                 }
             }
-            foreach (MetaMethod method in this.methods)
+        }
+
+        public override void UpdateParameter(MetaType metaType, MetaMethod metaMethod, MetaParameter oldParameter, MetaParameter newParameter)
+        {
+            base.UpdateParameter(metaType, metaMethod, oldParameter, newParameter);
+            if (this.Equals(metaType))
             {
-                method.RemoveVariable(metaVariable);
+                foreach (MetaMethod method in this.methods)
+                {
+                    method.UpdateParameter(metaType, metaMethod, oldParameter, newParameter);
+                }
+            }
+        }
+
+        public override void RemoveParameter(MetaType metaType, MetaMethod metaMethod, MetaParameter metaParameter)
+        {
+            base.RemoveParameter(metaType, metaMethod, metaParameter);
+            if (this.Equals(metaType))
+            {
+                foreach (MetaMethod method in this.methods)
+                {
+                    method.RemoveParameter(metaType, metaMethod, metaParameter);
+                }
             }
         }
 
