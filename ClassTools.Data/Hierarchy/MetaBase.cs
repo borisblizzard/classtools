@@ -36,6 +36,7 @@ namespace ClassTools.Data.Hierarchy
         #region Equals
         public bool Equals(MetaBase other)
         {
+            if (Object.ReferenceEquals(this, other)) return true;
             if (!base.Equals(other)) return false;
             if (!this.name.Equals(other.name)) return false;
             if (!this.prefix.Equals(other.prefix)) return false;

@@ -15,6 +15,7 @@ namespace ClassTools.Data.Hierarchy
         #region Equals
         public bool Equals(MetaParameter other)
         {
+            if (Object.ReferenceEquals(this, other)) return true;
             if (!base.Equals(other)) return false;
             return true;
         }

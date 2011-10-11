@@ -37,6 +37,7 @@ namespace ClassTools.Data.Hierarchy
         #region Equals
         public bool Equals(MetaMethod other)
         {
+            if (Object.ReferenceEquals(this, other)) return true;
             if (!base.Equals(other)) return false;
             if (!this.parameters.Equals(other.parameters)) return false;
             if (!this.implementation.Equals(other.implementation)) return false;

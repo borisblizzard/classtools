@@ -42,6 +42,7 @@ namespace ClassTools.Data.Database
         #region Equals
         public bool Equals(MetaInstance other)
         {
+            if (Object.ReferenceEquals(this, other)) return true;
             if (!base.Equals(other)) return false;
             if (!this.type.Equals(other.type)) return false;
             if (!this.instanceVariables.Equals(other.instanceVariables)) return false;

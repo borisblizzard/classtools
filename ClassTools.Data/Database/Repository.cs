@@ -42,6 +42,7 @@ namespace ClassTools.Data.Database
         #region Equals
         public bool Equals(Repository other)
         {
+            if (Object.ReferenceEquals(this, other)) return true;
             if (!base.Equals(other)) return false;
             if (!this.model.Equals(other.model)) return false;
             if (!this.values.Equals(other.values)) return false;

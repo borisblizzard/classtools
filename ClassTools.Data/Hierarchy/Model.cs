@@ -74,6 +74,7 @@ namespace ClassTools.Data.Hierarchy
         #region Equals
         public bool Equals(Model other)
         {
+            if (Object.ReferenceEquals(this, other)) return true;
             if (!base.Equals(other)) return false;
             if (!this.classes.Equals(other.classes)) return false;
             if (!this.types.Equals(other.types)) return false;

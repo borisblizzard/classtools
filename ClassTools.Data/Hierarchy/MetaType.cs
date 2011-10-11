@@ -74,6 +74,7 @@ namespace ClassTools.Data.Hierarchy
         #region Equals
         public bool Equals(MetaType other)
         {
+            if (Object.ReferenceEquals(this, other)) return true;
             if (!base.Equals(other)) return false;
             if (!this.CategoryType.Equals(other.CategoryType)) return false;
             if (this.CategoryType == ECategoryType.Class)

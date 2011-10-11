@@ -37,6 +37,7 @@ namespace ClassTools.Data.Hierarchy
         #region Equals
         public bool Equals(MetaMember other)
         {
+            if (Object.ReferenceEquals(this, other)) return true;
             if (!base.Equals(other)) return false;
             if (!this.type.Equals(other.type)) return false;
             if (!this.accessType.Equals(other.accessType)) return false;

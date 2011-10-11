@@ -17,6 +17,7 @@ namespace ClassTools.Data.Database
         #region Equals
         public bool Equals(MetaBase other)
         {
+            if (Object.ReferenceEquals(this, other)) return true;
             if (!base.Equals(other)) return false;
             return true;
         }

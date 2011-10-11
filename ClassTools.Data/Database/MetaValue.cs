@@ -309,6 +309,7 @@ namespace ClassTools.Data.Database
         #region Equals
         public bool Equals(MetaValue other)
         {
+            if (Object.ReferenceEquals(this, other)) return true;
             if (!base.Equals(other)) return false;
             if (!this.type.Equals(other.type)) return false;
             switch (this.type.CategoryType)

@@ -2,6 +2,7 @@ General:
 - fix bug in source generation when already using ::
 - fix bug in source generation with nested classes
 - make instance variables display scrollable
+- resolved rescursive Equals check somehow (happens when you have a class that contains a variable of its own type, e.g. a Binary Tree Node)
 
 ClassMaker:
 - add possibility to create enumerators
