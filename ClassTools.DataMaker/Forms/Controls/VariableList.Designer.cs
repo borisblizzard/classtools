@@ -30,11 +30,12 @@
         {
             this.SuspendLayout();
             // 
-            // InstanceVariables
+            // VariableList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "InstanceVariables";
+            this.AutoScroll = true;
+            this.Name = "VariableList";
             this.Size = new System.Drawing.Size(400, 400);
             this.ResumeLayout(false);
 

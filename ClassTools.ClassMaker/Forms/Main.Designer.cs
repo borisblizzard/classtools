@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.gbClasses = new System.Windows.Forms.GroupBox();
             this.bClassDelete = new System.Windows.Forms.Button();
             this.bClassNew = new System.Windows.Forms.Button();
             this.lbClasses = new System.Windows.Forms.ListBox();
-            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -165,6 +166,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lbClasses.ContextMenuStrip = this.contextMenuStrip;
             this.lbClasses.FormattingEnabled = true;
+            this.lbClasses.HorizontalScrollbar = true;
             this.lbClasses.Location = new System.Drawing.Point(6, 19);
             this.lbClasses.Name = "lbClasses";
             this.lbClasses.Size = new System.Drawing.Size(181, 446);
@@ -707,6 +709,7 @@
             // 
             this.lbMethods.ContextMenuStrip = this.contextMenuStrip;
             this.lbMethods.FormattingEnabled = true;
+            this.lbMethods.HorizontalScrollbar = true;
             this.lbMethods.Location = new System.Drawing.Point(6, 19);
             this.lbMethods.Name = "lbMethods";
             this.lbMethods.Size = new System.Drawing.Size(176, 134);
@@ -907,6 +910,7 @@
             // 
             this.lbVariables.ContextMenuStrip = this.contextMenuStrip;
             this.lbVariables.FormattingEnabled = true;
+            this.lbVariables.HorizontalScrollbar = true;
             this.lbVariables.Location = new System.Drawing.Point(6, 19);
             this.lbVariables.Name = "lbVariables";
             this.lbVariables.Size = new System.Drawing.Size(176, 160);

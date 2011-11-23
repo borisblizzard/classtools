@@ -81,6 +81,7 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lbClasses.FormattingEnabled = true;
+            this.lbClasses.HorizontalScrollbar = true;
             this.lbClasses.Location = new System.Drawing.Point(7, 20);
             this.lbClasses.Name = "lbClasses";
             this.lbClasses.Size = new System.Drawing.Size(223, 381);

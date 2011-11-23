@@ -56,6 +56,7 @@
             this.vlVariables.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.vlVariables.AutoScroll = true;
             this.vlVariables.Enabled = false;
             this.vlVariables.Location = new System.Drawing.Point(6, 20);
             this.vlVariables.Name = "vlVariables";
@@ -104,6 +105,7 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lbValues.FormattingEnabled = true;
+            this.lbValues.HorizontalScrollbar = true;
             this.lbValues.Location = new System.Drawing.Point(7, 20);
             this.lbValues.Name = "lbValues";
             this.lbValues.Size = new System.Drawing.Size(187, 381);

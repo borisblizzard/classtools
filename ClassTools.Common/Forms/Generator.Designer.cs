@@ -54,6 +54,7 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lbPlugins.FormattingEnabled = true;
+            this.lbPlugins.HorizontalScrollbar = true;
             this.lbPlugins.Location = new System.Drawing.Point(7, 20);
             this.lbPlugins.Name = "lbPlugins";
             this.lbPlugins.Size = new System.Drawing.Size(513, 316);

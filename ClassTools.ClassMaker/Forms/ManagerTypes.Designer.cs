@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagerTypes));
             this.lbTypes = new System.Windows.Forms.ListBox();
-            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -74,6 +75,7 @@
             // 
             this.lbTypes.ContextMenuStrip = this.contextMenuStrip;
             this.lbTypes.FormattingEnabled = true;
+            this.lbTypes.HorizontalScrollbar = true;
             this.lbTypes.Location = new System.Drawing.Point(6, 19);
             this.lbTypes.Name = "lbTypes";
             this.lbTypes.Size = new System.Drawing.Size(176, 186);
@@ -97,52 +99,52 @@
             // copyStripMenuItem
             // 
             this.copyStripMenuItem.Name = "copyStripMenuItem";
-            this.copyStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.copyStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.copyStripMenuItem.Text = "Copy";
             this.copyStripMenuItem.Click += new System.EventHandler(this.copyMenuItem_Click);
             // 
             // pasteStripMenuItem
             // 
             this.pasteStripMenuItem.Name = "pasteStripMenuItem";
-            this.pasteStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pasteStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.pasteStripMenuItem.Text = "Paste";
             this.pasteStripMenuItem.Click += new System.EventHandler(this.pasteMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(134, 6);
             // 
             // newStripMenuItem
             // 
             this.newStripMenuItem.Name = "newStripMenuItem";
-            this.newStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.newStripMenuItem.Text = "Add new";
             this.newStripMenuItem.Click += new System.EventHandler(this.addNewMenuItem_Click);
             // 
             // deleteStripMenuItem
             // 
             this.deleteStripMenuItem.Name = "deleteStripMenuItem";
-            this.deleteStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.deleteStripMenuItem.Text = "Delete";
             this.deleteStripMenuItem.Click += new System.EventHandler(this.deleteMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(134, 6);
             // 
             // upStripMenuItem
             // 
             this.upStripMenuItem.Name = "upStripMenuItem";
-            this.upStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.upStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.upStripMenuItem.Text = "Move up";
             this.upStripMenuItem.Click += new System.EventHandler(this.moveUpMenuItem_Click);
             // 
             // downStripMenuItem
             // 
             this.downStripMenuItem.Name = "downStripMenuItem";
-            this.downStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.downStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.downStripMenuItem.Text = "Move down";
             this.downStripMenuItem.Click += new System.EventHandler(this.moveDownMenuItem_Click);
             // 
