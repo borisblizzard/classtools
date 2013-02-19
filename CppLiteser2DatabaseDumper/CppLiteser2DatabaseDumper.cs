@@ -30,6 +30,25 @@ namespace ClassTools
         public string ToolId { get { return toolId; } }
         #endregion
 
+        #region Constants
+        // taken from Type.h from Liteser 2.x
+        //static byte NONE = 0x00; // never used
+        static byte INT8 = 0x01;
+        static byte UINT8 = 0x02;
+        static byte INT16 = 0x03;
+        static byte UINT16 = 0x04;
+        static byte INT32 = 0x05;
+        static byte UINT32 = 0x06;
+        static byte FLOAT = 0x21;
+        static byte DOUBLE = 0x22;
+        static byte BOOL = 0x41;
+        //static byte OBJECT = 0x61; // never used
+        static byte OBJPTR = 0x62;
+        static byte HSTR = 0x81;
+        static byte HARRAY = 0xA1;
+        static byte HMAP = 0xC1;
+        #endregion
+
         #region Main
         public void Create() { }
         public void Destroy() { }
@@ -46,19 +65,28 @@ namespace ClassTools
             MetaDictionary<MetaClass, MetaList<MetaValue>> values = repository.Values;
             string fullPath;
             MetaList<MetaValue> metaValues;
-            foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in values)
+            try
             {
-                metaValues = pair.Value;
-                if (metaValues.Count > 0)
+                foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in values)
                 {
-                    fullPath = path + "/" + pair.Key.GetNameWithModule("/") + ".lsb";
-                    this.createFilePath(fullPath);
-                    this.writer = new FileStream(fullPath, FileMode.Create);
-                    this.dump((byte)1);
-                    this.dump((byte)0);
-                    this.dump(metaValues);
-                    this.writer.Close();
+                    metaValues = pair.Value;
+                    if (metaValues.Count > 0)
+                    {
+                        fullPath = path + "/" + pair.Key.GetNameWithModule("/") + ".lsb";
+                        this.createFilePath(fullPath);
+                        this.writer = new FileStream(fullPath, FileMode.Create);
+                        this.dump((byte)'L');
+                        this.dump((byte)'S');
+                        this.dump((byte)2);
+                        this.dump((byte)0);
+                        this.dump(metaValues);
+                        this.writer.Close();
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                return e.Message;
             }
             return "Code generation was successful.";
         }
@@ -68,18 +96,30 @@ namespace ClassTools
         private void dump(MetaList<MetaValue> metaValues)
         {
             this.dump(metaValues.Count);
-            foreach (MetaValue metaValue in metaValues)
+            if (metaValues.Count > 0)
             {
-                this.dump(metaValue);
+                this.dump((byte)1);
+                this.dump(this.getLS2Type(metaValues[0].Type, true));
+                foreach (MetaValue metaValue in metaValues)
+                {
+                    this.dump(metaValue);
+                }
             }
         }
 
         private void dump(MetaDictionary<MetaValue, MetaValue> metaValues)
         {
-            MetaList<MetaValue> keys = metaValues.GetKeys();
-            MetaList<MetaValue> values = metaValues.GetValues(keys);
-            this.dump(keys);
-            this.dump(values);
+            this.dump(metaValues.Count);
+            if (metaValues.Count > 0)
+            {
+                this.dump((byte)2);
+                MetaList<MetaValue> keys = metaValues.GetKeys();
+                MetaList<MetaValue> values = metaValues.GetValues(keys);
+                this.dump(this.getLS2Type(keys[0].Type, true));
+                this.dump(this.getLS2Type(values[0].Type, true));
+                this.dump(keys);
+                this.dump(values);
+            }
         }
 
         private void dump(MetaInstance metaInstance)
@@ -88,8 +128,12 @@ namespace ClassTools
             {
                 this._lsIds++;
                 this.dump(this._lsIds);
+                this.dump(metaInstance.Type.Name);
+                this.dump(metaInstance.InstanceVariables.Count);
                 foreach (MetaInstanceVariable metaInstanceVariable in metaInstance.InstanceVariables)
                 {
+                    this.dump(metaInstanceVariable.Variable.Name);
+                    this.dump(this.getLS2Type(metaInstanceVariable.Variable.Type));
                     this.dump(metaInstanceVariable.Value);
                 }
             }
@@ -171,6 +215,49 @@ namespace ClassTools
                 }
             }
         }
+
+        protected byte getLS2Type(MetaType type, bool collectionType = false)
+        {
+            switch (type.CategoryType)
+            {
+                case ECategoryType.Integral:
+                    switch (type.Name)
+                    {
+                        case Constants.TYPE_INT:
+                            return INT32;
+                        case Constants.TYPE_UINT:
+                            return UINT32;
+                        case Constants.TYPE_SHORT:
+                            return INT16;
+                        case Constants.TYPE_USHORT:
+                            return UINT16;
+                        case Constants.TYPE_UCHAR:
+                            return UINT8;
+                        case Constants.TYPE_FLOAT:
+                            return FLOAT;
+                        case Constants.TYPE_DOUBLE:
+                            return DOUBLE;
+                        case Constants.TYPE_BOOL:
+                            if (!collectionType)
+                            {
+                                return BOOL;
+                            }
+                            break;
+                        case Constants.TYPE_CHAR:
+                            return INT8;
+                        default:
+                            return HSTR;
+                    }
+                    break;
+                case ECategoryType.Class:
+                    return OBJPTR;
+                case ECategoryType.List:
+                    return HARRAY;
+                case ECategoryType.Dictionary:
+                    return HMAP;
+            }
+            throw new Exception(String.Format("Warning! Type {0} is not supported in this context!", type.Name));
+        }
         #endregion
 
         #region Dump Integral Type
@@ -194,16 +281,6 @@ namespace ClassTools
         {
             byte[] bytes = BitConverter.GetBytes(i);
             this.writer.Write(bytes, 0, bytes.Length);
-        }
-
-        private void dump(long l)
-        {
-            this.dump((int)l);
-        }
-
-        private void dump(ulong l)
-        {
-            this.dump((uint)l);
         }
 
         private void dump(short s)
