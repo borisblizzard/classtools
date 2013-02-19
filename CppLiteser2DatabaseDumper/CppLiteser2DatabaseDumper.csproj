@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1B01D601-63DC-4650-A07B-CFCD78FA9B7F}</ProjectGuid>
+    <ProjectGuid>{371F53F6-1588-4EA1-8313-DDDCF8D865CB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassTools.Common</RootNamespace>
-    <AssemblyName>ClassTools.Common</AssemblyName>
+    <RootNamespace>CppLiteser2DatabaseDumper</RootNamespace>
+    <AssemblyName>CppLiteser2DatabaseDumper</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -32,46 +32,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Forms\About.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\About.designer.cs">
-      <DependentUpon>About.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Generator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Generator.designer.cs">
-      <DependentUpon>Generator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="InternalClipboard.cs" />
+    <Compile Include="CppLiteser2DatabaseDumper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassTools.Data\ClassTools.Data.csproj">
-      <Project>{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}</Project>
-      <Name>ClassTools.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ClassTools.IPlugin\ClassTools.IPlugin.csproj">
-      <Project>{F41C29FB-69CD-42DB-9CE5-499DFD92FCD5}</Project>
-      <Name>ClassTools.IPlugin</Name>
-    </ProjectReference>
+    <Content Include="ClassTools.IPlugin.dll" />
+    <Content Include="ClassTools.Data.dll" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Forms\About.resx">
-      <DependentUpon>About.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Generator.resx">
-      <DependentUpon>Generator.cs</DependentUpon>
-    </EmbeddedResource>
+    <Reference Include="ClassTools.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ClassTools.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="ClassTools.IPlugin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ClassTools.IPlugin.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

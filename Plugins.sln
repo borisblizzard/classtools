@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CppSourceGenerator", "CppSourceGenerator\CppSourceGenerator.csproj", "{C6C311A4-520B-47E2-8E14-6098A6B5E105}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CppBinSerializerGenerator", "CppBinSerializerGenerator\CppBinSerializerGenerator.csproj", "{7C871E53-CCB7-4CBA-902D-B10BE30B1409}"
@@ -8,6 +8,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CppLiteserDatabaseDumper", "CppLiteserDatabaseDumper\CppLiteserDatabaseDumper.csproj", "{DBEEACA9-B829-4189-9B7E-ECD0F0BF0395}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CppLiteserCodeGenerator", "CppLiteserCodeGenerator\CppLiteserCodeGenerator.csproj", "{2DEA7479-5A52-4CB2-82C5-5838EF412924}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CppLiteser2DatabaseDumper", "CppLiteser2DatabaseDumper\CppLiteser2DatabaseDumper.csproj", "{371F53F6-1588-4EA1-8313-DDDCF8D865CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{2DEA7479-5A52-4CB2-82C5-5838EF412924}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DEA7479-5A52-4CB2-82C5-5838EF412924}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DEA7479-5A52-4CB2-82C5-5838EF412924}.Release|Any CPU.Build.0 = Release|Any CPU
+		{371F53F6-1588-4EA1-8313-DDDCF8D865CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{371F53F6-1588-4EA1-8313-DDDCF8D865CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{371F53F6-1588-4EA1-8313-DDDCF8D865CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{371F53F6-1588-4EA1-8313-DDDCF8D865CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
