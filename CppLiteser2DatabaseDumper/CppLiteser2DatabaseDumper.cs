@@ -72,7 +72,7 @@ namespace ClassTools
                     metaValues = pair.Value;
                     if (metaValues.Count > 0)
                     {
-                        fullPath = path + "/" + pair.Key.GetNameWithModule("/") + ".lsb";
+                        fullPath = path + "/" + pair.Key.GetNameWithModule("/") + ".ls2";
                         this.createFilePath(fullPath);
                         this.writer = new FileStream(fullPath, FileMode.Create);
                         this.dump((byte)'L');
