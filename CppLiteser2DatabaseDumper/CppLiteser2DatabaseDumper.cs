@@ -19,7 +19,8 @@ namespace ClassTools
         private string toolId = "DataMaker";
         private string path = string.Empty;
         private FileStream writer;
-        private uint _lsIds;
+        private uint _objectIds;
+        private List<string> _strings = new List<string>();
         #endregion
 
         #region Properties
@@ -61,7 +62,6 @@ namespace ClassTools
             {
                 Directory.CreateDirectory(path);
             }
-            this._lsIds = 0;
             MetaDictionary<MetaClass, MetaList<MetaValue>> values = repository.Values;
             string fullPath;
             MetaList<MetaValue> metaValues;
@@ -69,17 +69,23 @@ namespace ClassTools
             {
                 foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in values)
                 {
+                    this._objectIds = 0;
+                    this._strings.Clear();
                     metaValues = pair.Value;
                     if (metaValues.Count > 0)
                     {
-                        fullPath = path + "/" + pair.Key.GetNameWithModule("/") + ".ls2";
+                        fullPath = path + "/" + pair.Key.GetNameWithModule("-") + ".ls2";
                         this.createFilePath(fullPath);
                         this.writer = new FileStream(fullPath, FileMode.Create);
                         this.dump((byte)'L');
                         this.dump((byte)'S');
                         this.dump((byte)2);
                         this.dump((byte)0);
-                        this.dump(metaValues);
+                        this.dump(metaValues.Count);
+                        foreach (MetaValue metaValue in metaValues)
+                        {
+                            this.dump(metaValue);
+                        }
                         this.writer.Close();
                     }
                 }
@@ -98,8 +104,8 @@ namespace ClassTools
             this.dump(metaValues.Count);
             if (metaValues.Count > 0)
             {
-                this.dump((byte)1);
-                this.dump(this.getLS2Type(metaValues[0].Type, true));
+                this.dump((uint)1);
+                this.dump(this._getLS2Type(metaValues[0].Type, true));
                 foreach (MetaValue metaValue in metaValues)
                 {
                     this.dump(metaValue);
@@ -112,11 +118,11 @@ namespace ClassTools
             this.dump(metaValues.Count);
             if (metaValues.Count > 0)
             {
-                this.dump((byte)2);
+                this.dump((uint)2);
                 MetaList<MetaValue> keys = metaValues.GetKeys();
                 MetaList<MetaValue> values = metaValues.GetValues(keys);
-                this.dump(this.getLS2Type(keys[0].Type, true));
-                this.dump(this.getLS2Type(values[0].Type, true));
+                this.dump(this._getLS2Type(keys[0].Type, true));
+                this.dump(this._getLS2Type(values[0].Type, true));
                 this.dump(keys);
                 this.dump(values);
             }
@@ -126,14 +132,14 @@ namespace ClassTools
         {
             if (metaInstance != null)
             {
-                this._lsIds++;
-                this.dump(this._lsIds);
-                this.dump(metaInstance.Type.Name);
+                this._objectIds++;
+                this.dump(this._objectIds);
+                this.dump(metaInstance.Type.GetNameWithModule());
                 this.dump(metaInstance.InstanceVariables.Count);
                 foreach (MetaInstanceVariable metaInstanceVariable in metaInstance.InstanceVariables)
                 {
                     this.dump(metaInstanceVariable.Variable.Name);
-                    this.dump(this.getLS2Type(metaInstanceVariable.Variable.Type));
+                    this.dump(this._getLS2Type(metaInstanceVariable.Variable.Type));
                     this.dump(metaInstanceVariable.Value);
                 }
             }
@@ -216,7 +222,24 @@ namespace ClassTools
             }
         }
 
-        protected byte getLS2Type(MetaType type, bool collectionType = false)
+        private bool _tryMapString(out uint id, string str)
+        {
+            if (str == "")
+            {
+                id = 0;
+                return false;
+            }
+            if (!this._strings.Contains(str))
+            {
+                this._strings.Add(str);
+                id = (uint)this._strings.Count;
+                return true;
+            }
+            id = (uint)this._strings.IndexOf(str) + 1;
+            return false;
+        }
+
+        protected byte _getLS2Type(MetaType type, bool collectionType = false)
         {
             switch (type.CategoryType)
             {
@@ -314,11 +337,17 @@ namespace ClassTools
 
         private void dump(string s)
         {
-            this.dump(s.Length);
-            char[] chars = s.ToCharArray();
-            for (int i = 0; i < s.Length; i++)
+            uint id = 0;
+            bool added = this._tryMapString(out id, s);
+            this.dump(id);
+            if (added)
             {
-                this.dump((byte)chars[i]);
+                this.dump(s.Length);
+                char[] chars = s.ToCharArray();
+                for (int i = 0; i < s.Length; i++)
+                {
+                    this.dump((byte)chars[i]);
+                }
             }
         }
         #endregion

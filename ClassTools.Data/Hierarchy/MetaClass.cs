@@ -268,7 +268,9 @@ namespace ClassTools.Data.Hierarchy
             string name = base.GetNameWithModule(separator);
             if (this.module != string.Empty)
             {
-                name = this.module + separator + name;
+                List<string> strings = new List<string>(this.module.Split(':'));
+                strings.RemoveAll(x => x == "");
+                name = string.Join(separator, strings.ToArray()) + separator + name;
             }
             return name;
         }

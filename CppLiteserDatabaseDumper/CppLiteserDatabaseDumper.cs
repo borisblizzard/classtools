@@ -13,9 +13,9 @@ namespace ClassTools
     {
         #region Fields
         private string name = "C++ Lite Serializer Database Dumper";
-        private string description = "Dumps database into liteser serialization format.";
+        private string description = "Dumps database into Liteser 1.x serialization format.";
         private string author = "Boris Mikić";
-        private string version = "1.0";
+        private string version = "1.1";
         private string toolId = "DataMaker";
         private string path = string.Empty;
         private FileStream writer;
@@ -42,12 +42,12 @@ namespace ClassTools
             {
                 Directory.CreateDirectory(path);
             }
-            this._lsIds = 0;
             MetaDictionary<MetaClass, MetaList<MetaValue>> values = repository.Values;
             string fullPath;
             MetaList<MetaValue> metaValues;
             foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in values)
             {
+				this._lsIds = 0;
                 metaValues = pair.Value;
                 if (metaValues.Count > 0)
                 {

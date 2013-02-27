@@ -1,0 +1,10 @@
+xcopy ClassTools.ClassMaker\bin\Release\ClassTools.Data.dll CppBinSerializerGenerator /q /y
+xcopy ClassTools.ClassMaker\bin\Release\ClassTools.IPlugin.dll CppBinSerializerGenerator /q /y
+xcopy ClassTools.ClassMaker\bin\Release\ClassTools.Data.dll CppLiteser2DatabaseDumper /q /y
+xcopy ClassTools.ClassMaker\bin\Release\ClassTools.IPlugin.dll CppLiteser2DatabaseDumper /q /y
+xcopy ClassTools.ClassMaker\bin\Release\ClassTools.Data.dll CppLiteserCodeGenerator /q /y
+xcopy ClassTools.ClassMaker\bin\Release\ClassTools.IPlugin.dll CppLiteserCodeGenerator /q /y
+xcopy ClassTools.ClassMaker\bin\Release\ClassTools.Data.dll CppLiteserDatabaseDumper /q /y
+xcopy ClassTools.ClassMaker\bin\Release\ClassTools.IPlugin.dll CppLiteserDatabaseDumper /q /y
+xcopy ClassTools.ClassMaker\bin\Release\ClassTools.Data.dll CppSourceGenerator /q /y
+xcopy ClassTools.ClassMaker\bin\Release\ClassTools.IPlugin.dll CppSourceGenerator /q /y

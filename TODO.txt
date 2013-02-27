@@ -1,6 +1,7 @@
 General:
 - fix bug in source generation when already using ::
 - fix bug in source generation with nested classes
+- fix recursive bug when having a variable somewhere that is of a type that contains it
 - resolved rescursive Equals check somehow (happens when you have a class that contains a variable of its own type, e.g. a Binary Tree Node)
 
 ClassMaker:
