@@ -43,7 +43,7 @@ namespace ClassTools
         static byte FLOAT = 0x21;
         static byte DOUBLE = 0x22;
         static byte BOOL = 0x41;
-        //static byte OBJECT = 0x61; // never used
+        static byte OBJECT = 0x61; // never used
         static byte OBJPTR = 0x62;
         static byte HSTR = 0x81;
         static byte HARRAY = 0xA1;
@@ -139,7 +139,7 @@ namespace ClassTools
                 foreach (MetaInstanceVariable metaInstanceVariable in metaInstance.InstanceVariables)
                 {
                     this.dump(metaInstanceVariable.Variable.Name);
-                    this.dump(this._getLS2Type(metaInstanceVariable.Variable.Type));
+                    this.dump(this._getLS2Type(metaInstanceVariable.Variable));
                     this.dump(metaInstanceVariable.Value);
                 }
             }
@@ -237,6 +237,16 @@ namespace ClassTools
             }
             id = (uint)this._strings.IndexOf(str) + 1;
             return false;
+        }
+
+        protected byte _getLS2Type(MetaVariable variable)
+        {
+            byte result = this._getLS2Type(variable.Type);
+            if (result == OBJPTR && !variable.Nullable)
+            {
+                result = OBJECT;
+            }
+            return result;
         }
 
         protected byte _getLS2Type(MetaType type, bool collectionType = false)
