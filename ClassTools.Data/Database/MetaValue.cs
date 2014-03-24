@@ -190,6 +190,48 @@ namespace ClassTools.Data.Database
             }
         }
 
+        public float[] AsFloat2
+        {
+            get
+            {
+                float[] result = { 0.0f, 0.0f };
+                string[] values = this.valueString.Split(',');
+                for (int i = 0; i < values.Length; i++)
+                {
+                    float.TryParse(values[i], NumberStyles.Float, CultureInfo.InvariantCulture, out result[i]);
+                }
+                return result;
+            }
+        }
+
+        public float[] AsFloat3
+        {
+            get
+            {
+                float[] result = { 0.0f, 0.0f, 0.0f };
+                string[] values = this.valueString.Split(',');
+                for (int i = 0; i < values.Length; i++)
+                {
+                    float.TryParse(values[i], NumberStyles.Float, CultureInfo.InvariantCulture, out result[i]);
+                }
+                return result;
+            }
+        }
+
+        public float[] AsFloat4
+        {
+            get
+            {
+                float[] result = { 0.0f, 0.0f, 0.0f, 0.0f };
+                string[] values = this.valueString.Split(',');
+                for (int i = 0; i < values.Length; i++)
+                {
+                    float.TryParse(values[i], NumberStyles.Float, CultureInfo.InvariantCulture, out result[i]);
+                }
+                return result;
+            }
+        }
+
         public double AsDouble
         {
             get

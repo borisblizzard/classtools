@@ -27,12 +27,15 @@ namespace ClassTools.Data
         public const string TYPE_BOOL = "bool";
         public const string TYPE_CHAR = "char";
         public const string TYPE_STRING = "string";
+        public const string TYPE_GVEC2 = "gvec2";
+        public const string TYPE_GVEC3 = "gvec3";
+        public const string TYPE_GRECT = "grect";
         public static List<string> TYPES_VOID = new List<string>(new string[] { TYPE_VOID });
         public static List<string> TYPES_INT = new List<string>(new string[] { TYPE_INT, TYPE_UINT, TYPE_LONG, TYPE_ULONG, TYPE_SHORT, TYPE_USHORT, TYPE_UCHAR });
         public static List<string> TYPES_FLOAT = new List<string>(new string[] { TYPE_FLOAT, TYPE_DOUBLE });
         public static List<string> TYPES_BOOL = new List<string>(new string[] { TYPE_BOOL });
         public static List<string> TYPES_CHAR = new List<string>(new string[] { TYPE_CHAR });
-        public static List<string> TYPES_STRING = new List<string>(new string[] { TYPE_STRING });
+        public static List<string> TYPES_STRING = new List<string>(new string[] { TYPE_STRING, TYPE_GVEC2, TYPE_GVEC3, TYPE_GRECT });
 
     }
 
