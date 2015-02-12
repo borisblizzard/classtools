@@ -163,6 +163,12 @@ namespace ClassTools.DataMaker.Forms.Controls
                 case Constants.TYPE_ULONG:
                     control = this.createNumericUpDown(index, ulong.MinValue, ulong.MaxValue);
                     break;
+                case Constants.TYPE_INT64:
+                    control = this.createNumericUpDown(index, Int64.MinValue, Int64.MaxValue);
+                    break;
+                case Constants.TYPE_UINT64:
+                    control = this.createNumericUpDown(index, UInt64.MinValue, UInt64.MaxValue);
+                    break;
                 case Constants.TYPE_CHAR:
                     control = this.createTextBox(index, "", 1);
                     break;

@@ -180,6 +180,26 @@ namespace ClassTools.Data.Database
             }
         }
 
+        public long AsInt64
+        {
+            get
+            {
+                Int64 result = 0;
+                Int64.TryParse(this.valueString, out result);
+                return result;
+            }
+        }
+
+        public ulong AsUInt64
+        {
+            get
+            {
+                UInt64 result = 0;
+                UInt64.TryParse(this.valueString, out result);
+                return result;
+            }
+        }
+
         public float AsFloat
         {
             get

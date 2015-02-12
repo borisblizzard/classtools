@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual C# Express 2012
+# Visual C# Express 2013
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassTools.IPlugin", "ClassTools.IPlugin\ClassTools.IPlugin.csproj", "{F41C29FB-69CD-42DB-9CE5-499DFD92FCD5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassTools.Data", "ClassTools.Data\ClassTools.Data.csproj", "{E3E8D2EC-C2EB-4655-B888-2CF179C6D7DF}"

@@ -13,7 +13,7 @@ namespace ClassTools
     {
         #region Fields
         private string name = "C++ Lite Serializer 2 Database Dumper";
-        private string description = "Dumps database into liteser serialization format 2.2.";
+        private string description = "Dumps database into liteser serialization format 2.3.";
         private string author = "Boris Mikić";
         private string version = "1.2";
         private string toolId = "DataMaker";
@@ -40,6 +40,8 @@ namespace ClassTools
         static byte UINT16 = 0x04;
         static byte INT32 = 0x05;
         static byte UINT32 = 0x06;
+		static byte INT64 = 0x07;
+        static byte UINT64 = 0x08;
         static byte FLOAT = 0x21;
         static byte DOUBLE = 0x22;
         static byte BOOL = 0x41;
@@ -53,7 +55,7 @@ namespace ClassTools
         static byte HMAP = 0xC1;
 
         static byte VERSION_MAJOR = 2;
-        static byte VERSION_MINOR = 2;
+        static byte VERSION_MINOR = 3;
         #endregion
 
         #region Main
@@ -183,6 +185,12 @@ namespace ClassTools
                         case Constants.TYPE_UCHAR:
                             this.dump(metaValue.AsByte);
                             break;
+                        case Constants.TYPE_INT64:
+                            this.dump(metaValue.AsInt64);
+                            break;
+                        case Constants.TYPE_UINT64:
+                            this.dump(metaValue.AsUInt64);
+                            break;
                         case Constants.TYPE_FLOAT:
                             this.dump(metaValue.AsFloat);
                             break;
@@ -279,8 +287,14 @@ namespace ClassTools
                             return INT16;
                         case Constants.TYPE_USHORT:
                             return UINT16;
+                        case Constants.TYPE_CHAR:
+                            return INT8;
                         case Constants.TYPE_UCHAR:
                             return UINT8;
+                        case Constants.TYPE_INT64:
+                            return INT64;
+                        case Constants.TYPE_UINT64:
+                            return UINT64;
                         case Constants.TYPE_FLOAT:
                             return FLOAT;
                         case Constants.TYPE_DOUBLE:
@@ -291,8 +305,6 @@ namespace ClassTools
                                 return BOOL;
                             }
                             break;
-                        case Constants.TYPE_CHAR:
-                            return INT8;
                         case Constants.TYPE_GVEC2:
                             return GVEC2;
                         case Constants.TYPE_GVEC3:
@@ -346,6 +358,18 @@ namespace ClassTools
         private void dump(ushort s)
         {
             byte[] bytes = BitConverter.GetBytes(s);
+            this.writer.Write(bytes, 0, bytes.Length);
+        }
+
+        private void dump(Int64 i)
+        {
+            byte[] bytes = BitConverter.GetBytes(i);
+            this.writer.Write(bytes, 0, bytes.Length);
+        }
+
+        private void dump(UInt64 i)
+        {
+            byte[] bytes = BitConverter.GetBytes(i);
             this.writer.Write(bytes, 0, bytes.Length);
         }
 

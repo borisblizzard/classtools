@@ -21,6 +21,8 @@ namespace ClassTools.Data
         public const string TYPE_ULONG = "unsigned long";
         public const string TYPE_SHORT = "short";
         public const string TYPE_USHORT = "unsigned short";
+        public const string TYPE_INT64 = "int64_t";
+        public const string TYPE_UINT64 = "uint64_t";
         public const string TYPE_UCHAR = "unsigned char";
         public const string TYPE_FLOAT = "float";
         public const string TYPE_DOUBLE = "double";
@@ -31,7 +33,7 @@ namespace ClassTools.Data
         public const string TYPE_GVEC3 = "gvec3";
         public const string TYPE_GRECT = "grect";
         public static List<string> TYPES_VOID = new List<string>(new string[] { TYPE_VOID });
-        public static List<string> TYPES_INT = new List<string>(new string[] { TYPE_INT, TYPE_UINT, TYPE_LONG, TYPE_ULONG, TYPE_SHORT, TYPE_USHORT, TYPE_UCHAR });
+        public static List<string> TYPES_INT = new List<string>(new string[] { TYPE_INT, TYPE_UINT, TYPE_LONG, TYPE_ULONG, TYPE_SHORT, TYPE_USHORT, TYPE_UCHAR, TYPE_UINT64, TYPE_UINT64 });
         public static List<string> TYPES_FLOAT = new List<string>(new string[] { TYPE_FLOAT, TYPE_DOUBLE });
         public static List<string> TYPES_BOOL = new List<string>(new string[] { TYPE_BOOL });
         public static List<string> TYPES_CHAR = new List<string>(new string[] { TYPE_CHAR });
