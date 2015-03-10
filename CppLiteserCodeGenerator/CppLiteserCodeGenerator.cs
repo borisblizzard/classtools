@@ -38,11 +38,9 @@ namespace ClassTools
             this.loadTypeConversions[Constants.TYPE_DOUBLE] = Constants.TYPE_DOUBLE;
             this.loadTypeConversions[Constants.TYPE_FLOAT] = Constants.TYPE_FLOAT;
             this.loadTypeConversions[Constants.TYPE_INT] = Constants.TYPE_INT;
-            this.loadTypeConversions[Constants.TYPE_LONG] = Constants.TYPE_LONG;
             this.loadTypeConversions[Constants.TYPE_SHORT] = Constants.TYPE_SHORT;
             this.loadTypeConversions[Constants.TYPE_UCHAR] = "uchar";
             this.loadTypeConversions[Constants.TYPE_UINT] = "uint";
-            this.loadTypeConversions[Constants.TYPE_ULONG] = "ulong";
             this.loadTypeConversions[Constants.TYPE_USHORT] = "ushort";
         }
 

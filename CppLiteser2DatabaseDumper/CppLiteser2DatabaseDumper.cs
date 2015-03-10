@@ -13,9 +13,9 @@ namespace ClassTools
     {
         #region Fields
         private string name = "C++ Lite Serializer 2 Database Dumper";
-        private string description = "Dumps database into liteser serialization format 2.3.";
+        private string description = "Dumps database into liteser serialization format 2.4.";
         private string author = "Boris Mikić";
-        private string version = "1.2";
+        private string version = "1.4";
         private string toolId = "DataMaker";
         private string path = string.Empty;
         private FileStream writer;
@@ -48,6 +48,7 @@ namespace ClassTools
         static byte OBJECT = 0x61; // never used
         static byte OBJPTR = 0x62;
         static byte HSTR = 0x81;
+        static byte HVERSION = 0x82;
         static byte GRECT = 0x91;
         static byte GVEC2 = 0x92;
         static byte GVEC3 = 0x93;
@@ -55,7 +56,7 @@ namespace ClassTools
         static byte HMAP = 0xC1;
 
         static byte VERSION_MAJOR = 2;
-        static byte VERSION_MINOR = 3;
+        static byte VERSION_MINOR = 4;
         #endregion
 
         #region Main
@@ -170,12 +171,6 @@ namespace ClassTools
                         case Constants.TYPE_UINT:
                             this.dump(metaValue.AsUInt);
                             break;
-                        case Constants.TYPE_LONG:
-                            this.dump(metaValue.AsLong);
-                            break;
-                        case Constants.TYPE_ULONG:
-                            this.dump(metaValue.AsULong);
-                            break;
                         case Constants.TYPE_SHORT:
                             this.dump(metaValue.AsShort);
                             break;
@@ -202,6 +197,9 @@ namespace ClassTools
                             break;
                         case Constants.TYPE_CHAR:
                             this.dump(metaValue.AsSByte);
+                            break;
+                        case Constants.TYPE_VERSION:
+                            this.dump(metaValue.AsUInt4);
                             break;
                         case Constants.TYPE_GVEC2:
                             this.dump(metaValue.AsFloat2);
@@ -305,6 +303,8 @@ namespace ClassTools
                                 return BOOL;
                             }
                             break;
+                        case Constants.TYPE_VERSION:
+                            return HVERSION;
                         case Constants.TYPE_GVEC2:
                             return GVEC2;
                         case Constants.TYPE_GVEC3:
@@ -347,6 +347,15 @@ namespace ClassTools
         {
             byte[] bytes = BitConverter.GetBytes(i);
             this.writer.Write(bytes, 0, bytes.Length);
+        }
+
+        private void dump(uint[] i)
+        {
+            for (int j = 0; j < i.Length; j++)
+            {
+                byte[] bytes = BitConverter.GetBytes(i[j]);
+                this.writer.Write(bytes, 0, bytes.Length);
+            }
         }
 
         private void dump(short s)

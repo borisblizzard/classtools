@@ -120,26 +120,6 @@ namespace ClassTools.Data.Database
             }
         }
 
-        public long AsLong
-        {
-            get
-            {
-                long result = 0;
-                long.TryParse(this.valueString, out result);
-                return result;
-            }
-        }
-
-        public ulong AsULong
-        {
-            get
-            {
-                ulong result = 0;
-                ulong.TryParse(this.valueString, out result);
-                return result;
-            }
-        }
-
         public short AsShort
         {
             get
@@ -196,6 +176,20 @@ namespace ClassTools.Data.Database
             {
                 UInt64 result = 0;
                 UInt64.TryParse(this.valueString, out result);
+                return result;
+            }
+        }
+
+        public uint[] AsUInt4
+        {
+            get
+            {
+                uint[] result = { 0, 0, 0, 0 };
+                string[] values = this.valueString.Split('.');
+                for (int i = 0; i < values.Length; i++)
+                {
+                    uint.TryParse(values[i], NumberStyles.Integer, CultureInfo.InvariantCulture, out result[i]);
+                }
                 return result;
             }
         }

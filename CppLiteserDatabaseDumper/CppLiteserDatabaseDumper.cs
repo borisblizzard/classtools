@@ -112,12 +112,6 @@ namespace ClassTools
                         case Constants.TYPE_UINT:
                             this.dump(metaValue.AsUInt);
                             break;
-                        case Constants.TYPE_LONG:
-                            this.dump(metaValue.AsLong);
-                            break;
-                        case Constants.TYPE_ULONG:
-                            this.dump(metaValue.AsULong);
-                            break;
                         case Constants.TYPE_SHORT:
                             this.dump(metaValue.AsShort);
                             break;

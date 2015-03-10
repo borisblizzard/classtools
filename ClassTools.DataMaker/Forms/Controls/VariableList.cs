@@ -157,12 +157,6 @@ namespace ClassTools.DataMaker.Forms.Controls
                 case Constants.TYPE_USHORT:
                     control = this.createNumericUpDown(index, ushort.MinValue, ushort.MaxValue);
                     break;
-                case Constants.TYPE_LONG:
-                    control = this.createNumericUpDown(index, long.MinValue, long.MaxValue);
-                    break;
-                case Constants.TYPE_ULONG:
-                    control = this.createNumericUpDown(index, ulong.MinValue, ulong.MaxValue);
-                    break;
                 case Constants.TYPE_INT64:
                     control = this.createNumericUpDown(index, Int64.MinValue, Int64.MaxValue);
                     break;
