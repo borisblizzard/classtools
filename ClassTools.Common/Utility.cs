@@ -18,7 +18,14 @@ namespace ClassTools.Common
             container.TopIndex = topIndex;
         }
 
-        public static void ApplyNewDataSource(ComboBox container, object dataSource, int count)
+		private static void ApplyNewDataSource(CheckedListBox container, object dataSource, int count)
+		{
+			int topIndex = container.TopIndex;
+			Utility.applyNewDataSource(container, dataSource, count);
+			container.TopIndex = topIndex;
+		}
+
+		public static void ApplyNewDataSource(ComboBox container, object dataSource, int count)
         {
             Utility.applyNewDataSource(container, dataSource, count);
         }
@@ -42,10 +49,11 @@ namespace ClassTools.Common
             }
             container.SelectedIndex = index;
         }
-        #endregion
 
-        #region Assembly
-        public static string AssemblyTitle
+		#endregion
+
+		#region Assembly
+		public static string AssemblyTitle
         {
             get
             {

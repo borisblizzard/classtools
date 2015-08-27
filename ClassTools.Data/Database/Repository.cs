@@ -9,12 +9,13 @@ namespace ClassTools.Data.Database
     public class Repository : Base, IEquatable<Repository>
     {
         #region Fields
-        protected Model model;
-        protected MetaDictionary<MetaClass, MetaList<MetaValue>> values;
-        #endregion
+        protected Model model = null;
+        protected MetaDictionary<MetaClass, MetaList<MetaValue>> values = null;
+		protected MetaList<MetaClass> visibleClasses = null;
+		#endregion
 
-        #region Properties
-        public Model Model
+		#region Properties
+		public Model Model
         {
             get { return this.model; }
         }
@@ -23,16 +24,22 @@ namespace ClassTools.Data.Database
         {
             get { return this.values; }
         }
-        #endregion
 
-        #region Construct
-        public Repository(Model model)
+		public MetaList<MetaClass> VisibleClasses
+		{
+			get { return this.visibleClasses; }
+			set { this.visibleClasses = value; }
+		}
+		#endregion
+
+		#region Construct
+		public Repository(Model model)
             : base()
         {
             this.model = model;
             this.values = new MetaDictionary<MetaClass, MetaList<MetaValue>>();
-            MetaList<MetaClass> classes = model.LeafClasses;
-            foreach (MetaClass metaClass in classes)
+			this.visibleClasses = new MetaList<MetaClass>(model.LeafClasses);
+            foreach (MetaClass metaClass in this.visibleClasses)
             {
                 this.values[metaClass] = new MetaList<MetaValue>();
             }
@@ -46,7 +53,8 @@ namespace ClassTools.Data.Database
             if (!base.Equals(other)) return false;
             if (!this.model.Equals(other.model)) return false;
             if (!this.values.Equals(other.values)) return false;
-            return true;
+			if (!this.visibleClasses.Equals(other.visibleClasses)) return false;
+			return true;
         }
         #endregion
 
@@ -54,8 +62,14 @@ namespace ClassTools.Data.Database
         public override bool Update(Model model)
         {
             this.model = model;
+			if (this.visibleClasses == null)
+			{
+				this.visibleClasses = new MetaList<MetaClass>(model.LeafClasses);
+            }
+			MetaList<MetaClass> oldVisibleClasses = new MetaList<MetaClass>(this.visibleClasses);
+            this.visibleClasses.Clear();
             MetaList<MetaClass> keys = this.values.GetKeys();
-            MetaList<MetaClass> classes = model.LeafClasses;
+            MetaList<MetaClass> classes = new MetaList<MetaClass>(model.LeafClasses);
             MetaClass keyClass;
             MetaList<MetaValue> values;
             foreach (MetaClass metaClass in classes)
@@ -65,16 +79,21 @@ namespace ClassTools.Data.Database
                 if (!keys.Contains(metaClass))
                 {
                     this.values[metaClass] = new MetaList<MetaValue>();
-                }
-                else
+					this.visibleClasses.Add(metaClass);
+				}
+				else
                 {
                     keyClass = keys[keys.IndexOf(metaClass)];
                     values = this.values[keyClass];
                     this.values.Remove(keyClass);
                     this.values[metaClass] = values;
-                }
-            }
-            foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in this.values)
+					if (oldVisibleClasses.Contains(keyClass))
+					{
+						this.visibleClasses.Add(metaClass);
+					}
+				}
+			}
+			foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in this.values)
             {
                 foreach (MetaValue value in pair.Value)
                 {
@@ -99,8 +118,13 @@ namespace ClassTools.Data.Database
                     MetaList<MetaValue> values = this.values[oldClass];
                     this.values.Remove(oldClass);
                     this.values[newClass] = values;
-                }
-            }
+					if (this.visibleClasses.Contains(oldClass))
+					{
+						this.visibleClasses.Remove(oldClass);
+                        this.visibleClasses.Add(newClass);
+					}
+				}
+			}
             foreach (KeyValuePair<MetaClass, MetaList<MetaValue>> pair in this.values)
             {
                 foreach (MetaValue value in pair.Value)
@@ -165,7 +189,6 @@ namespace ClassTools.Data.Database
         {
             return this.values[metaClass].TryMoveDown(index);
         }
-
         #endregion
 
     }

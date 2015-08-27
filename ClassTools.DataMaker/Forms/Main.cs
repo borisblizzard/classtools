@@ -59,6 +59,7 @@ namespace ClassTools.DataMaker.Forms
                     stream.Close();
                     this.lastFilename = this.ofdDatabase.FileName;
                     this.model = repository.Model;
+					repository.Update(this.model);
                     this.lastRepository = Serializer.Clone(this.repository);
                     this.lastRepository.Update(this.model);
                     InternalClipboard.Clear();
@@ -251,8 +252,9 @@ namespace ClassTools.DataMaker.Forms
                 this.updateModelMenuItem.Enabled = true;
                 this.saveMenuItem.Enabled = true;
                 this.saveAsMenuItem.Enabled = true;
+				this.bOrganize.Enabled = true;
             }
-            MetaList<MetaClass> classes = this.model.LeafClasses;
+            MetaList<MetaClass> classes = this.repository.VisibleClasses;
             Utility.ApplyNewDataSource(this.lbClasses, classes, classes.Count);
             if (classes.Count > 0)
             {
@@ -312,7 +314,18 @@ namespace ClassTools.DataMaker.Forms
         {
             this.RefreshData();
         }
-        #endregion
 
-    }
+		private void bOrganize_Click(object sender, EventArgs e)
+		{
+			ManagerClasses f = new ManagerClasses(this.repository);
+			DialogResult result = f.ShowDialog();
+			if (result == DialogResult.OK)
+			{
+				this.repository.VisibleClasses = f.VisibleClasses;
+				this.RefreshData();
+			}
+		}
+		#endregion
+
+	}
 }
