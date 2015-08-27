@@ -61,7 +61,7 @@ namespace ClassTools.Common.Forms
             {
                 return;
             }
-            string path = "generated";
+            string path = "..\\generated";
             result = MessageBox.Show("Run generator in safe-mode?", plugin.ToString() + " ready", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
             if (result == DialogResult.Cancel)
             {
