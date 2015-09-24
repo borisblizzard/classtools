@@ -49,14 +49,15 @@ namespace ClassTools
         static byte OBJPTR = 0x62;
         static byte HSTR = 0x81;
         static byte HVERSION = 0x82;
-        static byte GRECT = 0x91;
+		static byte HENUM = 0x83;
+		static byte GRECT = 0x91;
         static byte GVEC2 = 0x92;
         static byte GVEC3 = 0x93;
         static byte HARRAY = 0xA1;
         static byte HMAP = 0xC1;
 
         static byte VERSION_MAJOR = 2;
-        static byte VERSION_MINOR = 4;
+        static byte VERSION_MINOR = 5;
         #endregion
 
         #region Main
@@ -221,11 +222,15 @@ namespace ClassTools
                 case ECategoryType.List:
                     this.dump(metaValue.List);
                     break;
-                case ECategoryType.Dictionary:
-                    this.dump(metaValue.Dictionary);
-                    break;
-            }
-        }
+				case ECategoryType.Dictionary:
+					this.dump(metaValue.Dictionary);
+					break;
+				case ECategoryType.Enum:
+					this.dump(metaValue.AsInt);
+					break;
+
+			}
+		}
         #endregion
 
         #region Utility
@@ -305,7 +310,7 @@ namespace ClassTools
                             break;
                         case Constants.TYPE_VERSION:
                             return HVERSION;
-                        case Constants.TYPE_GVEC2:
+						case Constants.TYPE_GVEC2:
                             return GVEC2;
                         case Constants.TYPE_GVEC3:
                             return GVEC3;
@@ -321,8 +326,10 @@ namespace ClassTools
                     return HARRAY;
                 case ECategoryType.Dictionary:
                     return HMAP;
-            }
-            throw new Exception(String.Format("Warning! Type {0} is not supported in this context!", type.Name));
+				case ECategoryType.Enum:
+					return HENUM;
+			}
+			throw new Exception(String.Format("Warning! Type {0} is not supported in this context!", type.Name));
         }
         #endregion
 

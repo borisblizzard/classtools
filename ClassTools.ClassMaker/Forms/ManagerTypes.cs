@@ -65,6 +65,14 @@ namespace ClassTools.ClassMaker.Forms
             this.cbSubType2.SelectedItem = metaType.SubType2;
             this.tbSuffix1.Text = metaType.Suffix1;
             this.tbSuffix2.Text = metaType.Suffix2;
+			if (metaType.EnumValues == null)
+			{
+				this.tbEnumValues.Text = "";
+			}
+			else
+			{
+				this.tbEnumValues.Text = string.Join(" ", metaType.EnumValues.ToArray());
+			}
             this.cbCategoryType.SelectedIndex = (int)metaType.CategoryType;
             switch (this.cbCategoryType.SelectedIndex)
             {
@@ -77,29 +85,47 @@ namespace ClassTools.ClassMaker.Forms
                     cbSubType2.Enabled = false;
                     lSuffix2.Enabled = false;
                     tbSuffix2.Enabled = false;
+					lEnumValues.Enabled = false;
+					tbEnumValues.Enabled = false;
                     break;
                 case (int)ECategoryType.List:
                     lSubType1.Enabled = true;
                     cbSubType1.Enabled = true;
                     lSuffix1.Enabled = true;
                     tbSuffix1.Enabled = true;
-                    lSubType2.Enabled = false;
-                    cbSubType2.Enabled = false;
-                    lSuffix2.Enabled = false;
-                    tbSuffix2.Enabled = false;
-                    break;
-                case (int)ECategoryType.Dictionary:
-                    lSubType1.Enabled = true;
-                    cbSubType1.Enabled = true;
-                    lSuffix1.Enabled = true;
-                    tbSuffix1.Enabled = true;
-                    lSubType2.Enabled = true;
-                    cbSubType2.Enabled = true;
-                    lSuffix2.Enabled = true;
-                    tbSuffix2.Enabled = true;
-                    break;
-            }
-        }
+					lSubType2.Enabled = false;
+					cbSubType2.Enabled = false;
+					lSuffix2.Enabled = false;
+					tbSuffix2.Enabled = false;
+					lEnumValues.Enabled = false;
+					tbEnumValues.Enabled = false;
+					break;
+				case (int)ECategoryType.Dictionary:
+					lSubType1.Enabled = true;
+					cbSubType1.Enabled = true;
+					lSuffix1.Enabled = true;
+					tbSuffix1.Enabled = true;
+					lSubType2.Enabled = true;
+					cbSubType2.Enabled = true;
+					lSuffix2.Enabled = true;
+					tbSuffix2.Enabled = true;
+					lEnumValues.Enabled = false;
+					tbEnumValues.Enabled = false;
+					break;
+				case (int)ECategoryType.Enum:
+					lSubType1.Enabled = false;
+					cbSubType1.Enabled = false;
+					lSuffix1.Enabled = false;
+					tbSuffix1.Enabled = false;
+					lSubType2.Enabled = false;
+					cbSubType2.Enabled = false;
+					lSuffix2.Enabled = false;
+					tbSuffix2.Enabled = false;
+					lEnumValues.Enabled = true;
+					tbEnumValues.Enabled = true;
+					break;
+			}
+		}
 
         private void lbTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -110,7 +136,8 @@ namespace ClassTools.ClassMaker.Forms
             this.refreshing = true;
             this.RefreshType();
             this.refreshing = false;
-        }
+			this.RefreshData();
+		}
 
         private void tbTypeName_TextChanged(object sender, EventArgs e)
         {
@@ -177,6 +204,7 @@ namespace ClassTools.ClassMaker.Forms
                 case ECategoryType.Integral:
                     metaType.SubType1 = null;
                     metaType.SubType2 = null;
+					metaType.EnumValues = null;
                     break;
                 case ECategoryType.List:
                     if (metaType.SubType1 == null)
@@ -184,7 +212,8 @@ namespace ClassTools.ClassMaker.Forms
                         metaType.SubType1 = this.model.AllTypes[0];
                     }
                     metaType.SubType2 = null;
-                    break;
+					metaType.EnumValues = null;
+					break;
                 case ECategoryType.Dictionary:
                     if (metaType.SubType1 == null)
                     {
@@ -194,9 +223,15 @@ namespace ClassTools.ClassMaker.Forms
                     {
                         metaType.SubType2 = this.model.AllTypes[0];
                     }
-                    break;
-            }
-            this.refreshing = false;
+					metaType.EnumValues = null;
+					break;
+				case ECategoryType.Enum:
+					metaType.SubType1 = null;
+					metaType.SubType2 = null;
+					metaType.EnumValues = new List<string>();
+					break;
+			}
+			this.refreshing = false;
             this.RefreshData();
         }
 
@@ -252,7 +287,20 @@ namespace ClassTools.ClassMaker.Forms
             this.RefreshData();
         }
 
-        private void copyMenuItem_Click(object sender, EventArgs e)
+		private void tbEnumValues_TextChanged(object sender, EventArgs e)
+		{
+			if (this.refreshing)
+			{
+				return;
+			}
+			this.refreshing = true;
+			MetaType metaType = (MetaType)this.lbTypes.SelectedItem;
+			metaType.EnumValues = new List<string>(this.tbEnumValues.Text.Split(new char[] { ' ' }));
+			this.refreshing = false;
+			this.RefreshData();
+		}
+
+		private void copyMenuItem_Click(object sender, EventArgs e)
         {
             if (this.lbTypes.Focused)
             {
@@ -303,7 +351,7 @@ namespace ClassTools.ClassMaker.Forms
                 this.lbTypes.SelectedIndex++;
             }
         }
-        #endregion
+		#endregion
 
-    }
+	}
 }

@@ -12,7 +12,8 @@ namespace ClassTools.Data
         public const string CATEGORY_NORMAL = "Normal";
         public const string CATEGORY_LIST = "List";
         public const string CATEGORY_DICTIONARY = "Dictionary";
-        public static List<string> NAMES_CATEGORY = new List<string>(new string[] { CATEGORY_NORMAL, CATEGORY_LIST, CATEGORY_DICTIONARY });
+		public const string CATEGORY_ENUM = "Enum";
+		public static List<string> NAMES_CATEGORY = new List<string>(new string[] { CATEGORY_NORMAL, CATEGORY_LIST, CATEGORY_DICTIONARY, CATEGORY_ENUM });
 
         public const string TYPE_VOID = "void";
         public const string TYPE_INT = "int";
@@ -28,11 +29,11 @@ namespace ClassTools.Data
         public const string TYPE_CHAR = "char";
         public const string TYPE_STRING = "string";
         public const string TYPE_VERSION = "version";
-        public const string TYPE_GVEC2 = "gvec2";
+		public const string TYPE_GVEC2 = "gvec2";
         public const string TYPE_GVEC3 = "gvec3";
         public const string TYPE_GRECT = "grect";
         public static List<string> TYPES_VOID = new List<string>(new string[] { TYPE_VOID });
-        public static List<string> TYPES_INT = new List<string>(new string[] { TYPE_INT, TYPE_UINT, TYPE_SHORT, TYPE_USHORT, TYPE_UCHAR, TYPE_UINT64, TYPE_UINT64 });
+        public static List<string> TYPES_INT = new List<string>(new string[] { TYPE_INT, TYPE_UINT, TYPE_SHORT, TYPE_USHORT, TYPE_UCHAR, TYPE_INT64, TYPE_UINT64 });
         public static List<string> TYPES_FLOAT = new List<string>(new string[] { TYPE_FLOAT, TYPE_DOUBLE });
         public static List<string> TYPES_BOOL = new List<string>(new string[] { TYPE_BOOL });
         public static List<string> TYPES_CHAR = new List<string>(new string[] { TYPE_CHAR });

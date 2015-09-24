@@ -5,7 +5,8 @@
         Integral = 0,
         List = 1,
         Dictionary = 2,
-        Class = 3
-    }
+		Enum = 3,
+        Class = 4
+	}
 
 }

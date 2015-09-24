@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ClassTools.Data.Hierarchy
 {
@@ -8,12 +9,13 @@ namespace ClassTools.Data.Hierarchy
         #region Fields
         protected MetaType subType1;
         string suffix1;
-        protected MetaType subType2;
-        string suffix2;
-        #endregion
+		protected MetaType subType2;
+		string suffix2;
+		protected List<string> enumValues;
+		#endregion
 
-        #region Properties
-        public MetaType SubType1
+		#region Properties
+		public MetaType SubType1
         {
             get { return this.subType1; }
             set { this.subType1 = value; }
@@ -31,25 +33,35 @@ namespace ClassTools.Data.Hierarchy
             set { this.subType2 = value; }
         }
 
-        public string Suffix2
-        {
-            get { return this.suffix2; }
-            set { this.suffix2 = value; }
-        }
+		public string Suffix2
+		{
+			get { return this.suffix2; }
+			set { this.suffix2 = value; }
+		}
 
-        public virtual ECategoryType CategoryType
+		public List<string> EnumValues
+		{
+			get { return this.enumValues; }
+			set { this.enumValues = value; }
+		}
+
+		public virtual ECategoryType CategoryType
         {
             get
             {
-                if (this.subType1 == null && this.subType2 == null)
+                if (this.subType1 != null && this.subType2 != null)
                 {
-                    return ECategoryType.Integral;
+                    return ECategoryType.Dictionary;
                 }
-                if (this.subType2 == null)
+                if (this.subType1 != null)
                 {
                     return ECategoryType.List;
                 }
-                return ECategoryType.Dictionary;
+				if (this.enumValues != null)
+				{
+					return ECategoryType.Enum;
+				}
+                return ECategoryType.Integral;
             }
         }
 
@@ -68,6 +80,7 @@ namespace ClassTools.Data.Hierarchy
             this.suffix1 = string.Empty;
             this.subType2 = null;
             this.suffix2 = string.Empty;
+			this.enumValues = null;
         }
         #endregion
 
@@ -77,11 +90,25 @@ namespace ClassTools.Data.Hierarchy
             if (Object.ReferenceEquals(this, other)) return true;
             if (!base.Equals(other)) return false;
             if (!this.CategoryType.Equals(other.CategoryType)) return false;
-            if (this.CategoryType == ECategoryType.Class)
-            {
-                if (!this.checkClassMatch((MetaClass)other)) return false;
-            }
-            if (this.CategoryType == ECategoryType.List)
+			if (this.CategoryType == ECategoryType.Class)
+			{
+				if (!this.checkClassMatch((MetaClass)other)) return false;
+			}
+			if (this.CategoryType == ECategoryType.Enum)
+			{
+				if (this.enumValues.Count != other.enumValues.Count)
+				{
+					return false;
+				}
+				for (int i = 0; i < this.enumValues.Count; ++i)
+				{
+					if (this.enumValues[i] != other.enumValues[i])
+					{
+						return false;
+					}
+				}
+			}
+			if (this.CategoryType == ECategoryType.List)
             {
                 if (!this.subType1.Equals(other.subType1)) return false;
                 if (!this.suffix1.Equals(other.suffix1)) return false;
@@ -96,14 +123,14 @@ namespace ClassTools.Data.Hierarchy
             return true;
         }
 
-        protected virtual bool checkClassMatch(MetaClass other)
-        {
-            return true;
-        }
-        #endregion
+		protected virtual bool checkClassMatch(MetaClass other)
+		{
+			return true;
+		}
+		#endregion
 
-        #region Methods
-        public override bool Update(Model model)
+		#region Methods
+		public override bool Update(Model model)
         {
             if (!base.Update(model))
             {
@@ -127,6 +154,15 @@ namespace ClassTools.Data.Hierarchy
                 }
                 this.subType2 = metaType;
             }
+			if (this.enumValues != null)
+			{
+				this.enumValues = null;
+				List < string> otherValues = model.FindMatchingType(this).enumValues;
+				if (otherValues != null)
+				{
+					this.enumValues = new List<string>(otherValues);
+                }
+			}
             return true;
         }
 

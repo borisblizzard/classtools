@@ -93,7 +93,30 @@ namespace ClassTools.DataMaker.Forms
             this.RefreshData();
         }
 
-        private void bAutoReplace_Click(object sender, EventArgs e)
+		private void bRemove_Click(object sender, EventArgs e)
+		{
+			MetaType oldType = (MetaType)this.lbOldTypes.SelectedItem;
+			if (oldType == null)
+			{
+				return;
+			}
+			int index = this.repository.Model.Types.IndexOf(oldType);
+			if (index >= 0)
+			{
+				this.repository.Model.DeleteTypeAt(index);
+			}
+			else
+			{
+				index = this.repository.Model.Classes.IndexOf((MetaClass)oldType);
+				if (index >= 0)
+				{
+					this.repository.Model.DeleteClassAt(index);
+				}
+			}
+			this.RefreshData();
+		}
+
+		private void bAutoReplace_Click(object sender, EventArgs e)
         {
             bool found = false;
             MetaType newType;
@@ -130,7 +153,7 @@ namespace ClassTools.DataMaker.Forms
                 form.ShowDialog();
             }
         }
-        #endregion
+		#endregion
 
-    }
+	}
 }

@@ -89,11 +89,14 @@ namespace ClassTools.DataMaker.Forms.Controls
                 case ECategoryType.List:
                     // TODO
                     break;
-                case ECategoryType.Dictionary:
-                    // TODO
-                    break;
-            }
-            foreach (Control control in this.valueControls)
+				case ECategoryType.Dictionary:
+					// TODO
+					break;
+				case ECategoryType.Enum:
+					// TODO
+					break;
+			}
+			foreach (Control control in this.valueControls)
             {
                 control.Left += maxWidth + 10;
             }
@@ -119,7 +122,7 @@ namespace ClassTools.DataMaker.Forms.Controls
                 case ECategoryType.Integral:
                     control = this.createIntegralControl(metaType.Name, index);
                     break;
-                case ECategoryType.Class:
+				case ECategoryType.Class:
                     control = this.createButton(index, new EventHandler(this.vlButtonManage_Click));
                     break;
                 case ECategoryType.List:
@@ -128,8 +131,11 @@ namespace ClassTools.DataMaker.Forms.Controls
                 case ECategoryType.Dictionary:
                     control = this.createButton(index, new EventHandler(this.vlButtonManage_Click));
                     break;
-            }
-            control.Name = name;
+				case ECategoryType.Enum:
+					control = this.createNumericUpDown(index, int.MinValue, int.MaxValue);
+					break;
+			}
+			control.Name = name;
             control.TabIndex = 101 + index * 2;
             this.Controls.Add(control);
             this.valueControls.Add(control);
@@ -249,10 +255,13 @@ namespace ClassTools.DataMaker.Forms.Controls
             {
                 switch (this.type.CategoryType)
                 {
-                    case ECategoryType.Integral:
-                        this.refreshEntry(this.value, 0);
-                        break;
-                    case ECategoryType.Class:
+					case ECategoryType.Integral:
+						this.refreshEntry(this.value, 0);
+						break;
+					case ECategoryType.Enum:
+						this.refreshEntry(this.value, 0);
+						break;
+					case ECategoryType.Class:
                         MetaList<MetaInstanceVariable> metaInstanceVariables = this.value.Instance.InstanceVariables;
                         for (int i = 0; i < metaInstanceVariables.Count; i++)
                         {
@@ -265,10 +274,13 @@ namespace ClassTools.DataMaker.Forms.Controls
             {
                 switch (this.type.CategoryType)
                 {
-                    case ECategoryType.Integral:
-                        this.refreshEntry(this.type, 0);
-                        break;
-                    case ECategoryType.Class:
+					case ECategoryType.Integral:
+						this.refreshEntry(this.type, 0);
+						break;
+					case ECategoryType.Enum:
+						this.refreshEntry(this.type, 0);
+						break;
+					case ECategoryType.Class:
                         MetaList<MetaVariable> metaVariables = ((MetaClass)this.type).AllVariables;
                         for (int i = 0; i < metaVariables.Count; i++)
                         {
@@ -300,9 +312,14 @@ namespace ClassTools.DataMaker.Forms.Controls
                     textBox.Text = metaValue.String;
                 }
             }
-        }
+			else if (metaValue.Type.CategoryType == ECategoryType.Enum)
+			{
+				NumericUpDown numericUpDown = (NumericUpDown)this.valueControls[index];
+				numericUpDown.Value = metaValue.Decimal;
+			}
+		}
 
-        private void refreshEntry(MetaType metaType, int index)
+		private void refreshEntry(MetaType metaType, int index)
         {
             if (metaType.CategoryType == ECategoryType.Integral)
             {
@@ -322,9 +339,14 @@ namespace ClassTools.DataMaker.Forms.Controls
                     textBox.Text = string.Empty;
                 }
             }
-        }
+			else if (metaType.CategoryType == ECategoryType.Enum)
+			{
+				NumericUpDown numericUpDown = (NumericUpDown)this.valueControls[index];
+				numericUpDown.Value = decimal.Zero;
+			}
+		}
 
-        public void SetValue(MetaValue metaValue)
+		public void SetValue(MetaValue metaValue)
         {
             this.value = metaValue;
             this.Enabled = (this.value != null);
@@ -343,10 +365,10 @@ namespace ClassTools.DataMaker.Forms.Controls
             TextBox textBox = (TextBox)sender;
             switch (this.value.Type.CategoryType)
             {
-                case ECategoryType.Integral:
-                    this.value.String = textBox.Text;
-                    break;
-                case ECategoryType.Class:
+				case ECategoryType.Integral:
+					this.value.String = textBox.Text;
+					break;
+				case ECategoryType.Class:
                     foreach (MetaInstanceVariable variable in this.value.Instance.InstanceVariables)
                     {
                         if (textBox.Name == variable.ToString())
@@ -371,10 +393,13 @@ namespace ClassTools.DataMaker.Forms.Controls
             NumericUpDown numericUpDown = (NumericUpDown)sender;
             switch (this.value.Type.CategoryType)
             {
-                case ECategoryType.Integral:
-                    this.value.Decimal = numericUpDown.Value;
-                    break;
-                case ECategoryType.Class:
+				case ECategoryType.Integral:
+					this.value.Decimal = numericUpDown.Value;
+					break;
+				case ECategoryType.Enum:
+					this.value.Decimal = numericUpDown.Value;
+					break;
+				case ECategoryType.Class:
                     foreach (MetaInstanceVariable variable in this.value.Instance.InstanceVariables)
                     {
                         if (numericUpDown.Name == variable.ToString())
@@ -426,10 +451,13 @@ namespace ClassTools.DataMaker.Forms.Controls
             MetaInstanceVariable metaInstanceVariable;
             switch (this.value.Type.CategoryType)
             {
-                case ECategoryType.Integral:
-                    // can't happen
-                    break;
-                case ECategoryType.Class:
+				case ECategoryType.Integral:
+					// can't happen
+					break;
+				case ECategoryType.Enum:
+					// can't happen (for now)
+					break;
+				case ECategoryType.Class:
                     for (int i = 0; i < this.value.Instance.InstanceVariables.Count; i++)
                     {
                         metaInstanceVariable = this.value.Instance.InstanceVariables[i];

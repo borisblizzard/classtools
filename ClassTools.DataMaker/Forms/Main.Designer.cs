@@ -72,15 +72,16 @@
 			this.gbClasses.Controls.Add(this.lbClasses);
 			this.gbClasses.Location = new System.Drawing.Point(12, 38);
 			this.gbClasses.Name = "gbClasses";
-			this.gbClasses.Size = new System.Drawing.Size(236, 440);
+			this.gbClasses.Size = new System.Drawing.Size(236, 565);
 			this.gbClasses.TabIndex = 0;
 			this.gbClasses.TabStop = false;
 			this.gbClasses.Text = "Classes";
 			// 
 			// bOrganize
 			// 
+			this.bOrganize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.bOrganize.Enabled = false;
-			this.bOrganize.Location = new System.Drawing.Point(7, 407);
+			this.bOrganize.Location = new System.Drawing.Point(7, 532);
 			this.bOrganize.Name = "bOrganize";
 			this.bOrganize.Size = new System.Drawing.Size(75, 23);
 			this.bOrganize.TabIndex = 1;
@@ -97,7 +98,7 @@
 			this.lbClasses.HorizontalScrollbar = true;
 			this.lbClasses.Location = new System.Drawing.Point(7, 20);
 			this.lbClasses.Name = "lbClasses";
-			this.lbClasses.Size = new System.Drawing.Size(223, 381);
+			this.lbClasses.Size = new System.Drawing.Size(223, 498);
 			this.lbClasses.TabIndex = 0;
 			this.lbClasses.SelectedIndexChanged += new System.EventHandler(this.lbClasses_SelectedIndexChanged);
 			// 
@@ -110,7 +111,7 @@
             this.helpToolStripMenuItem});
 			this.menuStrip.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip.Name = "menuStrip";
-			this.menuStrip.Size = new System.Drawing.Size(879, 24);
+			this.menuStrip.Size = new System.Drawing.Size(926, 24);
 			this.menuStrip.TabIndex = 1;
 			// 
 			// fileToolStripMenuItem
@@ -335,17 +336,20 @@
 			// 
 			// vlValues
 			// 
+			this.vlValues.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.vlValues.Enabled = false;
 			this.vlValues.Location = new System.Drawing.Point(254, 38);
 			this.vlValues.Name = "vlValues";
-			this.vlValues.Size = new System.Drawing.Size(618, 440);
+			this.vlValues.Size = new System.Drawing.Size(665, 565);
 			this.vlValues.TabIndex = 2;
 			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(879, 490);
+			this.ClientSize = new System.Drawing.Size(926, 615);
 			this.Controls.Add(this.vlValues);
 			this.Controls.Add(this.gbClasses);
 			this.Controls.Add(this.menuStrip);
