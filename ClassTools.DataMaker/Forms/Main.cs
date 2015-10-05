@@ -283,6 +283,10 @@ namespace ClassTools.DataMaker.Forms
 					{
 						this.listIndices[metaClass] = 0;
 					}
+					if (this.listIndices[metaClass] >= this.repository.Values[metaClass].Count)
+					{
+						this.listIndices[metaClass] = this.repository.Values[metaClass].Count - 1;
+                    }
 					this.lastSelectedClass = metaClass;
                     this.vlValues.SetData(this, this.repository, metaClass, this.repository.Values[metaClass], this.listIndices[metaClass]);
 					this.vlValues.RefreshData();
