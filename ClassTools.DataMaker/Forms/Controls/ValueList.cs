@@ -26,6 +26,11 @@ namespace ClassTools.DataMaker.Forms.Controls
         {
             get { return this.listValues; }
         }
+
+		public int SelectedIndex
+		{
+			get { return this.lbValues.SelectedIndex; }
+		}
         #endregion
 
         #region Construct
@@ -48,7 +53,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             }
         }
 
-        public void SetData(IRefreshable owner, Repository repository, MetaType metaType, MetaList<MetaValue> metaValues)
+        public void SetData(IRefreshable owner, Repository repository, MetaType metaType, MetaList<MetaValue> metaValues, int index = 0)
         {
             this.owner = owner;
             this.repository = repository;
@@ -57,6 +62,7 @@ namespace ClassTools.DataMaker.Forms.Controls
             this.vlVariables.ClearData();
             this.vlVariables.SetData(this, this.repository, this.type);
             this.vlVariables.SetValue(this.listValues.Count > 0 ? this.listValues[0] : null);
+			this.lbValues.SelectedIndex = index;
         }
         #endregion
 
